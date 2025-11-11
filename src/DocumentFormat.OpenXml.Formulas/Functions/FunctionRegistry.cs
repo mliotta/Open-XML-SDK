@@ -20,11 +20,12 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (19)
+        // Math (31)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
         { "COUNTIF", CountIfFunction.Instance },
+        { "COUNTIFS", CountIfsFunction.Instance },
         { "MAX", MaxFunction.Instance },
         { "MIN", MinFunction.Instance },
         { "ROUND", RoundFunction.Instance },
@@ -34,20 +35,35 @@ public static class FunctionRegistry
         { "PRODUCT", ProductFunction.Instance },
         { "POWER", PowerFunction.Instance },
         { "SUMIF", SumIfFunction.Instance },
+        { "SUMIFS", SumIfsFunction.Instance },
         { "SQRT", SqrtFunction.Instance },
         { "MOD", ModFunction.Instance },
         { "INT", IntFunction.Instance },
         { "CEILING", CeilingFunction.Instance },
         { "FLOOR", FloorFunction.Instance },
         { "TRUNC", TruncFunction.Instance },
+        { "SIGN", SignFunction.Instance },
+        { "EXP", ExpFunction.Instance },
+        { "LN", LnFunction.Instance },
+        { "LOG", LogFunction.Instance },
+        { "LOG10", Log10Function.Instance },
+        { "PI", PiFunction.Instance },
+        { "RADIANS", RadiansFunction.Instance },
+        { "DEGREES", DegreesFunction.Instance },
+        { "SIN", SinFunction.Instance },
+        { "COS", CosFunction.Instance },
+        { "TAN", TanFunction.Instance },
 
-        // Logical (4)
+        // Logical (7)
         { "AND", AndFunction.Instance },
         { "OR", OrFunction.Instance },
         { "NOT", NotFunction.Instance },
         { "CHOOSE", ChooseFunction.Instance },
+        { "IFS", IfsFunction.Instance },
+        { "SWITCH", SwitchFunction.Instance },
+        { "XOR", XorFunction.Instance },
 
-        // Text (14)
+        // Text (21)
         { "CONCATENATE", ConcatenateFunction.Instance },
         { "LEFT", LeftFunction.Instance },
         { "RIGHT", RightFunction.Instance },
@@ -62,6 +78,13 @@ public static class FunctionRegistry
         { "FIND", FindFunction.Instance },
         { "SEARCH", SearchFunction.Instance },
         { "SUBSTITUTE", SubstituteFunction.Instance },
+        { "REPLACE", ReplaceFunction.Instance },
+        { "REPT", ReptFunction.Instance },
+        { "EXACT", ExactFunction.Instance },
+        { "CHAR", CharFunction.Instance },
+        { "CODE", CodeFunction.Instance },
+        { "CLEAN", CleanFunction.Instance },
+        { "T", TFunction.Instance },
 
         // Lookup (4)
         { "VLOOKUP", VLookupFunction.Instance },
@@ -81,13 +104,22 @@ public static class FunctionRegistry
         { "SECOND", SecondFunction.Instance },
         { "WEEKDAY", WeekdayFunction.Instance },
 
-        // Statistical (6)
+        // Statistical (15)
         { "MEDIAN", MedianFunction.Instance },
         { "MODE", ModeFunction.Instance },
         { "STDEV", StDevFunction.Instance },
         { "VAR", VarFunction.Instance },
         { "RANK", RankFunction.Instance },
         { "AVERAGEIF", AverageIfFunction.Instance },
+        { "AVERAGEIFS", AverageIfsFunction.Instance },
+        { "MAXIFS", MaxIfsFunction.Instance },
+        { "MINIFS", MinIfsFunction.Instance },
+        { "STDEVP", StDevPFunction.Instance },
+        { "VARP", VarPFunction.Instance },
+        { "LARGE", LargeFunction.Instance },
+        { "SMALL", SmallFunction.Instance },
+        { "PERCENTILE", PercentileFunction.Instance },
+        { "QUARTILE", QuartileFunction.Instance },
 
         // Information (7)
         { "ISNUMBER", IsNumberFunction.Instance },

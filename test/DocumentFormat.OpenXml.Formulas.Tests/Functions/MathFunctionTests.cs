@@ -1,6 +1,7 @@
 // Copyright (c) Matt Liotta
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using DocumentFormat.OpenXml.Features.FormulaEvaluation.Compilation;
 using DocumentFormat.OpenXml.Features.FormulaEvaluation.Functions;
 
@@ -809,5 +810,738 @@ public class MathFunctionTests
 
         Assert.True(result3.IsError);
         Assert.Equal("#VALUE!", result3.ErrorValue);
+    }
+
+    [Fact]
+    public void Sign_PositiveNumber_ReturnsOne()
+    {
+        var func = SignFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(5.5),
+        });
+
+        Assert.Equal(1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Sign_NegativeNumber_ReturnsNegativeOne()
+    {
+        var func = SignFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-5.5),
+        });
+
+        Assert.Equal(-1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Sign_Zero_ReturnsZero()
+    {
+        var func = SignFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Sign_InvalidArguments_ReturnsError()
+    {
+        var func = SignFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(10),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Exp_ReturnsCorrectValue()
+    {
+        var func = ExpFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1),
+        });
+
+        Assert.Equal(System.Math.E, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Exp_Zero_ReturnsOne()
+    {
+        var func = ExpFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Exp_NegativeNumber_ReturnsCorrectValue()
+    {
+        var func = ExpFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-1),
+        });
+
+        Assert.Equal(1.0 / System.Math.E, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Exp_InvalidArguments_ReturnsError()
+    {
+        var func = ExpFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Ln_ReturnsCorrectValue()
+    {
+        var func = LnFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.E),
+        });
+
+        Assert.Equal(1.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Ln_One_ReturnsZero()
+    {
+        var func = LnFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Ln_NegativeNumber_ReturnsError()
+    {
+        var func = LnFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-1),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ln_Zero_ReturnsError()
+    {
+        var func = LnFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ln_InvalidArguments_ReturnsError()
+    {
+        var func = LnFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Log_DefaultBase10_ReturnsCorrectValue()
+    {
+        var func = LogFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(100),
+        });
+
+        Assert.Equal(2.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Log_CustomBase_ReturnsCorrectValue()
+    {
+        var func = LogFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(8),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.Equal(3.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Log_Base10_1000_Returns3()
+    {
+        var func = LogFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1000),
+            CellValue.FromNumber(10),
+        });
+
+        Assert.Equal(3.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Log_NegativeNumber_ReturnsError()
+    {
+        var func = LogFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-10),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Log_InvalidBase_ReturnsError()
+    {
+        var func = LogFunction.Instance;
+
+        // Base <= 0
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(-1),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#NUM!", result1.ErrorValue);
+
+        // Base = 1
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(1),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#NUM!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Log_InvalidArguments_ReturnsError()
+    {
+        var func = LogFunction.Instance;
+
+        // No arguments
+        var result1 = func.Execute(null!, Array.Empty<CellValue>());
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Log10_ReturnsCorrectValue()
+    {
+        var func = Log10Function.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1000),
+        });
+
+        Assert.Equal(3.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Log10_100_Returns2()
+    {
+        var func = Log10Function.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(100),
+        });
+
+        Assert.Equal(2.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Log10_One_ReturnsZero()
+    {
+        var func = Log10Function.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Log10_NegativeNumber_ReturnsError()
+    {
+        var func = Log10Function.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-10),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Log10_Zero_ReturnsError()
+    {
+        var func = Log10Function.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Log10_InvalidArguments_ReturnsError()
+    {
+        var func = Log10Function.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(100),
+            CellValue.FromNumber(10),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Pi_ReturnsCorrectValue()
+    {
+        var func = PiFunction.Instance;
+
+        var result = func.Execute(null!, Array.Empty<CellValue>());
+
+        Assert.Equal(System.Math.PI, result.NumericValue);
+    }
+
+    [Fact]
+    public void Pi_InvalidArguments_ReturnsError()
+    {
+        var func = PiFunction.Instance;
+
+        // With arguments
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Radians_180_ReturnsPi()
+    {
+        var func = RadiansFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(180),
+        });
+
+        Assert.Equal(System.Math.PI, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Radians_90_ReturnsPiOver2()
+    {
+        var func = RadiansFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(90),
+        });
+
+        Assert.Equal(System.Math.PI / 2, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Radians_Zero_ReturnsZero()
+    {
+        var func = RadiansFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Radians_InvalidArguments_ReturnsError()
+    {
+        var func = RadiansFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(180),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Degrees_Pi_Returns180()
+    {
+        var func = DegreesFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI),
+        });
+
+        Assert.Equal(180.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Degrees_PiOver2_Returns90()
+    {
+        var func = DegreesFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI / 2),
+        });
+
+        Assert.Equal(90.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Degrees_Zero_ReturnsZero()
+    {
+        var func = DegreesFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Degrees_InvalidArguments_ReturnsError()
+    {
+        var func = DegreesFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Sin_PiOver2_ReturnsOne()
+    {
+        var func = SinFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI / 2),
+        });
+
+        Assert.Equal(1.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Sin_Zero_ReturnsZero()
+    {
+        var func = SinFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Sin_Pi_ReturnsZero()
+    {
+        var func = SinFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI),
+        });
+
+        Assert.Equal(0.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Sin_InvalidArguments_ReturnsError()
+    {
+        var func = SinFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Cos_Zero_ReturnsOne()
+    {
+        var func = CosFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(1.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Cos_Pi_ReturnsNegativeOne()
+    {
+        var func = CosFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI),
+        });
+
+        Assert.Equal(-1.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Cos_PiOver2_ReturnsZero()
+    {
+        var func = CosFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI / 2),
+        });
+
+        Assert.Equal(0.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Cos_InvalidArguments_ReturnsError()
+    {
+        var func = CosFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Tan_PiOver4_ReturnsOne()
+    {
+        var func = TanFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI / 4),
+        });
+
+        Assert.Equal(1.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Tan_Zero_ReturnsZero()
+    {
+        var func = TanFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Tan_InvalidArguments_ReturnsError()
+    {
+        var func = TanFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(System.Math.PI),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
     }
 }

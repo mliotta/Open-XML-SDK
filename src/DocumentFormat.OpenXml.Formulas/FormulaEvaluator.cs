@@ -248,18 +248,21 @@ public class FormulaEvaluator : IFormulaEvaluator
             // Phase 0 (3)
             "SUM", "AVERAGE", "IF",
 
-            // Math (19)
-            "COUNT", "COUNTA", "COUNTBLANK", "COUNTIF", "MAX", "MIN",
-            "ROUND", "ROUNDUP", "ROUNDDOWN", "ABS", "PRODUCT", "POWER", "SUMIF",
+            // Math (31)
+            "COUNT", "COUNTA", "COUNTBLANK", "COUNTIF", "COUNTIFS", "MAX", "MIN",
+            "ROUND", "ROUNDUP", "ROUNDDOWN", "ABS", "PRODUCT", "POWER", "SUMIF", "SUMIFS",
             "SQRT", "MOD", "INT", "CEILING", "FLOOR", "TRUNC",
+            "SIGN", "EXP", "LN", "LOG", "LOG10", "PI", "RADIANS", "DEGREES",
+            "SIN", "COS", "TAN",
 
-            // Logical (4)
-            "AND", "OR", "NOT", "CHOOSE",
+            // Logical (7)
+            "AND", "OR", "NOT", "CHOOSE", "IFS", "SWITCH", "XOR",
 
-            // Text (14)
+            // Text (21)
             "CONCATENATE", "LEFT", "RIGHT", "MID", "LEN", "TRIM",
             "UPPER", "LOWER", "PROPER", "TEXT", "VALUE",
-            "FIND", "SEARCH", "SUBSTITUTE",
+            "FIND", "SEARCH", "SUBSTITUTE", "REPLACE", "REPT",
+            "EXACT", "CHAR", "CODE", "CLEAN", "T",
 
             // Lookup (4)
             "VLOOKUP", "HLOOKUP", "INDEX", "MATCH",
@@ -268,8 +271,9 @@ public class FormulaEvaluator : IFormulaEvaluator
             "TODAY", "NOW", "DATE", "YEAR", "MONTH", "DAY",
             "HOUR", "MINUTE", "SECOND", "WEEKDAY",
 
-            // Statistical (6)
-            "MEDIAN", "MODE", "STDEV", "VAR", "RANK", "AVERAGEIF",
+            // Statistical (9)
+            "MEDIAN", "MODE", "STDEV", "VAR", "RANK", "AVERAGEIF", "AVERAGEIFS",
+            "MAXIFS", "MINIFS",
 
             // Information (7)
             "ISNUMBER", "ISTEXT", "IFERROR", "ISERROR", "ISNA", "ISERR", "ISBLANK",
