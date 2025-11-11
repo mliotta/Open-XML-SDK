@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(MSBuildProjectName)' != 'DocumentFormat.OpenXml.Formulas'">
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackageValidationBaselineVersion>3.1.1</PackageValidationBaselineVersion>
   </PropertyGroup>

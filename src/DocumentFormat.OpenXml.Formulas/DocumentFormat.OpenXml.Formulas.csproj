@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(ProductTargetFrameworks)</TargetFrameworks>
+    <RootNamespace>DocumentFormat.OpenXml.Features.FormulaEvaluation</RootNamespace>
+    <Nullable>enable</Nullable>
+    <EnablePackageValidation>false</EnablePackageValidation>
+    <PackageValidationBaselineVersion></PackageValidationBaselineVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Summary>Formula evaluation feature for the Open XML SDK</Summary>
+    <Description>Provides formula parsing, compilation, and evaluation capabilities for Excel spreadsheets.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DocumentFormat.OpenXml\DocumentFormat.OpenXml.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    <PackageReference Include="System.ValueTuple" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,83 @@
+#nullable enable
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.BoolValue.get -> bool
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.CellValue(DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType type, object? value) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.Empty.get -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.Equals(DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue other) -> bool
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.ErrorValue.get -> string?
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.IsError.get -> bool
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.NumericValue.get -> double
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.StringValue.get -> string!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.Type.get -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.Value.get -> object?
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType.Boolean = 3 -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType.Empty = 0 -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType.Error = 4 -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType.Number = 1 -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType.Text = 2 -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CircularReferenceException
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CircularReferenceException.CellChain.get -> System.Collections.Generic.List<string!>!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CircularReferenceException.CircularReferenceException(System.Collections.Generic.List<string!>! cellChain) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CompilationException
+DocumentFormat.OpenXml.Features.FormulaEvaluation.CompilationException.CompilationException(string! message) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.CircularReference
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.CircularReference.Chain.get -> System.Collections.Generic.List<string!>!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.CircularReference.CircularReference(System.Collections.Generic.List<string!>! chain) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.IDependencyGraph
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.IDependencyGraph.AddCell(string! cellReference, System.Collections.Generic.HashSet<string!>! dependencies) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.IDependencyGraph.DetectCircularReferences() -> System.Collections.Generic.List<DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.CircularReference!>!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.IDependencyGraph.GetDependencies(string! cellReference) -> System.Collections.Generic.HashSet<string!>!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.IDependencyGraph.GetDependents(string! cellReference) -> System.Collections.Generic.HashSet<string!>!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.IDependencyGraph.GetEvaluationOrder() -> System.Collections.Generic.List<string!>!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.IDependencyGraph.GetEvaluationOrder(System.Collections.Generic.IEnumerable<string!>! cells) -> System.Collections.Generic.List<string!>!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluationError
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluationError.CellReference.get -> string?
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluationError.EvaluationError(string! message, string? cellReference = null) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.AvgEvaluationTimeMicros.get -> double
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.AvgEvaluationTimeMicros.set -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.CompiledFormulaCount.get -> int
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.CompiledFormulaCount.set -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.EvaluatorStatistics() -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.FailedEvaluations.get -> long
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.FailedEvaluations.set -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.SuccessfulEvaluations.get -> long
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.SuccessfulEvaluations.set -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.SuccessRate.get -> double
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.SupportedFunctionCount.get -> int
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.SupportedFunctionCount.set -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.TotalEvaluations.get -> long
+DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics.TotalEvaluations.set -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaEvaluationExtensions
+DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator
+DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator.GetDependencyGraph(DocumentFormat.OpenXml.Spreadsheet.Worksheet! worksheet) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph.IDependencyGraph!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator.GetStatistics() -> DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluatorStatistics!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator.IsFunctionSupported(string! functionName) -> bool
+DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator.RecalculateDependents(DocumentFormat.OpenXml.Spreadsheet.Worksheet! worksheet, params string![]! changedCells) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator.RecalculateSheet(DocumentFormat.OpenXml.Spreadsheet.Worksheet! worksheet) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator.SupportedFunctions.get -> System.Collections.Generic.HashSet<string!>!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator.TryEvaluate(DocumentFormat.OpenXml.Spreadsheet.Worksheet! worksheet, DocumentFormat.OpenXml.Spreadsheet.Cell! cell) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue>
+DocumentFormat.OpenXml.Features.FormulaEvaluation.InvalidReferenceException
+DocumentFormat.OpenXml.Features.FormulaEvaluation.InvalidReferenceException.InvalidReferenceException(string! reference) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.InvalidReferenceException.Reference.get -> string!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.ParserException
+DocumentFormat.OpenXml.Features.FormulaEvaluation.ParserException.ParserException(string! message) -> void
+DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>
+DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>.Error.get -> DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluationError?
+DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>.IsSuccess.get -> bool
+DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>.Match<TResult>(System.Func<T, TResult>! onSuccess, System.Func<DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluationError!, TResult>! onFailure) -> TResult
+DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>.Value.get -> T
+DocumentFormat.OpenXml.Features.FormulaEvaluation.UnsupportedFunctionException
+DocumentFormat.OpenXml.Features.FormulaEvaluation.UnsupportedFunctionException.FunctionName.get -> string!
+DocumentFormat.OpenXml.Features.FormulaEvaluation.UnsupportedFunctionException.UnsupportedFunctionException(string! functionName) -> void
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.Error(string! error) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.FromBool(bool value) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.FromNumber(double value) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.FromString(string! value) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.operator !=(DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue left, DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue right) -> bool
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.operator ==(DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue left, DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue right) -> bool
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaEvaluationExtensions.AddFormulaEvaluationFeature(this DocumentFormat.OpenXml.Packaging.SpreadsheetDocument! document) -> void
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaEvaluationExtensions.GetFormulaEvaluator(this DocumentFormat.OpenXml.Packaging.SpreadsheetDocument! document) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator?
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>.Failure(DocumentFormat.OpenXml.Features.FormulaEvaluation.EvaluationError! error) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>
+static DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>.Success(T value) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.Result<T>
