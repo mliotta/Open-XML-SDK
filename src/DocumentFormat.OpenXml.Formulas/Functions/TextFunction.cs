@@ -64,13 +64,41 @@ public sealed class TextFunction : IFunctionImplementation
         // Basic format handling
         try
         {
-            // Convert Excel format to .NET format (simplified)
-            var dotNetFormat = format
-                .Replace("#,##0", "N0")
-                .Replace("0.00", "F2")
-                .Replace("0", "F0");
+            // Handle percentage formats - Excel multiplies by 100 for % formats
+            bool isPercentage = format.Contains("%");
+            var valueToFormat = isPercentage ? number * 100 : number;
 
-            var result = number.ToString(dotNetFormat, CultureInfo.InvariantCulture);
+            // Convert Excel format to .NET format (simplified)
+            // Handle percentage formats first before general number replacements
+            string dotNetFormat;
+            if (format == "0%")
+            {
+                dotNetFormat = "F0";
+            }
+            else if (format.StartsWith("0.") && format.EndsWith("%"))
+            {
+                // Count decimal places: "0.00%" -> 2 decimal places
+                var decimalPart = format.Substring(2, format.Length - 3); // Remove "0." prefix and "%" suffix
+                var decimalPlaces = decimalPart.Length;
+                dotNetFormat = $"F{decimalPlaces}";
+            }
+            else
+            {
+                // General number formats
+                dotNetFormat = format
+                    .Replace("#,##0", "N0")
+                    .Replace("0.00", "F2")
+                    .Replace("0", "F0");
+            }
+
+            var result = valueToFormat.ToString(dotNetFormat, CultureInfo.InvariantCulture);
+
+            // Append % sign if it was a percentage format
+            if (isPercentage)
+            {
+                result += "%";
+            }
+
             return CellValue.FromString(result);
         }
         catch

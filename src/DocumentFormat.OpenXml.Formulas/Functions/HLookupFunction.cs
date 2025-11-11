@@ -105,20 +105,31 @@ public sealed class HLookupFunction : IFunctionImplementation
         // Calculate table dimensions
         // Heuristic: try to find a reasonable number of rows
         // The table must have at least row_index rows, and the total length must be divisible by numRows
-        var numRows = rowIndex;
+        // We prefer shapes close to square (numRows ≈ numCols) as they're more typical in Excel
+        var numRows = 0;
+        var numCols = 0;
+        var bestDiff = int.MaxValue;
 
-        // Try to find the smallest valid row count >= rowIndex that divides tableLength evenly
-        while (numRows <= tableLength && tableLength % numRows != 0)
+        // Find the row count that gives the most square-like shape
+        for (var testRows = rowIndex; testRows <= tableLength; testRows++)
         {
-            numRows++;
+            if (tableLength % testRows == 0)
+            {
+                var testCols = tableLength / testRows;
+                var diff = System.Math.Abs(testRows - testCols);
+                if (diff < bestDiff)
+                {
+                    numRows = testRows;
+                    numCols = testCols;
+                    bestDiff = diff;
+                }
+            }
         }
 
-        if (tableLength % numRows != 0 || numRows > tableLength)
+        if (numRows == 0)
         {
             return CellValue.Error("#REF!");
         }
-
-        var numCols = tableLength / numRows;
 
         // HLOOKUP searches the first row of the table
         for (var col = 0; col < numCols; col++)

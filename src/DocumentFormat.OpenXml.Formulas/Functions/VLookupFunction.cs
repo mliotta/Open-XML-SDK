@@ -105,20 +105,31 @@ public sealed class VLookupFunction : IFunctionImplementation
         // Calculate table dimensions
         // Heuristic: try to find a reasonable number of columns
         // The table must have at least col_index columns, and the total length must be divisible by numCols
-        var numCols = colIndex;
+        // We prefer shapes close to square (numRows ≈ numCols) as they're more typical in Excel
+        var numCols = 0;
+        var numRows = 0;
+        var bestDiff = int.MaxValue;
 
-        // Try to find the smallest valid column count >= colIndex that divides tableLength evenly
-        while (numCols <= tableLength && tableLength % numCols != 0)
+        // Find the column count that gives the most square-like shape
+        for (var testCols = colIndex; testCols <= tableLength; testCols++)
         {
-            numCols++;
+            if (tableLength % testCols == 0)
+            {
+                var testRows = tableLength / testCols;
+                var diff = System.Math.Abs(testRows - testCols);
+                if (diff < bestDiff)
+                {
+                    numCols = testCols;
+                    numRows = testRows;
+                    bestDiff = diff;
+                }
+            }
         }
 
-        if (tableLength % numCols != 0 || numCols > tableLength)
+        if (numCols == 0)
         {
             return CellValue.Error("#REF!");
         }
-
-        var numRows = tableLength / numCols;
 
         // VLOOKUP searches the first column of the table
         // Table is in row-major order: row1col1, row1col2, ..., row2col1, row2col2, ...
