@@ -248,30 +248,31 @@ public class FormulaEvaluator : IFormulaEvaluator
             // Phase 0 (3)
             "SUM", "AVERAGE", "IF",
 
-            // Math (11)
-            "COUNT", "COUNTA", "COUNTBLANK", "MAX", "MIN",
-            "ROUND", "ROUNDUP", "ROUNDDOWN", "ABS", "PRODUCT", "POWER",
+            // Math (19)
+            "COUNT", "COUNTA", "COUNTBLANK", "COUNTIF", "MAX", "MIN",
+            "ROUND", "ROUNDUP", "ROUNDDOWN", "ABS", "PRODUCT", "POWER", "SUMIF",
+            "SQRT", "MOD", "INT", "CEILING", "FLOOR", "TRUNC",
 
-            // Logical (3)
-            "AND", "OR", "NOT",
+            // Logical (4)
+            "AND", "OR", "NOT", "CHOOSE",
 
             // Text (14)
             "CONCATENATE", "LEFT", "RIGHT", "MID", "LEN", "TRIM",
             "UPPER", "LOWER", "PROPER", "TEXT", "VALUE",
             "FIND", "SEARCH", "SUBSTITUTE",
 
-            // Lookup (2)
-            "VLOOKUP", "HLOOKUP",
+            // Lookup (4)
+            "VLOOKUP", "HLOOKUP", "INDEX", "MATCH",
 
             // Date/Time (10)
             "TODAY", "NOW", "DATE", "YEAR", "MONTH", "DAY",
             "HOUR", "MINUTE", "SECOND", "WEEKDAY",
 
-            // Statistical (5)
-            "MEDIAN", "MODE", "STDEV", "VAR", "RANK",
+            // Statistical (6)
+            "MEDIAN", "MODE", "STDEV", "VAR", "RANK", "AVERAGEIF",
 
-            // Information (2)
-            "ISNUMBER", "ISTEXT",
+            // Information (7)
+            "ISNUMBER", "ISTEXT", "IFERROR", "ISERROR", "ISNA", "ISERR", "ISBLANK",
         };
 
         return functions;

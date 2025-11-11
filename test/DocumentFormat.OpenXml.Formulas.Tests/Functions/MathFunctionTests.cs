@@ -331,4 +331,483 @@ public class MathFunctionTests
         Assert.True(result.IsError);
         Assert.Equal("#DIV/0!", result.ErrorValue);
     }
+
+    [Fact]
+    public void Sqrt_PositiveNumber_ReturnsSquareRoot()
+    {
+        var func = SqrtFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(16),
+        });
+
+        Assert.Equal(4.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Sqrt_Zero_ReturnsZero()
+    {
+        var func = SqrtFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Sqrt_NegativeNumber_ReturnsError()
+    {
+        var func = SqrtFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-4),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Sqrt_InvalidArguments_ReturnsError()
+    {
+        var func = SqrtFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(16),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Mod_PositiveNumbers_ReturnsRemainder()
+    {
+        var func = ModFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(3),
+        });
+
+        Assert.Equal(1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Mod_NegativeNumber_ReturnsCorrectRemainder()
+    {
+        var func = ModFunction.Instance;
+
+        // Excel MOD behavior: MOD(-10, 3) = 2
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-10),
+            CellValue.FromNumber(3),
+        });
+
+        Assert.Equal(2.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Mod_ZeroDivisor_ReturnsError()
+    {
+        var func = ModFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(0),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Mod_InvalidArguments_ReturnsError()
+    {
+        var func = ModFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(10),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+            CellValue.FromNumber(3),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Int_PositiveNumber_RoundsDown()
+    {
+        var func = IntFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(8.9),
+        });
+
+        Assert.Equal(8.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Int_NegativeNumber_RoundsDown()
+    {
+        var func = IntFunction.Instance;
+
+        // INT(-8.9) = -9 (rounds down, not toward zero)
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-8.9),
+        });
+
+        Assert.Equal(-9.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Int_Zero_ReturnsZero()
+    {
+        var func = IntFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Int_InvalidArguments_ReturnsError()
+    {
+        var func = IntFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(8.9),
+            CellValue.FromNumber(1),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+    }
+
+    [Fact]
+    public void Ceiling_PositiveNumbers_RoundsUp()
+    {
+        var func = CeilingFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(4.3),
+            CellValue.FromNumber(1),
+        });
+
+        Assert.Equal(5.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Ceiling_SignificanceGreaterThanOne_RoundsCorrectly()
+    {
+        var func = CeilingFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(22),
+            CellValue.FromNumber(10),
+        });
+
+        Assert.Equal(30.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Ceiling_NegativeNumbers_RoundsCorrectly()
+    {
+        var func = CeilingFunction.Instance;
+
+        // CEILING(-4.3, -1) = -4 (rounds toward zero when both are negative)
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-4.3),
+            CellValue.FromNumber(-1),
+        });
+
+        Assert.Equal(-4.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Ceiling_MixedSigns_ReturnsError()
+    {
+        var func = CeilingFunction.Instance;
+
+        // Different signs should return #NUM!
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(4.3),
+            CellValue.FromNumber(-1),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ceiling_ZeroSignificance_ReturnsZero()
+    {
+        var func = CeilingFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(4.3),
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Ceiling_InvalidArguments_ReturnsError()
+    {
+        var func = CeilingFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(4.3),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+    }
+
+    [Fact]
+    public void Floor_PositiveNumbers_RoundsDown()
+    {
+        var func = FloorFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(4.7),
+            CellValue.FromNumber(1),
+        });
+
+        Assert.Equal(4.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Floor_SignificanceGreaterThanOne_RoundsCorrectly()
+    {
+        var func = FloorFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(22),
+            CellValue.FromNumber(10),
+        });
+
+        Assert.Equal(20.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Floor_NegativeNumbers_RoundsCorrectly()
+    {
+        var func = FloorFunction.Instance;
+
+        // FLOOR(-4.7, -1) = -5 (rounds away from zero when both are negative)
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-4.7),
+            CellValue.FromNumber(-1),
+        });
+
+        Assert.Equal(-5.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Floor_MixedSigns_ReturnsError()
+    {
+        var func = FloorFunction.Instance;
+
+        // Different signs should return #NUM!
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(4.7),
+            CellValue.FromNumber(-1),
+        });
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Floor_ZeroSignificance_ReturnsZero()
+    {
+        var func = FloorFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(4.7),
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Floor_InvalidArguments_ReturnsError()
+    {
+        var func = FloorFunction.Instance;
+
+        // Wrong number of arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(4.7),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+    }
+
+    [Fact]
+    public void Trunc_NoDigits_TruncatesToInteger()
+    {
+        var func = TruncFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(8.9),
+        });
+
+        Assert.Equal(8.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Trunc_WithDigits_TruncatesToPrecision()
+    {
+        var func = TruncFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(8.987654),
+            CellValue.FromNumber(2),
+        });
+
+        Assert.Equal(8.98, result.NumericValue);
+    }
+
+    [Fact]
+    public void Trunc_NegativeNumber_TruncatesCorrectly()
+    {
+        var func = TruncFunction.Instance;
+
+        // TRUNC(-8.9) = -8 (truncates toward zero, not down)
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(-8.9),
+        });
+
+        Assert.Equal(-8.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Trunc_NegativeDigits_TruncatesLeftOfDecimal()
+    {
+        var func = TruncFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(1234.567),
+            CellValue.FromNumber(-2),
+        });
+
+        Assert.Equal(1200.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Trunc_Zero_ReturnsZero()
+    {
+        var func = TruncFunction.Instance;
+
+        var result = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(0),
+        });
+
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Trunc_InvalidArguments_ReturnsError()
+    {
+        var func = TruncFunction.Instance;
+
+        // Too many arguments
+        var result1 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(8.9),
+            CellValue.FromNumber(2),
+            CellValue.FromNumber(3),
+        });
+
+        Assert.True(result1.IsError);
+        Assert.Equal("#VALUE!", result1.ErrorValue);
+
+        // Non-numeric first argument
+        var result2 = func.Execute(null!, new[]
+        {
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result2.IsError);
+        Assert.Equal("#VALUE!", result2.ErrorValue);
+
+        // Non-numeric second argument
+        var result3 = func.Execute(null!, new[]
+        {
+            CellValue.FromNumber(8.9),
+            CellValue.FromString("text"),
+        });
+
+        Assert.True(result3.IsError);
+        Assert.Equal("#VALUE!", result3.ErrorValue);
+    }
 }

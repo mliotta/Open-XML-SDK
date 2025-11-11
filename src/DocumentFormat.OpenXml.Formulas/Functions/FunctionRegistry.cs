@@ -20,10 +20,11 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (11)
+        // Math (19)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
+        { "COUNTIF", CountIfFunction.Instance },
         { "MAX", MaxFunction.Instance },
         { "MIN", MinFunction.Instance },
         { "ROUND", RoundFunction.Instance },
@@ -32,11 +33,19 @@ public static class FunctionRegistry
         { "ABS", AbsFunction.Instance },
         { "PRODUCT", ProductFunction.Instance },
         { "POWER", PowerFunction.Instance },
+        { "SUMIF", SumIfFunction.Instance },
+        { "SQRT", SqrtFunction.Instance },
+        { "MOD", ModFunction.Instance },
+        { "INT", IntFunction.Instance },
+        { "CEILING", CeilingFunction.Instance },
+        { "FLOOR", FloorFunction.Instance },
+        { "TRUNC", TruncFunction.Instance },
 
-        // Logical (3)
+        // Logical (4)
         { "AND", AndFunction.Instance },
         { "OR", OrFunction.Instance },
         { "NOT", NotFunction.Instance },
+        { "CHOOSE", ChooseFunction.Instance },
 
         // Text (14)
         { "CONCATENATE", ConcatenateFunction.Instance },
@@ -54,9 +63,11 @@ public static class FunctionRegistry
         { "SEARCH", SearchFunction.Instance },
         { "SUBSTITUTE", SubstituteFunction.Instance },
 
-        // Lookup (2)
+        // Lookup (4)
         { "VLOOKUP", VLookupFunction.Instance },
         { "HLOOKUP", HLookupFunction.Instance },
+        { "INDEX", IndexFunction.Instance },
+        { "MATCH", MatchFunction.Instance },
 
         // Date/Time (10)
         { "TODAY", TodayFunction.Instance },
@@ -70,16 +81,22 @@ public static class FunctionRegistry
         { "SECOND", SecondFunction.Instance },
         { "WEEKDAY", WeekdayFunction.Instance },
 
-        // Statistical (5)
+        // Statistical (6)
         { "MEDIAN", MedianFunction.Instance },
         { "MODE", ModeFunction.Instance },
         { "STDEV", StDevFunction.Instance },
         { "VAR", VarFunction.Instance },
         { "RANK", RankFunction.Instance },
+        { "AVERAGEIF", AverageIfFunction.Instance },
 
-        // Information (2)
+        // Information (7)
         { "ISNUMBER", IsNumberFunction.Instance },
         { "ISTEXT", IsTextFunction.Instance },
+        { "IFERROR", IFErrorFunction.Instance },
+        { "ISERROR", IsErrorFunction.Instance },
+        { "ISNA", IsNaFunction.Instance },
+        { "ISERR", IsErrFunction.Instance },
+        { "ISBLANK", IsBlankFunction.Instance },
     };
 
     /// <summary>
