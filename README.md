@@ -9,7 +9,7 @@
 This fork extends the official Open XML SDK with a **high-performance Excel formula evaluator** that enables:
 
 - ✅ **Evaluate Excel formulas** without requiring Excel to be installed
-- ✅ **60+ built-in functions** (math, text, logical, lookup, date/time, statistical)
+- ✅ **67 built-in functions** (math, text, logical, lookup, date/time, statistical, error handling)
 - ✅ **100% validation accuracy** against Excel's calculations
 - ✅ **Incremental recalculation** - 250-1000x faster than full sheet recalculation
 - ✅ **Formula-to-Lambda compilation** for native performance
@@ -69,19 +69,23 @@ evaluator.RecalculateSheet(worksheet);
 evaluator.RecalculateDependents(worksheet, "A1", "B2");
 ```
 
-## Supported Functions
+## Supported Functions (67 total)
 
-**Math**: SUM, AVERAGE, COUNT, COUNTA, COUNTBLANK, MIN, MAX, ROUND, ROUNDUP, ROUNDDOWN, ABS, PRODUCT, POWER, MEDIAN, MODE, STDEV, VAR
+**Math (23)**: SUM, AVERAGE, COUNT, COUNTA, COUNTBLANK, MIN, MAX, ROUND, ROUNDUP, ROUNDDOWN, ABS, PRODUCT, POWER, MEDIAN, MODE, STDEV, VAR, SQRT, MOD, INT, CEILING, FLOOR, TRUNC
 
-**Text**: CONCATENATE, LEFT, RIGHT, MID, LEN, TRIM, UPPER, LOWER, PROPER, FIND, SEARCH, SUBSTITUTE, TEXT, VALUE
+**Text (14)**: CONCATENATE, LEFT, RIGHT, MID, LEN, TRIM, UPPER, LOWER, PROPER, FIND, SEARCH, SUBSTITUTE, TEXT, VALUE
 
-**Logical**: IF, AND, OR, NOT
+**Logical (5)**: IF, AND, OR, NOT, CHOOSE
 
-**Lookup**: VLOOKUP, HLOOKUP, RANK
+**Lookup (5)**: VLOOKUP, HLOOKUP, INDEX, MATCH, RANK
 
-**Date/Time**: DATE, YEAR, MONTH, DAY, WEEKDAY, TODAY, NOW, HOUR, MINUTE, SECOND
+**Date/Time (10)**: DATE, YEAR, MONTH, DAY, WEEKDAY, TODAY, NOW, HOUR, MINUTE, SECOND
 
-**Information**: ISNUMBER, ISTEXT
+**Statistical (3)**: SUMIF, COUNTIF, AVERAGEIF
+
+**Error Handling (5)**: IFERROR, ISERROR, ISNA, ISERR, ISBLANK
+
+**Information (2)**: ISNUMBER, ISTEXT
 
 ## Architecture
 
