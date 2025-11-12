@@ -39,6 +39,9 @@ public static class OracleTestFileGenerator
         CreateDatabaseFunctionsSheet(workbookPart, sheets, 9);
         CreateInformationFunctionsSheet(workbookPart, sheets, 10);
         // CreateErrorHandlingFunctionsSheet(workbookPart, sheets, 11); // TODO: Re-enable after fixing
+        CreateForecastingFunctionsSheet(workbookPart, sheets, 12);
+        CreateCubeFunctionsSheet(workbookPart, sheets, 13);
+
 
         workbookPart.Workbook.Save();
     }
@@ -275,6 +278,96 @@ public static class OracleTestFileGenerator
 
         // RANDBETWEEN tests
         AddTestCase(sheetData, row++, "RANDBETWEEN", "=IF(AND(RANDBETWEEN(1,10)>=1, RANDBETWEEN(1,10)<=10), 1, 0)", "Randbetween range check");
+        // SQRTPI tests
+        AddTestCase(sheetData, row++, "SQRTPI", "=SQRTPI(1)", "Square root of pi");
+        AddTestCase(sheetData, row++, "SQRTPI", "=SQRTPI(2)", "Square root of 2*pi");
+
+        // CEILING.MATH tests
+        AddTestCase(sheetData, row++, "CEILING.MATH", "=CEILING.MATH(4.3)", "Ceiling.Math positive");
+        AddTestCase(sheetData, row++, "CEILING.MATH", "=CEILING.MATH(-4.3)", "Ceiling.Math negative");
+        AddTestCase(sheetData, row++, "CEILING.MATH", "=CEILING.MATH(4.3, 2)", "Ceiling.Math significance");
+
+        // CEILING.PRECISE tests
+        AddTestCase(sheetData, row++, "CEILING.PRECISE", "=CEILING.PRECISE(4.3, 1)", "Ceiling.Precise positive");
+        AddTestCase(sheetData, row++, "CEILING.PRECISE", "=CEILING.PRECISE(-4.3, 1)", "Ceiling.Precise negative");
+
+        // FLOOR.MATH tests
+        AddTestCase(sheetData, row++, "FLOOR.MATH", "=FLOOR.MATH(4.8)", "Floor.Math positive");
+        AddTestCase(sheetData, row++, "FLOOR.MATH", "=FLOOR.MATH(-4.8)", "Floor.Math negative");
+        AddTestCase(sheetData, row++, "FLOOR.MATH", "=FLOOR.MATH(4.8, 2)", "Floor.Math significance");
+
+        // FLOOR.PRECISE tests
+        AddTestCase(sheetData, row++, "FLOOR.PRECISE", "=FLOOR.PRECISE(4.8, 1)", "Floor.Precise positive");
+        AddTestCase(sheetData, row++, "FLOOR.PRECISE", "=FLOOR.PRECISE(-4.8, 1)", "Floor.Precise negative");
+
+        // ISO.CEILING tests
+        AddTestCase(sheetData, row++, "ISO.CEILING", "=ISO.CEILING(4.3)", "ISO.Ceiling default");
+        AddTestCase(sheetData, row++, "ISO.CEILING", "=ISO.CEILING(-4.3)", "ISO.Ceiling negative");
+        AddTestCase(sheetData, row++, "ISO.CEILING", "=ISO.CEILING(4.3, 2)", "ISO.Ceiling significance");
+
+        // FACTDOUBLE tests
+        AddTestCase(sheetData, row++, "FACTDOUBLE", "=FACTDOUBLE(6)", "Double factorial of 6");
+        AddTestCase(sheetData, row++, "FACTDOUBLE", "=FACTDOUBLE(7)", "Double factorial of 7");
+
+        // COMBINA tests
+        AddTestCase(sheetData, row++, "COMBINA", "=COMBINA(4, 3)", "Combinations with repetitions 4,3");
+        AddTestCase(sheetData, row++, "COMBINA", "=COMBINA(10, 3)", "Combinations with repetitions 10,3");
+
+        // PERMUTATIONA tests
+        AddTestCase(sheetData, row++, "PERMUTATIONA", "=PERMUTATIONA(3, 2)", "Permutations with repetitions 3,2");
+        AddTestCase(sheetData, row++, "PERMUTATIONA", "=PERMUTATIONA(5, 3)", "Permutations with repetitions 5,3");
+
+        // MDETERM tests (Matrix determinant)
+        AddTestCase(sheetData, row++, "MDETERM", "=MDETERM(F120:G121)", "Matrix determinant 2x2", ("F120", "1"), ("G120", "2"), ("F121", "3"), ("G121", "4"));
+        AddTestCase(sheetData, row++, "MDETERM", "=MDETERM(F123:H125)", "Matrix determinant 3x3", ("F123", "1"), ("G123", "2"), ("H123", "3"), ("F124", "0"), ("G124", "1"), ("H124", "4"), ("F125", "5"), ("G125", "6"), ("H125", "0"));
+
+        // MINVERSE tests (Matrix inverse)
+        AddTestCase(sheetData, row++, "MINVERSE", "=INDEX(MINVERSE(F127:G128), 1, 1)", "Matrix inverse element 1,1", ("F127", "4"), ("G127", "7"), ("F128", "2"), ("G128", "6"));
+
+        // MMULT tests (Matrix multiplication)
+        AddTestCase(sheetData, row++, "MMULT", "=INDEX(MMULT(F130:G131, I130:J131), 1, 1)", "Matrix multiply element 1,1", ("F130", "1"), ("G130", "2"), ("F131", "3"), ("G131", "4"), ("I130", "2"), ("J130", "0"), ("I131", "1"), ("J131", "2"));
+
+        // MUNIT tests (Unit matrix)
+        AddTestCase(sheetData, row++, "MUNIT", "=INDEX(MUNIT(3), 1, 1)", "Unit matrix 3x3 element 1,1");
+        AddTestCase(sheetData, row++, "MUNIT", "=INDEX(MUNIT(3), 2, 2)", "Unit matrix 3x3 element 2,2");
+        AddTestCase(sheetData, row++, "MUNIT", "=INDEX(MUNIT(3), 1, 2)", "Unit matrix 3x3 element 1,2");
+
+        // LOOKUP tests
+        AddTestCase(sheetData, row++, "LOOKUP", "=LOOKUP(3, F135:F138, G135:G138)", "Lookup with result vector", ("F135", "1"), ("G135", "A"), ("F136", "2"), ("G136", "B"), ("F137", "3"), ("G137", "C"), ("F138", "4"), ("G138", "D"));
+        AddTestCase(sheetData, row++, "LOOKUP", "=LOOKUP(5, F135:F138)", "Lookup single vector");
+
+        // ACOT tests
+        AddTestCase(sheetData, row++, "ACOT", "=ACOT(1)", "Arc cotangent of 1");
+        AddTestCase(sheetData, row++, "ACOT", "=ACOT(2)", "Arc cotangent of 2");
+
+        // ACOTH tests
+        AddTestCase(sheetData, row++, "ACOTH", "=ACOTH(2)", "Arc hyperbolic cotangent of 2");
+        AddTestCase(sheetData, row++, "ACOTH", "=ACOTH(3)", "Arc hyperbolic cotangent of 3");
+
+        // CSC tests
+        AddTestCase(sheetData, row++, "CSC", "=CSC(PI()/2)", "Cosecant of pi/2");
+        AddTestCase(sheetData, row++, "CSC", "=CSC(PI()/4)", "Cosecant of pi/4");
+
+        // CSCH tests
+        AddTestCase(sheetData, row++, "CSCH", "=CSCH(1)", "Hyperbolic cosecant of 1");
+        AddTestCase(sheetData, row++, "CSCH", "=CSCH(2)", "Hyperbolic cosecant of 2");
+
+        // SEC tests
+        AddTestCase(sheetData, row++, "SEC", "=SEC(0)", "Secant of 0");
+        AddTestCase(sheetData, row++, "SEC", "=SEC(PI()/3)", "Secant of pi/3");
+
+        // SECH tests
+        AddTestCase(sheetData, row++, "SECH", "=SECH(0)", "Hyperbolic secant of 0");
+        AddTestCase(sheetData, row++, "SECH", "=SECH(1)", "Hyperbolic secant of 1");
+
+        // COT tests
+        AddTestCase(sheetData, row++, "COT", "=COT(PI()/4)", "Cotangent of pi/4");
+        AddTestCase(sheetData, row++, "COT", "=COT(PI()/3)", "Cotangent of pi/3");
+
+        // COTH tests
+        AddTestCase(sheetData, row++, "COTH", "=COTH(1)", "Hyperbolic cotangent of 1");
+        AddTestCase(sheetData, row++, "COTH", "=COTH(2)", "Hyperbolic cotangent of 2");
+
 
         SortCellsInRows(sheetData);
         worksheetPart.Worksheet.Save();
@@ -930,6 +1023,197 @@ public static class OracleTestFileGenerator
         // DEC2OCT tests
         AddTestCase(sheetData, row++, "DEC2OCT", "=DEC2OCT(63)", "Decimal 63 to octal");
         AddTestCase(sheetData, row++, "DEC2OCT", "=DEC2OCT(64)", "Decimal 64 to octal");
+        // HEX2BIN tests
+        AddTestCase(sheetData, row++, "HEX2BIN", "=HEX2BIN(\"F\")", "Hex F to binary");
+        AddTestCase(sheetData, row++, "HEX2BIN", "=HEX2BIN(\"A\")", "Hex A to binary");
+
+        // HEX2OCT tests
+        AddTestCase(sheetData, row++, "HEX2OCT", "=HEX2OCT(\"FF\")", "Hex FF to octal");
+        AddTestCase(sheetData, row++, "HEX2OCT", "=HEX2OCT(\"3F\")", "Hex 3F to octal");
+
+        // BIN2HEX tests
+        AddTestCase(sheetData, row++, "BIN2HEX", "=BIN2HEX(\"1111\")", "Binary 1111 to hex");
+        AddTestCase(sheetData, row++, "BIN2HEX", "=BIN2HEX(\"10101010\")", "Binary 10101010 to hex");
+
+        // BIN2OCT tests
+        AddTestCase(sheetData, row++, "BIN2OCT", "=BIN2OCT(\"1010\")", "Binary 1010 to octal");
+        AddTestCase(sheetData, row++, "BIN2OCT", "=BIN2OCT(\"111111\")", "Binary 111111 to octal");
+
+        // OCT2HEX tests
+        AddTestCase(sheetData, row++, "OCT2HEX", "=OCT2HEX(\"77\")", "Octal 77 to hex");
+        AddTestCase(sheetData, row++, "OCT2HEX", "=OCT2HEX(\"100\")", "Octal 100 to hex");
+
+        // OCT2BIN tests
+        AddTestCase(sheetData, row++, "OCT2BIN", "=OCT2BIN(\"7\")", "Octal 7 to binary");
+        AddTestCase(sheetData, row++, "OCT2BIN", "=OCT2BIN(\"12\")", "Octal 12 to binary");
+
+        // DELTA tests
+        AddTestCase(sheetData, row++, "DELTA", "=DELTA(5, 5)", "Delta equal values");
+        AddTestCase(sheetData, row++, "DELTA", "=DELTA(5, 3)", "Delta unequal values");
+        AddTestCase(sheetData, row++, "DELTA", "=DELTA(0)", "Delta zero");
+
+        // GESTEP tests
+        AddTestCase(sheetData, row++, "GESTEP", "=GESTEP(5, 3)", "Gestep 5 >= 3");
+        AddTestCase(sheetData, row++, "GESTEP", "=GESTEP(2, 3)", "Gestep 2 >= 3");
+        AddTestCase(sheetData, row++, "GESTEP", "=GESTEP(5)", "Gestep 5 >= 0");
+
+        // ERF tests
+        AddTestCase(sheetData, row++, "ERF", "=ROUND(ERF(0), 4)", "Error function of 0");
+        AddTestCase(sheetData, row++, "ERF", "=ROUND(ERF(1), 4)", "Error function of 1");
+
+        // ERF.PRECISE tests
+        AddTestCase(sheetData, row++, "ERF.PRECISE", "=ROUND(ERF.PRECISE(0.5), 4)", "ERF.Precise of 0.5");
+        AddTestCase(sheetData, row++, "ERF.PRECISE", "=ROUND(ERF.PRECISE(1), 4)", "ERF.Precise of 1");
+
+        // ERFC tests
+        AddTestCase(sheetData, row++, "ERFC", "=ROUND(ERFC(0), 4)", "Complementary error function of 0");
+        AddTestCase(sheetData, row++, "ERFC", "=ROUND(ERFC(1), 4)", "Complementary error function of 1");
+
+        // ERFC.PRECISE tests
+        AddTestCase(sheetData, row++, "ERFC.PRECISE", "=ROUND(ERFC.PRECISE(0.5), 4)", "ERFC.Precise of 0.5");
+        AddTestCase(sheetData, row++, "ERFC.PRECISE", "=ROUND(ERFC.PRECISE(1), 4)", "ERFC.Precise of 1");
+
+        // BESSELI tests
+        AddTestCase(sheetData, row++, "BESSELI", "=ROUND(BESSELI(1, 0), 4)", "Bessel I function order 0");
+        AddTestCase(sheetData, row++, "BESSELI", "=ROUND(BESSELI(1, 1), 4)", "Bessel I function order 1");
+
+        // BESSELJ tests
+        AddTestCase(sheetData, row++, "BESSELJ", "=ROUND(BESSELJ(1, 0), 4)", "Bessel J function order 0");
+        AddTestCase(sheetData, row++, "BESSELJ", "=ROUND(BESSELJ(1, 1), 4)", "Bessel J function order 1");
+
+        // BESSELK tests
+        AddTestCase(sheetData, row++, "BESSELK", "=ROUND(BESSELK(1, 0), 4)", "Bessel K function order 0");
+        AddTestCase(sheetData, row++, "BESSELK", "=ROUND(BESSELK(1, 1), 4)", "Bessel K function order 1");
+
+        // BESSELY tests
+        AddTestCase(sheetData, row++, "BESSELY", "=ROUND(BESSELY(1, 0), 4)", "Bessel Y function order 0");
+        AddTestCase(sheetData, row++, "BESSELY", "=ROUND(BESSELY(1, 1), 4)", "Bessel Y function order 1");
+
+        // COMPLEX tests
+        AddTestCase(sheetData, row++, "COMPLEX", "=COMPLEX(3, 4)", "Complex number 3+4i");
+        AddTestCase(sheetData, row++, "COMPLEX", "=COMPLEX(5, -2)", "Complex number 5-2i");
+        AddTestCase(sheetData, row++, "COMPLEX", "=COMPLEX(0, 1)", "Complex number i");
+
+        // IMREAL tests
+        AddTestCase(sheetData, row++, "IMREAL", "=IMREAL(\"3+4i\")", "Real part of 3+4i");
+        AddTestCase(sheetData, row++, "IMREAL", "=IMREAL(\"5-2i\")", "Real part of 5-2i");
+
+        // IMAGINARY tests
+        AddTestCase(sheetData, row++, "IMAGINARY", "=IMAGINARY(\"3+4i\")", "Imaginary part of 3+4i");
+        AddTestCase(sheetData, row++, "IMAGINARY", "=IMAGINARY(\"5-2i\")", "Imaginary part of 5-2i");
+
+        // IMABS tests
+        AddTestCase(sheetData, row++, "IMABS", "=IMABS(\"3+4i\")", "Absolute value of 3+4i");
+        AddTestCase(sheetData, row++, "IMABS", "=IMABS(\"5-12i\")", "Absolute value of 5-12i");
+
+        // IMARGUMENT tests
+        AddTestCase(sheetData, row++, "IMARGUMENT", "=ROUND(IMARGUMENT(\"1+i\"), 4)", "Argument of 1+i");
+        AddTestCase(sheetData, row++, "IMARGUMENT", "=ROUND(IMARGUMENT(\"1-i\"), 4)", "Argument of 1-i");
+
+        // IMCONJUGATE tests
+        AddTestCase(sheetData, row++, "IMCONJUGATE", "=IMCONJUGATE(\"3+4i\")", "Conjugate of 3+4i");
+        AddTestCase(sheetData, row++, "IMCONJUGATE", "=IMCONJUGATE(\"5-2i\")", "Conjugate of 5-2i");
+
+        // IMSUM tests
+        AddTestCase(sheetData, row++, "IMSUM", "=IMSUM(\"3+4i\", \"1+2i\")", "Sum of complex numbers");
+        AddTestCase(sheetData, row++, "IMSUM", "=IMSUM(\"5-2i\", \"3+i\")", "Sum of complex numbers 2");
+
+        // IMSUB tests
+        AddTestCase(sheetData, row++, "IMSUB", "=IMSUB(\"3+4i\", \"1+2i\")", "Difference of complex numbers");
+        AddTestCase(sheetData, row++, "IMSUB", "=IMSUB(\"5-2i\", \"3+i\")", "Difference of complex numbers 2");
+
+        // IMPRODUCT tests
+        AddTestCase(sheetData, row++, "IMPRODUCT", "=IMPRODUCT(\"3+4i\", \"1+2i\")", "Product of complex numbers");
+        AddTestCase(sheetData, row++, "IMPRODUCT", "=IMPRODUCT(\"2+i\", \"3-i\")", "Product of complex numbers 2");
+
+        // IMDIV tests
+        AddTestCase(sheetData, row++, "IMDIV", "=IMDIV(\"4+2i\", \"2\")", "Division of complex numbers");
+        AddTestCase(sheetData, row++, "IMDIV", "=IMDIV(\"1+i\", \"1-i\")", "Division of complex numbers 2");
+
+        // IMPOWER tests
+        AddTestCase(sheetData, row++, "IMPOWER", "=IMPOWER(\"2+i\", 2)", "Complex power squared");
+        AddTestCase(sheetData, row++, "IMPOWER", "=IMPOWER(\"i\", 3)", "Complex power cubed");
+
+        // IMSQRT tests
+        AddTestCase(sheetData, row++, "IMSQRT", "=IMSQRT(\"3+4i\")", "Square root of complex");
+        AddTestCase(sheetData, row++, "IMSQRT", "=IMSQRT(\"-1\")", "Square root of -1");
+
+        // IMEXP tests
+        AddTestCase(sheetData, row++, "IMEXP", "=IMEXP(\"i\")", "Exponential of i");
+        AddTestCase(sheetData, row++, "IMEXP", "=IMEXP(\"1+i\")", "Exponential of 1+i");
+
+        // IMLN tests
+        AddTestCase(sheetData, row++, "IMLN", "=IMLN(\"1\")", "Natural log of 1");
+        AddTestCase(sheetData, row++, "IMLN", "=IMLN(\"i\")", "Natural log of i");
+
+        // IMLOG10 tests
+        AddTestCase(sheetData, row++, "IMLOG10", "=IMLOG10(\"10\")", "Log10 of 10");
+        AddTestCase(sheetData, row++, "IMLOG10", "=IMLOG10(\"1+i\")", "Log10 of 1+i");
+
+        // IMLOG2 tests
+        AddTestCase(sheetData, row++, "IMLOG2", "=IMLOG2(\"2\")", "Log2 of 2");
+        AddTestCase(sheetData, row++, "IMLOG2", "=IMLOG2(\"4+0i\")", "Log2 of 4");
+
+        // IMSIN tests
+        AddTestCase(sheetData, row++, "IMSIN", "=IMSIN(\"0\")", "Sin of 0");
+        AddTestCase(sheetData, row++, "IMSIN", "=IMSIN(\"i\")", "Sin of i");
+
+        // IMCOS tests
+        AddTestCase(sheetData, row++, "IMCOS", "=IMCOS(\"0\")", "Cos of 0");
+        AddTestCase(sheetData, row++, "IMCOS", "=IMCOS(\"i\")", "Cos of i");
+
+        // IMTAN tests
+        AddTestCase(sheetData, row++, "IMTAN", "=IMTAN(\"0\")", "Tan of 0");
+        AddTestCase(sheetData, row++, "IMTAN", "=IMTAN(\"1+i\")", "Tan of 1+i");
+
+        // IMSEC tests
+        AddTestCase(sheetData, row++, "IMSEC", "=IMSEC(\"0\")", "Sec of 0");
+        AddTestCase(sheetData, row++, "IMSEC", "=IMSEC(\"1+i\")", "Sec of 1+i");
+
+        // IMCSC tests
+        AddTestCase(sheetData, row++, "IMCSC", "=IMCSC(\"1\")", "Csc of 1");
+        AddTestCase(sheetData, row++, "IMCSC", "=IMCSC(\"1+i\")", "Csc of 1+i");
+
+        // IMCOT tests
+        AddTestCase(sheetData, row++, "IMCOT", "=IMCOT(\"1\")", "Cot of 1");
+        AddTestCase(sheetData, row++, "IMCOT", "=IMCOT(\"1+i\")", "Cot of 1+i");
+
+        // IMSECH tests
+        AddTestCase(sheetData, row++, "IMSECH", "=IMSECH(\"0\")", "Sech of 0");
+        AddTestCase(sheetData, row++, "IMSECH", "=IMSECH(\"1+i\")", "Sech of 1+i");
+
+        // IMCSCH tests
+        AddTestCase(sheetData, row++, "IMCSCH", "=IMCSCH(\"1\")", "Csch of 1");
+        AddTestCase(sheetData, row++, "IMCSCH", "=IMCSCH(\"1+i\")", "Csch of 1+i");
+
+        // IMSINH tests
+        AddTestCase(sheetData, row++, "IMSINH", "=IMSINH(\"0\")", "Sinh of 0");
+        AddTestCase(sheetData, row++, "IMSINH", "=IMSINH(\"1+i\")", "Sinh of 1+i");
+
+        // IMCOSH tests
+        AddTestCase(sheetData, row++, "IMCOSH", "=IMCOSH(\"0\")", "Cosh of 0");
+        AddTestCase(sheetData, row++, "IMCOSH", "=IMCOSH(\"1+i\")", "Cosh of 1+i");
+
+        // BITAND tests
+        AddTestCase(sheetData, row++, "BITAND", "=BITAND(5, 3)", "Bitwise AND 5 and 3");
+        AddTestCase(sheetData, row++, "BITAND", "=BITAND(15, 7)", "Bitwise AND 15 and 7");
+
+        // BITOR tests
+        AddTestCase(sheetData, row++, "BITOR", "=BITOR(5, 3)", "Bitwise OR 5 and 3");
+        AddTestCase(sheetData, row++, "BITOR", "=BITOR(8, 4)", "Bitwise OR 8 and 4");
+
+        // BITXOR tests
+        AddTestCase(sheetData, row++, "BITXOR", "=BITXOR(5, 3)", "Bitwise XOR 5 and 3");
+        AddTestCase(sheetData, row++, "BITXOR", "=BITXOR(12, 10)", "Bitwise XOR 12 and 10");
+
+        // BITLSHIFT tests
+        AddTestCase(sheetData, row++, "BITLSHIFT", "=BITLSHIFT(3, 2)", "Bitwise left shift 3 by 2");
+        AddTestCase(sheetData, row++, "BITLSHIFT", "=BITLSHIFT(5, 1)", "Bitwise left shift 5 by 1");
+
+        // BITRSHIFT tests
+        AddTestCase(sheetData, row++, "BITRSHIFT", "=BITRSHIFT(12, 2)", "Bitwise right shift 12 by 2");
+        AddTestCase(sheetData, row++, "BITRSHIFT", "=BITRSHIFT(10, 1)", "Bitwise right shift 10 by 1");
+
 
         SortCellsInRows(sheetData);
         worksheetPart.Worksheet.Save();
@@ -1100,6 +1384,172 @@ public static class OracleTestFileGenerator
         AddTextCell(sheetData, "H2", "");
         AddTestCase(sheetData, row++, "ISBLANK", "=ISBLANK(H1)", "ISBLANK not blank");
         AddTestCase(sheetData, row++, "ISBLANK", "=ISBLANK(H3)", "ISBLANK empty cell");
+
+        SortCellsInRows(sheetData);
+        worksheetPart.Worksheet.Save();
+    }
+
+
+    private static void CreateForecastingFunctionsSheet(WorkbookPart workbookPart, Sheets sheets, uint sheetId)
+    {
+        var worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+        var sheetData = new SheetData();
+        worksheetPart.Worksheet = new Worksheet(sheetData);
+
+        sheets.AppendChild(new Sheet
+        {
+            Id = workbookPart.GetIdOfPart(worksheetPart),
+            SheetId = sheetId,
+            Name = "Forecasting",
+        });
+
+        AddHeader(sheetData, 1);
+        var row = 2;
+
+        // Setup time series data for forecasting tests in high rows to avoid conflicts
+        // Known Y values (sales data)
+        AddCell(sheetData, "F100", "100");
+        AddCell(sheetData, "F101", "110");
+        AddCell(sheetData, "F102", "125");
+        AddCell(sheetData, "F103", "140");
+        AddCell(sheetData, "F104", "160");
+
+        // Known X values (time periods)
+        AddCell(sheetData, "G100", "1");
+        AddCell(sheetData, "G101", "2");
+        AddCell(sheetData, "G102", "3");
+        AddCell(sheetData, "G103", "4");
+        AddCell(sheetData, "G104", "5");
+
+        // Timeline dates for ETS functions (using Excel date serial numbers)
+        AddCell(sheetData, "H100", "44927"); // 2023-01-01
+        AddCell(sheetData, "H101", "44958"); // 2023-02-01
+        AddCell(sheetData, "H102", "44986"); // 2023-03-01
+        AddCell(sheetData, "H103", "45017"); // 2023-04-01
+        AddCell(sheetData, "H104", "45047"); // 2023-05-01
+
+        // FORECAST tests - Linear forecast
+        AddTestCase(sheetData, row++, "FORECAST", "=ROUND(FORECAST(6, F100:F104, G100:G104), 2)", "Forecast for period 6");
+        AddTestCase(sheetData, row++, "FORECAST", "=ROUND(FORECAST(7, F100:F104, G100:G104), 2)", "Forecast for period 7");
+        AddTestCase(sheetData, row++, "FORECAST", "=ROUND(FORECAST(3.5, F100:F104, G100:G104), 2)", "Forecast interpolation");
+
+        // FORECAST.LINEAR tests (same as FORECAST)
+        AddTestCase(sheetData, row++, "FORECAST.LINEAR", "=ROUND(FORECAST.LINEAR(6, F100:F104, G100:G104), 2)", "Linear forecast period 6");
+        AddTestCase(sheetData, row++, "FORECAST.LINEAR", "=ROUND(FORECAST.LINEAR(8, F100:F104, G100:G104), 2)", "Linear forecast period 8");
+
+        // FORECAST.ETS tests - Exponential smoothing forecast
+        AddTestCase(sheetData, row++, "FORECAST.ETS", "=ROUND(FORECAST.ETS(45078, F100:F104, H100:H104, 1, 1, 1), 2)", "ETS forecast next month");
+        AddTestCase(sheetData, row++, "FORECAST.ETS", "=ROUND(FORECAST.ETS(45108, F100:F104, H100:H104), 2)", "ETS forecast 2 months");
+
+        // FORECAST.ETS.CONFINT tests - Confidence interval
+        AddTestCase(sheetData, row++, "FORECAST.ETS.CONFINT", "=ROUND(FORECAST.ETS.CONFINT(45078, F100:F104, H100:H104, 0.95, 1, 1, 1), 2)", "ETS confidence interval 95%");
+        AddTestCase(sheetData, row++, "FORECAST.ETS.CONFINT", "=ROUND(FORECAST.ETS.CONFINT(45078, F100:F104, H100:H104, 0.90), 2)", "ETS confidence interval 90%");
+
+        // FORECAST.ETS.SEASONALITY tests - Detect seasonality
+        AddTestCase(sheetData, row++, "FORECAST.ETS.SEASONALITY", "=FORECAST.ETS.SEASONALITY(F100:F104, H100:H104, 1, 1)", "ETS seasonality detection");
+        AddTestCase(sheetData, row++, "FORECAST.ETS.SEASONALITY", "=FORECAST.ETS.SEASONALITY(F100:F104, H100:H104)", "ETS seasonality auto");
+
+        // FORECAST.ETS.STAT tests - Statistical metrics
+        AddTestCase(sheetData, row++, "FORECAST.ETS.STAT", "=ROUND(FORECAST.ETS.STAT(F100:F104, H100:H104, 1, 1, 1, 1), 4)", "ETS alpha parameter");
+        AddTestCase(sheetData, row++, "FORECAST.ETS.STAT", "=ROUND(FORECAST.ETS.STAT(F100:F104, H100:H104, 2), 4)", "ETS beta parameter");
+        AddTestCase(sheetData, row++, "FORECAST.ETS.STAT", "=ROUND(FORECAST.ETS.STAT(F100:F104, H100:H104, 3), 4)", "ETS gamma parameter");
+        AddTestCase(sheetData, row++, "FORECAST.ETS.STAT", "=ROUND(FORECAST.ETS.STAT(F100:F104, H100:H104, 8), 4)", "ETS MASE metric");
+
+        // TREND tests - Linear trend extrapolation
+        AddTestCase(sheetData, row++, "TREND", "=ROUND(INDEX(TREND(F100:F104, G100:G104, 6), 1), 2)", "Trend for new X value 6");
+        AddTestCase(sheetData, row++, "TREND", "=ROUND(INDEX(TREND(F100:F104, G100:G104), 3), 2)", "Trend fitted value period 3");
+        AddTestCase(sheetData, row++, "TREND", "=ROUND(INDEX(TREND(F100:F104), 4), 2)", "Trend auto X values");
+
+        // GROWTH tests - Exponential growth
+        AddTestCase(sheetData, row++, "GROWTH", "=ROUND(INDEX(GROWTH(F100:F104, G100:G104, 6), 1), 2)", "Growth for new X value 6");
+        AddTestCase(sheetData, row++, "GROWTH", "=ROUND(INDEX(GROWTH(F100:F104, G100:G104), 3), 2)", "Growth fitted value period 3");
+        AddTestCase(sheetData, row++, "GROWTH", "=ROUND(INDEX(GROWTH(F100:F104), 4), 2)", "Growth auto X values");
+
+        // LINEST tests - Linear regression statistics
+        AddTestCase(sheetData, row++, "LINEST", "=ROUND(INDEX(LINEST(F100:F104, G100:G104), 1), 4)", "LINEST slope");
+        AddTestCase(sheetData, row++, "LINEST", "=ROUND(INDEX(LINEST(F100:F104, G100:G104), 2), 4)", "LINEST intercept");
+        AddTestCase(sheetData, row++, "LINEST", "=ROUND(INDEX(LINEST(F100:F104, G100:G104, TRUE, TRUE), 1, 1), 4)", "LINEST slope with stats");
+        AddTestCase(sheetData, row++, "LINEST", "=ROUND(INDEX(LINEST(F100:F104, G100:G104, FALSE), 1), 4)", "LINEST zero intercept");
+
+        // LOGEST tests - Exponential regression statistics
+        AddTestCase(sheetData, row++, "LOGEST", "=ROUND(INDEX(LOGEST(F100:F104, G100:G104), 1), 4)", "LOGEST base coefficient");
+        AddTestCase(sheetData, row++, "LOGEST", "=ROUND(INDEX(LOGEST(F100:F104, G100:G104), 2), 4)", "LOGEST constant");
+        AddTestCase(sheetData, row++, "LOGEST", "=ROUND(INDEX(LOGEST(F100:F104, G100:G104, TRUE, TRUE), 1, 1), 4)", "LOGEST with statistics");
+        AddTestCase(sheetData, row++, "LOGEST", "=ROUND(INDEX(LOGEST(F100:F104, G100:G104, FALSE), 1), 4)", "LOGEST b=1");
+
+        SortCellsInRows(sheetData);
+        worksheetPart.Worksheet.Save();
+    }
+
+    private static void CreateCubeFunctionsSheet(WorkbookPart workbookPart, Sheets sheets, uint sheetId)
+    {
+        var worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+        var sheetData = new SheetData();
+        worksheetPart.Worksheet = new Worksheet(sheetData);
+
+        sheets.AppendChild(new Sheet
+        {
+            Id = workbookPart.GetIdOfPart(worksheetPart),
+            SheetId = sheetId,
+            Name = "Cube",
+        });
+
+        AddHeader(sheetData, 1);
+        var row = 2;
+
+        // Note: Cube functions require external OLAP connections
+        // These test cases verify the functions return appropriate errors when connection is unavailable
+        // Test data setup - connection strings (will fail without actual OLAP server)
+        AddTextCell(sheetData, "F100", "Provider=MSOLAP;Data Source=localhost;Initial Catalog=Adventure Works DW");
+        AddTextCell(sheetData, "F101", "[Measures].[Internet Sales Amount]");
+        AddTextCell(sheetData, "F102", "[Product].[Product Categories].[Category].[Bikes]");
+        AddTextCell(sheetData, "F103", "[Date].[Fiscal].[Fiscal Year].[FY 2023]");
+
+        // CUBEVALUE tests - Retrieve aggregated value from cube
+        AddTestCase(sheetData, row++, "CUBEVALUE", "=IFERROR(CUBEVALUE(F100, F101), \"#CONNECT_ERROR\")", "CUBEVALUE single measure", ("F100", "Provider=MSOLAP"), ("F101", "[Measures].[Sales]"));
+        AddTestCase(sheetData, row++, "CUBEVALUE", "=IFERROR(CUBEVALUE(F100, F101, F102), \"#CONNECT_ERROR\")", "CUBEVALUE with dimension");
+        AddTestCase(sheetData, row++, "CUBEVALUE", "=IFERROR(CUBEVALUE(F100, F101, F102, F103), \"#CONNECT_ERROR\")", "CUBEVALUE multiple dimensions");
+        AddTestCase(sheetData, row++, "CUBEVALUE", "=ISERROR(CUBEVALUE(\"InvalidConn\", \"[Measures].[Sales]\"))", "CUBEVALUE connection error check");
+
+        // CUBEMEMBER tests - Define member or tuple from cube
+        AddTestCase(sheetData, row++, "CUBEMEMBER", "=IFERROR(CUBEMEMBER(F100, F102), \"#CONNECT_ERROR\")", "CUBEMEMBER basic");
+        AddTestCase(sheetData, row++, "CUBEMEMBER", "=IFERROR(CUBEMEMBER(F100, F102, \"Bikes Category\"), \"#CONNECT_ERROR\")", "CUBEMEMBER with caption");
+        AddTestCase(sheetData, row++, "CUBEMEMBER", "=IFERROR(CUBEMEMBER(F100, \"[Product].[All Products]\"), \"#CONNECT_ERROR\")", "CUBEMEMBER all products");
+        AddTestCase(sheetData, row++, "CUBEMEMBER", "=ISERROR(CUBEMEMBER(\"InvalidConn\", F102))", "CUBEMEMBER error validation");
+
+        // CUBEMEMBERPROPERTY tests - Return property value of member
+        AddTestCase(sheetData, row++, "CUBEMEMBERPROPERTY", "=IFERROR(CUBEMEMBERPROPERTY(F100, F102, \"MEMBER_CAPTION\"), \"#CONNECT_ERROR\")", "CUBEMEMBERPROPERTY caption");
+        AddTestCase(sheetData, row++, "CUBEMEMBERPROPERTY", "=IFERROR(CUBEMEMBERPROPERTY(F100, F102, \"MEMBER_UNIQUE_NAME\"), \"#CONNECT_ERROR\")", "CUBEMEMBERPROPERTY unique name");
+        AddTestCase(sheetData, row++, "CUBEMEMBERPROPERTY", "=IFERROR(CUBEMEMBERPROPERTY(F100, F102, \"LEVEL_NUMBER\"), \"#CONNECT_ERROR\")", "CUBEMEMBERPROPERTY level number");
+        AddTestCase(sheetData, row++, "CUBEMEMBERPROPERTY", "=ISERROR(CUBEMEMBERPROPERTY(\"InvalidConn\", F102, \"CAPTION\"))", "CUBEMEMBERPROPERTY error check");
+
+        // CUBERANKEDMEMBER tests - Return nth member in set
+        AddTestCase(sheetData, row++, "CUBERANKEDMEMBER", "=IFERROR(CUBERANKEDMEMBER(F100, \"[Product].[Product].Members\", 1), \"#CONNECT_ERROR\")", "CUBERANKEDMEMBER 1st member");
+        AddTestCase(sheetData, row++, "CUBERANKEDMEMBER", "=IFERROR(CUBERANKEDMEMBER(F100, \"[Product].[Product].Members\", 5, \"Top 5\"), \"#CONNECT_ERROR\")", "CUBERANKEDMEMBER with caption");
+        AddTestCase(sheetData, row++, "CUBERANKEDMEMBER", "=IFERROR(CUBERANKEDMEMBER(F100, \"[Date].[Calendar].Members\", 10), \"#CONNECT_ERROR\")", "CUBERANKEDMEMBER 10th member");
+        AddTestCase(sheetData, row++, "CUBERANKEDMEMBER", "=ISERROR(CUBERANKEDMEMBER(\"InvalidConn\", \"[Product].Members\", 1))", "CUBERANKEDMEMBER error check");
+
+        // CUBESET tests - Define calculated set of members
+        AddTestCase(sheetData, row++, "CUBESET", "=IFERROR(CUBESET(F100, \"[Product].[Category].Members\"), \"#CONNECT_ERROR\")", "CUBESET basic");
+        AddTestCase(sheetData, row++, "CUBESET", "=IFERROR(CUBESET(F100, \"[Product].[Category].Members\", \"All Categories\"), \"#CONNECT_ERROR\")", "CUBESET with caption");
+        AddTestCase(sheetData, row++, "CUBESET", "=IFERROR(CUBESET(F100, \"TopCount([Product].[Product].Members, 10)\", \"Top 10\", 1), \"#CONNECT_ERROR\")", "CUBESET sorted ascending");
+        AddTestCase(sheetData, row++, "CUBESET", "=IFERROR(CUBESET(F100, \"[Date].[Fiscal].Members\", \"Dates\", 2, \"[Measures].[Sales]\"), \"#CONNECT_ERROR\")", "CUBESET sorted descending");
+        AddTestCase(sheetData, row++, "CUBESET", "=ISERROR(CUBESET(\"InvalidConn\", \"[Product].Members\"))", "CUBESET error validation");
+
+        // CUBESETCOUNT tests - Return number of items in set
+        AddTextCell(sheetData, "G100", "#CONNECT_ERROR");
+        AddTestCase(sheetData, row++, "CUBESETCOUNT", "=IFERROR(CUBESETCOUNT(CUBESET(F100, \"[Product].[Category].Members\")), \"#CONNECT_ERROR\")", "CUBESETCOUNT basic");
+        AddTestCase(sheetData, row++, "CUBESETCOUNT", "=IF(G100=\"#CONNECT_ERROR\", \"#CONNECT_ERROR\", CUBESETCOUNT(G100))", "CUBESETCOUNT from cell reference");
+        AddTestCase(sheetData, row++, "CUBESETCOUNT", "=IFERROR(CUBESETCOUNT(CUBESET(F100, \"[Date].[Calendar].Members\")), \"#CONNECT_ERROR\")", "CUBESETCOUNT calendar");
+        AddTestCase(sheetData, row++, "CUBESETCOUNT", "=ISERROR(CUBESETCOUNT(\"InvalidSet\"))", "CUBESETCOUNT error check");
+
+        // CUBEKPIMEMBER tests - Return KPI property
+        AddTestCase(sheetData, row++, "CUBEKPIMEMBER", "=IFERROR(CUBEKPIMEMBER(F100, \"Sales Growth\", 1), \"#CONNECT_ERROR\")", "CUBEKPIMEMBER value");
+        AddTestCase(sheetData, row++, "CUBEKPIMEMBER", "=IFERROR(CUBEKPIMEMBER(F100, \"Sales Growth\", 2), \"#CONNECT_ERROR\")", "CUBEKPIMEMBER goal");
+        AddTestCase(sheetData, row++, "CUBEKPIMEMBER", "=IFERROR(CUBEKPIMEMBER(F100, \"Sales Growth\", 3), \"#CONNECT_ERROR\")", "CUBEKPIMEMBER status");
+        AddTestCase(sheetData, row++, "CUBEKPIMEMBER", "=IFERROR(CUBEKPIMEMBER(F100, \"Revenue KPI\", 4, \"Trend\"), \"#CONNECT_ERROR\")", "CUBEKPIMEMBER trend with caption");
+        AddTestCase(sheetData, row++, "CUBEKPIMEMBER", "=IFERROR(CUBEKPIMEMBER(F100, \"Profit Margin\", 5), \"#CONNECT_ERROR\")", "CUBEKPIMEMBER weight");
+        AddTestCase(sheetData, row++, "CUBEKPIMEMBER", "=ISERROR(CUBEKPIMEMBER(\"InvalidConn\", \"KPI\", 1))", "CUBEKPIMEMBER error check");
 
         SortCellsInRows(sheetData);
         worksheetPart.Worksheet.Save();

@@ -875,9 +875,9 @@ public class DatabaseFunctionTests
         var func = DGetFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBoolean(true), // database value
+            CellValue.FromBool(true), // database value
             CellValue.FromString("IsActive"),
-            CellValue.FromBoolean(true), // criteria
+            CellValue.FromBool(true), // criteria
         };
 
         var result = func.Execute(null!, args);

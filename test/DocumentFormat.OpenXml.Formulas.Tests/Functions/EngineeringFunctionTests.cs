@@ -645,7 +645,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("3+4i", result.StringValue);
     }
 
@@ -751,7 +751,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("3-4i", result.StringValue);
     }
 
@@ -767,7 +767,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("4+6i", result.StringValue);
     }
 
@@ -783,7 +783,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("3+4i", result.StringValue);
     }
 
@@ -799,7 +799,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("-7+22i", result.StringValue);
     }
 
@@ -815,7 +815,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("i", result.StringValue);
     }
 
@@ -847,7 +847,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("2i", result.StringValue);
     }
 
@@ -862,7 +862,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("i", result.StringValue);
     }
 
@@ -877,7 +877,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("1", result.StringValue);
     }
 
@@ -892,7 +892,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Contains("1.5707963267948966i", result.StringValue);
     }
 
@@ -907,7 +907,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("0", result.StringValue);
     }
 
@@ -922,7 +922,7 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("1", result.StringValue);
     }
 

@@ -655,7 +655,7 @@ public class AdvancedMathFunctionTests
         var result = func.Execute(null!, args);
 
         Assert.Equal(CellValueType.Number, result.Type);
-        Assert.Equal(Math.Sqrt(Math.PI), result.NumericValue, 10); // sqrt(1*pi)
+        Assert.Equal(System.Math.Sqrt(System.Math.PI), result.NumericValue, 10); // sqrt(1*pi)
     }
 
     [Fact]
@@ -670,7 +670,7 @@ public class AdvancedMathFunctionTests
         var result = func.Execute(null!, args);
 
         Assert.Equal(CellValueType.Number, result.Type);
-        Assert.Equal(Math.Sqrt(2 * Math.PI), result.NumericValue, 10); // sqrt(2*pi)
+        Assert.Equal(System.Math.Sqrt(2 * System.Math.PI), result.NumericValue, 10); // sqrt(2*pi)
     }
 
     [Fact]
@@ -700,7 +700,7 @@ public class AdvancedMathFunctionTests
         var result = func.Execute(null!, args);
 
         Assert.Equal(CellValueType.Number, result.Type);
-        Assert.Equal(Math.Sqrt(3.5 * Math.PI), result.NumericValue, 10);
+        Assert.Equal(System.Math.Sqrt(3.5 * System.Math.PI), result.NumericValue, 10);
     }
 
     [Fact]

@@ -471,7 +471,7 @@ public class ModernLookupFunctionTests
     public void Hyperlink_NoArguments_ReturnsError()
     {
         var func = HyperlinkFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = System.Array.Empty<CellValue>();
 
         var result = func.Execute(null!, args);
 
@@ -487,7 +487,7 @@ public class ModernLookupFunctionTests
     public void Sheet_NoArguments_ReturnsDefaultSheetNumber()
     {
         var func = SheetFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = System.Array.Empty<CellValue>();
 
         var result = func.Execute(null!, args);
 
@@ -533,7 +533,7 @@ public class ModernLookupFunctionTests
     public void Sheets_NoArguments_ReturnsDefaultCount()
     {
         var func = SheetsFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = System.Array.Empty<CellValue>();
 
         var result = func.Execute(null!, args);
 
@@ -609,7 +609,7 @@ public class ModernLookupFunctionTests
     public void IsFormula_NoArguments_ReturnsError()
     {
         var func = IsFormulaFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = System.Array.Empty<CellValue>();
 
         var result = func.Execute(null!, args);
 
@@ -655,7 +655,7 @@ public class ModernLookupFunctionTests
     public void FormulaText_NoArguments_ReturnsError()
     {
         var func = FormulaTextFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = System.Array.Empty<CellValue>();
 
         var result = func.Execute(null!, args);
 

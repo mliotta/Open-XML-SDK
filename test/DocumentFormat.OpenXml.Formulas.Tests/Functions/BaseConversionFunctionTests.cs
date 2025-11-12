@@ -24,7 +24,7 @@ public class BaseConversionFunctionTests
             CellValue.FromNumber(2),
         });
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("1010", result.StringValue);
     }
 
@@ -327,7 +327,7 @@ public class BaseConversionFunctionTests
             CellValue.FromNumber(4),
         });
 
-        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal(CellValueType.Text, result.Type);
         Assert.Equal("IV", result.StringValue);
     }
 

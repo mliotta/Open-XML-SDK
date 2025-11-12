@@ -352,11 +352,11 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty(),
-            CellValue.Empty(),
+            CellValue.Empty,
+            CellValue.Empty,
             CellValue.FromNumber(10),
             CellValue.FromNumber(20),
-            CellValue.Empty(),
+            CellValue.Empty,
         };
 
         var result = func.Execute(null!, args);
@@ -371,9 +371,9 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty(),
-            CellValue.Empty(),
-            CellValue.Empty(),
+            CellValue.Empty,
+            CellValue.Empty,
+            CellValue.Empty,
         };
 
         var result = func.Execute(null!, args);
@@ -387,7 +387,7 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty(),
+            CellValue.Empty,
             CellValue.FromString("Hello"),
             CellValue.FromString("World"),
         };
@@ -405,8 +405,8 @@ public class GroupByAndPivotFunctionTests
         var args = new[]
         {
             CellValue.FromNumber(42),
-            CellValue.Empty(),
-            CellValue.Empty(),
+            CellValue.Empty,
+            CellValue.Empty,
         };
 
         var result = func.Execute(null!, args);
@@ -420,7 +420,7 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty(),
+            CellValue.Empty,
             CellValue.FromNumber(10),
             CellValue.FromNumber(20),
             CellValue.FromNumber(0), // rows_to_trim
@@ -436,7 +436,7 @@ public class GroupByAndPivotFunctionTests
     public void TrimRange_NoArguments_ReturnsError()
     {
         var func = TrimRangeFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = System.Array.Empty<CellValue>();
 
         var result = func.Execute(null!, args);
 
@@ -450,7 +450,7 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty(),
+            CellValue.Empty,
             CellValue.Error("#N/A"),
             CellValue.FromNumber(10),
         };
@@ -514,7 +514,7 @@ public class GroupByAndPivotFunctionTests
     public void AnchorArray_NoArguments_ReturnsError()
     {
         var func = AnchorArrayFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = System.Array.Empty<CellValue>();
 
         var result = func.Execute(null!, args);
 
