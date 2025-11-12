@@ -20,7 +20,7 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (76)
+        // Math (77)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
@@ -94,6 +94,7 @@ public static class FunctionRegistry
         { "DECIMAL", DecimalFunction.Instance },
         { "ARABIC", ArabicFunction.Instance },
         { "ROMAN", RomanFunction.Instance },
+        { "SQRTPI", SqrtPiFunction.Instance },
 
         // Logical (10)
         { "TRUE", TrueFunction.Instance },

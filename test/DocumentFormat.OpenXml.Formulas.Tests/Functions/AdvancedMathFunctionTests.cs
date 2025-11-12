@@ -640,4 +640,141 @@ public class AdvancedMathFunctionTests
     }
 
     #endregion
+
+    #region SQRTPI Tests
+
+    [Fact]
+    public void SqrtPi_StandardCase_ReturnsCorrectValue()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(Math.Sqrt(Math.PI), result.NumericValue, 10); // sqrt(1*pi)
+    }
+
+    [Fact]
+    public void SqrtPi_WithTwo_ReturnsCorrectValue()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(Math.Sqrt(2 * Math.PI), result.NumericValue, 10); // sqrt(2*pi)
+    }
+
+    [Fact]
+    public void SqrtPi_WithZero_ReturnsZero()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void SqrtPi_WithDecimal_ReturnsCorrectValue()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(3.5),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(Math.Sqrt(3.5 * Math.PI), result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void SqrtPi_NegativeNumber_ReturnsNumError()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(-1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void SqrtPi_NoArguments_ReturnsValueError()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = Array.Empty<CellValue>();
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void SqrtPi_TooManyArguments_ReturnsValueError()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1),
+            CellValue.FromNumber(2),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void SqrtPi_NonNumericArgument_ReturnsValueError()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("text"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void SqrtPi_ErrorValue_PropagatesError()
+    {
+        var func = SqrtPiFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#DIV/0!"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    #endregion
 }
