@@ -745,4 +745,288 @@ internal static class StatisticalHelper
         double z = NormSInv(p);
         return System.Math.Exp(mean + stdDev * z);
     }
+
+    /// <summary>
+    /// Calculates the binomial coefficient C(n,k) = n! / (k! * (n-k)!).
+    /// </summary>
+    public static double BinomialCoefficient(int n, int k)
+    {
+        if (k < 0 || k > n)
+        {
+            return 0;
+        }
+
+        if (k == 0 || k == n)
+        {
+            return 1;
+        }
+
+        // Use symmetry property
+        if (k > n - k)
+        {
+            k = n - k;
+        }
+
+        // Calculate using logarithms to avoid overflow
+        double result = 0;
+        for (int i = 0; i < k; i++)
+        {
+            result += System.Math.Log(n - i) - System.Math.Log(i + 1);
+        }
+
+        return System.Math.Exp(result);
+    }
+
+    /// <summary>
+    /// Calculates the binomial probability mass function.
+    /// </summary>
+    public static double BinomialPMF(int k, int n, double p)
+    {
+        if (k < 0 || k > n || p < 0 || p > 1)
+        {
+            return 0;
+        }
+
+        if (p == 0)
+        {
+            return k == 0 ? 1.0 : 0.0;
+        }
+
+        if (p == 1)
+        {
+            return k == n ? 1.0 : 0.0;
+        }
+
+        // Use logarithms for numerical stability
+        double logProb = System.Math.Log(BinomialCoefficient(n, k)) +
+                         k * System.Math.Log(p) +
+                         (n - k) * System.Math.Log(1 - p);
+
+        return System.Math.Exp(logProb);
+    }
+
+    /// <summary>
+    /// Calculates the binomial cumulative distribution function.
+    /// </summary>
+    public static double BinomialCDF(int k, int n, double p)
+    {
+        if (k < 0)
+        {
+            return 0;
+        }
+
+        if (k >= n)
+        {
+            return 1;
+        }
+
+        if (p == 0)
+        {
+            return 1.0;
+        }
+
+        if (p == 1)
+        {
+            return k >= n ? 1.0 : 0.0;
+        }
+
+        // Sum probabilities from 0 to k
+        double sum = 0;
+        for (int i = 0; i <= k; i++)
+        {
+            sum += BinomialPMF(i, n, p);
+        }
+
+        return sum;
+    }
+
+    /// <summary>
+    /// Calculates the Poisson probability mass function.
+    /// </summary>
+    public static double PoissonPMF(int k, double lambda)
+    {
+        if (k < 0 || lambda <= 0)
+        {
+            return 0;
+        }
+
+        // Use logarithms for numerical stability
+        double logProb = k * System.Math.Log(lambda) - lambda - LogGamma(k + 1);
+        return System.Math.Exp(logProb);
+    }
+
+    /// <summary>
+    /// Calculates the Poisson cumulative distribution function.
+    /// </summary>
+    public static double PoissonCDF(int k, double lambda)
+    {
+        if (k < 0)
+        {
+            return 0;
+        }
+
+        if (lambda <= 0)
+        {
+            throw new System.ArgumentException("Lambda must be positive");
+        }
+
+        // Sum probabilities from 0 to k
+        double sum = 0;
+        for (int i = 0; i <= k; i++)
+        {
+            sum += PoissonPMF(i, lambda);
+        }
+
+        return sum;
+    }
+
+    /// <summary>
+    /// Calculates the exponential probability density function.
+    /// </summary>
+    public static double ExponentialPDF(double x, double lambda)
+    {
+        if (x < 0 || lambda <= 0)
+        {
+            return 0;
+        }
+
+        return lambda * System.Math.Exp(-lambda * x);
+    }
+
+    /// <summary>
+    /// Calculates the exponential cumulative distribution function.
+    /// </summary>
+    public static double ExponentialCDF(double x, double lambda)
+    {
+        if (x < 0)
+        {
+            return 0;
+        }
+
+        if (lambda <= 0)
+        {
+            throw new System.ArgumentException("Lambda must be positive");
+        }
+
+        return 1.0 - System.Math.Exp(-lambda * x);
+    }
+
+    /// <summary>
+    /// Calculates the Weibull probability density function.
+    /// </summary>
+    public static double WeibullPDF(double x, double alpha, double beta)
+    {
+        if (x < 0 || alpha <= 0 || beta <= 0)
+        {
+            return 0;
+        }
+
+        double xOverBeta = x / beta;
+        return (alpha / beta) * System.Math.Pow(xOverBeta, alpha - 1) *
+               System.Math.Exp(-System.Math.Pow(xOverBeta, alpha));
+    }
+
+    /// <summary>
+    /// Calculates the Weibull cumulative distribution function.
+    /// </summary>
+    public static double WeibullCDF(double x, double alpha, double beta)
+    {
+        if (x < 0)
+        {
+            return 0;
+        }
+
+        if (alpha <= 0 || beta <= 0)
+        {
+            throw new System.ArgumentException("Alpha and beta must be positive");
+        }
+
+        return 1.0 - System.Math.Exp(-System.Math.Pow(x / beta, alpha));
+    }
+
+    /// <summary>
+    /// Calculates the gamma probability density function.
+    /// </summary>
+    public static double GammaPDF(double x, double alpha, double beta)
+    {
+        if (x < 0 || alpha <= 0 || beta <= 0)
+        {
+            return 0;
+        }
+
+        if (x == 0)
+        {
+            if (alpha < 1)
+                return double.PositiveInfinity;
+            else if (alpha == 1)
+                return 1.0 / beta;
+            else
+                return 0;
+        }
+
+        double logProb = (alpha - 1) * System.Math.Log(x) - x / beta -
+                         alpha * System.Math.Log(beta) - LogGamma(alpha);
+
+        return System.Math.Exp(logProb);
+    }
+
+    /// <summary>
+    /// Calculates the gamma cumulative distribution function.
+    /// </summary>
+    public static double GammaDistCDF(double x, double alpha, double beta)
+    {
+        if (x < 0)
+        {
+            return 0;
+        }
+
+        if (alpha <= 0 || beta <= 0)
+        {
+            throw new System.ArgumentException("Alpha and beta must be positive");
+        }
+
+        return GammaCDF(x / beta, alpha);
+    }
+
+    /// <summary>
+    /// Calculates the inverse of the gamma distribution using Newton-Raphson method.
+    /// </summary>
+    public static double GammaInv(double p, double alpha, double beta)
+    {
+        if (p < 0.0 || p > 1.0)
+        {
+            throw new System.ArgumentException("Probability must be between 0 and 1");
+        }
+
+        if (alpha <= 0 || beta <= 0)
+        {
+            throw new System.ArgumentException("Alpha and beta must be positive");
+        }
+
+        if (p == 0.0) return 0.0;
+        if (p == 1.0) return double.PositiveInfinity;
+
+        // Initial guess
+        double x = alpha * beta;
+
+        // Newton-Raphson iteration
+        for (int i = 0; i < 20; i++)
+        {
+            double cdf = GammaDistCDF(x, alpha, beta);
+            double pdf = GammaPDF(x, alpha, beta);
+
+            if (System.Math.Abs(pdf) < 1e-20)
+                break;
+
+            double delta = (cdf - p) / pdf;
+            x -= delta;
+
+            if (x < 0) x = 0.0001;
+
+            if (System.Math.Abs(delta) < 1e-8)
+                break;
+        }
+
+        return x;
+    }
 }
