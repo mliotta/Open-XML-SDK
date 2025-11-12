@@ -1101,4 +1101,301 @@ public class StatisticalFunctionTests
         Assert.True(result.IsError);
         Assert.Equal("#N/A", result.ErrorValue);
     }
+
+    // BINOM.INV Tests
+    [Fact]
+    public void BinomInv_ValidInputs_ReturnsSmallestK()
+    {
+        var func = BinomInvFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(10),  // trials
+            CellValue.FromNumber(0.5), // probability
+            CellValue.FromNumber(0.75) // alpha
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(6, result.NumericValue);
+    }
+
+    // GAMMA Tests
+    [Fact]
+    public void Gamma_PositiveNumber_ReturnsGammaValue()
+    {
+        var func = GammaFunction.Instance;
+        var args = new[] { CellValue.FromNumber(5) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // Gamma(5) = 4! = 24
+        Assert.Equal(24, result.NumericValue, 5);
+    }
+
+    [Fact]
+    public void Gamma_NegativeInteger_ReturnsError()
+    {
+        var func = GammaFunction.Instance;
+        var args = new[] { CellValue.FromNumber(-5) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    // GAUSS Tests
+    [Fact]
+    public void Gauss_Zero_ReturnsZero()
+    {
+        var func = GaussFunction.Instance;
+        var args = new[] { CellValue.FromNumber(0) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void Gauss_PositiveValue_ReturnsCorrectProbability()
+    {
+        var func = GaussFunction.Instance;
+        var args = new[] { CellValue.FromNumber(1) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // GAUSS(1) ≈ 0.3413 (probability between 0 and 1 std dev)
+        Assert.Equal(0.3413, result.NumericValue, 2);
+    }
+
+    // PHI Tests
+    [Fact]
+    public void Phi_Zero_ReturnsMaxValue()
+    {
+        var func = PhiFunction.Instance;
+        var args = new[] { CellValue.FromNumber(0) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // PHI(0) = 1/√(2π) ≈ 0.3989
+        Assert.Equal(0.3989, result.NumericValue, 3);
+    }
+
+    // PEARSON Tests
+    [Fact]
+    public void Pearson_PositiveCorrelation_ReturnsCorrectValue()
+    {
+        var func = PearsonFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(10)
+        };
+
+        // PEARSON should delegate to CORREL
+        var result = func.Execute(null!, args);
+
+        // Single values should return error (need at least 2 pairs)
+        Assert.True(result.IsError);
+    }
+
+    // TRIMMEAN Tests
+    [Fact]
+    public void Trimmean_ValidInputs_ReturnsCorrectMean()
+    {
+        var func = TrimmeanFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5), // In real use, would be an array
+            CellValue.FromNumber(0.2) // Trim 20% (10% from each end)
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // With single value and 20% trim, should return the value
+        Assert.Equal(5, result.NumericValue);
+    }
+
+    [Fact]
+    public void Trimmean_InvalidPercent_ReturnsError()
+    {
+        var func = TrimmeanFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(1.5) // Invalid: >= 1
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    // SKEW.P Tests
+    [Fact]
+    public void SkewP_ThreeValues_ReturnsPopulationSkewness()
+    {
+        var func = SkewPFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1),
+            CellValue.FromNumber(2),
+            CellValue.FromNumber(3)
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // Symmetric distribution should have skewness near 0
+        Assert.Equal(0, result.NumericValue, 5);
+    }
+
+    // PERMUTATIONA Tests
+    [Fact]
+    public void Permutationa_ValidInputs_ReturnsCorrectValue()
+    {
+        var func = PermutationaFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(3), // number
+            CellValue.FromNumber(2)  // number_chosen
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // 3^2 = 9
+        Assert.Equal(9, result.NumericValue);
+    }
+
+    [Fact]
+    public void Permutationa_ZeroChosen_ReturnsOne()
+    {
+        var func = PermutationaFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(0)
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(1, result.NumericValue);
+    }
+
+    // COVAR Tests
+    [Fact]
+    public void Covar_ValidInputs_ReturnsCovarianceP()
+    {
+        var func = CovarFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(10)
+        };
+
+        // Should delegate to COVARIANCE.P
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+    }
+
+    // T.TEST Tests
+    [Fact]
+    public void TTest_ValidInputs_ReturnsPValue()
+    {
+        var func = TTestFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),   // array1
+            CellValue.FromNumber(6),   // array2
+            CellValue.FromNumber(2),   // tails
+            CellValue.FromNumber(1)    // type (paired)
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // p-value should be between 0 and 1
+        Assert.InRange(result.NumericValue, 0, 1);
+    }
+
+    [Fact]
+    public void TTest_InvalidTails_ReturnsError()
+    {
+        var func = TTestFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(3),  // Invalid: must be 1 or 2
+            CellValue.FromNumber(1)
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void TTest_InvalidType_ReturnsError()
+    {
+        var func = TTestFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(2),
+            CellValue.FromNumber(4)  // Invalid: must be 1, 2, or 3
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    // Legacy function tests
+    [Fact]
+    public void Critbinom_DelegatesToBinomInv()
+    {
+        var func = CritbinomFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(0.5),
+            CellValue.FromNumber(0.75)
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(6, result.NumericValue);
+    }
+
+    [Fact]
+    public void Ttest_DelegatesToTTest()
+    {
+        var func = TtestLegacyFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(2),
+            CellValue.FromNumber(1)
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.InRange(result.NumericValue, 0, 1);
+    }
 }

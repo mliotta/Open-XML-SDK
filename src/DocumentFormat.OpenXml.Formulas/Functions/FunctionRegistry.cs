@@ -20,7 +20,7 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (77)
+        // Math (88)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
@@ -95,6 +95,17 @@ public static class FunctionRegistry
         { "ARABIC", ArabicFunction.Instance },
         { "ROMAN", RomanFunction.Instance },
         { "SQRTPI", SqrtPiFunction.Instance },
+        { "CEILING.MATH", CeilingMathFunction.Instance },
+        { "CEILING.PRECISE", CeilingPreciseFunction.Instance },
+        { "FLOOR.MATH", FloorMathFunction.Instance },
+        { "FLOOR.PRECISE", FloorPreciseFunction.Instance },
+        { "ISO.CEILING", IsoCeilingFunction.Instance },
+        { "COMBINA", CombinaFunction.Instance },
+        { "FACTDOUBLE", FactDoubleFunction.Instance },
+        { "MDETERM", MDetermFunction.Instance },
+        { "MINVERSE", MInverseFunction.Instance },
+        { "MMULT", MMultFunction.Instance },
+        { "MUNIT", MUnitFunction.Instance },
 
         // Logical (10)
         { "TRUE", TrueFunction.Instance },
@@ -153,9 +164,10 @@ public static class FunctionRegistry
         { "SEARCHB", SearchBFunction.Instance },
         { "REPLACEB", ReplaceBFunction.Instance },
 
-        // Lookup (19)
+        // Lookup (24)
         { "VLOOKUP", VLookupFunction.Instance },
         { "HLOOKUP", HLookupFunction.Instance },
+        { "LOOKUP", LookupFunction.Instance },
         { "INDEX", IndexFunction.Instance },
         { "MATCH", MatchFunction.Instance },
         { "XLOOKUP", XLookupFunction.Instance },
@@ -173,6 +185,10 @@ public static class FunctionRegistry
         { "SHEETS", SheetsFunction.Instance },
         { "GETPIVOTDATA", GetPivotDataFunction.Instance },
         { "HYPERLINK", HyperlinkFunction.Instance },
+        { "GROUPBY", GroupByFunction.Instance },
+        { "PIVOTBY", PivotByFunction.Instance },
+        { "TRIMRANGE", TrimRangeFunction.Instance },
+        { "ANCHORARRAY", AnchorArrayFunction.Instance },
 
         // Array (17)
         { "TRANSPOSE", TransposeFunction.Instance },
@@ -225,7 +241,7 @@ public static class FunctionRegistry
         { "YEARFRAC", YearfracFunction.Instance },
         { "DATEDIF", DatedifFunction.Instance },
 
-        // Statistical (99)
+        // Statistical (108)
         { "MEDIAN", MedianFunction.Instance },
         { "MODE", ModeFunction.Instance },
         { "MODE.SNGL", ModeSnglFunction.Instance },
@@ -331,8 +347,17 @@ public static class FunctionRegistry
         { "ZTEST", ZTestLegacyFunction.Instance },
         { "PROB", ProbFunction.Instance },
         { "F.TEST", FTestFunction.Instance },
+        { "BINOM.INV", BinomInvFunction.Instance },
+        { "GAMMA", GammaFunction.Instance },
+        { "GAUSS", GaussFunction.Instance },
+        { "PHI", PhiFunction.Instance },
+        { "PEARSON", PearsonFunction.Instance },
+        { "TRIMMEAN", TrimmeanFunction.Instance },
+        { "SKEW.P", SkewPFunction.Instance },
+        { "PERMUTATIONA", PermutationaFunction.Instance },
+        { "T.TEST", TTestFunction.Instance },
 
-        // Legacy Compatibility Functions (21)
+        // Legacy Compatibility Functions (24)
         { "BETADIST", BetaDistLegacyFunction.Instance },
         { "BETAINV", BetaInvLegacyFunction.Instance },
         { "BINOMDIST", BinomDistLegacyFunction.Instance },
@@ -354,6 +379,10 @@ public static class FunctionRegistry
         { "POISSON", PoissonDistLegacyFunction.Instance },
         { "WEIBULL", WeibullDistLegacyFunction.Instance },
         { "EXPONDIST", ExponDistLegacyFunction.Instance },
+        { "CRITBINOM", CritbinomFunction.Instance },
+        { "COVAR", CovarFunction.Instance },
+        { "NEGBINOMDIST", NegbinomdistLegacyFunction.Instance },
+        { "TTEST", TtestLegacyFunction.Instance },
 
         // Cube Functions (7)
         { "CUBEVALUE", CubeValueFunction.Instance },
@@ -386,7 +415,7 @@ public static class FunctionRegistry
         { "INFO", InfoFunction.Instance },
         { "AREAS", AreasFunction.Instance },
 
-        // Financial (52)
+        // Financial (55)
         { "PMT", PmtFunction.Instance },
         { "FV", FvFunction.Instance },
         { "PV", PvFunction.Instance },
@@ -395,7 +424,10 @@ public static class FunctionRegistry
         { "NPV", NpvFunction.Instance },
         { "IRR", IrrFunction.Instance },
         { "IPMT", IpmtFunction.Instance },
+        { "ISPMT", IsPmtFunction.Instance },
         { "PPMT", PpmtFunction.Instance },
+        { "PDURATION", PdurationFunction.Instance },
+        { "RRI", RriFunction.Instance },
         { "SLN", SlnFunction.Instance },
         { "DB", DbFunction.Instance },
         { "DDB", DdbFunction.Instance },
@@ -454,7 +486,7 @@ public static class FunctionRegistry
         { "DVAR", DVarFunction.Instance },
         { "DVARP", DVarPFunction.Instance },
 
-        // Engineering (50)
+        // Engineering (52)
         { "CONVERT", ConvertFunction.Instance },
         { "HEX2DEC", Hex2DecFunction.Instance },
         { "DEC2HEX", Dec2HexFunction.Instance },
@@ -492,6 +524,8 @@ public static class FunctionRegistry
         { "IMCOT", ImCotFunction.Instance },
         { "IMSINH", ImSinhFunction.Instance },
         { "IMCOSH", ImCoshFunction.Instance },
+        { "IMCSCH", ImCschFunction.Instance },
+        { "IMSECH", ImSechFunction.Instance },
         { "BITAND", BitAndFunction.Instance },
         { "BITOR", BitOrFunction.Instance },
         { "BITXOR", BitXorFunction.Instance },

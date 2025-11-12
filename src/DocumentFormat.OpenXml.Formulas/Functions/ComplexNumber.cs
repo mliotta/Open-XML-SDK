@@ -379,4 +379,20 @@ internal sealed class ComplexNumber
         var imag = System.Math.Sinh(z.Real) * System.Math.Sin(z.Imaginary);
         return new ComplexNumber(real, imag);
     }
+
+    /// <summary>
+    /// Returns the hyperbolic secant of a complex number.
+    /// </summary>
+    public static ComplexNumber Sech(ComplexNumber z)
+    {
+        return Divide(new ComplexNumber(1, 0), Cosh(z));
+    }
+
+    /// <summary>
+    /// Returns the hyperbolic cosecant of a complex number.
+    /// </summary>
+    public static ComplexNumber Csch(ComplexNumber z)
+    {
+        return Divide(new ComplexNumber(1, 0), Sinh(z));
+    }
 }
