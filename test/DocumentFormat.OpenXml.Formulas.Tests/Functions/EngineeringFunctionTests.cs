@@ -630,4 +630,481 @@ public class EngineeringFunctionTests
     }
 
     #endregion
+
+    #region Complex Number Tests
+
+    [Fact]
+    public void Complex_BasicCreation_ReturnsComplexNumber()
+    {
+        var func = ComplexFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(3),
+            CellValue.FromNumber(4),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("3+4i", result.StringValue);
+    }
+
+    [Fact]
+    public void Complex_WithJSuffix_ReturnsComplexNumberWithJ()
+    {
+        var func = ComplexFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(3),
+            CellValue.FromNumber(4),
+            CellValue.FromString("j"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("3+4j", result.StringValue);
+    }
+
+    [Fact]
+    public void Complex_NegativeImaginary_ReturnsCorrectFormat()
+    {
+        var func = ComplexFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(3),
+            CellValue.FromNumber(-4),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("3-4i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImReal_ReturnsRealPart()
+    {
+        var func = ImRealFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("3+4i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(3.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Imaginary_ReturnsImaginaryPart()
+    {
+        var func = ImaginaryFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("3+4i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(4.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ImAbs_ReturnsModulus()
+    {
+        var func = ImAbsFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("3+4i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(5.0, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void ImArgument_ReturnsAngle()
+    {
+        var func = ImArgumentFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("1+i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0.7853981633974483, result.NumericValue, 10);
+    }
+
+    [Fact]
+    public void ImConjugate_ReturnsConjugate()
+    {
+        var func = ImConjugateFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("3+4i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("3-4i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImSum_AddsComplexNumbers()
+    {
+        var func = ImSumFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("3+4i"),
+            CellValue.FromString("1+2i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("4+6i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImSub_SubtractsComplexNumbers()
+    {
+        var func = ImSubFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("5+7i"),
+            CellValue.FromString("2+3i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("3+4i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImProduct_MultipliesComplexNumbers()
+    {
+        var func = ImProductFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("2+3i"),
+            CellValue.FromString("4+5i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("-7+22i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImDiv_DividesComplexNumbers()
+    {
+        var func = ImDivFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("1+i"),
+            CellValue.FromString("1-i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImDiv_DivisionByZero_ReturnsError()
+    {
+        var func = ImDivFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("1+i"),
+            CellValue.FromString("0+0i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void ImPower_RaisesToPower()
+    {
+        var func = ImPowerFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("1+i"),
+            CellValue.FromNumber(2),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("2i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImSqrt_ReturnsSquareRoot()
+    {
+        var func = ImSqrtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("-1+0i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImExp_ReturnsExponential()
+    {
+        var func = ImExpFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("0+0i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("1", result.StringValue);
+    }
+
+    [Fact]
+    public void ImLn_ReturnsNaturalLog()
+    {
+        var func = ImLnFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Contains("1.5707963267948966i", result.StringValue);
+    }
+
+    [Fact]
+    public void ImSin_ReturnsSine()
+    {
+        var func = ImSinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("0+0i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("0", result.StringValue);
+    }
+
+    [Fact]
+    public void ImCos_ReturnsCosine()
+    {
+        var func = ImCosFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("0+0i"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.String, result.Type);
+        Assert.Equal("1", result.StringValue);
+    }
+
+    [Fact]
+    public void Complex_InvalidSuffix_ReturnsError()
+    {
+        var func = ComplexFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(3),
+            CellValue.FromNumber(4),
+            CellValue.FromString("k"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void ImReal_InvalidComplexNumber_ReturnsError()
+    {
+        var func = ImRealFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("not a complex number"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region Bitwise Operation Tests
+
+    [Fact]
+    public void BitAnd_BasicOperation_ReturnsResult()
+    {
+        var func = BitAndFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(3),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void BitOr_BasicOperation_ReturnsResult()
+    {
+        var func = BitOrFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(3),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(7.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void BitXor_BasicOperation_ReturnsResult()
+    {
+        var func = BitXorFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(3),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(6.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void BitLShift_BasicOperation_ReturnsResult()
+    {
+        var func = BitLShiftFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(2),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(20.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void BitRShift_BasicOperation_ReturnsResult()
+    {
+        var func = BitRShiftFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(20),
+            CellValue.FromNumber(2),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(5.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void BitAnd_NegativeNumber_ReturnsError()
+    {
+        var func = BitAndFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(-5),
+            CellValue.FromNumber(3),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void BitOr_TooLargeNumber_ReturnsError()
+    {
+        var func = BitOrFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(281474976710656),
+            CellValue.FromNumber(1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void BitLShift_NegativeShift_ShiftsRight()
+    {
+        var func = BitLShiftFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(20),
+            CellValue.FromNumber(-2),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(5.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void BitXor_SameNumber_ReturnsZero()
+    {
+        var func = BitXorFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(42),
+            CellValue.FromNumber(42),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    #endregion
 }

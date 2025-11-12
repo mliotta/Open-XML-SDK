@@ -171,12 +171,29 @@ public static class FunctionRegistry
         { "GETPIVOTDATA", GetPivotDataFunction.Instance },
         { "HYPERLINK", HyperlinkFunction.Instance },
 
-        // Array (5)
+        // Array (17)
         { "TRANSPOSE", TransposeFunction.Instance },
         { "SORT", SortFunction.Instance },
+        { "SORTBY", SortByFunction.Instance },
         { "FILTER", FilterFunction.Instance },
         { "UNIQUE", UniqueFunction.Instance },
         { "SEQUENCE", SequenceFunction.Instance },
+        { "TAKE", TakeFunction.Instance },
+        { "DROP", DropFunction.Instance },
+        { "CHOOSECOLS", ChooseColsFunction.Instance },
+        { "CHOOSEROWS", ChooseRowsFunction.Instance },
+        { "EXPAND", ExpandFunction.Instance },
+        { "WRAPCOLS", WrapColsFunction.Instance },
+        { "WRAPROWS", WrapRowsFunction.Instance },
+        { "TOCOL", ToColFunction.Instance },
+        { "TOROW", ToRowFunction.Instance },
+        { "VSTACK", VStackFunction.Instance },
+        { "HSTACK", HStackFunction.Instance },
+
+        // Web (3)
+        { "ENCODEURL", EncodeUrlFunction.Instance },
+        { "WEBSERVICE", WebServiceFunction.Instance },
+        { "FILTERXML", FilterXmlFunction.Instance },
 
         // Date/Time (25)
         { "TODAY", TodayFunction.Instance },
@@ -205,11 +222,17 @@ public static class FunctionRegistry
         { "YEARFRAC", YearfracFunction.Instance },
         { "DATEDIF", DatedifFunction.Instance },
 
-        // Statistical (44)
+        // Statistical (58)
         { "MEDIAN", MedianFunction.Instance },
         { "MODE", ModeFunction.Instance },
+        { "MODE.SNGL", ModeSnglFunction.Instance },
+        { "MODE.MULT", ModeMultFunction.Instance },
         { "STDEV", StDevFunction.Instance },
+        { "STDEV.S", StDevSFunction.Instance },
+        { "STDEV.P", StDevPFunction2.Instance },
         { "VAR", VarFunction.Instance },
+        { "VAR.S", VarSFunction.Instance },
+        { "VAR.P", VarPFunction2.Instance },
         { "RANK", RankFunction.Instance },
         { "AVERAGEIF", AverageIfFunction.Instance },
         { "AVERAGEIFS", AverageIfsFunction.Instance },
@@ -248,8 +271,15 @@ public static class FunctionRegistry
         { "VARPA", VarPAFunction.Instance },
         { "SUBTOTAL", SubtotalFunction.Instance },
         { "AGGREGATE", AggregateFunction.Instance },
+        { "NORM.DIST", NormDistFunction.Instance },
+        { "NORM.INV", NormInvFunction.Instance },
+        { "NORM.S.DIST", NormSDistFunction.Instance },
+        { "NORM.S.INV", NormSInvFunction.Instance },
+        { "CONFIDENCE", ConfidenceFunction.Instance },
+        { "CONFIDENCE.NORM", ConfidenceNormFunction.Instance },
+        { "CONFIDENCE.T", ConfidenceTFunction.Instance },
 
-        // Information (18)
+        // Information (20)
         { "ISNUMBER", IsNumberFunction.Instance },
         { "ISTEXT", IsTextFunction.Instance },
         { "IFERROR", IFErrorFunction.Instance },
@@ -266,10 +296,12 @@ public static class FunctionRegistry
         { "TYPE", TypeFunction.Instance },
         { "ERROR.TYPE", ErrorTypeFunction.Instance },
         { "N", NFunction.Instance },
+        { "NA", NaFunction.Instance },
         { "CELL", CellFunction.Instance },
         { "INFO", InfoFunction.Instance },
+        { "AREAS", AreasFunction.Instance },
 
-        // Financial (13)
+        // Financial (21)
         { "PMT", PmtFunction.Instance },
         { "FV", FvFunction.Instance },
         { "PV", PvFunction.Instance },
@@ -283,6 +315,14 @@ public static class FunctionRegistry
         { "DB", DbFunction.Instance },
         { "DDB", DdbFunction.Instance },
         { "SYD", SydFunction.Instance },
+        { "XNPV", XnpvFunction.Instance },
+        { "XIRR", XirrFunction.Instance },
+        { "MIRR", MirrFunction.Instance },
+        { "FVSCHEDULE", FvscheduleFunction.Instance },
+        { "CUMIPMT", CumipmtFunction.Instance },
+        { "CUMPRINC", CumprincFunction.Instance },
+        { "EFFECT", EffectFunction.Instance },
+        { "NOMINAL", NominalFunction.Instance },
 
         // Database (6)
         { "DSUM", DSumFunction.Instance },
@@ -292,7 +332,7 @@ public static class FunctionRegistry
         { "DMAX", DMaxFunction.Instance },
         { "DMIN", DMinFunction.Instance },
 
-        // Engineering (7)
+        // Engineering (32)
         { "CONVERT", ConvertFunction.Instance },
         { "HEX2DEC", Hex2DecFunction.Instance },
         { "DEC2HEX", Dec2HexFunction.Instance },
@@ -300,6 +340,35 @@ public static class FunctionRegistry
         { "DEC2BIN", Dec2BinFunction.Instance },
         { "OCT2DEC", Oct2DecFunction.Instance },
         { "DEC2OCT", Dec2OctFunction.Instance },
+        { "COMPLEX", ComplexFunction.Instance },
+        { "IMREAL", ImRealFunction.Instance },
+        { "IMAGINARY", ImaginaryFunction.Instance },
+        { "IMABS", ImAbsFunction.Instance },
+        { "IMARGUMENT", ImArgumentFunction.Instance },
+        { "IMCONJUGATE", ImConjugateFunction.Instance },
+        { "IMSUM", ImSumFunction.Instance },
+        { "IMSUB", ImSubFunction.Instance },
+        { "IMPRODUCT", ImProductFunction.Instance },
+        { "IMDIV", ImDivFunction.Instance },
+        { "IMPOWER", ImPowerFunction.Instance },
+        { "IMSQRT", ImSqrtFunction.Instance },
+        { "IMEXP", ImExpFunction.Instance },
+        { "IMLN", ImLnFunction.Instance },
+        { "IMLOG10", ImLog10Function.Instance },
+        { "IMLOG2", ImLog2Function.Instance },
+        { "IMSIN", ImSinFunction.Instance },
+        { "IMCOS", ImCosFunction.Instance },
+        { "IMTAN", ImTanFunction.Instance },
+        { "IMSEC", ImSecFunction.Instance },
+        { "IMCSC", ImCscFunction.Instance },
+        { "IMCOT", ImCotFunction.Instance },
+        { "IMSINH", ImSinhFunction.Instance },
+        { "IMCOSH", ImCoshFunction.Instance },
+        { "BITAND", BitAndFunction.Instance },
+        { "BITOR", BitOrFunction.Instance },
+        { "BITXOR", BitXorFunction.Instance },
+        { "BITLSHIFT", BitLShiftFunction.Instance },
+        { "BITRSHIFT", BitRShiftFunction.Instance },
     };
 
     /// <summary>
