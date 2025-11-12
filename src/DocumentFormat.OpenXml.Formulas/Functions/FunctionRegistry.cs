@@ -20,7 +20,7 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (59)
+        // Math (76)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
@@ -64,8 +64,17 @@ public static class FunctionRegistry
         { "ASINH", AsinhFunction.Instance },
         { "ACOSH", AcoshFunction.Instance },
         { "ATANH", AtanhFunction.Instance },
+        { "SEC", SecFunction.Instance },
+        { "SECH", SechFunction.Instance },
+        { "CSC", CscFunction.Instance },
+        { "CSCH", CschFunction.Instance },
+        { "COT", CotFunction.Instance },
+        { "COTH", CothFunction.Instance },
+        { "ACOT", AcotFunction.Instance },
+        { "ACOTH", AcothFunction.Instance },
         { "RAND", RandFunction.Instance },
         { "RANDBETWEEN", RandBetweenFunction.Instance },
+        { "RANDARRAY", RandArrayFunction.Instance },
         { "FACT", FactFunction.Instance },
         { "GCD", GcdFunction.Instance },
         { "LCM", LcmFunction.Instance },
@@ -81,6 +90,10 @@ public static class FunctionRegistry
         { "SUMXMY2", SumXMY2Function.Instance },
         { "MULTINOMIAL", MultinomialFunction.Instance },
         { "SERIESSUM", SeriesSumFunction.Instance },
+        { "BASE", BaseFunction.Instance },
+        { "DECIMAL", DecimalFunction.Instance },
+        { "ARABIC", ArabicFunction.Instance },
+        { "ROMAN", RomanFunction.Instance },
 
         // Logical (8)
         { "AND", AndFunction.Instance },
@@ -92,7 +105,7 @@ public static class FunctionRegistry
         { "XOR", XorFunction.Instance },
         { "IFNA", IfnaFunction.Instance },
 
-        // Text (31)
+        // Text (44)
         { "CONCATENATE", ConcatenateFunction.Instance },
         { "CONCAT", ConcatFunction.Instance },
         { "TEXTJOIN", TextJoinFunction.Instance },
@@ -124,6 +137,18 @@ public static class FunctionRegistry
         { "DOLLAR", DollarFunction.Instance },
         { "NUMBERVALUE", NumberValueFunction.Instance },
         { "PHONETIC", PhoneticFunction.Instance },
+        { "TEXTBEFORE", TextBeforeFunction.Instance },
+        { "TEXTAFTER", TextAfterFunction.Instance },
+        { "TEXTSPLIT", TextSplitFunction.Instance },
+        { "VALUETOTEXT", ValueToTextFunction.Instance },
+        { "ARRAYTOTEXT", ArrayToTextFunction.Instance },
+        { "LENB", LenBFunction.Instance },
+        { "LEFTB", LeftBFunction.Instance },
+        { "RIGHTB", RightBFunction.Instance },
+        { "MIDB", MidBFunction.Instance },
+        { "FINDB", FindBFunction.Instance },
+        { "SEARCHB", SearchBFunction.Instance },
+        { "REPLACEB", ReplaceBFunction.Instance },
 
         // Lookup (19)
         { "VLOOKUP", VLookupFunction.Instance },
@@ -153,7 +178,7 @@ public static class FunctionRegistry
         { "UNIQUE", UniqueFunction.Instance },
         { "SEQUENCE", SequenceFunction.Instance },
 
-        // Date/Time (22)
+        // Date/Time (25)
         { "TODAY", TodayFunction.Instance },
         { "NOW", NowFunction.Instance },
         { "DATE", DateFunction.Instance },
@@ -165,6 +190,7 @@ public static class FunctionRegistry
         { "SECOND", SecondFunction.Instance },
         { "WEEKDAY", WeekdayFunction.Instance },
         { "WEEKNUM", WeeknumFunction.Instance },
+        { "ISOWEEKNUM", IsoweeknumFunction.Instance },
         { "DAYS", DaysFunction.Instance },
         { "TIME", TimeFunction.Instance },
         { "TIMEVALUE", TimeValueFunction.Instance },
@@ -173,7 +199,9 @@ public static class FunctionRegistry
         { "EOMONTH", EomonthFunction.Instance },
         { "EDATE", EdateFunction.Instance },
         { "NETWORKDAYS", NetworkdaysFunction.Instance },
+        { "NETWORKDAYS.INTL", NetworkdaysIntlFunction.Instance },
         { "WORKDAY", WorkdayFunction.Instance },
+        { "WORKDAY.INTL", WorkdayIntlFunction.Instance },
         { "YEARFRAC", YearfracFunction.Instance },
         { "DATEDIF", DatedifFunction.Instance },
 
@@ -221,7 +249,7 @@ public static class FunctionRegistry
         { "SUBTOTAL", SubtotalFunction.Instance },
         { "AGGREGATE", AggregateFunction.Instance },
 
-        // Information (13)
+        // Information (18)
         { "ISNUMBER", IsNumberFunction.Instance },
         { "ISTEXT", IsTextFunction.Instance },
         { "IFERROR", IFErrorFunction.Instance },
@@ -233,8 +261,13 @@ public static class FunctionRegistry
         { "ISODD", IsOddFunction.Instance },
         { "ISLOGICAL", IsLogicalFunction.Instance },
         { "ISNONTEXT", IsNonTextFunction.Instance },
+        { "ISREF", IsRefFunction.Instance },
+        { "ISOMITTED", IsOmittedFunction.Instance },
         { "TYPE", TypeFunction.Instance },
+        { "ERROR.TYPE", ErrorTypeFunction.Instance },
         { "N", NFunction.Instance },
+        { "CELL", CellFunction.Instance },
+        { "INFO", InfoFunction.Instance },
 
         // Financial (13)
         { "PMT", PmtFunction.Instance },

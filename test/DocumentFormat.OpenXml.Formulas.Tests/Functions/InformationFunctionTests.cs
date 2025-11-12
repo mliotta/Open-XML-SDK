@@ -588,4 +588,552 @@ public class InformationFunctionTests
     }
 
     #endregion
+
+    #region ISREF Tests
+
+    [Fact]
+    public void IsRef_Number_ReturnsFalse()
+    {
+        var func = IsRefFunction.Instance;
+        var args = new[] { CellValue.FromNumber(123) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsRef_Text_ReturnsFalse()
+    {
+        var func = IsRefFunction.Instance;
+        var args = new[] { CellValue.FromString("A1") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsRef_Empty_ReturnsFalse()
+    {
+        var func = IsRefFunction.Instance;
+        var args = new[] { CellValue.Empty };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsRef_Error_ReturnsFalse()
+    {
+        var func = IsRefFunction.Instance;
+        var args = new[] { CellValue.Error("#REF!") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsRef_WrongArgumentCount_ReturnsError()
+    {
+        var func = IsRefFunction.Instance;
+        var args = new[] { CellValue.FromNumber(1), CellValue.FromNumber(2) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region ISOMITTED Tests
+
+    [Fact]
+    public void IsOmitted_Empty_ReturnsTrue()
+    {
+        var func = IsOmittedFunction.Instance;
+        var args = new[] { CellValue.Empty };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.True(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsOmitted_Number_ReturnsFalse()
+    {
+        var func = IsOmittedFunction.Instance;
+        var args = new[] { CellValue.FromNumber(123) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsOmitted_Text_ReturnsFalse()
+    {
+        var func = IsOmittedFunction.Instance;
+        var args = new[] { CellValue.FromString("test") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsOmitted_EmptyString_ReturnsFalse()
+    {
+        var func = IsOmittedFunction.Instance;
+        var args = new[] { CellValue.FromString("") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsOmitted_Error_ReturnsFalse()
+    {
+        var func = IsOmittedFunction.Instance;
+        var args = new[] { CellValue.Error("#VALUE!") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void IsOmitted_WrongArgumentCount_ReturnsError()
+    {
+        var func = IsOmittedFunction.Instance;
+        var args = new CellValue[] { };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region ERROR.TYPE Tests
+
+    [Fact]
+    public void ErrorType_Null_Returns1()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.Error("#NULL!") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ErrorType_Div0_Returns2()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.Error("#DIV/0!") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(2.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ErrorType_Value_Returns3()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.Error("#VALUE!") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(3.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ErrorType_Ref_Returns4()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.Error("#REF!") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(4.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ErrorType_Name_Returns5()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.Error("#NAME?") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(5.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ErrorType_Num_Returns6()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.Error("#NUM!") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(6.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ErrorType_NA_Returns7()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.Error("#N/A") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(7.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ErrorType_GettingData_Returns8()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.Error("#GETTING_DATA") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(8.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void ErrorType_NonErrorValue_ReturnsNA()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new[] { CellValue.FromNumber(123) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#N/A", result.ErrorValue);
+    }
+
+    [Fact]
+    public void ErrorType_WrongArgumentCount_ReturnsError()
+    {
+        var func = ErrorTypeFunction.Instance;
+        var args = new CellValue[] { };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region CELL Tests
+
+    [Fact]
+    public void Cell_Address_ReturnsAddress()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromString("address") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("$A$1", result.StringValue);
+    }
+
+    [Fact]
+    public void Cell_Col_ReturnsColumn()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromString("col") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Cell_Row_ReturnsRow()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromString("row") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Cell_Type_Empty_ReturnsB()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromString("type"), CellValue.Empty };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("b", result.StringValue);
+    }
+
+    [Fact]
+    public void Cell_Type_Text_ReturnsL()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromString("type"), CellValue.FromString("hello") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("l", result.StringValue);
+    }
+
+    [Fact]
+    public void Cell_Type_Number_ReturnsV()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromString("type"), CellValue.FromNumber(123) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("v", result.StringValue);
+    }
+
+    [Fact]
+    public void Cell_Contents_ReturnsValue()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromString("contents"), CellValue.FromNumber(42) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(42.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Cell_InvalidInfoType_ReturnsError()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromString("invalid") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Cell_NonTextInfoType_ReturnsError()
+    {
+        var func = CellFunction.Instance;
+        var args = new[] { CellValue.FromNumber(123) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Cell_WrongArgumentCount_ReturnsError()
+    {
+        var func = CellFunction.Instance;
+        var args = new CellValue[] { };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region INFO Tests
+
+    [Fact]
+    public void Info_Directory_ReturnsDirectory()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("directory") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.NotEmpty(result.StringValue);
+    }
+
+    [Fact]
+    public void Info_NumFile_ReturnsNumber()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("numfile") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(1.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void Info_Origin_ReturnsReference()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("origin") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("$A$1", result.StringValue);
+    }
+
+    [Fact]
+    public void Info_OsVersion_ReturnsVersion()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("osversion") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.NotEmpty(result.StringValue);
+    }
+
+    [Fact]
+    public void Info_Recalc_ReturnsMode()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("recalc") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("Automatic", result.StringValue);
+    }
+
+    [Fact]
+    public void Info_Release_ReturnsVersion()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("release") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("16.0", result.StringValue);
+    }
+
+    [Fact]
+    public void Info_System_ReturnsSystemType()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("system") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Contains(result.StringValue, new[] { "mac", "pcdos", "unix" });
+    }
+
+    [Fact]
+    public void Info_MemAvail_ReturnsNumber()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("memavail") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue > 0);
+    }
+
+    [Fact]
+    public void Info_MemUsed_ReturnsNumber()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("memused") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue > 0);
+    }
+
+    [Fact]
+    public void Info_TotMem_ReturnsNumber()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("totmem") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue > 0);
+    }
+
+    [Fact]
+    public void Info_InvalidType_ReturnsError()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromString("invalid") };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Info_NonTextType_ReturnsError()
+    {
+        var func = InfoFunction.Instance;
+        var args = new[] { CellValue.FromNumber(123) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Info_WrongArgumentCount_ReturnsError()
+    {
+        var func = InfoFunction.Instance;
+        var args = new CellValue[] { };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
 }
