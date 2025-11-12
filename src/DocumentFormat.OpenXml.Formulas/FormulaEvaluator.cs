@@ -248,41 +248,44 @@ public class FormulaEvaluator : IFormulaEvaluator
             // Phase 0 (3)
             "SUM", "AVERAGE", "IF",
 
-            // Math (31)
+            // Math (35)
             "COUNT", "COUNTA", "COUNTBLANK", "COUNTIF", "COUNTIFS", "MAX", "MIN",
             "ROUND", "ROUNDUP", "ROUNDDOWN", "ABS", "PRODUCT", "POWER", "SUMIF", "SUMIFS",
             "SQRT", "MOD", "INT", "CEILING", "FLOOR", "TRUNC",
             "SIGN", "EXP", "LN", "LOG", "LOG10", "PI", "RADIANS", "DEGREES",
             "SIN", "COS", "TAN",
+            "COMBIN", "PERMUT", "MROUND", "QUOTIENT",
 
-            // Logical (7)
-            "AND", "OR", "NOT", "CHOOSE", "IFS", "SWITCH", "XOR",
+            // Logical (8)
+            "AND", "OR", "NOT", "CHOOSE", "IFS", "SWITCH", "XOR", "IFNA",
 
-            // Text (24)
+            // Text (27)
             "CONCATENATE", "CONCAT", "TEXTJOIN", "LEFT", "RIGHT", "MID", "LEN", "TRIM",
             "UPPER", "LOWER", "PROPER", "TEXT", "VALUE",
             "FIND", "SEARCH", "SUBSTITUTE", "REPLACE", "REPT",
             "EXACT", "CHAR", "CODE", "CLEAN", "T", "REVERSE",
+            "FIXED", "DOLLAR", "NUMBERVALUE",
 
             // Lookup (9)
             "VLOOKUP", "HLOOKUP", "INDEX", "MATCH", "COLUMN", "ROW", "COLUMNS", "ROWS", "ADDRESS",
 
-            // Date/Time (20)
+            // Date/Time (22)
             "TODAY", "NOW", "DATE", "YEAR", "MONTH", "DAY",
             "HOUR", "MINUTE", "SECOND", "WEEKDAY", "WEEKNUM",
             "DAYS", "TIME", "TIMEVALUE", "DATEVALUE", "DAYS360", "EOMONTH", "EDATE",
-            "NETWORKDAYS", "WORKDAY",
+            "NETWORKDAYS", "WORKDAY", "YEARFRAC", "DATEDIF",
 
-            // Statistical (9)
+            // Statistical (12)
             "MEDIAN", "MODE", "STDEV", "VAR", "RANK", "AVERAGEIF", "AVERAGEIFS",
-            "MAXIFS", "MINIFS",
+            "MAXIFS", "MINIFS", "SKEW", "KURT", "FREQUENCY",
 
             // Information (13)
             "ISNUMBER", "ISTEXT", "IFERROR", "ISERROR", "ISNA", "ISERR", "ISBLANK",
             "ISEVEN", "ISODD", "ISLOGICAL", "ISNONTEXT", "TYPE", "N",
 
-            // Financial (5)
-            "PMT", "FV", "PV", "NPER", "RATE",
+            // Financial (13)
+            "PMT", "FV", "PV", "NPER", "RATE", "NPV", "IRR", "IPMT", "PPMT",
+            "SLN", "DB", "DDB", "SYD",
         };
 
         return functions;

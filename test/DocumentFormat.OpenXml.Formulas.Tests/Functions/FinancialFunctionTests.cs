@@ -1090,4 +1090,641 @@ public class FinancialFunctionTests
         var totalNpv = npvResult.NumericValue + values[0];
         Assert.True(System.Math.Abs(totalNpv) < 1.0); // Close to zero
     }
+
+    // SLN Function Tests
+    [Fact]
+    public void Sln_BasicCalculation_ReturnsCorrectValue()
+    {
+        // SLN(30000, 7500, 10) - straight-line depreciation
+        var func = SlnFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),  // cost
+            CellValue.FromNumber(7500),   // salvage
+            CellValue.FromNumber(10),     // life
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(2250.0, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Sln_ZeroSalvage_ReturnsCorrectValue()
+    {
+        // SLN(10000, 0, 5)
+        var func = SlnFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(10000),
+            CellValue.FromNumber(0),
+            CellValue.FromNumber(5),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(2000.0, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Sln_InvalidLife_ReturnsError()
+    {
+        var func = SlnFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),
+            CellValue.FromNumber(7500),
+            CellValue.FromNumber(0),  // invalid life
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Sln_InvalidArgCount_ReturnsError()
+    {
+        var func = SlnFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),
+            CellValue.FromNumber(7500),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Sln_PropagatesError()
+    {
+        var func = SlnFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#DIV/0!"),
+            CellValue.FromNumber(7500),
+            CellValue.FromNumber(10),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    // DB Function Tests
+    [Fact]
+    public void Db_FirstPeriod_ReturnsCorrectValue()
+    {
+        // DB(1000000, 100000, 6, 1) - first period declining balance
+        var func = DbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1000000),  // cost
+            CellValue.FromNumber(100000),   // salvage
+            CellValue.FromNumber(6),        // life
+            CellValue.FromNumber(1),        // period
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue > 0);
+        Assert.True(result.NumericValue < 1000000);
+    }
+
+    [Fact]
+    public void Db_WithMonthParameter_ReturnsCorrectValue()
+    {
+        // DB(1000000, 100000, 6, 1, 7) - first period with 7 months
+        var func = DbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1000000),
+            CellValue.FromNumber(100000),
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(1),
+            CellValue.FromNumber(7),  // 7 months in first year
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue > 0);
+    }
+
+    [Fact]
+    public void Db_LastPeriod_ReturnsCorrectValue()
+    {
+        // DB(1000000, 100000, 6, 6) - last period
+        var func = DbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1000000),
+            CellValue.FromNumber(100000),
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(6),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue > 0);
+    }
+
+    [Fact]
+    public void Db_InvalidPeriod_ReturnsError()
+    {
+        var func = DbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1000000),
+            CellValue.FromNumber(100000),
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(0),  // invalid period
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Db_PeriodExceedsLife_ReturnsError()
+    {
+        var func = DbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1000000),
+            CellValue.FromNumber(100000),
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(7),  // period > life
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Db_SalvageGreaterThanCost_ReturnsZero()
+    {
+        var func = DbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(100000),
+            CellValue.FromNumber(200000),  // salvage > cost
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0.0, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Db_PropagatesError()
+    {
+        var func = DbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1000000),
+            CellValue.Error("#REF!"),
+            CellValue.FromNumber(6),
+            CellValue.FromNumber(1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#REF!", result.ErrorValue);
+    }
+
+    // DDB Function Tests
+    [Fact]
+    public void Ddb_FirstPeriod_ReturnsCorrectValue()
+    {
+        // DDB(2400, 300, 10, 1) - first period double-declining balance
+        var func = DdbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2400),  // cost
+            CellValue.FromNumber(300),   // salvage
+            CellValue.FromNumber(10),    // life
+            CellValue.FromNumber(1),     // period
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(480.0, result.NumericValue, 2); // 2400 * 0.2
+    }
+
+    [Fact]
+    public void Ddb_SecondPeriod_ReturnsCorrectValue()
+    {
+        // DDB(2400, 300, 10, 2)
+        var func = DdbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2400),
+            CellValue.FromNumber(300),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(2),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(384.0, result.NumericValue, 2); // (2400 - 480) * 0.2
+    }
+
+    [Fact]
+    public void Ddb_WithCustomFactor_ReturnsCorrectValue()
+    {
+        // DDB(2400, 300, 10, 1, 1.5) - with factor of 1.5
+        var func = DdbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2400),
+            CellValue.FromNumber(300),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(1),
+            CellValue.FromNumber(1.5),  // factor
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(360.0, result.NumericValue, 2); // 2400 * 0.15
+    }
+
+    [Fact]
+    public void Ddb_LastPeriod_ReturnsCorrectValue()
+    {
+        // DDB(2400, 300, 10, 10)
+        var func = DdbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2400),
+            CellValue.FromNumber(300),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(10),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue >= 0);
+    }
+
+    [Fact]
+    public void Ddb_InvalidPeriod_ReturnsError()
+    {
+        var func = DdbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2400),
+            CellValue.FromNumber(300),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(0),  // invalid period
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ddb_InvalidFactor_ReturnsError()
+    {
+        var func = DdbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2400),
+            CellValue.FromNumber(300),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(1),
+            CellValue.FromNumber(-1),  // invalid factor
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ddb_SalvageGreaterThanCost_ReturnsZero()
+    {
+        var func = DdbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(1000),
+            CellValue.FromNumber(2000),  // salvage > cost
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0.0, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Ddb_PropagatesError()
+    {
+        var func = DdbFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2400),
+            CellValue.FromNumber(300),
+            CellValue.Error("#N/A"),
+            CellValue.FromNumber(1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#N/A", result.ErrorValue);
+    }
+
+    // SYD Function Tests
+    [Fact]
+    public void Syd_FirstPeriod_ReturnsCorrectValue()
+    {
+        // SYD(30000, 7500, 10, 1) - first period sum-of-years' digits
+        var func = SydFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),  // cost
+            CellValue.FromNumber(7500),   // salvage
+            CellValue.FromNumber(10),     // life
+            CellValue.FromNumber(1),      // period
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // Formula: (30000 - 7500) * (10 - 1 + 1) * 2 / (10 * 11) = 22500 * 10 * 2 / 110 = 4090.91
+        Assert.Equal(4090.91, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Syd_SecondPeriod_ReturnsCorrectValue()
+    {
+        // SYD(30000, 7500, 10, 2)
+        var func = SydFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),
+            CellValue.FromNumber(7500),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(2),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // Formula: (30000 - 7500) * 9 * 2 / 110 = 3681.82
+        Assert.Equal(3681.82, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Syd_LastPeriod_ReturnsCorrectValue()
+    {
+        // SYD(30000, 7500, 10, 10)
+        var func = SydFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),
+            CellValue.FromNumber(7500),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(10),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // Formula: (30000 - 7500) * 1 * 2 / 110 = 409.09
+        Assert.Equal(409.09, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Syd_ZeroSalvage_ReturnsCorrectValue()
+    {
+        // SYD(10000, 0, 5, 1)
+        var func = SydFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(10000),
+            CellValue.FromNumber(0),
+            CellValue.FromNumber(5),
+            CellValue.FromNumber(1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // Formula: 10000 * 5 * 2 / 30 = 3333.33
+        Assert.Equal(3333.33, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Syd_InvalidPeriod_ReturnsError()
+    {
+        var func = SydFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),
+            CellValue.FromNumber(7500),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(0),  // invalid period
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Syd_PeriodExceedsLife_ReturnsError()
+    {
+        var func = SydFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),
+            CellValue.FromNumber(7500),
+            CellValue.FromNumber(10),
+            CellValue.FromNumber(11),  // period > life
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Syd_InvalidLife_ReturnsError()
+    {
+        var func = SydFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),
+            CellValue.FromNumber(7500),
+            CellValue.FromNumber(0),  // invalid life
+            CellValue.FromNumber(1),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Syd_PropagatesError()
+    {
+        var func = SydFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(30000),
+            CellValue.FromNumber(7500),
+            CellValue.FromNumber(10),
+            CellValue.Error("#VALUE!"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    // Cross-function validation for depreciation methods
+    [Fact]
+    public void Depreciation_TotalSlnDepreciation_EqualsDepreciableAmount()
+    {
+        // Sum of all SLN depreciation should equal depreciable amount
+        var cost = 30000.0;
+        var salvage = 7500.0;
+        var life = 10.0;
+        var func = SlnFunction.Instance;
+
+        double totalDepreciation = 0.0;
+        for (int period = 1; period <= life; period++)
+        {
+            var args = new[]
+            {
+                CellValue.FromNumber(cost),
+                CellValue.FromNumber(salvage),
+                CellValue.FromNumber(life),
+            };
+
+            var result = func.Execute(null!, args);
+            totalDepreciation += result.NumericValue;
+        }
+
+        Assert.Equal(cost - salvage, totalDepreciation, 1);
+    }
+
+    [Fact]
+    public void Depreciation_TotalSydDepreciation_EqualsDepreciableAmount()
+    {
+        // Sum of all SYD depreciation should equal depreciable amount
+        var cost = 30000.0;
+        var salvage = 7500.0;
+        var life = 10.0;
+        var func = SydFunction.Instance;
+
+        double totalDepreciation = 0.0;
+        for (int period = 1; period <= life; period++)
+        {
+            var args = new[]
+            {
+                CellValue.FromNumber(cost),
+                CellValue.FromNumber(salvage),
+                CellValue.FromNumber(life),
+                CellValue.FromNumber(period),
+            };
+
+            var result = func.Execute(null!, args);
+            totalDepreciation += result.NumericValue;
+        }
+
+        Assert.Equal(cost - salvage, totalDepreciation, 1);
+    }
+
+    [Fact]
+    public void Depreciation_SydFirstPeriodGreaterThanSln_IsConsistent()
+    {
+        // SYD should have higher depreciation in first period than SLN
+        var cost = 30000.0;
+        var salvage = 7500.0;
+        var life = 10.0;
+
+        var slnFunc = SlnFunction.Instance;
+        var slnArgs = new[]
+        {
+            CellValue.FromNumber(cost),
+            CellValue.FromNumber(salvage),
+            CellValue.FromNumber(life),
+        };
+        var slnResult = slnFunc.Execute(null!, slnArgs);
+
+        var sydFunc = SydFunction.Instance;
+        var sydArgs = new[]
+        {
+            CellValue.FromNumber(cost),
+            CellValue.FromNumber(salvage),
+            CellValue.FromNumber(life),
+            CellValue.FromNumber(1),
+        };
+        var sydResult = sydFunc.Execute(null!, sydArgs);
+
+        Assert.True(sydResult.NumericValue > slnResult.NumericValue);
+    }
+
+    [Fact]
+    public void Depreciation_DdbFirstPeriodGreaterThanSln_IsConsistent()
+    {
+        // DDB should have higher depreciation in first period than SLN
+        var cost = 2400.0;
+        var salvage = 300.0;
+        var life = 10.0;
+
+        var slnFunc = SlnFunction.Instance;
+        var slnArgs = new[]
+        {
+            CellValue.FromNumber(cost),
+            CellValue.FromNumber(salvage),
+            CellValue.FromNumber(life),
+        };
+        var slnResult = slnFunc.Execute(null!, slnArgs);
+
+        var ddbFunc = DdbFunction.Instance;
+        var ddbArgs = new[]
+        {
+            CellValue.FromNumber(cost),
+            CellValue.FromNumber(salvage),
+            CellValue.FromNumber(life),
+            CellValue.FromNumber(1),
+        };
+        var ddbResult = ddbFunc.Execute(null!, ddbArgs);
+
+        Assert.True(ddbResult.NumericValue > slnResult.NumericValue);
+    }
 }

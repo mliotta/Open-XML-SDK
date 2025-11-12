@@ -20,7 +20,7 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (49)
+        // Math (53)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
@@ -71,8 +71,12 @@ public static class FunctionRegistry
         { "LCM", LcmFunction.Instance },
         { "EVEN", EvenFunction.Instance },
         { "ODD", OddFunction.Instance },
+        { "COMBIN", CombinFunction.Instance },
+        { "PERMUT", PermutFunction.Instance },
+        { "MROUND", MroundFunction.Instance },
+        { "QUOTIENT", QuotientFunction.Instance },
 
-        // Logical (7)
+        // Logical (8)
         { "AND", AndFunction.Instance },
         { "OR", OrFunction.Instance },
         { "NOT", NotFunction.Instance },
@@ -80,8 +84,9 @@ public static class FunctionRegistry
         { "IFS", IfsFunction.Instance },
         { "SWITCH", SwitchFunction.Instance },
         { "XOR", XorFunction.Instance },
+        { "IFNA", IfnaFunction.Instance },
 
-        // Text (24)
+        // Text (27)
         { "CONCATENATE", ConcatenateFunction.Instance },
         { "CONCAT", ConcatFunction.Instance },
         { "TEXTJOIN", TextJoinFunction.Instance },
@@ -106,6 +111,9 @@ public static class FunctionRegistry
         { "CLEAN", CleanFunction.Instance },
         { "T", TFunction.Instance },
         { "REVERSE", ReverseFunction.Instance },
+        { "FIXED", FixedFunction.Instance },
+        { "DOLLAR", DollarFunction.Instance },
+        { "NUMBERVALUE", NumberValueFunction.Instance },
 
         // Lookup (9)
         { "VLOOKUP", VLookupFunction.Instance },
@@ -118,7 +126,7 @@ public static class FunctionRegistry
         { "ROWS", RowsFunction.Instance },
         { "ADDRESS", AddressFunction.Instance },
 
-        // Date/Time (20)
+        // Date/Time (22)
         { "TODAY", TodayFunction.Instance },
         { "NOW", NowFunction.Instance },
         { "DATE", DateFunction.Instance },
@@ -139,8 +147,10 @@ public static class FunctionRegistry
         { "EDATE", EdateFunction.Instance },
         { "NETWORKDAYS", NetworkdaysFunction.Instance },
         { "WORKDAY", WorkdayFunction.Instance },
+        { "YEARFRAC", YearfracFunction.Instance },
+        { "DATEDIF", DatedifFunction.Instance },
 
-        // Statistical (20)
+        // Statistical (23)
         { "MEDIAN", MedianFunction.Instance },
         { "MODE", ModeFunction.Instance },
         { "STDEV", StDevFunction.Instance },
@@ -161,6 +171,9 @@ public static class FunctionRegistry
         { "COVARIANCE.S", CovarianceSFunction.Instance },
         { "SLOPE", SlopeFunction.Instance },
         { "INTERCEPT", InterceptFunction.Instance },
+        { "SKEW", SkewFunction.Instance },
+        { "KURT", KurtFunction.Instance },
+        { "FREQUENCY", FrequencyFunction.Instance },
 
         // Information (13)
         { "ISNUMBER", IsNumberFunction.Instance },
@@ -177,7 +190,7 @@ public static class FunctionRegistry
         { "TYPE", TypeFunction.Instance },
         { "N", NFunction.Instance },
 
-        // Financial (9)
+        // Financial (13)
         { "PMT", PmtFunction.Instance },
         { "FV", FvFunction.Instance },
         { "PV", PvFunction.Instance },
@@ -187,6 +200,10 @@ public static class FunctionRegistry
         { "IRR", IrrFunction.Instance },
         { "IPMT", IpmtFunction.Instance },
         { "PPMT", PpmtFunction.Instance },
+        { "SLN", SlnFunction.Instance },
+        { "DB", DbFunction.Instance },
+        { "DDB", DdbFunction.Instance },
+        { "SYD", SydFunction.Instance },
     };
 
     /// <summary>
