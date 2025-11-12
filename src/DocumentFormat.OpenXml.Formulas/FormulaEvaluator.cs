@@ -264,19 +264,24 @@ public class FormulaEvaluator : IFormulaEvaluator
             "FIND", "SEARCH", "SUBSTITUTE", "REPLACE", "REPT",
             "EXACT", "CHAR", "CODE", "CLEAN", "T",
 
-            // Lookup (4)
-            "VLOOKUP", "HLOOKUP", "INDEX", "MATCH",
+            // Lookup (9)
+            "VLOOKUP", "HLOOKUP", "INDEX", "MATCH", "COLUMN", "ROW", "COLUMNS", "ROWS", "ADDRESS",
 
-            // Date/Time (10)
+            // Date/Time (17)
             "TODAY", "NOW", "DATE", "YEAR", "MONTH", "DAY",
             "HOUR", "MINUTE", "SECOND", "WEEKDAY",
+            "DAYS", "TIME", "TIMEVALUE", "DATEVALUE", "DAYS360", "EOMONTH", "EDATE",
 
             // Statistical (9)
             "MEDIAN", "MODE", "STDEV", "VAR", "RANK", "AVERAGEIF", "AVERAGEIFS",
             "MAXIFS", "MINIFS",
 
-            // Information (7)
+            // Information (13)
             "ISNUMBER", "ISTEXT", "IFERROR", "ISERROR", "ISNA", "ISERR", "ISBLANK",
+            "ISEVEN", "ISODD", "ISLOGICAL", "ISNONTEXT", "TYPE", "N",
+
+            // Financial (5)
+            "PMT", "FV", "PV", "NPER", "RATE",
         };
 
         return functions;

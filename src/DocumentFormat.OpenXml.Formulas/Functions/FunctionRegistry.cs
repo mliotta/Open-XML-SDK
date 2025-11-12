@@ -20,7 +20,7 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (31)
+        // Math (39)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
@@ -36,6 +36,7 @@ public static class FunctionRegistry
         { "POWER", PowerFunction.Instance },
         { "SUMIF", SumIfFunction.Instance },
         { "SUMIFS", SumIfsFunction.Instance },
+        { "SUMPRODUCT", SumProductFunction.Instance },
         { "SQRT", SqrtFunction.Instance },
         { "MOD", ModFunction.Instance },
         { "INT", IntFunction.Instance },
@@ -53,6 +54,13 @@ public static class FunctionRegistry
         { "SIN", SinFunction.Instance },
         { "COS", CosFunction.Instance },
         { "TAN", TanFunction.Instance },
+        { "RAND", RandFunction.Instance },
+        { "RANDBETWEEN", RandBetweenFunction.Instance },
+        { "FACT", FactFunction.Instance },
+        { "GCD", GcdFunction.Instance },
+        { "LCM", LcmFunction.Instance },
+        { "EVEN", EvenFunction.Instance },
+        { "ODD", OddFunction.Instance },
 
         // Logical (7)
         { "AND", AndFunction.Instance },
@@ -86,13 +94,18 @@ public static class FunctionRegistry
         { "CLEAN", CleanFunction.Instance },
         { "T", TFunction.Instance },
 
-        // Lookup (4)
+        // Lookup (9)
         { "VLOOKUP", VLookupFunction.Instance },
         { "HLOOKUP", HLookupFunction.Instance },
         { "INDEX", IndexFunction.Instance },
         { "MATCH", MatchFunction.Instance },
+        { "COLUMN", ColumnFunction.Instance },
+        { "ROW", RowFunction.Instance },
+        { "COLUMNS", ColumnsFunction.Instance },
+        { "ROWS", RowsFunction.Instance },
+        { "ADDRESS", AddressFunction.Instance },
 
-        // Date/Time (10)
+        // Date/Time (17)
         { "TODAY", TodayFunction.Instance },
         { "NOW", NowFunction.Instance },
         { "DATE", DateFunction.Instance },
@@ -103,6 +116,13 @@ public static class FunctionRegistry
         { "MINUTE", MinuteFunction.Instance },
         { "SECOND", SecondFunction.Instance },
         { "WEEKDAY", WeekdayFunction.Instance },
+        { "DAYS", DaysFunction.Instance },
+        { "TIME", TimeFunction.Instance },
+        { "TIMEVALUE", TimeValueFunction.Instance },
+        { "DATEVALUE", DateValueFunction.Instance },
+        { "DAYS360", Days360Function.Instance },
+        { "EOMONTH", EomonthFunction.Instance },
+        { "EDATE", EdateFunction.Instance },
 
         // Statistical (15)
         { "MEDIAN", MedianFunction.Instance },
@@ -121,7 +141,7 @@ public static class FunctionRegistry
         { "PERCENTILE", PercentileFunction.Instance },
         { "QUARTILE", QuartileFunction.Instance },
 
-        // Information (7)
+        // Information (13)
         { "ISNUMBER", IsNumberFunction.Instance },
         { "ISTEXT", IsTextFunction.Instance },
         { "IFERROR", IFErrorFunction.Instance },
@@ -129,6 +149,19 @@ public static class FunctionRegistry
         { "ISNA", IsNaFunction.Instance },
         { "ISERR", IsErrFunction.Instance },
         { "ISBLANK", IsBlankFunction.Instance },
+        { "ISEVEN", IsEvenFunction.Instance },
+        { "ISODD", IsOddFunction.Instance },
+        { "ISLOGICAL", IsLogicalFunction.Instance },
+        { "ISNONTEXT", IsNonTextFunction.Instance },
+        { "TYPE", TypeFunction.Instance },
+        { "N", NFunction.Instance },
+
+        // Financial (5)
+        { "PMT", PmtFunction.Instance },
+        { "FV", FvFunction.Instance },
+        { "PV", PvFunction.Instance },
+        { "NPER", NperFunction.Instance },
+        { "RATE", RateFunction.Instance },
     };
 
     /// <summary>

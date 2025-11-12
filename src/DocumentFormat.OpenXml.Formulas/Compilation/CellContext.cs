@@ -36,6 +36,12 @@ public class CellContext
     }
 
     /// <summary>
+    /// Gets or sets the current cell reference being evaluated.
+    /// This is used by functions like COLUMN() and ROW() when called without arguments.
+    /// </summary>
+    public string? CurrentCellReference { get; set; }
+
+    /// <summary>
     /// Gets the value of a cell by reference.
     /// </summary>
     /// <param name="reference">The cell reference (e.g., "A1").</param>
