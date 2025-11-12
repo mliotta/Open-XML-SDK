@@ -310,9 +310,10 @@ public class FormulaEvaluator : IFormulaEvaluator
                     var deps = ExtractDependencies(ast);
                     graph.AddCell(cell.CellReference?.Value ?? string.Empty, deps);
                 }
-                catch
+                catch (EvaluationError)
                 {
-                    // Skip cells with invalid formulas
+                    // Skip cells with invalid formulas (parser errors, unsupported functions, etc.)
+                    // Let other exceptions (OutOfMemoryException, bugs, etc.) bubble up
                 }
             }
         }

@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(perl -i.bak3 -pe:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

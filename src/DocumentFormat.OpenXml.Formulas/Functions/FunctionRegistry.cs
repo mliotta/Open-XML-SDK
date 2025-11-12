@@ -169,12 +169,6 @@ public static class FunctionRegistry
         { "ASC", AscFunction.Instance },
         { "DBCS", DbcsFunction.Instance },
         { "BAHTTEXT", BahtTextFunction.Instance },
-        { "REGEXTEST", RegexTestFunction.Instance },
-        { "REGEXEXTRACT", RegexExtractFunction.Instance },
-        { "REGEXREPLACE", RegexReplaceFunction.Instance },
-        { "ASC", AscFunction.Instance },
-        { "DBCS", DbcsFunction.Instance },
-        { "BAHTTEXT", BahtTextFunction.Instance },
 
         // Lookup (24)
         { "VLOOKUP", VLookupFunction.Instance },
