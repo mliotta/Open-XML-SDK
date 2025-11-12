@@ -498,6 +498,62 @@ public class LogicalFlowFunctionTests
 
     #endregion
 
+    #region TRUE Tests
+
+    [Fact]
+    public void True_NoArguments_ReturnsTrue()
+    {
+        var func = TrueFunction.Instance;
+        var args = System.Array.Empty<CellValue>();
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.True(result.BoolValue);
+    }
+
+    [Fact]
+    public void True_WithArguments_ReturnsError()
+    {
+        var func = TrueFunction.Instance;
+        var args = new[] { CellValue.FromNumber(1) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region FALSE Tests
+
+    [Fact]
+    public void False_NoArguments_ReturnsFalse()
+    {
+        var func = FalseFunction.Instance;
+        var args = System.Array.Empty<CellValue>();
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.False(result.BoolValue);
+    }
+
+    [Fact]
+    public void False_WithArguments_ReturnsError()
+    {
+        var func = FalseFunction.Instance;
+        var args = new[] { CellValue.FromNumber(1) };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
+
     #region XOR Tests
 
     [Fact]

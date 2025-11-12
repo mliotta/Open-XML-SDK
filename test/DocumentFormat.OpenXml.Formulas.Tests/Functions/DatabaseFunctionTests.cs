@@ -501,4 +501,388 @@ public class DatabaseFunctionTests
         Assert.Equal(CellValueType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
+
+    // DGET Tests
+    [Fact]
+    public void DGet_NumericValueMatchesCriteria_ReturnsValue()
+    {
+        var func = DGetFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(42), // database value
+            CellValue.FromString("ID"), // field (ignored in Phase 0)
+            CellValue.FromString("=42"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(42.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void DGet_TextValueMatchesCriteria_ReturnsValue()
+    {
+        var func = DGetFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("Alice"), // database value
+            CellValue.FromString("Name"), // field (ignored in Phase 0)
+            CellValue.FromString("Alice"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("Alice", result.StringValue);
+    }
+
+    [Fact]
+    public void DGet_NoMatchingValue_ReturnsError()
+    {
+        var func = DGetFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(25), // database value
+            CellValue.FromString("Age"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void DGet_ErrorValue_PropagatesError()
+    {
+        var func = DGetFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#REF!"),
+            CellValue.FromString("Field"),
+            CellValue.FromString("criteria"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#REF!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void DGet_IncorrectArgumentCount_ReturnsError()
+    {
+        var func = DGetFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(42),
+            CellValue.FromString("ID"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    // DPRODUCT Tests
+    [Fact]
+    public void DProduct_NumericValueMatchesCriteria_ReturnsValue()
+    {
+        var func = DProductFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5), // database value
+            CellValue.FromString("Quantity"), // field (ignored in Phase 0)
+            CellValue.FromString(">0"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(5.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void DProduct_NumericValueDoesNotMatchCriteria_ReturnsZero()
+    {
+        var func = DProductFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(5), // database value
+            CellValue.FromString("Quantity"), // field (ignored in Phase 0)
+            CellValue.FromString(">10"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void DProduct_ErrorValue_PropagatesError()
+    {
+        var func = DProductFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#NUM!"),
+            CellValue.FromString("Quantity"),
+            CellValue.FromString(">0"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    // DSTDEV Tests
+    [Fact]
+    public void DStDev_InsufficientValues_ReturnsDivZeroError()
+    {
+        var func = DStDevFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(50), // database value (only 1 value)
+            CellValue.FromString("Score"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        // DSTDEV requires at least 2 values
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void DStDev_NoMatchingValues_ReturnsDivZeroError()
+    {
+        var func = DStDevFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(20), // database value
+            CellValue.FromString("Score"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void DStDev_ErrorValue_PropagatesError()
+    {
+        var func = DStDevFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#VALUE!"),
+            CellValue.FromString("Score"),
+            CellValue.FromString(">30"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    // DSTDEVP Tests
+    [Fact]
+    public void DStDevP_SingleValue_ReturnsZero()
+    {
+        var func = DStDevPFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(50), // database value (only 1 value)
+            CellValue.FromString("Score"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        // Population standard deviation of single value is 0
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void DStDevP_NoMatchingValues_ReturnsDivZeroError()
+    {
+        var func = DStDevPFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(20), // database value
+            CellValue.FromString("Score"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void DStDevP_ErrorValue_PropagatesError()
+    {
+        var func = DStDevPFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#N/A"),
+            CellValue.FromString("Score"),
+            CellValue.FromString(">30"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#N/A", result.ErrorValue);
+    }
+
+    // DVAR Tests
+    [Fact]
+    public void DVar_InsufficientValues_ReturnsDivZeroError()
+    {
+        var func = DVarFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(50), // database value (only 1 value)
+            CellValue.FromString("Value"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        // DVAR requires at least 2 values
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void DVar_NoMatchingValues_ReturnsDivZeroError()
+    {
+        var func = DVarFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(20), // database value
+            CellValue.FromString("Value"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void DVar_ErrorValue_PropagatesError()
+    {
+        var func = DVarFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#NAME?"),
+            CellValue.FromString("Value"),
+            CellValue.FromString(">30"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NAME?", result.ErrorValue);
+    }
+
+    // DVARP Tests
+    [Fact]
+    public void DVarP_SingleValue_ReturnsZero()
+    {
+        var func = DVarPFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(50), // database value (only 1 value)
+            CellValue.FromString("Value"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        // Population variance of single value is 0
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(0.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void DVarP_NoMatchingValues_ReturnsDivZeroError()
+    {
+        var func = DVarPFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(20), // database value
+            CellValue.FromString("Value"), // field (ignored in Phase 0)
+            CellValue.FromString(">30"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void DVarP_ErrorValue_PropagatesError()
+    {
+        var func = DVarPFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#REF!"),
+            CellValue.FromString("Value"),
+            CellValue.FromString(">30"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#REF!", result.ErrorValue);
+    }
+
+    // Additional integration tests for criteria matching
+    [Fact]
+    public void DProduct_MultipleMatchingCriteria_WorksCorrectly()
+    {
+        var func = DProductFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(7), // database value
+            CellValue.FromString("Multiplier"),
+            CellValue.FromString(">=5"), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(7.0, result.NumericValue);
+    }
+
+    [Fact]
+    public void DGet_BooleanValueMatchesCriteria_ReturnsValue()
+    {
+        var func = DGetFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromBoolean(true), // database value
+            CellValue.FromString("IsActive"),
+            CellValue.FromBoolean(true), // criteria
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.True(result.BoolValue);
+    }
 }

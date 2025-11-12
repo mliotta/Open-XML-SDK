@@ -95,7 +95,9 @@ public static class FunctionRegistry
         { "ARABIC", ArabicFunction.Instance },
         { "ROMAN", RomanFunction.Instance },
 
-        // Logical (8)
+        // Logical (10)
+        { "TRUE", TrueFunction.Instance },
+        { "FALSE", FalseFunction.Instance },
         { "AND", AndFunction.Instance },
         { "OR", OrFunction.Instance },
         { "NOT", NotFunction.Instance },
@@ -222,7 +224,7 @@ public static class FunctionRegistry
         { "YEARFRAC", YearfracFunction.Instance },
         { "DATEDIF", DatedifFunction.Instance },
 
-        // Statistical (58)
+        // Statistical (78)
         { "MEDIAN", MedianFunction.Instance },
         { "MODE", ModeFunction.Instance },
         { "MODE.SNGL", ModeSnglFunction.Instance },
@@ -278,6 +280,26 @@ public static class FunctionRegistry
         { "CONFIDENCE", ConfidenceFunction.Instance },
         { "CONFIDENCE.NORM", ConfidenceNormFunction.Instance },
         { "CONFIDENCE.T", ConfidenceTFunction.Instance },
+        { "T.DIST", TDistFunction.Instance },
+        { "T.DIST.RT", TDistRTFunction.Instance },
+        { "T.DIST.2T", TDist2TFunction.Instance },
+        { "T.INV", TInvFunction.Instance },
+        { "T.INV.2T", TInv2TFunction.Instance },
+        { "TDIST", TDistLegacyFunction.Instance },
+        { "TINV", TInvLegacyFunction.Instance },
+        { "CHISQ.DIST", ChiSqDistFunction.Instance },
+        { "CHISQ.DIST.RT", ChiSqDistRTFunction.Instance },
+        { "CHISQ.INV", ChiSqInvFunction.Instance },
+        { "CHISQ.INV.RT", ChiSqInvRTFunction.Instance },
+        { "CHISQ.TEST", ChiSqTestFunction.Instance },
+        { "F.DIST", FDistFunction.Instance },
+        { "F.DIST.RT", FDistRTFunction.Instance },
+        { "F.INV", FInvFunction.Instance },
+        { "F.INV.RT", FInvRTFunction.Instance },
+        { "BETA.DIST", BetaDistFunction.Instance },
+        { "BETA.INV", BetaInvFunction.Instance },
+        { "LOGNORM.DIST", LogNormDistFunction.Instance },
+        { "LOGNORM.INV", LogNormInvFunction.Instance },
 
         // Information (20)
         { "ISNUMBER", IsNumberFunction.Instance },
@@ -301,7 +323,7 @@ public static class FunctionRegistry
         { "INFO", InfoFunction.Instance },
         { "AREAS", AreasFunction.Instance },
 
-        // Financial (21)
+        // Financial (37)
         { "PMT", PmtFunction.Instance },
         { "FV", FvFunction.Instance },
         { "PV", PvFunction.Instance },
@@ -323,14 +345,36 @@ public static class FunctionRegistry
         { "CUMPRINC", CumprincFunction.Instance },
         { "EFFECT", EffectFunction.Instance },
         { "NOMINAL", NominalFunction.Instance },
+        { "PRICE", PriceFunction.Instance },
+        { "YIELD", YieldFunction.Instance },
+        { "DURATION", DurationFunction.Instance },
+        { "MDURATION", MdurationFunction.Instance },
+        { "PRICEDISC", PricediscFunction.Instance },
+        { "YIELDDISC", YielddiscFunction.Instance },
+        { "PRICEMAT", PricematFunction.Instance },
+        { "YIELDMAT", YieldmatFunction.Instance },
+        { "COUPDAYBS", CoupdaybsFunction.Instance },
+        { "COUPDAYS", CoupdaysFunction.Instance },
+        { "COUPDAYSNC", CoupdaysncFunction.Instance },
+        { "COUPNCD", CoupncdFunction.Instance },
+        { "COUPNUM", CoupnumFunction.Instance },
+        { "COUPPCD", CouppcdFunction.Instance },
+        { "DOLLARDE", DollardeFunction.Instance },
+        { "DOLLARFR", DollarfrFunction.Instance },
 
-        // Database (6)
+        // Database (12)
         { "DSUM", DSumFunction.Instance },
         { "DCOUNT", DCountFunction.Instance },
         { "DCOUNTA", DCountAFunction.Instance },
         { "DAVERAGE", DAverageFunction.Instance },
         { "DMAX", DMaxFunction.Instance },
         { "DMIN", DMinFunction.Instance },
+        { "DGET", DGetFunction.Instance },
+        { "DPRODUCT", DProductFunction.Instance },
+        { "DSTDEV", DStDevFunction.Instance },
+        { "DSTDEVP", DStDevPFunction.Instance },
+        { "DVAR", DVarFunction.Instance },
+        { "DVARP", DVarPFunction.Instance },
 
         // Engineering (32)
         { "CONVERT", ConvertFunction.Instance },

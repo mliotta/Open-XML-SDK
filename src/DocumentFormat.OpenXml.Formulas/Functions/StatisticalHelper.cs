@@ -142,4 +142,607 @@ internal static class StatisticalHelper
         double z = NormSInv(probability);
         return mean + z * standardDev;
     }
+
+    /// <summary>
+    /// Calculates the natural logarithm of the gamma function using Lanczos approximation.
+    /// </summary>
+    public static double LogGamma(double x)
+    {
+        if (x <= 0)
+        {
+            throw new System.ArgumentException("Argument must be positive");
+        }
+
+        // Lanczos coefficients for g=7
+        double[] coef = {
+            0.99999999999980993,
+            676.5203681218851,
+            -1259.1392167224028,
+            771.32342877765313,
+            -176.61502916214059,
+            12.507343278686905,
+            -0.13857109526572012,
+            9.9843695780195716e-6,
+            1.5056327351493116e-7
+        };
+
+        double z = x;
+        double sum = coef[0];
+        for (int i = 1; i < 9; i++)
+        {
+            sum += coef[i] / (z + i);
+        }
+
+        double tmp = z + 7.5;
+        return (z + 0.5) * System.Math.Log(tmp) - tmp + System.Math.Log(System.Math.Sqrt(2.0 * System.Math.PI) * sum / z);
+    }
+
+    /// <summary>
+    /// Calculates the gamma function.
+    /// </summary>
+    public static double Gamma(double x)
+    {
+        return System.Math.Exp(LogGamma(x));
+    }
+
+    /// <summary>
+    /// Calculates the incomplete beta function using continued fraction expansion.
+    /// </summary>
+    public static double IncompleteBeta(double x, double a, double b)
+    {
+        if (x < 0.0 || x > 1.0)
+        {
+            throw new System.ArgumentException("x must be between 0 and 1");
+        }
+
+        if (a <= 0.0 || b <= 0.0)
+        {
+            throw new System.ArgumentException("a and b must be positive");
+        }
+
+        if (x == 0.0) return 0.0;
+        if (x == 1.0) return 1.0;
+
+        // Use symmetry relation if necessary
+        bool swap = false;
+        if (x > (a + 1.0) / (a + b + 2.0))
+        {
+            swap = true;
+            double temp = a;
+            a = b;
+            b = temp;
+            x = 1.0 - x;
+        }
+
+        double logBeta = LogGamma(a) + LogGamma(b) - LogGamma(a + b);
+        double front = System.Math.Exp(System.Math.Log(x) * a + System.Math.Log(1.0 - x) * b - logBeta) / a;
+
+        // Continued fraction using modified Lentz's method
+        double f = 1.0;
+        double c = 1.0;
+        double d = 0.0;
+
+        for (int m = 0; m <= 200; m++)
+        {
+            double numerator, denominator;
+
+            if (m == 0)
+            {
+                numerator = 1.0;
+            }
+            else if (m % 2 == 0)
+            {
+                int m2 = m / 2;
+                numerator = (m2 * (b - m2) * x) / ((a + m - 1) * (a + m));
+            }
+            else
+            {
+                int m2 = (m - 1) / 2;
+                numerator = -((a + m2) * (a + b + m2) * x) / ((a + m) * (a + m + 1));
+            }
+
+            denominator = 1.0;
+
+            d = denominator + numerator * d;
+            if (System.Math.Abs(d) < 1e-30) d = 1e-30;
+            d = 1.0 / d;
+
+            c = denominator + numerator / c;
+            if (System.Math.Abs(c) < 1e-30) c = 1e-30;
+
+            double delta = c * d;
+            f *= delta;
+
+            if (System.Math.Abs(delta - 1.0) < 3e-7)
+                break;
+        }
+
+        double result = front * f;
+        return swap ? 1.0 - result : result;
+    }
+
+    /// <summary>
+    /// Calculates the regularized incomplete beta function I_x(a,b).
+    /// </summary>
+    public static double BetaCDF(double x, double a, double b)
+    {
+        return IncompleteBeta(x, a, b);
+    }
+
+    /// <summary>
+    /// Calculates the incomplete gamma function (lower) using series expansion.
+    /// </summary>
+    public static double IncompleteGammaLower(double a, double x)
+    {
+        if (x < 0.0 || a <= 0.0)
+        {
+            throw new System.ArgumentException("Invalid arguments for incomplete gamma");
+        }
+
+        if (x == 0.0) return 0.0;
+
+        // Use series expansion for lower incomplete gamma
+        double sum = 1.0 / a;
+        double term = 1.0 / a;
+
+        for (int n = 1; n <= 200; n++)
+        {
+            term *= x / (a + n);
+            sum += term;
+            if (System.Math.Abs(term) < System.Math.Abs(sum) * 1e-10)
+                break;
+        }
+
+        return sum * System.Math.Exp(-x + a * System.Math.Log(x) - LogGamma(a));
+    }
+
+    /// <summary>
+    /// Calculates the incomplete gamma function (upper) using continued fraction.
+    /// </summary>
+    public static double IncompleteGammaUpper(double a, double x)
+    {
+        if (x < 0.0 || a <= 0.0)
+        {
+            throw new System.ArgumentException("Invalid arguments for incomplete gamma");
+        }
+
+        // Use continued fraction for upper incomplete gamma
+        double b = x + 1.0 - a;
+        double c = 1.0 / 1e-30;
+        double d = 1.0 / b;
+        double h = d;
+
+        for (int i = 1; i <= 200; i++)
+        {
+            double an = -i * (i - a);
+            b += 2.0;
+            d = an * d + b;
+            if (System.Math.Abs(d) < 1e-30) d = 1e-30;
+            c = b + an / c;
+            if (System.Math.Abs(c) < 1e-30) c = 1e-30;
+            d = 1.0 / d;
+            double delta = d * c;
+            h *= delta;
+            if (System.Math.Abs(delta - 1.0) < 1e-10)
+                break;
+        }
+
+        return System.Math.Exp(-x + a * System.Math.Log(x) - LogGamma(a)) * h;
+    }
+
+    /// <summary>
+    /// Calculates the regularized incomplete gamma function P(a,x).
+    /// </summary>
+    public static double GammaCDF(double x, double a)
+    {
+        if (x < 0.0)
+        {
+            return 0.0;
+        }
+
+        if (x < a + 1.0)
+        {
+            return IncompleteGammaLower(a, x) / Gamma(a);
+        }
+        else
+        {
+            return 1.0 - IncompleteGammaUpper(a, x) / Gamma(a);
+        }
+    }
+
+    /// <summary>
+    /// Calculates Student's t-distribution CDF using the relationship with incomplete beta function.
+    /// </summary>
+    public static double TDistCDF(double t, double df)
+    {
+        if (df <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        double x = df / (df + t * t);
+        double beta = 0.5 * IncompleteBeta(x, df / 2.0, 0.5);
+
+        if (t > 0)
+        {
+            return 1.0 - beta;
+        }
+        else
+        {
+            return beta;
+        }
+    }
+
+    /// <summary>
+    /// Calculates Student's t-distribution PDF.
+    /// </summary>
+    public static double TDistPDF(double t, double df)
+    {
+        if (df <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        double numerator = Gamma((df + 1.0) / 2.0);
+        double denominator = System.Math.Sqrt(df * System.Math.PI) * Gamma(df / 2.0);
+        double factor = System.Math.Pow(1.0 + (t * t) / df, -(df + 1.0) / 2.0);
+
+        return (numerator / denominator) * factor;
+    }
+
+    /// <summary>
+    /// Calculates the inverse of Student's t-distribution using Newton-Raphson method.
+    /// </summary>
+    public static double TDistInv(double p, double df)
+    {
+        if (p <= 0.0 || p >= 1.0)
+        {
+            throw new System.ArgumentException("Probability must be between 0 and 1 (exclusive)");
+        }
+
+        if (df <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        // For large df, t-distribution approaches normal distribution
+        if (df > 1000)
+        {
+            return NormSInv(p);
+        }
+
+        // Initial guess using normal approximation
+        double t = NormSInv(p);
+
+        // Newton-Raphson iteration
+        for (int i = 0; i < 10; i++)
+        {
+            double cdf = TDistCDF(t, df);
+            double pdf = TDistPDF(t, df);
+
+            if (System.Math.Abs(pdf) < 1e-20)
+                break;
+
+            double delta = (cdf - p) / pdf;
+            t -= delta;
+
+            if (System.Math.Abs(delta) < 1e-8)
+                break;
+        }
+
+        return t;
+    }
+
+    /// <summary>
+    /// Calculates the chi-squared distribution CDF.
+    /// </summary>
+    public static double ChiSquareCDF(double x, double df)
+    {
+        if (x < 0.0)
+        {
+            return 0.0;
+        }
+
+        if (df <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        return GammaCDF(x / 2.0, df / 2.0);
+    }
+
+    /// <summary>
+    /// Calculates the chi-squared distribution PDF.
+    /// </summary>
+    public static double ChiSquarePDF(double x, double df)
+    {
+        if (x < 0.0)
+        {
+            return 0.0;
+        }
+
+        if (df <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        if (x == 0.0)
+        {
+            if (df < 2.0)
+                return double.PositiveInfinity;
+            else if (df == 2.0)
+                return 0.5;
+            else
+                return 0.0;
+        }
+
+        double k = df / 2.0;
+        return System.Math.Exp((k - 1.0) * System.Math.Log(x) - x / 2.0 - k * System.Math.Log(2.0) - LogGamma(k));
+    }
+
+    /// <summary>
+    /// Calculates the inverse of the chi-squared distribution using Newton-Raphson method.
+    /// </summary>
+    public static double ChiSquareInv(double p, double df)
+    {
+        if (p <= 0.0 || p >= 1.0)
+        {
+            throw new System.ArgumentException("Probability must be between 0 and 1 (exclusive)");
+        }
+
+        if (df <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        // Initial guess using Wilson-Hilferty transformation
+        double z = NormSInv(p);
+        double x = df * System.Math.Pow(1.0 - 2.0 / (9.0 * df) + z * System.Math.Sqrt(2.0 / (9.0 * df)), 3.0);
+
+        if (x < 0) x = 0.001;
+
+        // Newton-Raphson iteration
+        for (int i = 0; i < 10; i++)
+        {
+            double cdf = ChiSquareCDF(x, df);
+            double pdf = ChiSquarePDF(x, df);
+
+            if (System.Math.Abs(pdf) < 1e-20)
+                break;
+
+            double delta = (cdf - p) / pdf;
+            x -= delta;
+
+            if (x < 0) x = 0.001;
+
+            if (System.Math.Abs(delta) < 1e-8)
+                break;
+        }
+
+        return x;
+    }
+
+    /// <summary>
+    /// Calculates the F-distribution CDF using the relationship with incomplete beta function.
+    /// </summary>
+    public static double FDistCDF(double x, double df1, double df2)
+    {
+        if (x < 0.0)
+        {
+            return 0.0;
+        }
+
+        if (df1 <= 0 || df2 <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        double t = df2 / (df2 + df1 * x);
+        return 1.0 - IncompleteBeta(t, df2 / 2.0, df1 / 2.0);
+    }
+
+    /// <summary>
+    /// Calculates the F-distribution PDF.
+    /// </summary>
+    public static double FDistPDF(double x, double df1, double df2)
+    {
+        if (x < 0.0)
+        {
+            return 0.0;
+        }
+
+        if (df1 <= 0 || df2 <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        if (x == 0.0)
+        {
+            if (df1 < 2.0)
+                return double.PositiveInfinity;
+            else if (df1 == 2.0)
+                return 1.0;
+            else
+                return 0.0;
+        }
+
+        double a = df1 / 2.0;
+        double b = df2 / 2.0;
+        double numerator = System.Math.Pow(df1 * x, a) * System.Math.Pow(df2, b);
+        double denominator = System.Math.Pow(df2 + df1 * x, a + b) * x;
+
+        return (numerator / denominator) * System.Math.Exp(LogGamma(a + b) - LogGamma(a) - LogGamma(b));
+    }
+
+    /// <summary>
+    /// Calculates the inverse of the F-distribution using Newton-Raphson method.
+    /// </summary>
+    public static double FDistInv(double p, double df1, double df2)
+    {
+        if (p <= 0.0 || p >= 1.0)
+        {
+            throw new System.ArgumentException("Probability must be between 0 and 1 (exclusive)");
+        }
+
+        if (df1 <= 0 || df2 <= 0)
+        {
+            throw new System.ArgumentException("Degrees of freedom must be positive");
+        }
+
+        // Initial guess
+        double x = 1.0;
+
+        // Newton-Raphson iteration
+        for (int i = 0; i < 20; i++)
+        {
+            double cdf = FDistCDF(x, df1, df2);
+            double pdf = FDistPDF(x, df1, df2);
+
+            if (System.Math.Abs(pdf) < 1e-20)
+                break;
+
+            double delta = (cdf - p) / pdf;
+            x -= delta;
+
+            if (x < 0.0001) x = 0.0001;
+
+            if (System.Math.Abs(delta) < 1e-8)
+                break;
+        }
+
+        return x;
+    }
+
+    /// <summary>
+    /// Calculates the beta distribution PDF.
+    /// </summary>
+    public static double BetaPDF(double x, double alpha, double beta)
+    {
+        if (x < 0.0 || x > 1.0)
+        {
+            return 0.0;
+        }
+
+        if (alpha <= 0 || beta <= 0)
+        {
+            throw new System.ArgumentException("Alpha and beta must be positive");
+        }
+
+        if (x == 0.0)
+        {
+            if (alpha < 1.0) return double.PositiveInfinity;
+            else if (alpha == 1.0) return beta;
+            else return 0.0;
+        }
+
+        if (x == 1.0)
+        {
+            if (beta < 1.0) return double.PositiveInfinity;
+            else if (beta == 1.0) return alpha;
+            else return 0.0;
+        }
+
+        return System.Math.Exp((alpha - 1.0) * System.Math.Log(x) + (beta - 1.0) * System.Math.Log(1.0 - x) +
+                              LogGamma(alpha + beta) - LogGamma(alpha) - LogGamma(beta));
+    }
+
+    /// <summary>
+    /// Calculates the inverse of the beta distribution using Newton-Raphson method.
+    /// </summary>
+    public static double BetaInv(double p, double alpha, double beta)
+    {
+        if (p < 0.0 || p > 1.0)
+        {
+            throw new System.ArgumentException("Probability must be between 0 and 1");
+        }
+
+        if (alpha <= 0 || beta <= 0)
+        {
+            throw new System.ArgumentException("Alpha and beta must be positive");
+        }
+
+        if (p == 0.0) return 0.0;
+        if (p == 1.0) return 1.0;
+
+        // Initial guess
+        double x = alpha / (alpha + beta);
+
+        // Newton-Raphson iteration
+        for (int i = 0; i < 20; i++)
+        {
+            double cdf = BetaCDF(x, alpha, beta);
+            double pdf = BetaPDF(x, alpha, beta);
+
+            if (System.Math.Abs(pdf) < 1e-20)
+                break;
+
+            double delta = (cdf - p) / pdf;
+            x -= delta;
+
+            if (x < 0.0) x = 0.0001;
+            if (x > 1.0) x = 0.9999;
+
+            if (System.Math.Abs(delta) < 1e-8)
+                break;
+        }
+
+        return x;
+    }
+
+    /// <summary>
+    /// Calculates the lognormal distribution CDF.
+    /// </summary>
+    public static double LogNormCDF(double x, double mean, double stdDev)
+    {
+        if (x <= 0.0)
+        {
+            return 0.0;
+        }
+
+        if (stdDev <= 0)
+        {
+            throw new System.ArgumentException("Standard deviation must be positive");
+        }
+
+        double z = (System.Math.Log(x) - mean) / stdDev;
+        return NormSDist(z);
+    }
+
+    /// <summary>
+    /// Calculates the lognormal distribution PDF.
+    /// </summary>
+    public static double LogNormPDF(double x, double mean, double stdDev)
+    {
+        if (x <= 0.0)
+        {
+            return 0.0;
+        }
+
+        if (stdDev <= 0)
+        {
+            throw new System.ArgumentException("Standard deviation must be positive");
+        }
+
+        double z = (System.Math.Log(x) - mean) / stdDev;
+        return System.Math.Exp(-0.5 * z * z) / (x * stdDev * System.Math.Sqrt(2.0 * System.Math.PI));
+    }
+
+    /// <summary>
+    /// Calculates the inverse of the lognormal distribution.
+    /// </summary>
+    public static double LogNormInv(double p, double mean, double stdDev)
+    {
+        if (p <= 0.0 || p >= 1.0)
+        {
+            throw new System.ArgumentException("Probability must be between 0 and 1 (exclusive)");
+        }
+
+        if (stdDev <= 0)
+        {
+            throw new System.ArgumentException("Standard deviation must be positive");
+        }
+
+        double z = NormSInv(p);
+        return System.Math.Exp(mean + stdDev * z);
+    }
 }
