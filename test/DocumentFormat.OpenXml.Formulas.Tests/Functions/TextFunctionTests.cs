@@ -1,9 +1,9 @@
 // Copyright (c) Matt Liotta
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using DocumentFormat.OpenXml.Features.FormulaEvaluation.Compilation;
 using DocumentFormat.OpenXml.Features.FormulaEvaluation.Functions;
-
 using Xunit;
 
 namespace DocumentFormat.OpenXml.Features.FormulaEvaluation.Tests.Functions;
@@ -844,6 +844,475 @@ public class TextFunctionTests
             CellValue.FromString("test"),
             CellValue.FromString("extra"),
         };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region CONCAT Function Tests
+
+    [Fact]
+    public void Concat_TwoStrings_ReturnsExpected()
+    {
+        var func = ConcatFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("Hello"),
+            CellValue.FromString(" World"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("Hello World", result.StringValue);
+    }
+
+    [Fact]
+    public void Concat_ThreeStrings_ReturnsExpected()
+    {
+        var func = ConcatFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("Hello"),
+            CellValue.FromString(" "),
+            CellValue.FromString("World"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("Hello World", result.StringValue);
+    }
+
+    [Fact]
+    public void Concat_NumbersAsText_ReturnsExpected()
+    {
+        var func = ConcatFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(2024),
+            CellValue.FromString("-"),
+            CellValue.FromNumber(11),
+            CellValue.FromString("-"),
+            CellValue.FromNumber(11),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("2024-11-11", result.StringValue);
+    }
+
+    [Fact]
+    public void Concat_EmptyStrings_ReturnsEmpty()
+    {
+        var func = ConcatFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(string.Empty),
+            CellValue.FromString(string.Empty),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(string.Empty, result.StringValue);
+    }
+
+    [Fact]
+    public void Concat_SingleString_ReturnsSame()
+    {
+        var func = ConcatFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("Test"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("Test", result.StringValue);
+    }
+
+    [Fact]
+    public void Concat_ErrorValue_PropagatesError()
+    {
+        var func = ConcatFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("Hello"),
+            CellValue.Error("#DIV/0!"),
+            CellValue.FromString("World"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region TEXTJOIN Function Tests
+
+    [Fact]
+    public void TextJoin_BasicJoin_ReturnsExpected()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromBool(true),
+            CellValue.FromString("A"),
+            CellValue.FromString("B"),
+            CellValue.FromString("C"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("A, B, C", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_IgnoreEmpty_SkipsEmptyStrings()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromBool(true),
+            CellValue.FromString("A"),
+            CellValue.FromString(string.Empty),
+            CellValue.FromString("B"),
+            CellValue.FromString("C"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("A, B, C", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_KeepEmpty_IncludesEmptyStrings()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromBool(false),
+            CellValue.FromString("A"),
+            CellValue.FromString(string.Empty),
+            CellValue.FromString("B"),
+            CellValue.FromString("C"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("A, , B, C", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_DateFormat_ReturnsExpected()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("-"),
+            CellValue.FromBool(false),
+            CellValue.FromString("2024"),
+            CellValue.FromString("01"),
+            CellValue.FromString("15"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("2024-01-15", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_EmptyDelimiter_ConcatenatesDirectly()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(string.Empty),
+            CellValue.FromBool(true),
+            CellValue.FromString("A"),
+            CellValue.FromString("B"),
+            CellValue.FromString("C"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("ABC", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_NumericIgnoreEmpty_AcceptsNumber()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromNumber(1),
+            CellValue.FromString("A"),
+            CellValue.FromString("B"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("A, B", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_ZeroIgnoreEmpty_KeepsEmpty()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromNumber(0),
+            CellValue.FromString("A"),
+            CellValue.FromString(string.Empty),
+            CellValue.FromString("B"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("A, , B", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_TextBooleanTrue_AcceptsText()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromString("TRUE"),
+            CellValue.FromString("A"),
+            CellValue.FromString("B"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("A, B", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_TextBooleanFalse_AcceptsText()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromString("FALSE"),
+            CellValue.FromString("A"),
+            CellValue.FromString("B"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("A, B", result.StringValue);
+    }
+
+    [Fact]
+    public void TextJoin_InvalidBoolean_ReturnsError()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromString("invalid"),
+            CellValue.FromString("A"),
+            CellValue.FromString("B"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void TextJoin_ErrorInDelimiter_PropagatesError()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#REF!"),
+            CellValue.FromBool(true),
+            CellValue.FromString("A"),
+            CellValue.FromString("B"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#REF!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void TextJoin_ErrorInText_PropagatesError()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromBool(true),
+            CellValue.FromString("A"),
+            CellValue.Error("#N/A"),
+            CellValue.FromString("B"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#N/A", result.ErrorValue);
+    }
+
+    [Fact]
+    public void TextJoin_TooFewArguments_ReturnsError()
+    {
+        var func = TextJoinFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(", "),
+            CellValue.FromBool(true),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    #endregion
+
+    #region REVERSE Function Tests
+
+    [Fact]
+    public void Reverse_SimpleString_ReturnsReversed()
+    {
+        var func = ReverseFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("Excel"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal("lecxE", result.StringValue);
+    }
+
+    [Fact]
+    public void Reverse_Palindrome_ReturnsSame()
+    {
+        var func = ReverseFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("racecar"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("racecar", result.StringValue);
+    }
+
+    [Fact]
+    public void Reverse_EmptyString_ReturnsEmpty()
+    {
+        var func = ReverseFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString(string.Empty),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(string.Empty, result.StringValue);
+    }
+
+    [Fact]
+    public void Reverse_SingleCharacter_ReturnsSame()
+    {
+        var func = ReverseFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("A"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("A", result.StringValue);
+    }
+
+    [Fact]
+    public void Reverse_Numbers_ReturnsReversed()
+    {
+        var func = ReverseFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(12345),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("54321", result.StringValue);
+    }
+
+    [Fact]
+    public void Reverse_WithSpaces_ReversesIncludingSpaces()
+    {
+        var func = ReverseFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("Hello World"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal("dlroW olleH", result.StringValue);
+    }
+
+    [Fact]
+    public void Reverse_ErrorValue_PropagatesError()
+    {
+        var func = ReverseFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#NAME?"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NAME?", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Reverse_TooManyArguments_ReturnsError()
+    {
+        var func = ReverseFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromString("test"),
+            CellValue.FromString("extra"),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Reverse_NoArguments_ReturnsError()
+    {
+        var func = ReverseFunction.Instance;
+        var args = Array.Empty<CellValue>();
 
         var result = func.Execute(null!, args);
 

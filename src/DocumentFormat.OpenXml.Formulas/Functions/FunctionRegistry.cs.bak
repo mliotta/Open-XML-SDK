@@ -20,7 +20,7 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (49)
+        // Math (39)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
@@ -54,16 +54,6 @@ public static class FunctionRegistry
         { "SIN", SinFunction.Instance },
         { "COS", CosFunction.Instance },
         { "TAN", TanFunction.Instance },
-        { "ASIN", AsinFunction.Instance },
-        { "ACOS", AcosFunction.Instance },
-        { "ATAN", AtanFunction.Instance },
-        { "ATAN2", Atan2Function.Instance },
-        { "SINH", SinhFunction.Instance },
-        { "COSH", CoshFunction.Instance },
-        { "TANH", TanhFunction.Instance },
-        { "ASINH", AsinhFunction.Instance },
-        { "ACOSH", AcoshFunction.Instance },
-        { "ATANH", AtanhFunction.Instance },
         { "RAND", RandFunction.Instance },
         { "RANDBETWEEN", RandBetweenFunction.Instance },
         { "FACT", FactFunction.Instance },

@@ -480,6 +480,459 @@ public class FinancialFunctionTests
         Assert.Equal("#REF!", result.ErrorValue);
     }
 
+    // NPV Function Tests
+    [Fact]
+    public void Npv_BasicCalculation_ReturnsCorrectValue()
+    {
+        // NPV(0.10, -10000, 3000, 4200, 6800)
+        var func = NpvFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10),      // rate
+            CellValue.FromNumber(-10000),    // value1
+            CellValue.FromNumber(3000),      // value2
+            CellValue.FromNumber(4200),      // value3
+            CellValue.FromNumber(6800),      // value4
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(1188.44, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Npv_SingleValue_ReturnsCorrectValue()
+    {
+        // NPV(0.05, 1000)
+        var func = NpvFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.05),   // rate
+            CellValue.FromNumber(1000),   // value1
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(952.38, result.NumericValue, 2); // 1000 / 1.05
+    }
+
+    [Fact]
+    public void Npv_ZeroRate_ReturnsSum()
+    {
+        // NPV(0, 100, 200, 300) - with zero rate, NPV is simple sum
+        var func = NpvFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0),      // rate
+            CellValue.FromNumber(100),
+            CellValue.FromNumber(200),
+            CellValue.FromNumber(300),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(600.0, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Npv_InvalidArgCount_ReturnsError()
+    {
+        var func = NpvFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#VALUE!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Npv_PropagatesError()
+    {
+        var func = NpvFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10),
+            CellValue.Error("#DIV/0!"),
+            CellValue.FromNumber(100),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
+    }
+
+    // IRR Function Tests
+    [Fact]
+    public void Irr_BasicCalculation_ReturnsCorrectValue()
+    {
+        // IRR(-10000, 3000, 4200, 6800) - should match NPV example
+        var func = IrrFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(-10000),
+            CellValue.FromNumber(3000),
+            CellValue.FromNumber(4200),
+            CellValue.FromNumber(6800),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue > 0.1); // Should be positive rate
+        Assert.True(result.NumericValue < 0.3); // Reasonable range
+    }
+
+    [Fact]
+    public void Irr_SimpleInvestment_ReturnsCorrectValue()
+    {
+        // IRR(-1000, 300, 400, 500) - simple investment
+        var func = IrrFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(-1000),
+            CellValue.FromNumber(300),
+            CellValue.FromNumber(400),
+            CellValue.FromNumber(500),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue > 0); // Positive return
+    }
+
+    [Fact]
+    public void Irr_AllPositive_ReturnsError()
+    {
+        // IRR requires both positive and negative values
+        var func = IrrFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(100),
+            CellValue.FromNumber(200),
+            CellValue.FromNumber(300),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Irr_AllNegative_ReturnsError()
+    {
+        var func = IrrFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(-100),
+            CellValue.FromNumber(-200),
+            CellValue.FromNumber(-300),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Irr_PropagatesError()
+    {
+        var func = IrrFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(-1000),
+            CellValue.Error("#N/A"),
+            CellValue.FromNumber(500),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#N/A", result.ErrorValue);
+    }
+
+    // IPMT Function Tests
+    [Fact]
+    public void Ipmt_FirstPaymentInterest_ReturnsCorrectValue()
+    {
+        // IPMT(0.10/12, 1, 360, 200000) - interest portion of first payment on 30-year loan
+        var func = IpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),  // rate
+            CellValue.FromNumber(1),          // per
+            CellValue.FromNumber(360),        // nper
+            CellValue.FromNumber(200000),     // pv
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue < 0); // Interest is negative (outflow)
+        Assert.True(System.Math.Abs(result.NumericValue) > 1600); // Approximate check
+    }
+
+    [Fact]
+    public void Ipmt_MiddlePaymentInterest_ReturnsCorrectValue()
+    {
+        // IPMT(0.10/12, 180, 360, 200000) - interest at midpoint
+        var func = IpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),  // rate
+            CellValue.FromNumber(180),        // per
+            CellValue.FromNumber(360),        // nper
+            CellValue.FromNumber(200000),     // pv
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue < 0); // Interest is negative
+    }
+
+    [Fact]
+    public void Ipmt_WithFutureValue_ReturnsCorrectValue()
+    {
+        // IPMT(0.08/12, 5, 60, 10000, 5000, 0)
+        var func = IpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.08 / 12),  // rate
+            CellValue.FromNumber(5),          // per
+            CellValue.FromNumber(60),         // nper
+            CellValue.FromNumber(10000),      // pv
+            CellValue.FromNumber(5000),       // fv
+            CellValue.FromNumber(0),          // type
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue < 0); // Interest is negative
+    }
+
+    [Fact]
+    public void Ipmt_BeginningOfPeriod_ReturnsCorrectValue()
+    {
+        // IPMT(0.08/12, 1, 60, 10000, 0, 1) - beginning of period
+        var func = IpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.08 / 12),  // rate
+            CellValue.FromNumber(1),          // per
+            CellValue.FromNumber(60),         // nper
+            CellValue.FromNumber(10000),      // pv
+            CellValue.FromNumber(0),          // fv
+            CellValue.FromNumber(1),          // type
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        // For beginning of period, first payment has no interest
+        Assert.Equal(0.0, result.NumericValue, 2);
+    }
+
+    [Fact]
+    public void Ipmt_InvalidPeriod_ReturnsError()
+    {
+        var func = IpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),
+            CellValue.FromNumber(0),          // invalid period (< 1)
+            CellValue.FromNumber(360),
+            CellValue.FromNumber(200000),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ipmt_PeriodExceedsNper_ReturnsError()
+    {
+        var func = IpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),
+            CellValue.FromNumber(361),        // period > nper
+            CellValue.FromNumber(360),
+            CellValue.FromNumber(200000),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ipmt_PropagatesError()
+    {
+        var func = IpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.Error("#REF!"),
+            CellValue.FromNumber(1),
+            CellValue.FromNumber(360),
+            CellValue.FromNumber(200000),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#REF!", result.ErrorValue);
+    }
+
+    // PPMT Function Tests
+    [Fact]
+    public void Ppmt_FirstPaymentPrincipal_ReturnsCorrectValue()
+    {
+        // PPMT(0.10/12, 1, 360, 200000) - principal portion of first payment
+        var func = PpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),  // rate
+            CellValue.FromNumber(1),          // per
+            CellValue.FromNumber(360),        // nper
+            CellValue.FromNumber(200000),     // pv
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue < 0); // Principal is negative (outflow)
+    }
+
+    [Fact]
+    public void Ppmt_LastPaymentPrincipal_ReturnsCorrectValue()
+    {
+        // PPMT(0.10/12, 360, 360, 200000) - last payment has mostly principal
+        var func = PpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),  // rate
+            CellValue.FromNumber(360),        // per
+            CellValue.FromNumber(360),        // nper
+            CellValue.FromNumber(200000),     // pv
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue < 0); // Principal is negative
+    }
+
+    [Fact]
+    public void Ppmt_WithFutureValue_ReturnsCorrectValue()
+    {
+        // PPMT(0.08/12, 5, 60, 10000, 5000, 0)
+        var func = PpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.08 / 12),  // rate
+            CellValue.FromNumber(5),          // per
+            CellValue.FromNumber(60),         // nper
+            CellValue.FromNumber(10000),      // pv
+            CellValue.FromNumber(5000),       // fv
+            CellValue.FromNumber(0),          // type
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue < 0); // Principal is negative
+    }
+
+    [Fact]
+    public void Ppmt_BeginningOfPeriod_ReturnsCorrectValue()
+    {
+        // PPMT(0.08/12, 1, 60, 10000, 0, 1) - beginning of period
+        var func = PpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.08 / 12),  // rate
+            CellValue.FromNumber(1),          // per
+            CellValue.FromNumber(60),         // nper
+            CellValue.FromNumber(10000),      // pv
+            CellValue.FromNumber(0),          // fv
+            CellValue.FromNumber(1),          // type
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.True(result.NumericValue < 0); // Principal is negative
+    }
+
+    [Fact]
+    public void Ppmt_InvalidPeriod_ReturnsError()
+    {
+        var func = PpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),
+            CellValue.FromNumber(0),          // invalid period (< 1)
+            CellValue.FromNumber(360),
+            CellValue.FromNumber(200000),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ppmt_PeriodExceedsNper_ReturnsError()
+    {
+        var func = PpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),
+            CellValue.FromNumber(361),        // period > nper
+            CellValue.FromNumber(360),
+            CellValue.FromNumber(200000),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#NUM!", result.ErrorValue);
+    }
+
+    [Fact]
+    public void Ppmt_PropagatesError()
+    {
+        var func = PpmtFunction.Instance;
+        var args = new[]
+        {
+            CellValue.FromNumber(0.10 / 12),
+            CellValue.FromNumber(1),
+            CellValue.Error("#N/A"),
+            CellValue.FromNumber(200000),
+        };
+
+        var result = func.Execute(null!, args);
+
+        Assert.True(result.IsError);
+        Assert.Equal("#N/A", result.ErrorValue);
+    }
+
     // Cross-function validation tests
     [Fact]
     public void Financial_PmtAndPvRelationship_IsConsistent()
@@ -545,5 +998,96 @@ public class FinancialFunctionTests
         var pvResult = pvFunc.Execute(null!, pvArgs);
         Assert.Equal(CellValueType.Number, pvResult.Type);
         Assert.True(System.Math.Abs(pvResult.NumericValue) < 0.01); // Should be close to zero
+    }
+
+    [Fact]
+    public void Financial_IpmtAndPpmtSumToPmt_IsConsistent()
+    {
+        // IPMT + PPMT should equal PMT for any period
+        var rate = 0.10 / 12;
+        var per = 10;
+        var nper = 360;
+        var pv = 200000;
+
+        var pmtFunc = PmtFunction.Instance;
+        var pmtArgs = new[]
+        {
+            CellValue.FromNumber(rate),
+            CellValue.FromNumber(nper),
+            CellValue.FromNumber(pv),
+        };
+
+        var pmtResult = pmtFunc.Execute(null!, pmtArgs);
+        Assert.Equal(CellValueType.Number, pmtResult.Type);
+
+        var ipmtFunc = IpmtFunction.Instance;
+        var ipmtArgs = new[]
+        {
+            CellValue.FromNumber(rate),
+            CellValue.FromNumber(per),
+            CellValue.FromNumber(nper),
+            CellValue.FromNumber(pv),
+        };
+
+        var ipmtResult = ipmtFunc.Execute(null!, ipmtArgs);
+        Assert.Equal(CellValueType.Number, ipmtResult.Type);
+
+        var ppmtFunc = PpmtFunction.Instance;
+        var ppmtArgs = new[]
+        {
+            CellValue.FromNumber(rate),
+            CellValue.FromNumber(per),
+            CellValue.FromNumber(nper),
+            CellValue.FromNumber(pv),
+        };
+
+        var ppmtResult = ppmtFunc.Execute(null!, ppmtArgs);
+        Assert.Equal(CellValueType.Number, ppmtResult.Type);
+
+        // IPMT + PPMT should equal PMT
+        var sum = ipmtResult.NumericValue + ppmtResult.NumericValue;
+        Assert.Equal(pmtResult.NumericValue, sum, 2);
+    }
+
+    [Fact]
+    public void Financial_IrrAndNpvRelationship_IsConsistent()
+    {
+        // NPV at IRR should be close to zero
+        var values = new[]
+        {
+            -10000.0,
+            3000.0,
+            4200.0,
+            6800.0,
+        };
+
+        var irrFunc = IrrFunction.Instance;
+        var irrArgs = new[]
+        {
+            CellValue.FromNumber(values[0]),
+            CellValue.FromNumber(values[1]),
+            CellValue.FromNumber(values[2]),
+            CellValue.FromNumber(values[3]),
+        };
+
+        var irrResult = irrFunc.Execute(null!, irrArgs);
+        Assert.Equal(CellValueType.Number, irrResult.Type);
+
+        // Now calculate NPV at the IRR rate
+        var npvFunc = NpvFunction.Instance;
+        var npvArgs = new[]
+        {
+            CellValue.FromNumber(irrResult.NumericValue),
+            CellValue.FromNumber(values[1]),
+            CellValue.FromNumber(values[2]),
+            CellValue.FromNumber(values[3]),
+        };
+
+        var npvResult = npvFunc.Execute(null!, npvArgs);
+        Assert.Equal(CellValueType.Number, npvResult.Type);
+
+        // NPV at IRR plus the initial investment should be close to zero
+        var totalNpv = npvResult.NumericValue + values[0];
+        Assert.True(System.Math.Abs(totalNpv) < 1.0); // Close to zero
     }
 }

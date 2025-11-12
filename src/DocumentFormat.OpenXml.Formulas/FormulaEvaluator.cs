@@ -258,19 +258,20 @@ public class FormulaEvaluator : IFormulaEvaluator
             // Logical (7)
             "AND", "OR", "NOT", "CHOOSE", "IFS", "SWITCH", "XOR",
 
-            // Text (21)
-            "CONCATENATE", "LEFT", "RIGHT", "MID", "LEN", "TRIM",
+            // Text (24)
+            "CONCATENATE", "CONCAT", "TEXTJOIN", "LEFT", "RIGHT", "MID", "LEN", "TRIM",
             "UPPER", "LOWER", "PROPER", "TEXT", "VALUE",
             "FIND", "SEARCH", "SUBSTITUTE", "REPLACE", "REPT",
-            "EXACT", "CHAR", "CODE", "CLEAN", "T",
+            "EXACT", "CHAR", "CODE", "CLEAN", "T", "REVERSE",
 
             // Lookup (9)
             "VLOOKUP", "HLOOKUP", "INDEX", "MATCH", "COLUMN", "ROW", "COLUMNS", "ROWS", "ADDRESS",
 
-            // Date/Time (17)
+            // Date/Time (20)
             "TODAY", "NOW", "DATE", "YEAR", "MONTH", "DAY",
-            "HOUR", "MINUTE", "SECOND", "WEEKDAY",
+            "HOUR", "MINUTE", "SECOND", "WEEKDAY", "WEEKNUM",
             "DAYS", "TIME", "TIMEVALUE", "DATEVALUE", "DAYS360", "EOMONTH", "EDATE",
+            "NETWORKDAYS", "WORKDAY",
 
             // Statistical (9)
             "MEDIAN", "MODE", "STDEV", "VAR", "RANK", "AVERAGEIF", "AVERAGEIFS",
