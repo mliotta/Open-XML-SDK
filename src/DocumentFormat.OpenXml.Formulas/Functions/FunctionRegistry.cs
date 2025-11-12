@@ -125,11 +125,13 @@ public static class FunctionRegistry
         { "NUMBERVALUE", NumberValueFunction.Instance },
         { "PHONETIC", PhoneticFunction.Instance },
 
-        // Lookup (11)
+        // Lookup (19)
         { "VLOOKUP", VLookupFunction.Instance },
         { "HLOOKUP", HLookupFunction.Instance },
         { "INDEX", IndexFunction.Instance },
         { "MATCH", MatchFunction.Instance },
+        { "XLOOKUP", XLookupFunction.Instance },
+        { "XMATCH", XMatchFunction.Instance },
         { "COLUMN", ColumnFunction.Instance },
         { "ROW", RowFunction.Instance },
         { "COLUMNS", ColumnsFunction.Instance },
@@ -137,6 +139,19 @@ public static class FunctionRegistry
         { "ADDRESS", AddressFunction.Instance },
         { "OFFSET", OffsetFunction.Instance },
         { "INDIRECT", IndirectFunction.Instance },
+        { "FORMULATEXT", FormulaTextFunction.Instance },
+        { "ISFORMULA", IsFormulaFunction.Instance },
+        { "SHEET", SheetFunction.Instance },
+        { "SHEETS", SheetsFunction.Instance },
+        { "GETPIVOTDATA", GetPivotDataFunction.Instance },
+        { "HYPERLINK", HyperlinkFunction.Instance },
+
+        // Array (5)
+        { "TRANSPOSE", TransposeFunction.Instance },
+        { "SORT", SortFunction.Instance },
+        { "FILTER", FilterFunction.Instance },
+        { "UNIQUE", UniqueFunction.Instance },
+        { "SEQUENCE", SequenceFunction.Instance },
 
         // Date/Time (22)
         { "TODAY", TodayFunction.Instance },
@@ -162,7 +177,7 @@ public static class FunctionRegistry
         { "YEARFRAC", YearfracFunction.Instance },
         { "DATEDIF", DatedifFunction.Instance },
 
-        // Statistical (23)
+        // Statistical (44)
         { "MEDIAN", MedianFunction.Instance },
         { "MODE", ModeFunction.Instance },
         { "STDEV", StDevFunction.Instance },
@@ -177,15 +192,34 @@ public static class FunctionRegistry
         { "LARGE", LargeFunction.Instance },
         { "SMALL", SmallFunction.Instance },
         { "PERCENTILE", PercentileFunction.Instance },
+        { "PERCENTILE.INC", PercentileIncFunction.Instance },
+        { "PERCENTILE.EXC", PercentileExcFunction.Instance },
         { "QUARTILE", QuartileFunction.Instance },
+        { "QUARTILE.INC", QuartileIncFunction.Instance },
+        { "QUARTILE.EXC", QuartileExcFunction.Instance },
         { "CORREL", CorrelFunction.Instance },
         { "COVARIANCE.P", CovariancePFunction.Instance },
         { "COVARIANCE.S", CovarianceSFunction.Instance },
         { "SLOPE", SlopeFunction.Instance },
         { "INTERCEPT", InterceptFunction.Instance },
+        { "FORECAST", ForecastFunction.Instance },
+        { "FORECAST.LINEAR", ForecastLinearFunction.Instance },
+        { "TREND", TrendFunction.Instance },
+        { "GROWTH", GrowthFunction.Instance },
+        { "LINEST", LinestFunction.Instance },
+        { "LOGEST", LogestFunction.Instance },
         { "SKEW", SkewFunction.Instance },
         { "KURT", KurtFunction.Instance },
         { "FREQUENCY", FrequencyFunction.Instance },
+        { "AVERAGEA", AverageAFunction.Instance },
+        { "MINA", MinAFunction.Instance },
+        { "MAXA", MaxAFunction.Instance },
+        { "STDEVA", StDevAFunction.Instance },
+        { "STDEVPA", StDevPAFunction.Instance },
+        { "VARA", VarAFunction.Instance },
+        { "VARPA", VarPAFunction.Instance },
+        { "SUBTOTAL", SubtotalFunction.Instance },
+        { "AGGREGATE", AggregateFunction.Instance },
 
         // Information (13)
         { "ISNUMBER", IsNumberFunction.Instance },

@@ -9,7 +9,7 @@
 This fork extends the official Open XML SDK with a **high-performance Excel formula evaluator** that enables:
 
 - ✅ **Evaluate Excel formulas** without requiring Excel to be installed
-- ✅ **198 built-in functions** (math, text, logical, lookup, date/time, statistical, financial, engineering, database, information, error handling)
+- ✅ **229 built-in functions** (math, text, logical, lookup, array, date/time, statistical, financial, engineering, database, information, error handling)
 - ✅ **100% validation accuracy** against Excel's calculations
 - ✅ **Incremental recalculation** - 250-1000x faster than full sheet recalculation
 - ✅ **Formula-to-Lambda compilation** for native performance
@@ -69,7 +69,7 @@ evaluator.RecalculateSheet(worksheet);
 evaluator.RecalculateDependents(worksheet, "A1", "B2");
 ```
 
-## Supported Functions (198 total)
+## Supported Functions (229 total)
 
 **Math (64)**: SUM, AVERAGE, COUNT, COUNTA, COUNTBLANK, MIN, MAX, ROUND, ROUNDUP, ROUNDDOWN, ABS, PRODUCT, POWER, MEDIAN, MODE, STDEV, VAR, SQRT, MOD, INT, CEILING, FLOOR, TRUNC, SIGN, EXP, LN, LOG, LOG10, PI, RADIANS, DEGREES, SIN, COS, TAN, SUMIFS, COUNTIFS, SUMPRODUCT, RAND, RANDBETWEEN, FACT, GCD, LCM, EVEN, ODD, ASIN, ACOS, ATAN, ATAN2, SINH, COSH, TANH, ASINH, ACOSH, ATANH, COMBIN, PERMUT, MROUND, QUOTIENT, SUMSQ, SUMX2MY2, SUMX2PY2, SUMXMY2, MULTINOMIAL, SERIESSUM
 
@@ -77,11 +77,13 @@ evaluator.RecalculateDependents(worksheet, "A1", "B2");
 
 **Logical (9)**: IF, AND, OR, NOT, CHOOSE, IFS, SWITCH, XOR, IFNA
 
-**Lookup (12)**: VLOOKUP, HLOOKUP, INDEX, MATCH, RANK, COLUMN, ROW, COLUMNS, ROWS, ADDRESS, OFFSET, INDIRECT
+**Lookup (20)**: VLOOKUP, HLOOKUP, INDEX, MATCH, XLOOKUP, XMATCH, RANK, COLUMN, ROW, COLUMNS, ROWS, ADDRESS, OFFSET, INDIRECT, FORMULATEXT, ISFORMULA, SHEET, SHEETS, GETPIVOTDATA, HYPERLINK
+
+**Array (5)**: TRANSPOSE, SORT, FILTER, UNIQUE, SEQUENCE
 
 **Date/Time (22)**: DATE, YEAR, MONTH, DAY, WEEKDAY, TODAY, NOW, HOUR, MINUTE, SECOND, DAYS, TIME, TIMEVALUE, DATEVALUE, DAYS360, EOMONTH, EDATE, NETWORKDAYS, WORKDAY, WEEKNUM, YEARFRAC, DATEDIF
 
-**Statistical (24)**: SUMIF, COUNTIF, AVERAGEIF, STDEVP, VARP, LARGE, SMALL, PERCENTILE, QUARTILE, AVERAGEIFS, MAXIFS, MINIFS, CORREL, COVARIANCE.P, COVARIANCE.S, SLOPE, INTERCEPT, SKEW, KURT, FREQUENCY
+**Statistical (44)**: SUMIF, COUNTIF, AVERAGEIF, STDEVP, VARP, LARGE, SMALL, PERCENTILE, QUARTILE, AVERAGEIFS, MAXIFS, MINIFS, CORREL, COVARIANCE.P, COVARIANCE.S, SLOPE, INTERCEPT, SKEW, KURT, FREQUENCY, PERCENTILE.INC, PERCENTILE.EXC, QUARTILE.INC, QUARTILE.EXC, FORECAST, FORECAST.LINEAR, TREND, GROWTH, LINEST, LOGEST, AVERAGEA, MINA, MAXA, STDEVA, STDEVPA, VARA, VARPA, SUBTOTAL, AGGREGATE, STDEV.S, STDEV.P, VAR.S, VAR.P
 
 **Financial (13)**: PMT, FV, PV, NPER, RATE, NPV, IRR, IPMT, PPMT, SLN, DB, DDB, SYD
 
