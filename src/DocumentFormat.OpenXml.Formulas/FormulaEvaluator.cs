@@ -259,15 +259,16 @@ public class FormulaEvaluator : IFormulaEvaluator
             // Logical (8)
             "AND", "OR", "NOT", "CHOOSE", "IFS", "SWITCH", "XOR", "IFNA",
 
-            // Text (27)
-            "CONCATENATE", "CONCAT", "TEXTJOIN", "LEFT", "RIGHT", "MID", "LEN", "TRIM",
+            // Text (31)
+            "CONCATENATE", "CONCAT", "TEXTJOIN", "LEFT", "RIGHT", "MID", "LEN", "TRIM", "TRIMALL",
             "UPPER", "LOWER", "PROPER", "TEXT", "VALUE",
             "FIND", "SEARCH", "SUBSTITUTE", "REPLACE", "REPT",
-            "EXACT", "CHAR", "CODE", "CLEAN", "T", "REVERSE",
-            "FIXED", "DOLLAR", "NUMBERVALUE",
+            "EXACT", "CHAR", "CODE", "UNICHAR", "UNICODE", "CLEAN", "T", "REVERSE",
+            "FIXED", "DOLLAR", "NUMBERVALUE", "PHONETIC",
 
-            // Lookup (9)
+            // Lookup (11)
             "VLOOKUP", "HLOOKUP", "INDEX", "MATCH", "COLUMN", "ROW", "COLUMNS", "ROWS", "ADDRESS",
+            "OFFSET", "INDIRECT",
 
             // Date/Time (22)
             "TODAY", "NOW", "DATE", "YEAR", "MONTH", "DAY",
@@ -286,6 +287,9 @@ public class FormulaEvaluator : IFormulaEvaluator
             // Financial (13)
             "PMT", "FV", "PV", "NPER", "RATE", "NPV", "IRR", "IPMT", "PPMT",
             "SLN", "DB", "DDB", "SYD",
+
+            // Engineering (7)
+            "CONVERT", "HEX2DEC", "DEC2HEX", "BIN2DEC", "DEC2BIN", "OCT2DEC", "DEC2OCT",
         };
 
         return functions;

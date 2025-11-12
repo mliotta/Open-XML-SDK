@@ -20,7 +20,7 @@ public static class FunctionRegistry
         { "AVERAGE", AverageFunction.Instance },
         { "IF", IfFunction.Instance },
 
-        // Math (53)
+        // Math (59)
         { "COUNT", CountFunction.Instance },
         { "COUNTA", CountAFunction.Instance },
         { "COUNTBLANK", CountBlankFunction.Instance },
@@ -75,6 +75,12 @@ public static class FunctionRegistry
         { "PERMUT", PermutFunction.Instance },
         { "MROUND", MroundFunction.Instance },
         { "QUOTIENT", QuotientFunction.Instance },
+        { "SUMSQ", SumSqFunction.Instance },
+        { "SUMX2MY2", SumX2MY2Function.Instance },
+        { "SUMX2PY2", SumX2PY2Function.Instance },
+        { "SUMXMY2", SumXMY2Function.Instance },
+        { "MULTINOMIAL", MultinomialFunction.Instance },
+        { "SERIESSUM", SeriesSumFunction.Instance },
 
         // Logical (8)
         { "AND", AndFunction.Instance },
@@ -86,7 +92,7 @@ public static class FunctionRegistry
         { "XOR", XorFunction.Instance },
         { "IFNA", IfnaFunction.Instance },
 
-        // Text (27)
+        // Text (31)
         { "CONCATENATE", ConcatenateFunction.Instance },
         { "CONCAT", ConcatFunction.Instance },
         { "TEXTJOIN", TextJoinFunction.Instance },
@@ -95,6 +101,7 @@ public static class FunctionRegistry
         { "MID", MidFunction.Instance },
         { "LEN", LenFunction.Instance },
         { "TRIM", TrimFunction.Instance },
+        { "TRIMALL", TrimAllFunction.Instance },
         { "UPPER", UpperFunction.Instance },
         { "LOWER", LowerFunction.Instance },
         { "PROPER", ProperFunction.Instance },
@@ -108,14 +115,17 @@ public static class FunctionRegistry
         { "EXACT", ExactFunction.Instance },
         { "CHAR", CharFunction.Instance },
         { "CODE", CodeFunction.Instance },
+        { "UNICHAR", UnicharFunction.Instance },
+        { "UNICODE", UnicodeFunction.Instance },
         { "CLEAN", CleanFunction.Instance },
         { "T", TFunction.Instance },
         { "REVERSE", ReverseFunction.Instance },
         { "FIXED", FixedFunction.Instance },
         { "DOLLAR", DollarFunction.Instance },
         { "NUMBERVALUE", NumberValueFunction.Instance },
+        { "PHONETIC", PhoneticFunction.Instance },
 
-        // Lookup (9)
+        // Lookup (11)
         { "VLOOKUP", VLookupFunction.Instance },
         { "HLOOKUP", HLookupFunction.Instance },
         { "INDEX", IndexFunction.Instance },
@@ -125,6 +135,8 @@ public static class FunctionRegistry
         { "COLUMNS", ColumnsFunction.Instance },
         { "ROWS", RowsFunction.Instance },
         { "ADDRESS", AddressFunction.Instance },
+        { "OFFSET", OffsetFunction.Instance },
+        { "INDIRECT", IndirectFunction.Instance },
 
         // Date/Time (22)
         { "TODAY", TodayFunction.Instance },
@@ -204,6 +216,23 @@ public static class FunctionRegistry
         { "DB", DbFunction.Instance },
         { "DDB", DdbFunction.Instance },
         { "SYD", SydFunction.Instance },
+
+        // Database (6)
+        { "DSUM", DSumFunction.Instance },
+        { "DCOUNT", DCountFunction.Instance },
+        { "DCOUNTA", DCountAFunction.Instance },
+        { "DAVERAGE", DAverageFunction.Instance },
+        { "DMAX", DMaxFunction.Instance },
+        { "DMIN", DMinFunction.Instance },
+
+        // Engineering (7)
+        { "CONVERT", ConvertFunction.Instance },
+        { "HEX2DEC", Hex2DecFunction.Instance },
+        { "DEC2HEX", Dec2HexFunction.Instance },
+        { "BIN2DEC", Bin2DecFunction.Instance },
+        { "DEC2BIN", Dec2BinFunction.Instance },
+        { "OCT2DEC", Oct2DecFunction.Instance },
+        { "DEC2OCT", Dec2OctFunction.Instance },
     };
 
     /// <summary>
