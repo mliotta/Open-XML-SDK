@@ -9,7 +9,7 @@
 This fork extends the official Open XML SDK with a **high-performance Excel formula evaluator** that enables:
 
 - ✅ **Evaluate Excel formulas** without requiring Excel to be installed
-- ✅ **98 built-in functions** (math, text, logical, lookup, date/time, statistical, error handling)
+- ✅ **129 built-in functions** (math, text, logical, lookup, date/time, statistical, financial, information, error handling)
 - ✅ **100% validation accuracy** against Excel's calculations
 - ✅ **Incremental recalculation** - 250-1000x faster than full sheet recalculation
 - ✅ **Formula-to-Lambda compilation** for native performance
@@ -69,23 +69,25 @@ evaluator.RecalculateSheet(worksheet);
 evaluator.RecalculateDependents(worksheet, "A1", "B2");
 ```
 
-## Supported Functions (98 total)
+## Supported Functions (129 total)
 
-**Math (36)**: SUM, AVERAGE, COUNT, COUNTA, COUNTBLANK, MIN, MAX, ROUND, ROUNDUP, ROUNDDOWN, ABS, PRODUCT, POWER, MEDIAN, MODE, STDEV, VAR, SQRT, MOD, INT, CEILING, FLOOR, TRUNC, SIGN, EXP, LN, LOG, LOG10, PI, RADIANS, DEGREES, SIN, COS, TAN, SUMIFS, COUNTIFS
+**Math (44)**: SUM, AVERAGE, COUNT, COUNTA, COUNTBLANK, MIN, MAX, ROUND, ROUNDUP, ROUNDDOWN, ABS, PRODUCT, POWER, MEDIAN, MODE, STDEV, VAR, SQRT, MOD, INT, CEILING, FLOOR, TRUNC, SIGN, EXP, LN, LOG, LOG10, PI, RADIANS, DEGREES, SIN, COS, TAN, SUMIFS, COUNTIFS, SUMPRODUCT, RAND, RANDBETWEEN, FACT, GCD, LCM, EVEN, ODD
 
 **Text (21)**: CONCATENATE, LEFT, RIGHT, MID, LEN, TRIM, UPPER, LOWER, PROPER, FIND, SEARCH, SUBSTITUTE, TEXT, VALUE, REPLACE, REPT, EXACT, CHAR, CODE, CLEAN, T
 
 **Logical (8)**: IF, AND, OR, NOT, CHOOSE, IFS, SWITCH, XOR
 
-**Lookup (5)**: VLOOKUP, HLOOKUP, INDEX, MATCH, RANK
+**Lookup (10)**: VLOOKUP, HLOOKUP, INDEX, MATCH, RANK, COLUMN, ROW, COLUMNS, ROWS, ADDRESS
 
-**Date/Time (10)**: DATE, YEAR, MONTH, DAY, WEEKDAY, TODAY, NOW, HOUR, MINUTE, SECOND
+**Date/Time (17)**: DATE, YEAR, MONTH, DAY, WEEKDAY, TODAY, NOW, HOUR, MINUTE, SECOND, DAYS, TIME, TIMEVALUE, DATEVALUE, DAYS360, EOMONTH, EDATE
 
 **Statistical (16)**: SUMIF, COUNTIF, AVERAGEIF, STDEVP, VARP, LARGE, SMALL, PERCENTILE, QUARTILE, AVERAGEIFS, MAXIFS, MINIFS
 
-**Error Handling (5)**: IFERROR, ISERROR, ISNA, ISERR, ISBLANK
+**Financial (5)**: PMT, FV, PV, NPER, RATE
 
-**Information (2)**: ISNUMBER, ISTEXT
+**Information (8)**: ISNUMBER, ISTEXT, ISEVEN, ISODD, ISLOGICAL, ISNONTEXT, TYPE, N
+
+**Error Handling (5)**: IFERROR, ISERROR, ISNA, ISERR, ISBLANK
 
 ## Architecture
 
