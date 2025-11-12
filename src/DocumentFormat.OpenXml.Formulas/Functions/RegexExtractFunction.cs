@@ -68,8 +68,8 @@ public sealed class RegexExtractFunction : IFunctionImplementation
 
         try
         {
-            var regex = new Regex(pattern, options);
-            var match = regex.Match(text);
+            // Use static method which caches compiled regexes internally
+            var match = Regex.Match(text, pattern, options);
 
             if (!match.Success)
             {

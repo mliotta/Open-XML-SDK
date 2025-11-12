@@ -73,8 +73,8 @@ public sealed class RegexTestFunction : IFunctionImplementation
 
         try
         {
-            var regex = new Regex(pattern, options);
-            return CellValue.FromBool(regex.IsMatch(text));
+            // Use static method which caches compiled regexes internally
+            return CellValue.FromBool(Regex.IsMatch(text, pattern, options));
         }
         catch (ArgumentException)
         {

@@ -1,0 +1,38 @@
+{
+  "status": "partial",
+  "changes_made": [
+    "Added 44 new Math function test cases (22 functions x 2 tests each)",
+    "Attempted to add 94 new Engineering function test cases (47 functions x 2 tests each)"
+  ],
+  "files_modified": [
+    "/Users/mliotta/git/xls/test/DocumentFormat.OpenXml.Formulas.Tests/OracleTestFileGenerator.cs"
+  ],
+  "math_functions_added": [
+    "SQRTPI", "CEILING.MATH", "CEILING.PRECISE", "FLOOR.MATH", "FLOOR.PRECISE",
+    "ISO.CEILING", "FACTDOUBLE", "COMBINA", "PERMUTATIONA", "MDETERM",
+    "MINVERSE", "MMULT", "MUNIT", "LOOKUP", "ACOT",
+    "ACOTH", "CSC", "CSCH", "SEC", "SECH", "COT", "COTH"
+  ],
+  "engineering_functions_attempted": [
+    "HEX2BIN", "HEX2OCT", "BIN2HEX", "BIN2OCT", "OCT2HEX", "OCT2BIN",
+    "DELTA", "GESTEP", "ERF", "ERF.PRECISE", "ERFC", "ERFC.PRECISE",
+    "BESSELI", "BESSELJ", "BESSELK", "BESSELY", "COMPLEX", "IMREAL",
+    "IMAGINARY", "IMABS", "IMARGUMENT", "IMCONJUGATE", "IMSUM", "IMSUB",
+    "IMPRODUCT", "IMDIV", "IMPOWER", "IMSQRT", "IMEXP", "IMLN",
+    "IMLOG10", "IMLOG2", "IMSIN", "IMCOS", "IMTAN", "IMSEC",
+    "IMCSC", "IMCOT", "IMSECH", "IMCSCH", "IMSINH", "IMCOSH",
+    "BITAND", "BITOR", "BITXOR", "BITLSHIFT", "BITRSHIFT"
+  ],
+  "math_sheet_test_count": 151,
+  "engineering_sheet_test_count_before": 16,
+  "blocked_actions": [
+    "File linter/formatter automatically modified file during editing, causing insertion errors",
+    "Engineering additions resulted in compilation errors due to file corruption"
+  ],
+  "recommendations": [
+    "Math sheet additions are complete and compilable",
+    "Engineering sheet needs manual completion using the provided eng_additions.txt file",
+    "Disable any auto-formatters before applying Engineering additions",
+    "Apply Engineering additions using: sed -i '1022 r /tmp/eng_additions.txt' OracleTestFileGenerator.cs"
+  ]
+}

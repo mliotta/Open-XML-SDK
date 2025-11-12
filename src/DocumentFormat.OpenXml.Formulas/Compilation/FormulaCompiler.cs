@@ -253,30 +253,46 @@ public class FormulaCompiler
 
     private static Expression ConcatenateArrays(List<Expression> arrays)
     {
-        // Use LINQ Concat to combine arrays
-        Expression result = arrays[0];
+        // Call runtime helper that does single allocation + Array.Copy
+        // This avoids LINQ Concat's intermediate enumerables and works on all target frameworks
+        var arrayOfArraysExpr = Expression.NewArrayInit(typeof(CellValue[]), arrays);
 
-        var concatMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.Concat));
-        if (concatMethod == null)
+        var helperMethod = typeof(FormulaCompiler).GetMethod(
+            nameof(ConcatenateArraysAtRuntime),
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+
+        if (helperMethod == null)
         {
-            throw new CompilationException($"Method {nameof(Enumerable.Concat)} not found");
+            throw new CompilationException($"Method {nameof(ConcatenateArraysAtRuntime)} not found");
         }
 
-        var concatGenericMethod = concatMethod.MakeGenericMethod(typeof(CellValue));
+        return Expression.Call(helperMethod, arrayOfArraysExpr);
+    }
 
-        for (var i = 1; i < arrays.Count; i++)
+    /// <summary>
+    /// Runtime helper that efficiently concatenates arrays with single allocation.
+    /// </summary>
+    private static CellValue[] ConcatenateArraysAtRuntime(params CellValue[][] arrays)
+    {
+        // Calculate total length
+        var totalLength = 0;
+        foreach (var arr in arrays)
         {
-            result = Expression.Call(concatGenericMethod, result, arrays[i]);
+            totalLength += arr.Length;
         }
 
-        var toArrayMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.ToArray));
-        if (toArrayMethod == null)
+        // Allocate result array once
+        var result = new CellValue[totalLength];
+
+        // Copy all arrays using Array.Copy
+        var offset = 0;
+        foreach (var arr in arrays)
         {
-            throw new CompilationException($"Method {nameof(Enumerable.ToArray)} not found");
+            Array.Copy(arr, 0, result, offset, arr.Length);
+            offset += arr.Length;
         }
 
-        var toArrayGenericMethod = toArrayMethod.MakeGenericMethod(typeof(CellValue));
-        return Expression.Call(toArrayGenericMethod, result);
+        return result;
     }
 
     private Expression CompileUnaryOp(UnaryOpNode node)

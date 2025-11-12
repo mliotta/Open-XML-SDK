@@ -68,15 +68,16 @@ public sealed class RegexReplaceFunction : IFunctionImplementation
 
         try
         {
-            var regex = new Regex(pattern, options);
-
             string result;
             if (occurrence == 0)
             {
-                result = regex.Replace(text, replacement);
+                // Use static method which caches compiled regexes internally
+                result = Regex.Replace(text, pattern, replacement, options);
             }
             else
             {
+                // For selective replacement, still need instance (can't use static method with evaluator)
+                var regex = new Regex(pattern, options);
                 var count = 0;
                 result = regex.Replace(text, match =>
                 {

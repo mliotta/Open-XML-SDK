@@ -242,55 +242,20 @@ public class FormulaEvaluator : IFormulaEvaluator
 
     private static HashSet<string> GetSupportedFunctionNames()
     {
-        // Get all function names from registry
-        var functions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        // Query the registry directly instead of maintaining a duplicate list
+        var functions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // Use reflection to get all registered function names from FunctionRegistry
+        var registryType = typeof(FunctionRegistry);
+        var functionsField = registryType.GetField("_functions", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+
+        if (functionsField?.GetValue(null) is Dictionary<string, IFunctionImplementation> registry)
         {
-            // Phase 0 (3)
-            "SUM", "AVERAGE", "IF",
-
-            // Math (35)
-            "COUNT", "COUNTA", "COUNTBLANK", "COUNTIF", "COUNTIFS", "MAX", "MIN",
-            "ROUND", "ROUNDUP", "ROUNDDOWN", "ABS", "PRODUCT", "POWER", "SUMIF", "SUMIFS",
-            "SQRT", "MOD", "INT", "CEILING", "FLOOR", "TRUNC",
-            "SIGN", "EXP", "LN", "LOG", "LOG10", "PI", "RADIANS", "DEGREES",
-            "SIN", "COS", "TAN",
-            "COMBIN", "PERMUT", "MROUND", "QUOTIENT",
-
-            // Logical (8)
-            "AND", "OR", "NOT", "CHOOSE", "IFS", "SWITCH", "XOR", "IFNA",
-
-            // Text (31)
-            "CONCATENATE", "CONCAT", "TEXTJOIN", "LEFT", "RIGHT", "MID", "LEN", "TRIM", "TRIMALL",
-            "UPPER", "LOWER", "PROPER", "TEXT", "VALUE",
-            "FIND", "SEARCH", "SUBSTITUTE", "REPLACE", "REPT",
-            "EXACT", "CHAR", "CODE", "UNICHAR", "UNICODE", "CLEAN", "T", "REVERSE",
-            "FIXED", "DOLLAR", "NUMBERVALUE", "PHONETIC",
-
-            // Lookup (11)
-            "VLOOKUP", "HLOOKUP", "INDEX", "MATCH", "COLUMN", "ROW", "COLUMNS", "ROWS", "ADDRESS",
-            "OFFSET", "INDIRECT",
-
-            // Date/Time (22)
-            "TODAY", "NOW", "DATE", "YEAR", "MONTH", "DAY",
-            "HOUR", "MINUTE", "SECOND", "WEEKDAY", "WEEKNUM",
-            "DAYS", "TIME", "TIMEVALUE", "DATEVALUE", "DAYS360", "EOMONTH", "EDATE",
-            "NETWORKDAYS", "WORKDAY", "YEARFRAC", "DATEDIF",
-
-            // Statistical (12)
-            "MEDIAN", "MODE", "STDEV", "VAR", "RANK", "AVERAGEIF", "AVERAGEIFS",
-            "MAXIFS", "MINIFS", "SKEW", "KURT", "FREQUENCY",
-
-            // Information (13)
-            "ISNUMBER", "ISTEXT", "IFERROR", "ISERROR", "ISNA", "ISERR", "ISBLANK",
-            "ISEVEN", "ISODD", "ISLOGICAL", "ISNONTEXT", "TYPE", "N",
-
-            // Financial (13)
-            "PMT", "FV", "PV", "NPER", "RATE", "NPV", "IRR", "IPMT", "PPMT",
-            "SLN", "DB", "DDB", "SYD",
-
-            // Engineering (7)
-            "CONVERT", "HEX2DEC", "DEC2HEX", "BIN2DEC", "DEC2BIN", "OCT2DEC", "DEC2OCT",
-        };
+            foreach (var key in registry.Keys)
+            {
+                functions.Add(key);
+            }
+        }
 
         return functions;
     }
@@ -383,20 +348,46 @@ public class FormulaEvaluator : IFormulaEvaluator
 
     private static void ParseCellReference(string reference, out int col, out int row)
     {
-        // Remove $ signs
-        reference = reference.Replace("$", string.Empty);
+        // Only allocate for Replace if $ signs exist
+        if (reference.IndexOf('$') >= 0)
+        {
+            reference = reference.Replace("$", string.Empty);
+        }
 
+        // Find split point between letters and digits
         int i = 0;
         while (i < reference.Length && char.IsLetter(reference[i]))
         {
             i++;
         }
 
-        var colPart = reference.Substring(0, i);
-        var rowPart = reference.Substring(i);
+        // Parse column letters directly without Substring allocation
+        col = ParseColumnLetterRange(reference, 0, i);
 
-        col = ParseColumnLetter(colPart);
-        row = int.Parse(rowPart, CultureInfo.InvariantCulture);
+        // Parse row number directly without Substring allocation
+        row = ParseIntRange(reference, i);
+    }
+
+    private static int ParseColumnLetterRange(string str, int start, int length)
+    {
+        int result = 0;
+        for (int i = start; i < start + length; i++)
+        {
+            result = (result * 26) + (char.ToUpperInvariant(str[i]) - 'A' + 1);
+        }
+
+        return result;
+    }
+
+    private static int ParseIntRange(string str, int start)
+    {
+        int result = 0;
+        for (int i = start; i < str.Length; i++)
+        {
+            result = (result * 10) + (str[i] - '0');
+        }
+
+        return result;
     }
 
     private static int ParseColumnLetter(string column)
@@ -412,15 +403,16 @@ public class FormulaEvaluator : IFormulaEvaluator
 
     private static string GetColumnLetter(int column)
     {
-        string result = string.Empty;
+        // Use StringBuilder to avoid O(n²) string concatenations
+        var sb = new System.Text.StringBuilder();
         while (column > 0)
         {
             int remainder = (column - 1) % 26;
-            result = (char)('A' + remainder) + result;
+            sb.Insert(0, (char)('A' + remainder));
             column = (column - 1) / 26;
         }
 
-        return result;
+        return sb.ToString();
     }
 
     private static Cell? FindCellByReference(Worksheet worksheet, string cellReference)

@@ -9,8 +9,10 @@ namespace DocumentFormat.OpenXml.Features.FormulaEvaluation.Functions;
 /// <summary>
 /// Implements the BAHTTEXT function.
 /// BAHTTEXT(number) - Converts a number to Thai text and adds the Baht currency suffix.
-/// Phase 0: Simplified implementation returns number with " บาท" suffix.
-/// Full implementation would require Thai number-to-text conversion.
+///
+/// NOTE: This function is not fully implemented. A complete implementation would require
+/// converting numbers to Thai words (e.g., 1234.56 → "หนึ่งพันสองร้อยสามสิบสี่บาทห้าสิบหกสตางค์").
+/// Currently throws UnsupportedFunctionException to avoid returning incorrect results.
 /// </summary>
 public sealed class BahtTextFunction : IFunctionImplementation
 {
@@ -39,10 +41,9 @@ public sealed class BahtTextFunction : IFunctionImplementation
             return CellValue.Error("#VALUE!");
         }
 
-        var number = args[0].NumericValue;
-
-        // Phase 0 simplified: return number with Baht symbol
-        // Full implementation would convert number to Thai words
-        return CellValue.FromString(number.ToString("F2") + " บาท");
+        // BAHTTEXT requires complex Thai number-to-text conversion which is not yet implemented.
+        // Throwing exception rather than returning incorrect results.
+        throw new UnsupportedFunctionException(
+            "BAHTTEXT is not fully implemented. Full implementation requires Thai number-to-text conversion.");
     }
 }
