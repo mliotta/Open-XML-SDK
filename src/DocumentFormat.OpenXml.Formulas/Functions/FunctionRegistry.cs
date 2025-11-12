@@ -119,7 +119,7 @@ public static class FunctionRegistry
         { "XOR", XorFunction.Instance },
         { "IFNA", IfnaFunction.Instance },
 
-        // Text (44)
+        // Text (56)
         { "CONCATENATE", ConcatenateFunction.Instance },
         { "CONCAT", ConcatFunction.Instance },
         { "TEXTJOIN", TextJoinFunction.Instance },
@@ -163,6 +163,18 @@ public static class FunctionRegistry
         { "FINDB", FindBFunction.Instance },
         { "SEARCHB", SearchBFunction.Instance },
         { "REPLACEB", ReplaceBFunction.Instance },
+        { "REGEXTEST", RegexTestFunction.Instance },
+        { "REGEXEXTRACT", RegexExtractFunction.Instance },
+        { "REGEXREPLACE", RegexReplaceFunction.Instance },
+        { "ASC", AscFunction.Instance },
+        { "DBCS", DbcsFunction.Instance },
+        { "BAHTTEXT", BahtTextFunction.Instance },
+        { "REGEXTEST", RegexTestFunction.Instance },
+        { "REGEXEXTRACT", RegexExtractFunction.Instance },
+        { "REGEXREPLACE", RegexReplaceFunction.Instance },
+        { "ASC", AscFunction.Instance },
+        { "DBCS", DbcsFunction.Instance },
+        { "BAHTTEXT", BahtTextFunction.Instance },
 
         // Lookup (24)
         { "VLOOKUP", VLookupFunction.Instance },
@@ -241,7 +253,7 @@ public static class FunctionRegistry
         { "YEARFRAC", YearfracFunction.Instance },
         { "DATEDIF", DatedifFunction.Instance },
 
-        // Statistical (108)
+        // Statistical (112)
         { "MEDIAN", MedianFunction.Instance },
         { "MODE", ModeFunction.Instance },
         { "MODE.SNGL", ModeSnglFunction.Instance },
@@ -269,6 +281,8 @@ public static class FunctionRegistry
         { "PERCENTRANK", PercentrankFunction.Instance },
         { "PERCENTRANK.INC", PercentrankIncFunction.Instance },
         { "PERCENTRANK.EXC", PercentrankExcFunction.Instance },
+        { "BINOM.DIST.RANGE", BinomDistRangeFunction.Instance },
+        { "PERCENTOF", PercentOfFunction.Instance },
         { "QUARTILE", QuartileFunction.Instance },
         { "QUARTILE.INC", QuartileIncFunction.Instance },
         { "QUARTILE.EXC", QuartileExcFunction.Instance },
@@ -285,6 +299,10 @@ public static class FunctionRegistry
         { "INTERCEPT", InterceptFunction.Instance },
         { "FORECAST", ForecastFunction.Instance },
         { "FORECAST.LINEAR", ForecastLinearFunction.Instance },
+        { "FORECAST.ETS", ForecastEtsFunction.Instance },
+        { "FORECAST.ETS.CONFINT", ForecastEtsConfintFunction.Instance },
+        { "FORECAST.ETS.SEASONALITY", ForecastEtsSeasonalityFunction.Instance },
+        { "FORECAST.ETS.STAT", ForecastEtsStatFunction.Instance },
         { "TREND", TrendFunction.Instance },
         { "GROWTH", GrowthFunction.Instance },
         { "LINEST", LinestFunction.Instance },
@@ -356,6 +374,8 @@ public static class FunctionRegistry
         { "SKEW.P", SkewPFunction.Instance },
         { "PERMUTATIONA", PermutationaFunction.Instance },
         { "T.TEST", TTestFunction.Instance },
+        { "BINOM.DIST.RANGE", BinomDistRangeFunction.Instance },
+        { "PERCENTOF", PercentOfFunction.Instance },
 
         // Legacy Compatibility Functions (24)
         { "BETADIST", BetaDistLegacyFunction.Instance },
