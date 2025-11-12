@@ -9,7 +9,7 @@
 This fork extends the official Open XML SDK with a **high-performance Excel formula evaluator** that enables:
 
 - ✅ **Evaluate Excel formulas** without requiring Excel to be installed
-- ✅ **129 built-in functions** (math, text, logical, lookup, date/time, statistical, financial, information, error handling)
+- ✅ **154 built-in functions** (math, text, logical, lookup, date/time, statistical, financial, information, error handling)
 - ✅ **100% validation accuracy** against Excel's calculations
 - ✅ **Incremental recalculation** - 250-1000x faster than full sheet recalculation
 - ✅ **Formula-to-Lambda compilation** for native performance
@@ -69,21 +69,21 @@ evaluator.RecalculateSheet(worksheet);
 evaluator.RecalculateDependents(worksheet, "A1", "B2");
 ```
 
-## Supported Functions (129 total)
+## Supported Functions (154 total)
 
-**Math (44)**: SUM, AVERAGE, COUNT, COUNTA, COUNTBLANK, MIN, MAX, ROUND, ROUNDUP, ROUNDDOWN, ABS, PRODUCT, POWER, MEDIAN, MODE, STDEV, VAR, SQRT, MOD, INT, CEILING, FLOOR, TRUNC, SIGN, EXP, LN, LOG, LOG10, PI, RADIANS, DEGREES, SIN, COS, TAN, SUMIFS, COUNTIFS, SUMPRODUCT, RAND, RANDBETWEEN, FACT, GCD, LCM, EVEN, ODD
+**Math (54)**: SUM, AVERAGE, COUNT, COUNTA, COUNTBLANK, MIN, MAX, ROUND, ROUNDUP, ROUNDDOWN, ABS, PRODUCT, POWER, MEDIAN, MODE, STDEV, VAR, SQRT, MOD, INT, CEILING, FLOOR, TRUNC, SIGN, EXP, LN, LOG, LOG10, PI, RADIANS, DEGREES, SIN, COS, TAN, SUMIFS, COUNTIFS, SUMPRODUCT, RAND, RANDBETWEEN, FACT, GCD, LCM, EVEN, ODD, ASIN, ACOS, ATAN, ATAN2, SINH, COSH, TANH, ASINH, ACOSH, ATANH
 
-**Text (21)**: CONCATENATE, LEFT, RIGHT, MID, LEN, TRIM, UPPER, LOWER, PROPER, FIND, SEARCH, SUBSTITUTE, TEXT, VALUE, REPLACE, REPT, EXACT, CHAR, CODE, CLEAN, T
+**Text (24)**: CONCATENATE, LEFT, RIGHT, MID, LEN, TRIM, UPPER, LOWER, PROPER, FIND, SEARCH, SUBSTITUTE, TEXT, VALUE, REPLACE, REPT, EXACT, CHAR, CODE, CLEAN, T, CONCAT, TEXTJOIN, REVERSE
 
 **Logical (8)**: IF, AND, OR, NOT, CHOOSE, IFS, SWITCH, XOR
 
 **Lookup (10)**: VLOOKUP, HLOOKUP, INDEX, MATCH, RANK, COLUMN, ROW, COLUMNS, ROWS, ADDRESS
 
-**Date/Time (17)**: DATE, YEAR, MONTH, DAY, WEEKDAY, TODAY, NOW, HOUR, MINUTE, SECOND, DAYS, TIME, TIMEVALUE, DATEVALUE, DAYS360, EOMONTH, EDATE
+**Date/Time (20)**: DATE, YEAR, MONTH, DAY, WEEKDAY, TODAY, NOW, HOUR, MINUTE, SECOND, DAYS, TIME, TIMEVALUE, DATEVALUE, DAYS360, EOMONTH, EDATE, NETWORKDAYS, WORKDAY, WEEKNUM
 
-**Statistical (16)**: SUMIF, COUNTIF, AVERAGEIF, STDEVP, VARP, LARGE, SMALL, PERCENTILE, QUARTILE, AVERAGEIFS, MAXIFS, MINIFS
+**Statistical (21)**: SUMIF, COUNTIF, AVERAGEIF, STDEVP, VARP, LARGE, SMALL, PERCENTILE, QUARTILE, AVERAGEIFS, MAXIFS, MINIFS, CORREL, COVARIANCE.P, COVARIANCE.S, SLOPE, INTERCEPT
 
-**Financial (5)**: PMT, FV, PV, NPER, RATE
+**Financial (9)**: PMT, FV, PV, NPER, RATE, NPV, IRR, IPMT, PPMT
 
 **Information (8)**: ISNUMBER, ISTEXT, ISEVEN, ISODD, ISLOGICAL, ISNONTEXT, TYPE, N
 
