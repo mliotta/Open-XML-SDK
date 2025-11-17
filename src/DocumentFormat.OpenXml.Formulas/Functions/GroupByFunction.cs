@@ -112,7 +112,7 @@ public sealed class GroupByFunction : IFunctionImplementation
         }
 
         // Apply aggregation function to first group
-        List<CellValue> firstGroup = null;
+        List<CellValue>? firstGroup = null;
         foreach (var group in groups.Values)
         {
             firstGroup = group;

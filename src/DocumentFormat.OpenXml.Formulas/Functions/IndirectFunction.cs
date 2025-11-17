@@ -70,7 +70,7 @@ public sealed class IndirectFunction : IFunctionImplementation
         }
 
         // Parse the reference text based on notation
-        string cellReference;
+        string? cellReference;
         if (useA1)
         {
             // A1 notation (e.g., "A1", "B10", "$C$5")

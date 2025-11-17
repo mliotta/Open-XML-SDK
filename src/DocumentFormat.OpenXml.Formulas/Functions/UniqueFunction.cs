@@ -243,7 +243,7 @@ public sealed class UniqueFunction : IFunctionImplementation
 
     private class RowInfo
     {
-        public CellValue[] Values { get; set; }
+        public CellValue[] Values { get; set; } = null!;
         public int Count { get; set; }
     }
 }

@@ -116,7 +116,7 @@ public class CellContext
 
         if (dataType == CellValues.Error)
         {
-            return CellValue.Error(cellValue);
+            return CellValue.Error(cellValue!);
         }
 
         if (dataType == CellValues.SharedString)
@@ -132,12 +132,12 @@ public class CellContext
             }
 
             // If we can't resolve, return the index as a string (fallback)
-            return CellValue.FromString(cellValue);
+            return CellValue.FromString(cellValue!);
         }
 
         if (dataType == CellValues.String || dataType == CellValues.InlineString)
         {
-            return CellValue.FromString(cellValue);
+            return CellValue.FromString(cellValue!);
         }
 
         // Try to parse as number
@@ -146,7 +146,7 @@ public class CellContext
             return CellValue.FromNumber(number);
         }
 
-        return CellValue.FromString(cellValue);
+        return CellValue.FromString(cellValue!);
     }
 
     private string? GetSharedString(int index)

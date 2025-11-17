@@ -42,7 +42,7 @@ public sealed class ImLog2Function : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Log2(complex);
+        var result = ComplexNumber.Log2(complex!);
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

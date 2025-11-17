@@ -249,6 +249,6 @@ public sealed class SortFunction : IFunctionImplementation
     private class RowData
     {
         public int Index { get; set; }
-        public CellValue[] Values { get; set; }
+        public CellValue[] Values { get; set; } = null!;
     }
 }

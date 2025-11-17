@@ -42,6 +42,6 @@ public sealed class ImaginaryFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(complex.Imaginary);
+        return CellValue.FromNumber(complex!.Imaginary);
     }
 }

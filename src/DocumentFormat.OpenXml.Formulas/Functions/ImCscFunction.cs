@@ -42,7 +42,7 @@ public sealed class ImCscFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Csc(complex);
+        var result = ComplexNumber.Csc(complex!);
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

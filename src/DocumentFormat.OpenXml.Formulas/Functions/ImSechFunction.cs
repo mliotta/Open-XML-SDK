@@ -42,7 +42,7 @@ public sealed class ImSechFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Sech(complex);
+        var result = ComplexNumber.Sech(complex!);
 
         // Check for division by zero or invalid result
         if (double.IsNaN(result.Real) || double.IsNaN(result.Imaginary) ||

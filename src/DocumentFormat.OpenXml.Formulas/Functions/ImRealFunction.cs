@@ -42,6 +42,6 @@ public sealed class ImRealFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(complex.Real);
+        return CellValue.FromNumber(complex!.Real);
     }
 }

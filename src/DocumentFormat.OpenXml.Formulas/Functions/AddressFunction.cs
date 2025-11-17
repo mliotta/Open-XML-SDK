@@ -141,7 +141,7 @@ public sealed class AddressFunction : IFunctionImplementation
         if (!string.IsNullOrEmpty(sheetText))
         {
             // Sheet names with spaces or special characters should be quoted
-            if (sheetText.Contains(" ") || sheetText.Contains("!"))
+            if (sheetText!.Contains(" ") || sheetText.Contains("!"))
             {
                 address = $"'{sheetText}'!{address}";
             }

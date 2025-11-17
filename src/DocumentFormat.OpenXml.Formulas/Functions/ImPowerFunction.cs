@@ -53,7 +53,7 @@ public sealed class ImPowerFunction : IFunctionImplementation
         }
 
         var power = (int)args[1].NumericValue;
-        var result = ComplexNumber.Power(complex, power);
+        var result = ComplexNumber.Power(complex!, power);
 
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));

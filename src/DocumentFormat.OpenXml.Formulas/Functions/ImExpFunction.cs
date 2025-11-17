@@ -42,7 +42,7 @@ public sealed class ImExpFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Exp(complex);
+        var result = ComplexNumber.Exp(complex!);
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

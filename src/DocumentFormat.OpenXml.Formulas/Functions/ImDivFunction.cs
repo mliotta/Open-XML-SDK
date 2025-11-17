@@ -55,7 +55,7 @@ public sealed class ImDivFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Divide(complex1, complex2);
+        var result = ComplexNumber.Divide(complex1!, complex2!);
 
         if (double.IsNaN(result.Real) || double.IsNaN(result.Imaginary))
         {

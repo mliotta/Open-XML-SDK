@@ -42,7 +42,7 @@ public sealed class ImSinhFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Sinh(complex);
+        var result = ComplexNumber.Sinh(complex!);
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

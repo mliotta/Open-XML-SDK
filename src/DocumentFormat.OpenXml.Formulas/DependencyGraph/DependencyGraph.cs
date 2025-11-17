@@ -59,8 +59,7 @@ internal class DependencyGraph : IDependencyGraph
 
         // Queue cells with no dependencies
         var queue = new Queue<string>(
-            inDegree.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key)
-        );
+            inDegree.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key));
 
         var result = new List<string>();
 
@@ -123,8 +122,7 @@ internal class DependencyGraph : IDependencyGraph
 
         // Queue cells with no dependencies within the subset
         var queue = new Queue<string>(
-            inDegree.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key)
-        );
+            inDegree.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key));
 
         var result = new List<string>();
 

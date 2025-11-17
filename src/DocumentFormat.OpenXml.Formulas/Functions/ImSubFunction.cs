@@ -54,7 +54,7 @@ public sealed class ImSubFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Subtract(complex1, complex2);
+        var result = ComplexNumber.Subtract(complex1!, complex2!);
         var suffix = inumber1.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

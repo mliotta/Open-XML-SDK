@@ -62,7 +62,7 @@ public class FormulaEvaluator : IFormulaEvaluator
             }
 
             // Get or compile the formula
-            var compiledFormula = GetOrCompileFormula(cellFormula);
+            var compiledFormula = GetOrCompileFormula(cellFormula!);
 
             // Get the shared string table part
             var sharedStringTablePart = _document.WorkbookPart?.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
@@ -439,7 +439,7 @@ public class FormulaEvaluator : IFormulaEvaluator
                 break;
             case CellValueType.Error:
                 cell.DataType = new EnumValue<CellValues>(CellValues.Error);
-                cell.CellValue = new Spreadsheet.CellValue(value.ErrorValue);
+                cell.CellValue = new Spreadsheet.CellValue(value.ErrorValue ?? "#ERROR!");
                 break;
         }
     }

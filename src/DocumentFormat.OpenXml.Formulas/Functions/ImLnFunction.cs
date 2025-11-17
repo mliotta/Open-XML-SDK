@@ -42,7 +42,7 @@ public sealed class ImLnFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Ln(complex);
+        var result = ComplexNumber.Ln(complex!);
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

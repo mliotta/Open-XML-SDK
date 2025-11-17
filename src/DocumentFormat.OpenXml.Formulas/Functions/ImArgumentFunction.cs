@@ -42,6 +42,6 @@ public sealed class ImArgumentFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(complex.Argument());
+        return CellValue.FromNumber(complex!.Argument());
     }
 }

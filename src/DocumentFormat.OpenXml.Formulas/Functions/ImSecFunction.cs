@@ -42,7 +42,7 @@ public sealed class ImSecFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Sec(complex);
+        var result = ComplexNumber.Sec(complex!);
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

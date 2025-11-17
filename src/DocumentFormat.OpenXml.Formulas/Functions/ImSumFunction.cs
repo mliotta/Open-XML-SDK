@@ -47,7 +47,7 @@ public sealed class ImSumFunction : IFunctionImplementation
                 return CellValue.Error("#NUM!");
             }
 
-            result = ComplexNumber.Add(result, complex);
+            result = ComplexNumber.Add(result, complex!);
 
             if (suffix == null)
             {

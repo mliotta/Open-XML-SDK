@@ -42,7 +42,7 @@ public sealed class ImCoshFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Cosh(complex);
+        var result = ComplexNumber.Cosh(complex!);
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

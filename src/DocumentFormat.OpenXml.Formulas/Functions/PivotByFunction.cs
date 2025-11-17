@@ -109,7 +109,7 @@ public sealed class PivotByFunction : IFunctionImplementation
         }
 
         // Get first row and first column
-        Dictionary<string, List<CellValue>> firstRow = null;
+        Dictionary<string, List<CellValue>>? firstRow = null;
         foreach (var row in pivot.Values)
         {
             firstRow = row;
@@ -121,7 +121,7 @@ public sealed class PivotByFunction : IFunctionImplementation
             return CellValue.Error("#CALC!");
         }
 
-        List<CellValue> firstCell = null;
+        List<CellValue>? firstCell = null;
         foreach (var cell in firstRow.Values)
         {
             firstCell = cell;

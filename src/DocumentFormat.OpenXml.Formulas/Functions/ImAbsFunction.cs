@@ -42,6 +42,6 @@ public sealed class ImAbsFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(complex.Abs());
+        return CellValue.FromNumber(complex!.Abs());
     }
 }

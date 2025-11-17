@@ -42,7 +42,7 @@ public sealed class ImConjugateFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = complex.Conjugate();
+        var result = complex!.Conjugate();
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

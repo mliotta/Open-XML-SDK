@@ -120,7 +120,7 @@ public sealed class TextSplitFunction : IFunctionImplementation
         var rows = new List<string>();
         if (!string.IsNullOrEmpty(rowDelimiter))
         {
-            rows.AddRange(SplitString(text, rowDelimiter, comparisonType));
+            rows.AddRange(SplitString(text, rowDelimiter!, comparisonType));
         }
         else
         {

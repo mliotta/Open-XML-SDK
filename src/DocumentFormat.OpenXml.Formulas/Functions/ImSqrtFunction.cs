@@ -42,7 +42,7 @@ public sealed class ImSqrtFunction : IFunctionImplementation
             return CellValue.Error("#NUM!");
         }
 
-        var result = ComplexNumber.Sqrt(complex);
+        var result = ComplexNumber.Sqrt(complex!);
         var suffix = inumber.EndsWith("j") ? "j" : "i";
         return CellValue.FromString(result.ToString(suffix));
     }

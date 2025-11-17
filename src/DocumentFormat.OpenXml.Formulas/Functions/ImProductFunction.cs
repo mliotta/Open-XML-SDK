@@ -47,7 +47,7 @@ public sealed class ImProductFunction : IFunctionImplementation
                 return CellValue.Error("#NUM!");
             }
 
-            result = ComplexNumber.Multiply(result, complex);
+            result = ComplexNumber.Multiply(result, complex!);
 
             if (suffix == null)
             {
