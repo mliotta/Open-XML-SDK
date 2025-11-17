@@ -184,13 +184,13 @@ public sealed class ForecastEtsStatFunction : IFunctionImplementation
         return new SortedArrays { Timeline = sortedTimeline, Values = sortedValues };
     }
 
-    private class TimeValuePair
+    private sealed class TimeValuePair
     {
         public double Time { get; set; }
         public double Value { get; set; }
     }
 
-    private class SortedArrays
+    private sealed class SortedArrays
     {
         public double[] Timeline { get; set; } = new double[0];
         public double[] Values { get; set; } = new double[0];

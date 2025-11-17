@@ -241,7 +241,7 @@ public sealed class UniqueFunction : IFunctionImplementation
         return string.Join("|", parts);
     }
 
-    private class RowInfo
+    private sealed class RowInfo
     {
         public CellValue[] Values { get; set; } = null!;
         public int Count { get; set; }

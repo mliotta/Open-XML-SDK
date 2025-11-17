@@ -11,7 +11,7 @@ namespace DocumentFormat.OpenXml.Features.FormulaEvaluation.DependencyGraph;
 /// Implements a dependency graph for formula evaluation order.
 /// Uses Kahn's algorithm for topological sorting.
 /// </summary>
-internal class DependencyGraph : IDependencyGraph
+internal sealed class DependencyGraph : IDependencyGraph
 {
     private readonly Dictionary<string, HashSet<string>> _dependencies = new();
     private readonly Dictionary<string, HashSet<string>> _dependents = new();

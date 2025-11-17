@@ -246,7 +246,7 @@ public sealed class SortFunction : IFunctionImplementation
         return a.Type.CompareTo(b.Type);
     }
 
-    private class RowData
+    private sealed class RowData
     {
         public int Index { get; set; }
         public CellValue[] Values { get; set; } = null!;

@@ -1,8 +1,6 @@
 #nullable enable
 DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue
 DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.BoolValue.get -> bool
-DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.CellValue(DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValueType type, object? value) -> void
-DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.Empty.get -> DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue
 DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.Equals(DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue other) -> bool
 DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.ErrorValue.get -> string?
 DocumentFormat.OpenXml.Features.FormulaEvaluation.CellValue.IsError.get -> bool

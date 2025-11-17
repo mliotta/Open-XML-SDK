@@ -16,7 +16,7 @@ internal static class ForecastHelper
     /// <summary>
     /// Result of Holt-Winters exponential smoothing forecast.
     /// </summary>
-    internal class ETSResult
+    internal sealed class ETSResult
     {
         public double Alpha { get; set; }
         public double Beta { get; set; }

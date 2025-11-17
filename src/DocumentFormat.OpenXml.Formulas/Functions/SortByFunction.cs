@@ -184,13 +184,13 @@ public sealed class SortByFunction : IFunctionImplementation
         return a.Type.CompareTo(b.Type);
     }
 
-    private class SortCriterion
+    private sealed class SortCriterion
     {
         public CellValue[] ByArray { get; set; } = new CellValue[0];
         public int SortOrder { get; set; }
     }
 
-    private class IndexedValue
+    private sealed class IndexedValue
     {
         public int Index { get; set; }
         public CellValue Value { get; set; }
