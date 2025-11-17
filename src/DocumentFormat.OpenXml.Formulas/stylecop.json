@@ -4,7 +4,9 @@
     "documentationRules": {
       "documentExposedElements": false,
       "documentInternalElements": false,
-      "xmlHeader": false
+      "xmlHeader": false,
+      "fileNamingConvention": "stylecop",
+      "copyrightText": "ignore"
     },
     "layoutRules": {
       "newlineAtEndOfFile": "require"

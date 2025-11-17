@@ -95,6 +95,7 @@ public sealed class ZTestFunction : IFunctionImplementation
         {
             sum += value;
         }
+
         double mean = sum / values.Count;
 
         // Calculate or use provided standard deviation
@@ -112,6 +113,7 @@ public sealed class ZTestFunction : IFunctionImplementation
                 double diff = value - mean;
                 sumSquaredDiff += diff * diff;
             }
+
             stdDev = System.Math.Sqrt(sumSquaredDiff / values.Count);
         }
 
