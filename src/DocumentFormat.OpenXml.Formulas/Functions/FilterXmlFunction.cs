@@ -59,7 +59,7 @@ public sealed class FilterXmlFunction : IFunctionImplementation
             doc.LoadXml(xml);
 
             var navigator = doc.CreateNavigator();
-            var result = navigator.SelectSingleNode(xpath);
+            var result = navigator!.SelectSingleNode(xpath);
 
             if (result == null)
             {

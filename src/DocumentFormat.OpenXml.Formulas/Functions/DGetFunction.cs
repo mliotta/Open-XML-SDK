@@ -71,7 +71,7 @@ public sealed class DGetFunction : IFunctionImplementation
             return CellValue.Error("#VALUE!");
         }
 
-        return foundValue.Value;
+        return foundValue!.Value;
     }
 
     private static bool MatchesCriteria(CellValue value, CellValue criteria)

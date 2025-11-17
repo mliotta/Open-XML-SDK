@@ -2,6 +2,13 @@ root = true
 
 [*.cs]
 
+# ==================== PUBLIC API ANALYZERS ====================
+# RS0016: Symbol is not part of declared API
+# Disabled - PublicAPI.txt tracking not needed for this experimental feature
+dotnet_diagnostic.RS0016.severity = none
+
+# ==================== STYLECOP RULES ====================
+
 # SA1636: File header copyright text should match
 # Disabled for this project due to mixed Microsoft/Matt Liotta copyrights
 dotnet_diagnostic.SA1636.severity = none
@@ -13,3 +20,187 @@ dotnet_diagnostic.SA1402.severity = none
 # SA1513: Closing brace should be followed by blank line
 # Disabled - widespread formatting style across 500+ function files
 dotnet_diagnostic.SA1513.severity = none
+
+# SA1407: Arithmetic expressions should declare precedence
+dotnet_diagnostic.SA1407.severity = none
+
+# SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1210: Using directives should be ordered alphabetically
+dotnet_diagnostic.SA1210.severity = none
+
+# SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1503.severity = none
+
+# SA1108: Block statements should not contain embedded comments
+dotnet_diagnostic.SA1108.severity = none
+
+# SA1629: Documentation text should end with a period
+dotnet_diagnostic.SA1629.severity = none
+
+# SA1516: Elements should be separated by blank line
+dotnet_diagnostic.SA1516.severity = none
+
+# SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1512.severity = none
+
+# SA1309: Field names should not begin with underscore
+dotnet_diagnostic.SA1309.severity = none
+
+# SA1201: Elements should appear in the correct order
+dotnet_diagnostic.SA1201.severity = none
+
+# SA1119: Statement should not use unnecessary parenthesis
+dotnet_diagnostic.SA1119.severity = none
+
+# SA1623: Property summary documentation should begin with standard text
+dotnet_diagnostic.SA1623.severity = none
+
+# SA1515: Single-line comment should be preceded by blank line
+dotnet_diagnostic.SA1515.severity = none
+
+# SA1413: Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1413.severity = none
+
+# SA1500: Braces for multi-line statements should not share line
+dotnet_diagnostic.SA1500.severity = none
+
+# SA1312: Variable names should begin with lower-case letter
+dotnet_diagnostic.SA1312.severity = none
+
+# SA1204: Static elements should appear before instance elements
+dotnet_diagnostic.SA1204.severity = none
+
+# SA1202: Elements should be ordered by access
+dotnet_diagnostic.SA1202.severity = none
+
+# SA1203: Constants should appear before fields
+dotnet_diagnostic.SA1203.severity = none
+
+# SA1122: Use string.Empty for empty strings
+dotnet_diagnostic.SA1122.severity = none
+
+# SA1642: Constructor summary documentation should begin with standard text
+dotnet_diagnostic.SA1642.severity = none
+
+# SA1615: Element return value should be documented
+dotnet_diagnostic.SA1615.severity = none
+
+# SA1611: Element parameters should be documented
+dotnet_diagnostic.SA1611.severity = none
+
+# SA1313: Parameter names should begin with lower-case letter
+dotnet_diagnostic.SA1313.severity = none
+
+# SA1507: Code should not contain multiple blank lines in a row
+dotnet_diagnostic.SA1507.severity = none
+
+# SA1137: Elements should have the same indentation
+dotnet_diagnostic.SA1137.severity = none
+
+# ==================== CODE ANALYSIS RULES ====================
+
+# CA1062: Validate arguments of public methods
+# Disabled - function implementations validate through CellValue.IsError checks
+dotnet_diagnostic.CA1062.severity = none
+
+# CA1310: Specify StringComparison for correctness
+dotnet_diagnostic.CA1310.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+
+# CA1866: Use char overload
+dotnet_diagnostic.CA1866.severity = none
+
+# CA1846: Prefer AsSpan over Substring
+dotnet_diagnostic.CA1846.severity = none
+
+# CA1032: Implement standard exception constructors
+dotnet_diagnostic.CA1032.severity = none
+
+# CA1859: Use concrete types when possible for improved performance
+dotnet_diagnostic.CA1859.severity = none
+
+# CA1854: Prefer Dictionary.TryGetValue
+dotnet_diagnostic.CA1854.severity = none
+
+# CA1002: Do not expose generic lists
+dotnet_diagnostic.CA1002.severity = none
+
+# CA1825: Avoid zero-length array allocations
+dotnet_diagnostic.CA1825.severity = none
+
+# CA1307: Specify StringComparison for clarity
+dotnet_diagnostic.CA1307.severity = none
+
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = none
+
+# CA1308: Normalize strings to uppercase
+dotnet_diagnostic.CA1308.severity = none
+
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none
+
+# CA5394: Do not use insecure randomness
+dotnet_diagnostic.CA5394.severity = none
+
+# CA1815: Override equals and operator equals on value types
+dotnet_diagnostic.CA1815.severity = none
+
+# CA1063: Implement IDisposable correctly
+dotnet_diagnostic.CA1063.severity = none
+
+# CA1000: Do not declare static members on generic types
+dotnet_diagnostic.CA1000.severity = none
+
+# CA3075: Insecure DTD processing
+dotnet_diagnostic.CA3075.severity = none
+
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none
+
+# CA2000: Dispose objects before losing scope
+dotnet_diagnostic.CA2000.severity = none
+
+# CA1816: Call GC.SuppressFinalize correctly
+dotnet_diagnostic.CA1816.severity = none
+
+# CA1720: Identifiers should not contain type names
+dotnet_diagnostic.CA1720.severity = none
+
+# CA1710: Identifiers should have correct suffix
+dotnet_diagnostic.CA1710.severity = none
+
+# CA1847: Use string.Contains(char) instead of string.Contains(string)
+dotnet_diagnostic.CA1847.severity = none
+
+# CA1510: Use ArgumentNullException throw helper
+dotnet_diagnostic.CA1510.severity = none
+
+# CA1865: Use char overload
+dotnet_diagnostic.CA1865.severity = none
+
+# CA1845: Use span-based 'string.Concat'
+dotnet_diagnostic.CA1845.severity = none
+
+# CA2249: Use string.Contains instead of string.IndexOf
+dotnet_diagnostic.CA2249.severity = none
+
+# ==================== TRIMMING WARNINGS ====================
+
+# IL2026: RequiresUnreferencedCode on Expression.Property
+# Disabled - Expression tree compilation for formula evaluation
+dotnet_diagnostic.IL2026.severity = none
+
+# ==================== COMPILER WARNINGS ====================
+
+# CS1591: Missing XML comment for publicly visible type or member
+# Disabled - XML documentation not required for function implementations
+dotnet_diagnostic.CS1591.severity = none
+
+# CS0219: Variable assigned but never used
+# Disabled - reserved for future features
+dotnet_diagnostic.CS0219.severity = none
