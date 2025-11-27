@@ -2,7 +2,7 @@
 
 ## Summary
 
-This proposal introduces a comprehensive formula evaluation feature for the Open XML SDK, enabling applications to evaluate Excel formulas programmatically without requiring Excel to be installed. The feature supports 508 of Excel's 522 built-in functions (97.3% coverage) with native .NET performance through expression tree compilation.
+This proposal introduces a comprehensive formula evaluation feature for the Open XML SDK, enabling applications to evaluate Excel formulas programmatically without requiring Excel to be installed. The feature supports 507 of Excel's 522 built-in functions (97.1% coverage) with native .NET performance through expression tree compilation.
 
 ## Motivation
 
@@ -255,7 +255,7 @@ public static class FormulaEvaluatorExtensions
 
 ### Function Coverage
 
-**508 of 522 Excel functions supported (97.3%)**
+**507 of 522 Excel functions supported (97.1%)**
 
 Supported categories:
 - ✅ Math & Trigonometry (88 functions) - SUM, AVERAGE, COUNT, ROUND, SIN, COS, etc.
@@ -332,9 +332,9 @@ Supports all current SDK target frameworks:
    - Should we provide async variants for long-running recalculations?
 
 3. **Function Coverage**
-   - Is 97.3% coverage (508/522 functions) sufficient for initial release?
+   - Is 97.1% coverage (507/522 functions) sufficient for initial release?
    - Should we document which functions are missing?
-   - How should we handle the 14 unsupported functions? (Currently throws `UnsupportedFunctionException`)
+   - How should we handle the 15 unsupported functions? (Currently throws `UnsupportedFunctionException`)
 
 4. **Incremental Delivery**
    - Should this be released as experimental/preview first?
@@ -356,7 +356,7 @@ Supports all current SDK target frameworks:
 - **Jint/JavaScript engines**: Too heavy, different semantics than Excel
 
 This proposal provides native .NET formula evaluation that:
-- Implements 508 of 522 Excel functions (97.3% coverage) - far more complete than alternatives
+- Implements 507 of 522 Excel functions (97.1% coverage) - far more complete than alternatives
 - Integrates seamlessly with Open XML SDK
 - Matches Excel's evaluation semantics precisely (validated via oracle testing)
 - Delivers native performance through expression compilation
