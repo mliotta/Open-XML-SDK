@@ -31,52 +31,35 @@ public sealed class IrrFunction : IFunctionImplementation
     /// <inheritdoc/>
     public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
-        if (args.Length < 1 || args.Length > 2)
+        // IRR needs at least 2 cash flow values to calculate a return rate
+        if (args.Length < 2)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Check for errors in values argument
-        if (args[0].IsError)
-        {
-            return args[0];
-        }
-
-        // Extract cash flow values - must be an array or range
-        double[] values;
-
-        // For simplicity, we'll expect individual numeric arguments
-        // In a full implementation, this would handle ranges
-        if (args.Length == 2)
-        {
-            // This is actually the guess parameter
-            return FormulaResult.Error("#VALUE!");
-        }
-
-        // Since we can't easily handle arrays in this simple implementation,
-        // we'll validate that we have at least one value
-        // A proper implementation would extract values from a range reference
-
-        // For now, we'll implement a version that takes individual numeric arguments
-        // where the last argument can optionally be the guess
-
-        // Re-interpret: args are value1, value2, ..., [guess]
-        var guess = DefaultGuess;
-        var valueCount = args.Length;
-
-        // Check if last argument might be a guess (we'll treat all as values for now)
-        // In practice, Excel IRR takes a range reference, not individual values
-
-        // Extract all values
-        values = new double[args.Length];
-
+        // Check for errors in all arguments first
         for (int i = 0; i < args.Length; i++)
         {
             if (args[i].IsError)
             {
                 return args[i];
             }
+        }
 
+        // Extract cash flow values - must be an array or range
+        double[] values;
+
+        // For this implementation, we treat all arguments as cash flow values
+        // A proper implementation would also support an optional guess parameter
+
+        // Re-interpret: args are value1, value2, ..., [guess]
+        var guess = DefaultGuess;
+
+        // Extract all values
+        values = new double[args.Length];
+
+        for (int i = 0; i < args.Length; i++)
+        {
             if (args[i].Type != FormulaResultType.Number)
             {
                 return FormulaResult.Error("#VALUE!");
@@ -117,12 +100,13 @@ public sealed class IrrFunction : IFunctionImplementation
         for (int iteration = 0; iteration < MaxIterations; iteration++)
         {
             // Calculate NPV and its derivative at current rate
+            // IRR NPV formula: sum of values[i] / (1+r)^i for i = 0, 1, 2, ...
             double npv = 0.0;
             double dnpv = 0.0; // derivative of NPV with respect to rate
 
             for (int i = 0; i < values.Length; i++)
             {
-                var period = i + 1;
+                var period = i; // Period starts at 0 for IRR calculation
                 var discountFactor = System.Math.Pow(1 + rate, period);
 
                 if (double.IsInfinity(discountFactor) || double.IsNaN(discountFactor))
@@ -134,7 +118,10 @@ public sealed class IrrFunction : IFunctionImplementation
                 npv += values[i] / discountFactor;
 
                 // Derivative: d/dr[value / (1+r)^p] = -value * p * (1+r)^(-p-1)
-                dnpv -= values[i] * period / (discountFactor * (1 + rate));
+                if (period > 0)
+                {
+                    dnpv -= values[i] * period / (discountFactor * (1 + rate));
+                }
             }
 
             // Check for convergence
@@ -181,7 +168,7 @@ public sealed class IrrFunction : IFunctionImplementation
         double finalNpv = 0.0;
         for (int i = 0; i < values.Length; i++)
         {
-            var period = i + 1;
+            var period = i; // Period starts at 0 for IRR calculation
             var discountFactor = System.Math.Pow(1 + rate, period);
             finalNpv += values[i] / discountFactor;
         }

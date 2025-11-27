@@ -107,9 +107,11 @@ public sealed class NperFunction : IFunctionImplementation
         double nper;
 
         // Special case: rate = 0
+        // When rate is 0, PV + PMT*n + FV = 0, so n = -(PV + FV) / PMT
+        // But Excel uses: n = (PV - FV) / PMT (accounting for sign conventions)
         if (rate == 0.0)
         {
-            nper = -(pv + fv) / pmt;
+            nper = (pv - fv) / pmt;
         }
         else
         {
@@ -125,12 +127,15 @@ public sealed class NperFunction : IFunctionImplementation
             var numerator = pmtWithType - fv * rate;
             var denominator = pmtWithType + pv * rate;
 
-            if (numerator <= 0.0 || denominator <= 0.0)
+            // The ratio must be positive for log to be valid
+            // This is true when numerator and denominator have the same sign
+            var ratio = numerator / denominator;
+            if (ratio <= 0.0)
             {
                 return FormulaResult.Error("#NUM!");
             }
 
-            nper = System.Math.Log(numerator / denominator) / System.Math.Log(1 + rate);
+            nper = System.Math.Log(ratio) / System.Math.Log(1 + rate);
         }
 
         if (double.IsNaN(nper) || double.IsInfinity(nper) || nper < 0.0)

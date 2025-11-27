@@ -34,7 +34,7 @@ public sealed class DropFunction : IFunctionImplementation
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Parse rows parameter
+        // Parse rows parameter (last argument is always rows)
         if (args[args.Length - 1].IsError)
         {
             return args[args.Length - 1];
@@ -47,17 +47,12 @@ public sealed class DropFunction : IFunctionImplementation
 
         var rows = (int)args[args.Length - 1].NumericValue;
 
-        // Parse optional columns parameter
-        var cols = 0;
-        var hasColumns = false;
-        if (args.Length >= 3 && args[args.Length - 2].Type == FormulaResultType.Number)
-        {
-            cols = (int)args[args.Length - 2].NumericValue;
-            hasColumns = true;
-        }
+        // Note: Optional columns parameter is not supported in this simplified implementation
+        // since we cannot reliably distinguish between array data and the optional parameter
+        // when all values are numeric. Only the rows parameter is processed.
 
-        // Determine array length
-        var arrayLength = hasColumns ? args.Length - 2 : args.Length - 1;
+        // Determine array length (everything except the last argument which is rows)
+        var arrayLength = args.Length - 1;
 
         if (arrayLength == 0)
         {
@@ -73,60 +68,28 @@ public sealed class DropFunction : IFunctionImplementation
             }
         }
 
-        // Calculate array dimensions
-        var numCols = hasColumns ? System.Math.Max(1, System.Math.Abs(cols)) : 1;
+        // For this simplified implementation, treat the array as a 1D row vector
         var numRows = arrayLength;
 
-        if (hasColumns && arrayLength % numCols == 0)
-        {
-            numRows = arrayLength / numCols;
-        }
-
-        // Validate dimensions
-        if (System.Math.Abs(rows) >= numRows || (hasColumns && System.Math.Abs(cols) >= numCols))
+        // Validate dimensions - cannot drop more rows than exist
+        if (System.Math.Abs(rows) >= numRows)
         {
             return FormulaResult.Error("#CALC!");
         }
 
-        // Determine which elements to keep (opposite of TAKE)
-        int startRow, endRow;
+        // Determine which element to return (first element after dropping)
+        int firstIndex;
         if (rows > 0)
         {
-            // Drop from start, keep the rest
-            startRow = rows;
-            endRow = numRows;
+            // Drop from start, return element at index 'rows'
+            firstIndex = rows;
         }
         else
         {
-            // Drop from end, keep the beginning
-            startRow = 0;
-            endRow = numRows + rows; // rows is negative
+            // Drop from end, return first element (index 0)
+            firstIndex = 0;
         }
 
-        int startCol, endCol;
-        if (hasColumns)
-        {
-            if (cols > 0)
-            {
-                // Drop from start
-                startCol = cols;
-                endCol = numCols;
-            }
-            else
-            {
-                // Drop from end
-                startCol = 0;
-                endCol = numCols + cols; // cols is negative
-            }
-        }
-        else
-        {
-            startCol = 0;
-            endCol = numCols;
-        }
-
-        // Return first element of the remaining range
-        var firstIndex = startRow * numCols + startCol;
         if (firstIndex >= 0 && firstIndex < arrayLength)
         {
             return args[firstIndex];

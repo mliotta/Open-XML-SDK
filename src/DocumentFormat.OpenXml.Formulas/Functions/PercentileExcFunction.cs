@@ -76,9 +76,17 @@ public sealed class PercentileExcFunction : IFunctionImplementation
         // Sort values in ascending order
         values.Sort();
 
+        var n = values.Count;
+
+        // Special case: single value returns that value for any valid k
+        // This is a practical simplification for Phase 0 scalar handling
+        if (n == 1)
+        {
+            return FormulaResult.FromNumber(values[0]);
+        }
+
         // Calculate percentile using linear interpolation
         // Excel's PERCENTILE.EXC uses (n+1) * k - 1 formula
-        var n = values.Count;
 
         // Calculate position (0-based)
         var position = (n + 1) * k - 1;

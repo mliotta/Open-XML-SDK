@@ -686,7 +686,6 @@ public class StatisticalFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(FormulaResultType.Number, result.Type);
         // Single pair cannot compute correlation, needs at least 2 pairs
         Assert.True(result.IsError);
         Assert.Equal("#DIV/0!", result.ErrorValue);
@@ -1322,9 +1321,9 @@ public class StatisticalFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(FormulaResultType.Number, result.Type);
-        // p-value should be between 0 and 1
-        Assert.InRange(result.NumericValue, 0, 1);
+        // Single values in each array - insufficient data for t-test
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
     }
 
     [Fact]
@@ -1395,7 +1394,8 @@ public class StatisticalFunctionTests
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(FormulaResultType.Number, result.Type);
-        Assert.InRange(result.NumericValue, 0, 1);
+        // Single values in each array - insufficient data for t-test
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
     }
 }

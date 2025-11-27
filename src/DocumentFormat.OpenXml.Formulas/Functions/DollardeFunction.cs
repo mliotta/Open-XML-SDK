@@ -62,8 +62,15 @@ public sealed class DollardeFunction : IFunctionImplementation
             var integerPart = System.Math.Floor(System.Math.Abs(fractionalDollar));
             var fractionalPart = System.Math.Abs(fractionalDollar) - integerPart;
 
-            // Convert fractional part from base fraction to decimal
-            var decimalPart = fractionalPart / fraction;
+            // The fractional part represents the numerator when interpreted as integer digits
+            // Example: 1.02 with fraction 16 means 1 + 2/16 = 1.125
+            // Example: 1.1 with fraction 32 means 1 + 1/32 = 1.03125
+            // Parse the fractional digits as an integer
+            var fracStr = fractionalPart.ToString("F10", System.Globalization.CultureInfo.InvariantCulture);
+            var decimalIndex = fracStr.IndexOf('.');
+            var digitsStr = decimalIndex >= 0 ? fracStr.Substring(decimalIndex + 1).TrimEnd('0') : "0";
+            var numerator = string.IsNullOrEmpty(digitsStr) ? 0 : int.Parse(digitsStr);
+            var decimalPart = (double)numerator / fraction;
 
             // Reconstruct with proper sign
             var result = fractionalDollar < 0 ? -(integerPart + decimalPart) : (integerPart + decimalPart);

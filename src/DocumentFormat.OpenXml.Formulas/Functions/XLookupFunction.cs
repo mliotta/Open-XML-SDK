@@ -42,81 +42,142 @@ public sealed class XLookupFunction : IFunctionImplementation
             return lookupValue;
         }
 
-        // Determine argument structure - need to find where lookup_array ends and return_array begins
-        // Strategy: Look from the end backwards for optional parameters
-        var argsLength = args.Length;
-        var hasSearchMode = argsLength >= 6 && args[argsLength - 1].Type == FormulaResultType.Number;
-        var hasMatchMode = argsLength >= 5 && args[argsLength - (hasSearchMode ? 2 : 1)].Type == FormulaResultType.Number;
-        var hasIfNotFound = argsLength >= 4;
+        // XLOOKUP has specific argument positions:
+        // args[0] = lookup_value
+        // args[1..n] = lookup_array (variable length)
+        // args[n+1..m] = return_array (same length as lookup_array)
+        // args[m+1] = if_not_found (optional)
+        // args[m+2] = match_mode (optional)
+        // args[m+3] = search_mode (optional)
 
-        // Calculate where arrays start/end
-        var optionalParamsCount = (hasSearchMode ? 1 : 0) + (hasMatchMode ? 1 : 0) + (hasIfNotFound ? 1 : 0);
-        var lookupArrayStart = 1;
+        // Strategy: Try different combinations of optional parameters to find
+        // a configuration where the remaining args can be split into two equal arrays
 
-        // For simplicity, assume equal-sized arrays split remaining args in half
-        var remainingAfterLookupValue = argsLength - 1 - optionalParamsCount;
-        if (remainingAfterLookupValue < 2)
+        var matchMode = 0;
+        var searchMode = 1;
+        FormulaResult ifNotFound = FormulaResult.Error("#N/A");
+        var arrayLength = 0;
+        var foundValidConfig = false;
+
+        // Try configurations from most optional params to least
+        // Config: (hasSearchMode, hasMatchMode, hasIfNotFound)
+        var configs = new[]
+        {
+            new { hasSearchMode = true, hasMatchMode = true, hasIfNotFound = true },   // All 3 optional params
+            new { hasSearchMode = false, hasMatchMode = true, hasIfNotFound = true },  // match_mode and if_not_found
+            new { hasSearchMode = true, hasMatchMode = false, hasIfNotFound = true },  // search_mode and if_not_found (invalid - skip)
+            new { hasSearchMode = false, hasMatchMode = false, hasIfNotFound = true }, // just if_not_found
+            new { hasSearchMode = true, hasMatchMode = true, hasIfNotFound = false },  // match_mode and search_mode
+            new { hasSearchMode = false, hasMatchMode = true, hasIfNotFound = false }, // just match_mode
+            new { hasSearchMode = true, hasMatchMode = false, hasIfNotFound = false }, // just search_mode (invalid - skip)
+            new { hasSearchMode = false, hasMatchMode = false, hasIfNotFound = false } // no optional params
+        };
+
+        foreach (var config in configs)
+        {
+            var hasSearchMode = config.hasSearchMode;
+            var hasMatchMode = config.hasMatchMode;
+            var hasIfNotFound = config.hasIfNotFound;
+
+            // Search mode cannot exist without match mode
+            if (hasSearchMode && !hasMatchMode)
+            {
+                continue;
+            }
+
+            var optionalCount = (hasSearchMode ? 1 : 0) + (hasMatchMode ? 1 : 0) + (hasIfNotFound ? 1 : 0);
+
+            // Check if we have enough args for this configuration
+            if (args.Length < 3 + optionalCount)
+            {
+                continue;
+            }
+
+            // Check if remaining args can be split into two equal arrays
+            var totalArrayElements = args.Length - 1 - optionalCount;
+            if (totalArrayElements % 2 != 0 || totalArrayElements < 2)
+            {
+                continue;
+            }
+
+            // Validate the optional parameters if they're supposed to be present
+            var currentOptional = args.Length - optionalCount;
+            var isValid = true;
+
+            if (hasIfNotFound)
+            {
+                // if_not_found can be any type, always valid
+                ifNotFound = args[currentOptional];
+                currentOptional++;
+            }
+
+            if (hasMatchMode)
+            {
+                if (args[currentOptional].Type != FormulaResultType.Number)
+                {
+                    isValid = false;
+                }
+                else
+                {
+                    var val = (int)args[currentOptional].NumericValue;
+                    if (val < -1 || val > 2)
+                    {
+                        isValid = false;
+                    }
+                    else
+                    {
+                        matchMode = val;
+                    }
+                }
+                currentOptional++;
+            }
+
+            if (hasSearchMode && isValid)
+            {
+                if (args[currentOptional].Type != FormulaResultType.Number)
+                {
+                    isValid = false;
+                }
+                else
+                {
+                    var val = (int)args[currentOptional].NumericValue;
+                    if (val < -2 || val > 2 || val == 0)
+                    {
+                        isValid = false;
+                    }
+                    else
+                    {
+                        searchMode = val;
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                arrayLength = totalArrayElements / 2;
+                foundValidConfig = true;
+                break;
+            }
+        }
+
+        if (!foundValidConfig)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        var arrayLength = remainingAfterLookupValue / 2;
-        var lookupArrayEnd = lookupArrayStart + arrayLength;
-        var returnArrayStart = lookupArrayEnd;
-        var returnArrayEnd = returnArrayStart + arrayLength;
-
-        // Extract optional parameters
-        FormulaResult ifNotFound = FormulaResult.Error("#N/A");
-        var matchMode = 0;
-        var searchMode = 1;
-
-        var currentOptionalIndex = returnArrayEnd;
-        if (hasIfNotFound && currentOptionalIndex < argsLength)
-        {
-            ifNotFound = args[currentOptionalIndex];
-            currentOptionalIndex++;
-        }
-
-        if (hasMatchMode && currentOptionalIndex < argsLength)
-        {
-            var matchModeArg = args[currentOptionalIndex];
-            if (matchModeArg.IsError)
-            {
-                return matchModeArg;
-            }
-
-            if (matchModeArg.Type == FormulaResultType.Number)
-            {
-                matchMode = (int)matchModeArg.NumericValue;
-                if (matchMode < -1 || matchMode > 2)
-                {
-                    return FormulaResult.Error("#VALUE!");
-                }
-            }
-
-            currentOptionalIndex++;
-        }
-
-        if (hasSearchMode && currentOptionalIndex < argsLength)
-        {
-            var searchModeArg = args[currentOptionalIndex];
-            if (searchModeArg.IsError)
-            {
-                return searchModeArg;
-            }
-
-            if (searchModeArg.Type == FormulaResultType.Number)
-            {
-                searchMode = (int)searchModeArg.NumericValue;
-                if (searchMode < -2 || searchMode > 2 || searchMode == 0)
-                {
-                    return FormulaResult.Error("#VALUE!");
-                }
-            }
-        }
+        var lookupArrayStart = 1;
+        var returnArrayStart = 1 + arrayLength;
 
         // Check for errors in arrays
-        for (var i = lookupArrayStart; i < returnArrayEnd; i++)
+        for (var i = lookupArrayStart; i < lookupArrayStart + arrayLength; i++)
+        {
+            if (args[i].IsError)
+            {
+                return args[i];
+            }
+        }
+
+        for (var i = returnArrayStart; i < returnArrayStart + arrayLength; i++)
         {
             if (args[i].IsError)
             {

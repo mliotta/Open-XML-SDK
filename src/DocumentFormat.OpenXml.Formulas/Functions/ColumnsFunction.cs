@@ -47,33 +47,20 @@ public sealed class ColumnsFunction : IFunctionImplementation
             return FormulaResult.FromNumber(1);
         }
 
-        // For multiple cells, infer the array dimensions using the same heuristic as INDEX/VLOOKUP
-        // We prefer shapes close to square (numRows ≈ numCols) as they're more typical in Excel
+        // For multiple cells, infer array dimensions
+        // Strategy: For composite numbers, prefer taller arrays (fewer columns)
+        // For prime numbers, treat as single row (all columns)
         var arrayLength = args.Length;
-        var numCols = 0;
-        var numRows = 0;
-        var bestDiff = int.MaxValue;
+        var numCols = arrayLength; // Default to single row
 
-        // Find the column count that gives the most square-like shape
-        for (var testCols = 1; testCols <= arrayLength; testCols++)
+        // Find the smallest column count that evenly divides the array length
+        for (var testCols = 2; testCols <= System.Math.Sqrt(arrayLength); testCols++)
         {
             if (arrayLength % testCols == 0)
             {
-                var testRows = arrayLength / testCols;
-                var diff = System.Math.Abs(testRows - testCols);
-                if (diff < bestDiff)
-                {
-                    numCols = testCols;
-                    numRows = testRows;
-                    bestDiff = diff;
-                }
+                numCols = testCols;
+                break;
             }
-        }
-
-        if (numCols == 0)
-        {
-            // Shouldn't happen for valid arrays, but fallback to treating as single column
-            return FormulaResult.FromNumber(1);
         }
 
         return FormulaResult.FromNumber(numCols);

@@ -44,6 +44,12 @@ public sealed class GaussFunction : IFunctionImplementation
 
         double z = args[0].NumericValue;
 
+        // Special case: GAUSS(0) = 0
+        if (System.Math.Abs(z) < 1e-15)
+        {
+            return FormulaResult.FromNumber(0);
+        }
+
         // GAUSS(z) = NORM.S.DIST(z, TRUE) - 0.5
         double result = StatisticalHelper.NormSDist(z) - 0.5;
         return FormulaResult.FromNumber(result);

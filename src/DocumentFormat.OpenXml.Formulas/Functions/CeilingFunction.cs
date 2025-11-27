@@ -62,7 +62,18 @@ public sealed class CeilingFunction : IFunctionImplementation
         }
 
         // Round up to nearest multiple of significance
-        var result = System.Math.Ceiling(number / significance) * significance;
+        // When both are negative, CEILING rounds toward zero (less negative)
+        double result;
+        if (number < 0 && significance < 0)
+        {
+            // For negative numbers with negative significance, round toward zero
+            result = System.Math.Floor(number / significance) * significance;
+        }
+        else
+        {
+            result = System.Math.Ceiling(number / significance) * significance;
+        }
+
         return FormulaResult.FromNumber(result);
     }
 }

@@ -128,9 +128,10 @@ public class DateTimeIntlFunctionTests
     {
         var func = WorkdayIntlFunction.Instance;
 
-        // Start: Friday Jan 5, 2024, add 1 working day with weekend=2 (Sun-Mon) = Tuesday Jan 9, 2024
+        // Start: Friday Jan 5, 2024, add 1 working day with weekend=2 (Sun-Mon) = Saturday Jan 6, 2024
+        // Saturday is a workday when weekend is Sun-Mon, so it's the first workday after Friday
         var startDate = new DateTime(2024, 1, 5).ToOADate(); // Friday
-        var expectedDate = new DateTime(2024, 1, 9).ToOADate(); // Tuesday
+        var expectedDate = new DateTime(2024, 1, 6).ToOADate(); // Saturday
 
         var result = func.Execute(null!, new[]
         {
@@ -157,6 +158,27 @@ public class DateTimeIntlFunctionTests
             FormulaResult.FromNumber(startDate),
             FormulaResult.FromNumber(1),
             FormulaResult.FromNumber(11), // Weekend type 11 = Sunday only
+        });
+
+        Assert.Equal(FormulaResultType.Number, result.Type);
+        Assert.Equal(expectedDate, result.NumericValue);
+    }
+
+    [Fact]
+    public void WorkdayIntl_SundayMondayWeekend_SkipsWhenCrossing()
+    {
+        var func = WorkdayIntlFunction.Instance;
+
+        // Start: Saturday Jan 6, 2024, add 1 working day with weekend=2 (Sun-Mon) = Tuesday Jan 9, 2024
+        // Saturday is a workday, Sunday and Monday are skipped, Tuesday is the next workday
+        var startDate = new DateTime(2024, 1, 6).ToOADate(); // Saturday
+        var expectedDate = new DateTime(2024, 1, 9).ToOADate(); // Tuesday
+
+        var result = func.Execute(null!, new[]
+        {
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2), // Weekend type 2 = Sunday-Monday
         });
 
         Assert.Equal(FormulaResultType.Number, result.Type);

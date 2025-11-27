@@ -33,26 +33,32 @@ public sealed class ChooseColsFunction : IFunctionImplementation
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Parse column numbers from the end
-        var colCount = 0;
-        for (var i = args.Length - 1; i >= 1; i--)
+        // In this simplified implementation, the last argument is the column number,
+        // and everything before it is the array. We cannot reliably detect multiple
+        // column numbers when array data is also numeric.
+        if (args[args.Length - 1].IsError)
         {
-            if (args[i].Type == FormulaResultType.Number)
-            {
-                colCount++;
-            }
-            else
-            {
-                break;
-            }
+            return args[args.Length - 1];
         }
 
-        if (colCount == 0)
+        if (args[args.Length - 1].Type != FormulaResultType.Number)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        var arrayLength = args.Length - colCount;
+        var colNum = (int)args[args.Length - 1].NumericValue;
+
+        if (colNum == 0)
+        {
+            return FormulaResult.Error("#VALUE!");
+        }
+
+        var arrayLength = args.Length - 1;
+
+        if (arrayLength == 0)
+        {
+            return FormulaResult.Error("#VALUE!");
+        }
 
         // Check for errors in array
         for (var i = 0; i < arrayLength; i++)
@@ -63,46 +69,29 @@ public sealed class ChooseColsFunction : IFunctionImplementation
             }
         }
 
-        // Get the first column number
-        var firstColNum = (int)args[arrayLength].NumericValue;
+        // For this simplified implementation, treat the array as a 1D row vector.
+        // Column 1 = first element, column 2 = second element, etc.
+        // Negative column numbers count from the end.
+        var numCols = arrayLength;
 
-        if (firstColNum == 0)
+        // Convert to 0-based index
+        int colIndex;
+        if (colNum > 0)
+        {
+            colIndex = colNum - 1;
+        }
+        else
+        {
+            // Negative: -1 means last column, -2 means second to last, etc.
+            colIndex = numCols + colNum;
+        }
+
+        // Validate column index
+        if (colIndex < 0 || colIndex >= numCols)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Calculate array dimensions (assume square-ish array)
-        var numCols = 1;
-        var numRows = arrayLength;
-
-        for (var testCols = 1; testCols <= arrayLength; testCols++)
-        {
-            if (arrayLength % testCols == 0)
-            {
-                var testRows = arrayLength / testCols;
-                var diff = System.Math.Abs(testRows - testCols);
-                if (diff <= System.Math.Abs(numRows - numCols))
-                {
-                    numCols = testCols;
-                    numRows = testRows;
-                }
-            }
-        }
-
-        // Validate column number
-        var actualColNum = firstColNum > 0 ? firstColNum : numCols + firstColNum + 1;
-        if (actualColNum < 1 || actualColNum > numCols)
-        {
-            return FormulaResult.Error("#VALUE!");
-        }
-
-        // Return first element of the first chosen column
-        var firstIndex = actualColNum - 1;
-        if (firstIndex >= 0 && firstIndex < arrayLength)
-        {
-            return args[firstIndex];
-        }
-
-        return FormulaResult.Error("#REF!");
+        return args[colIndex];
     }
 }

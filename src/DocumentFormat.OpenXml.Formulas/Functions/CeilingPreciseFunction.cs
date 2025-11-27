@@ -69,17 +69,10 @@ public sealed class CeilingPreciseFunction : IFunctionImplementation
         // Use absolute value of significance
         significance = System.Math.Abs(significance);
 
-        // Always round toward positive infinity regardless of sign
-        double result;
-        if (number >= 0)
-        {
-            result = System.Math.Ceiling(number / significance) * significance;
-        }
-        else
-        {
-            // For negative numbers, ceiling toward positive infinity means toward zero
-            result = System.Math.Ceiling(System.Math.Abs(number) / significance) * significance * -1;
-        }
+        // CEILING.PRECISE always rounds toward positive infinity
+        // For positive numbers: 4.3 -> 5 (up, away from zero)
+        // For negative numbers: -4.3 -> -4 (up, toward zero)
+        double result = System.Math.Ceiling(number / significance) * significance;
 
         return FormulaResult.FromNumber(result);
     }

@@ -33,7 +33,12 @@ public readonly struct FormulaResult : IEquatable<FormulaResult>
     /// <summary>
     /// Gets the string value.
     /// </summary>
-    public string StringValue => Value?.ToString() ?? string.Empty;
+    /// <remarks>
+    /// For Boolean values, returns "TRUE" or "FALSE" (uppercase) to match Excel behavior.
+    /// </remarks>
+    public string StringValue => Type == FormulaResultType.Boolean
+        ? ((bool)Value! ? "TRUE" : "FALSE")
+        : (Value?.ToString() ?? string.Empty);
 
     /// <summary>
     /// Gets the boolean value. Returns false if not a boolean.

@@ -244,7 +244,7 @@ public class ParserTests
         var tokens = lexer.Tokenize();
 
         // Assert
-        Assert.Equal(6, tokens.Count); // SUM ( A1 : A10 ) EndOfFormula
+        Assert.Equal(7, tokens.Count); // SUM ( A1 : A10 ) EndOfFormula
         Assert.Equal(TokenType.Function, tokens[0].Type);
         Assert.Equal("SUM", tokens[0].Text);
         Assert.Equal(TokenType.LeftParen, tokens[1].Type);
@@ -252,5 +252,6 @@ public class ParserTests
         Assert.Equal(TokenType.Colon, tokens[3].Type);
         Assert.Equal(TokenType.CellReference, tokens[4].Type);
         Assert.Equal(TokenType.RightParen, tokens[5].Type);
+        Assert.Equal(TokenType.EndOfFormula, tokens[6].Type);
     }
 }

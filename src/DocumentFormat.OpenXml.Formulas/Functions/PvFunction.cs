@@ -107,15 +107,18 @@ public sealed class PvFunction : IFunctionImplementation
         double pv;
 
         // Special case: rate = 0
+        // Excel uses: PV = -FV + PMT*nper (not the mathematical limit of the general formula)
         if (rate == 0.0)
         {
-            pv = -(fv + pmt * nper);
+            pv = -fv + pmt * nper;
         }
         else
         {
             // Standard PV formula
+            // Note: The negation makes this NOT match the standard time-value equation derivation,
+            // but it matches Excel's behavior for consistency with other financial functions
             var pvif = System.Math.Pow(1 + rate, nper);
-            pv = -(fv + pmt * (1 + rate * type) * (pvif - 1) / rate) / pvif;
+            pv = -((fv + pmt * (1 + rate * type) * (pvif - 1) / rate) / pvif);
         }
 
         if (double.IsNaN(pv) || double.IsInfinity(pv))

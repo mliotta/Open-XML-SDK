@@ -88,10 +88,31 @@ public sealed class LogestFunction : IFunctionImplementation
             return FormulaResult.Error("#N/A");
         }
 
-        // Need at least 2 data points for regression
-        if (yValues.Count < 2)
+        // Need at least 1 data point
+        if (yValues.Count < 1)
         {
             return FormulaResult.Error("#N/A");
+        }
+
+        // With 1 data point, handle specially
+        if (yValues.Count == 1)
+        {
+            // If known_x was not explicitly provided (args.Length < 2), return #N/A
+            // Cannot do regression with only y values
+            if (args.Length < 2)
+            {
+                return FormulaResult.Error("#N/A");
+            }
+
+            // For single point with explicit x: m = y^(1/x) (assuming b=1)
+            // y = b * m^x with b=1 => y = m^x => m = y^(1/x)
+            if (xValues[0] == 0)
+            {
+                return FormulaResult.Error("#DIV/0!");
+            }
+
+            var singlePointM = System.Math.Pow(yValues[0], 1.0 / xValues[0]);
+            return FormulaResult.FromNumber(singlePointM);
         }
 
         // Handle const parameter (args[2])

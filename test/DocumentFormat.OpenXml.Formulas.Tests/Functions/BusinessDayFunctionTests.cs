@@ -269,7 +269,8 @@ public class BusinessDayFunctionTests
         var func = WorkdayFunction.Instance;
 
         // Start Jan 1, add 5 days with Jan 2 as holiday
-        // Should skip Jan 2 and land on Jan 8
+        // Should skip Jan 2 and land on Jan 9
+        // Working days: Jan 3 (Wed), 4 (Thu), 5 (Fri), 8 (Mon), 9 (Tue)
         var startDate = new DateTime(2024, 1, 1).ToOADate();
         var holiday = new DateTime(2024, 1, 2).ToOADate();
 
@@ -280,7 +281,7 @@ public class BusinessDayFunctionTests
             FormulaResult.FromNumber(holiday),
         });
 
-        var expectedDate = new DateTime(2024, 1, 8).ToOADate();
+        var expectedDate = new DateTime(2024, 1, 9).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
 

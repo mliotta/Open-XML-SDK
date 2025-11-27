@@ -86,14 +86,24 @@ public sealed class Days360Function : IFunctionImplementation
             if (useEuropeanMethod)
             {
                 // European method (30E/360)
+                // If the starting date is the 31st of a month, change it to the 30th
                 if (startDay == 31)
                 {
                     startDay = 30;
                 }
 
+                // If the ending date is the 31st of a month, change it to the 1st of next month
+                // This ensures full months are counted correctly
                 if (endDay == 31)
                 {
-                    endDay = 30;
+                    endMonth++;
+                    if (endMonth > 12)
+                    {
+                        endMonth = 1;
+                        endYear++;
+                    }
+
+                    endDay = 1;
                 }
             }
             else

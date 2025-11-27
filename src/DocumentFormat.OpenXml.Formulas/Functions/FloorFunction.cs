@@ -62,7 +62,18 @@ public sealed class FloorFunction : IFunctionImplementation
         }
 
         // Round down to nearest multiple of significance
-        var result = System.Math.Floor(number / significance) * significance;
+        // When both are negative, FLOOR rounds away from zero (more negative)
+        double result;
+        if (number < 0 && significance < 0)
+        {
+            // For negative numbers with negative significance, round away from zero
+            result = System.Math.Ceiling(number / significance) * significance;
+        }
+        else
+        {
+            result = System.Math.Floor(number / significance) * significance;
+        }
+
         return FormulaResult.FromNumber(result);
     }
 }

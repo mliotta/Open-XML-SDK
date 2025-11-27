@@ -350,8 +350,6 @@ public static class FunctionRegistry
         { "HYPGEOM.DIST", HypGeomDistFunction.Instance },
         { "NEGBINOM.DIST", NegBinomDistFunction.Instance },
         { "POISSON.DIST", PoissonDistFunction.Instance },
-        { "POISSON", PoissonFunction.Instance },
-        { "WEIBULL", WeibullFunction.Instance },
         { "STANDARDIZE", StandardizeFunction.Instance },
         { "FISHER", FisherFunction.Instance },
         { "FISHERINV", FisherinvFunction.Instance },
@@ -368,8 +366,6 @@ public static class FunctionRegistry
         { "SKEW.P", SkewPFunction.Instance },
         { "PERMUTATIONA", PermutationaFunction.Instance },
         { "T.TEST", TTestFunction.Instance },
-        { "BINOM.DIST.RANGE", BinomDistRangeFunction.Instance },
-        { "PERCENTOF", PercentOfFunction.Instance },
 
         // Legacy Compatibility Functions (24)
         { "BETADIST", BetaDistLegacyFunction.Instance },

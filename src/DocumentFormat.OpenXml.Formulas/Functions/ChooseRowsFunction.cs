@@ -1,7 +1,6 @@
 // Copyright (c) Matt Liotta
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using DocumentFormat.OpenXml.Features.FormulaEvaluation.Compilation;
 
 namespace DocumentFormat.OpenXml.Features.FormulaEvaluation.Functions;
@@ -33,26 +32,32 @@ public sealed class ChooseRowsFunction : IFunctionImplementation
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Parse row numbers from the end
-        var rowCount = 0;
-        for (var i = args.Length - 1; i >= 1; i--)
+        // In this simplified implementation, the last argument is the row number,
+        // and everything before it is the array. We cannot reliably detect multiple
+        // row numbers when array data is also numeric.
+        if (args[args.Length - 1].IsError)
         {
-            if (args[i].Type == FormulaResultType.Number)
-            {
-                rowCount++;
-            }
-            else
-            {
-                break;
-            }
+            return args[args.Length - 1];
         }
 
-        if (rowCount == 0)
+        if (args[args.Length - 1].Type != FormulaResultType.Number)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        var arrayLength = args.Length - rowCount;
+        var rowNum = (int)args[args.Length - 1].NumericValue;
+
+        if (rowNum == 0)
+        {
+            return FormulaResult.Error("#VALUE!");
+        }
+
+        var arrayLength = args.Length - 1;
+
+        if (arrayLength == 0)
+        {
+            return FormulaResult.Error("#VALUE!");
+        }
 
         // Check for errors in array
         for (var i = 0; i < arrayLength; i++)
@@ -63,46 +68,29 @@ public sealed class ChooseRowsFunction : IFunctionImplementation
             }
         }
 
-        // Get the first row number
-        var firstRowNum = (int)args[arrayLength].NumericValue;
-
-        if (firstRowNum == 0)
-        {
-            return FormulaResult.Error("#VALUE!");
-        }
-
-        // Calculate array dimensions (assume square-ish array)
-        var numCols = 1;
+        // For this simplified implementation, treat the array as a 1D row vector.
+        // Row 1 = first element, row 2 = second element, etc.
+        // Negative row numbers count from the end.
         var numRows = arrayLength;
 
-        for (var testCols = 1; testCols <= arrayLength; testCols++)
+        // Convert to 0-based index
+        int rowIndex;
+        if (rowNum > 0)
         {
-            if (arrayLength % testCols == 0)
-            {
-                var testRows = arrayLength / testCols;
-                var diff = System.Math.Abs(testRows - testCols);
-                if (diff <= System.Math.Abs(numRows - numCols))
-                {
-                    numCols = testCols;
-                    numRows = testRows;
-                }
-            }
+            rowIndex = rowNum - 1;
+        }
+        else
+        {
+            // Negative: -1 means last row, -2 means second to last, etc.
+            rowIndex = numRows + rowNum;
         }
 
-        // Validate row number
-        var actualRowNum = firstRowNum > 0 ? firstRowNum : numRows + firstRowNum + 1;
-        if (actualRowNum < 1 || actualRowNum > numRows)
+        // Validate row index
+        if (rowIndex < 0 || rowIndex >= numRows)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Return first element of the first chosen row
-        var firstIndex = (actualRowNum - 1) * numCols;
-        if (firstIndex >= 0 && firstIndex < arrayLength)
-        {
-            return args[firstIndex];
-        }
-
-        return FormulaResult.Error("#REF!");
+        return args[rowIndex];
     }
 }

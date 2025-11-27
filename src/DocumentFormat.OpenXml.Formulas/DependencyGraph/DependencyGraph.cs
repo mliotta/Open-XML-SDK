@@ -51,13 +51,15 @@ internal sealed class DependencyGraph : IDependencyGraph
         // Kahn's algorithm for topological sort
         var inDegree = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
-        // Initialize in-degrees
+        // Initialize in-degrees - only count dependencies that are in the graph
         foreach (var cellRef in _dependencies.Keys)
         {
-            inDegree[cellRef] = _dependencies[cellRef].Count;
+            // Count only dependencies that are also formula cells (in the graph)
+            var depsInGraph = _dependencies[cellRef].Count(dep => _dependencies.ContainsKey(dep));
+            inDegree[cellRef] = depsInGraph;
         }
 
-        // Queue cells with no dependencies
+        // Queue cells with no dependencies (or only dependencies on non-formula cells)
         var queue = new Queue<string>(
             inDegree.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key));
 

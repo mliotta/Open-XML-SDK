@@ -137,8 +137,7 @@ public sealed class IpmtFunction : IFunctionImplementation
             return FormulaResult.Error("#NUM!");
         }
 
-        // Calculate the remaining balance after (per-1) periods
-        // to determine the interest for period 'per'
+        // Calculate the interest payment for the specified period
         if (rate == 0.0)
         {
             // With zero interest, there is no interest payment
@@ -146,37 +145,46 @@ public sealed class IpmtFunction : IFunctionImplementation
         }
         else
         {
-            double remainingBalance;
-
             if (per == 1 && type == 1.0)
             {
                 // For beginning of period payments, interest in period 1 is 0
+                // because payment is made at start before any interest accrues
                 ipmt = 0.0;
             }
             else
             {
                 // Calculate remaining balance at the start of the period
-                // FV after (per-1) payments
-                var periodsElapsed = type == 1.0 ? per - 2 : per - 1;
+                // For end-of-period payments (type=0):
+                //   Balance at start of period n = PV*(1+r)^(n-1) + PMT*((1+r)^(n-1)-1)/r
+                // For beginning-of-period payments (type=1):
+                //   The first payment reduces principal immediately, so we need to account for that
 
-                if (periodsElapsed <= 0)
+                double remainingBalance;
+                var periodsElapsed = (int)(per - 1);
+
+                if (type == 1.0 && periodsElapsed > 0)
+                {
+                    // For type=1, payments are made at start of period
+                    // So by the start of period n, we've made n-1 payments
+                    // Balance = (PV + PMT) * (1+r)^(n-1) + PMT * ((1+r)^(n-1) - 1) / r
+                    var pvif = System.Math.Pow(1 + rate, periodsElapsed);
+                    remainingBalance = (pv + pmt) * pvif + pmt * (pvif - 1) / rate;
+                }
+                else if (periodsElapsed == 0)
                 {
                     remainingBalance = pv;
                 }
                 else
                 {
+                    // For type=0, payments are made at end of period
+                    // Balance at start of period n = PV*(1+r)^(n-1) + PMT*((1+r)^(n-1)-1)/r
                     var pvif = System.Math.Pow(1 + rate, periodsElapsed);
-                    remainingBalance = pv * pvif + pmt * (1 + rate * type) * (pvif - 1) / rate;
+                    remainingBalance = pv * pvif + pmt * (pvif - 1) / rate;
                 }
 
                 // Interest for the period is the remaining balance times the rate
-                ipmt = remainingBalance * rate;
-
-                // For beginning of period, adjust
-                if (type == 1.0)
-                {
-                    ipmt /= (1 + rate);
-                }
+                // Interest is negative (outflow) when you have a positive balance (loan)
+                ipmt = -(remainingBalance * rate);
             }
         }
 

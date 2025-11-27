@@ -38,21 +38,55 @@ public sealed class FilterFunction : IFunctionImplementation
 
         // Parse if_empty value if provided
         FormulaResult ifEmptyValue = FormulaResult.Error("#CALC!");
-        var hasIfEmpty = false;
+        var totalArgs = args.Length;
 
-        // Check if last argument is if_empty
-        if (args.Length >= 3 && args[args.Length - 1].Type != FormulaResultType.Boolean)
+        // Check if last argument is if_empty (not a boolean or number)
+        if (args.Length >= 3 && args[args.Length - 1].Type != FormulaResultType.Boolean &&
+            args[args.Length - 1].Type != FormulaResultType.Number)
         {
             ifEmptyValue = args[args.Length - 1];
-            hasIfEmpty = true;
+            totalArgs--;
         }
 
         // Split args into array and include sections
-        // We need to determine where array ends and include begins
-        // Heuristic: split arguments roughly in half
-        var totalArgs = hasIfEmpty ? args.Length - 1 : args.Length;
-        var arrayLength = totalArgs / 2;
-        var includeLength = totalArgs - arrayLength;
+        // Strategy: try different split points and find one where:
+        // - arrayLength forms a valid grid
+        // - includeLength matches the number of rows in that grid
+        var arrayLength = 0;
+        var includeLength = 0;
+        var numCols = 0;
+        var numRows = 0;
+
+        for (var testIncludeLen = 1; testIncludeLen < totalArgs; testIncludeLen++)
+        {
+            var testArrayLen = totalArgs - testIncludeLen;
+
+            // Try to form a grid from testArrayLen elements
+            for (var testCols = 1; testCols <= testArrayLen; testCols++)
+            {
+                if (testArrayLen % testCols == 0)
+                {
+                    var testRows = testArrayLen / testCols;
+                    if (testRows == testIncludeLen)
+                    {
+                        // Found a valid split!
+                        arrayLength = testArrayLen;
+                        includeLength = testIncludeLen;
+                        numCols = testCols;
+                        numRows = testRows;
+                        goto found_split;
+                    }
+                }
+            }
+        }
+
+        found_split:
+        if (arrayLength == 0 || includeLength == 0)
+        {
+            // Fallback: split roughly in half
+            arrayLength = totalArgs / 2;
+            includeLength = totalArgs - arrayLength;
+        }
 
         // Check for errors in array
         for (var i = 0; i < arrayLength; i++)
@@ -72,29 +106,30 @@ public sealed class FilterFunction : IFunctionImplementation
             }
         }
 
-        // Calculate array dimensions
-        var numCols = 0;
-        var numRows = 0;
-        var bestDiff = int.MaxValue;
-
-        for (var testCols = 1; testCols <= arrayLength; testCols++)
-        {
-            if (arrayLength % testCols == 0)
-            {
-                var testRows = arrayLength / testCols;
-                var diff = System.Math.Abs(testRows - testCols);
-                if (diff < bestDiff)
-                {
-                    numCols = testCols;
-                    numRows = testRows;
-                    bestDiff = diff;
-                }
-            }
-        }
-
+        // Calculate array dimensions if not already done
         if (numCols == 0 || numRows == 0)
         {
-            return FormulaResult.Error("#REF!");
+            var bestDiff = int.MaxValue;
+
+            for (var testCols = 1; testCols <= arrayLength; testCols++)
+            {
+                if (arrayLength % testCols == 0)
+                {
+                    var testRows = arrayLength / testCols;
+                    var diff = System.Math.Abs(testRows - testCols);
+                    if (diff < bestDiff)
+                    {
+                        numCols = testCols;
+                        numRows = testRows;
+                        bestDiff = diff;
+                    }
+                }
+            }
+
+            if (numCols == 0 || numRows == 0)
+            {
+                return FormulaResult.Error("#REF!");
+            }
         }
 
         // Validate include array matches array row count

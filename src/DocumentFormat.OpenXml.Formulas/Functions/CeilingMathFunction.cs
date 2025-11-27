@@ -98,13 +98,13 @@ public sealed class CeilingMathFunction : IFunctionImplementation
             // Negative numbers: mode determines direction
             if (mode == 0)
             {
-                // Mode 0: round toward zero (up for negative numbers)
-                result = System.Math.Ceiling(System.Math.Abs(number) / significance) * significance * -1;
+                // Mode 0: round toward zero (less negative)
+                result = System.Math.Floor(System.Math.Abs(number) / significance) * significance * -1;
             }
             else
             {
-                // Mode 1: round away from zero (down for negative numbers)
-                result = System.Math.Floor(number / significance) * significance;
+                // Mode 1: round away from zero (more negative)
+                result = System.Math.Ceiling(System.Math.Abs(number) / significance) * significance * -1;
             }
         }
 

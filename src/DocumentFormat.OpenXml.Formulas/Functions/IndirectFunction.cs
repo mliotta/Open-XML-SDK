@@ -112,7 +112,10 @@ public sealed class IndirectFunction : IFunctionImplementation
             return null;
         }
 
-        return reference;
+        // Return reference without dollar signs for cell lookup
+        var column = match.Groups[2].Value;
+        var row = match.Groups[4].Value;
+        return column + row;
     }
 
     private static string? ParseR1C1Reference(string refText, CellContext? context)

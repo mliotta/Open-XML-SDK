@@ -44,27 +44,34 @@ public sealed class MatchFunction : IFunctionImplementation
             return lookupValue;
         }
 
-        // Determine if we have match_type (last argument)
+        // Check if the last argument could be match_type
+        // Convention: if last arg is a number with small absolute value, treat as potential match_type
+        // If it's -1, 0, or 1: valid match_type
+        // If it's another small integer: invalid match_type (error)
+        // If it's a large number or non-number: array element
         var lastArg = args[args.Length - 1];
-        var hasMatchType = args.Length >= 3 && lastArg.Type == FormulaResultType.Number;
+        var hasMatchType = false;
+        var matchType = 1; // Default match type is 1
 
-        // Default match type is 1
-        var matchType = 1;
-
-        if (hasMatchType)
+        if (lastArg.Type == FormulaResultType.Number)
         {
-            if (lastArg.IsError)
+            var lastValue = (int)lastArg.NumericValue;
+            // If last arg is a small integer (likely a match_type parameter)
+            if (System.Math.Abs(lastValue) <= 10)
             {
-                return lastArg;
+                if (lastValue == -1 || lastValue == 0 || lastValue == 1)
+                {
+                    // Valid match_type
+                    hasMatchType = true;
+                    matchType = lastValue;
+                }
+                else
+                {
+                    // Invalid match_type value
+                    return FormulaResult.Error("#VALUE!");
+                }
             }
-
-            matchType = (int)lastArg.NumericValue;
-
-            // Validate match type (-1, 0, or 1)
-            if (matchType != -1 && matchType != 0 && matchType != 1)
-            {
-                return FormulaResult.Error("#VALUE!");
-            }
+            // else: large number, treat as array element
         }
 
         // Extract lookup_array (everything between lookup_value and optional match_type)

@@ -47,7 +47,7 @@ internal sealed class ComplexNumber
         value = value.Substring(0, value.Length - 1);
 
         // Pure imaginary number (e.g., "5i", "-3j")
-        if (!value.Contains("+") && !(value.IndexOf("-", 1, StringComparison.Ordinal) >= 0))
+        if (!value.Contains("+") && !(value.Length > 1 && value.IndexOf("-", 1, StringComparison.Ordinal) >= 0))
         {
             if (string.IsNullOrEmpty(value) || value == "+" || value == "-")
             {
@@ -95,15 +95,15 @@ internal sealed class ComplexNumber
         }
 
         // Handle cases where imaginary part is just "+" or "-" or "+i" or "-i"
-        if (imagPart == "+" || imagPart == "+1" || string.IsNullOrEmpty(imagPart.Substring(1)))
-        {
-            result = new ComplexNumber(real, 1);
-            return true;
-        }
-
         if (imagPart == "-" || imagPart == "-1")
         {
             result = new ComplexNumber(real, -1);
+            return true;
+        }
+
+        if (imagPart == "+" || imagPart == "+1" || string.IsNullOrEmpty(imagPart.Substring(1)))
+        {
+            result = new ComplexNumber(real, 1);
             return true;
         }
 
@@ -214,18 +214,30 @@ internal sealed class ComplexNumber
 
     /// <summary>
     /// Divides two complex numbers.
+    /// Formula: (a+bi)/(c+di) = ((ac+bd)/(c²+d²)) + ((bc-ad)/(c²+d²))i
     /// </summary>
     public static ComplexNumber Divide(ComplexNumber a, ComplexNumber b)
     {
-        var denominator = b.Real * b.Real + b.Imaginary * b.Imaginary;
+        var cSquared = b.Real * b.Real;
+        var dSquared = b.Imaginary * b.Imaginary;
+        var denominator = cSquared + dSquared;
+
         if (System.Math.Abs(denominator) < 1e-10)
         {
             return new ComplexNumber(double.NaN, double.NaN);
         }
 
-        var real = (a.Real * b.Real + a.Imaginary * b.Imaginary) / denominator;
-        var imag = (a.Imaginary * b.Real - a.Real * b.Imaginary) / denominator;
-        return new ComplexNumber(real, imag);
+        // Real part: (ac + bd) / (c² + d²)
+        var ac = a.Real * b.Real;
+        var bd = a.Imaginary * b.Imaginary;
+        var realPart = (ac + bd) / denominator;
+
+        // Imaginary part: (bc - ad) / (c² + d²)
+        var bc = a.Imaginary * b.Real;
+        var ad = a.Real * b.Imaginary;
+        var imagPart = (bc - ad) / denominator;
+
+        return new ComplexNumber(realPart, imagPart);
     }
 
     /// <summary>
@@ -267,7 +279,11 @@ internal sealed class ComplexNumber
     {
         var r = z.Abs();
         var real = System.Math.Sqrt((r + z.Real) / 2.0);
-        var imag = System.Math.Sign(z.Imaginary) * System.Math.Sqrt((r - z.Real) / 2.0);
+        var imagSqrt = System.Math.Sqrt((r - z.Real) / 2.0);
+
+        // Handle sign of imaginary part
+        var imag = z.Imaginary >= 0 ? imagSqrt : -imagSqrt;
+
         return new ComplexNumber(real, imag);
     }
 

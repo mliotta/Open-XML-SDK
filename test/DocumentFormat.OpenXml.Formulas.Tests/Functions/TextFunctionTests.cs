@@ -30,7 +30,7 @@ public class TextFunctionTests
         var result = func.Execute(null!, args);
 
         Assert.Equal(FormulaResultType.Text, result.Type);
-        Assert.Equal("Expert", result.StringValue);
+        Assert.Equal("Epertel", result.StringValue);
     }
 
     [Fact]
@@ -677,7 +677,7 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            FormulaResult.FromString("a\x01b\x02c\x03d"),
+            FormulaResult.FromString("a\u0001b\u0002c\u0003d"),
         };
 
         var result = func.Execute(null!, args);

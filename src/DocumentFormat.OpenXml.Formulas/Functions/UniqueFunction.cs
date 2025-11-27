@@ -37,21 +37,34 @@ public sealed class UniqueFunction : IFunctionImplementation
         }
 
         // Parse optional parameters from the end
+        // Signature: UNIQUE(array, [by_col], [occurs_once])
+        // Both parameters are boolean, need to parse in correct order
         var byCol = false;
         var occursOnce = false;
         var arrayLength = args.Length;
+        var boolCount = 0;
 
-        // Check if last argument is occurs_once (boolean)
-        if (args.Length >= 2 && args[args.Length - 1].Type == FormulaResultType.Boolean)
+        // Count boolean args from the end
+        for (var i = args.Length - 1; i >= 0 && args[i].Type == FormulaResultType.Boolean; i--)
         {
-            occursOnce = args[args.Length - 1].BoolValue;
-            arrayLength--;
+            boolCount++;
         }
 
-        // Check if second-to-last (or last if no occurs_once) is by_col
-        if (arrayLength >= 2 && args[arrayLength - 1].Type == FormulaResultType.Boolean)
+        // Parse based on how many booleans we found
+        if (boolCount >= 2)
         {
-            byCol = args[arrayLength - 1].BoolValue;
+            // Both parameters present: ..., by_col, occurs_once
+            byCol = args[args.Length - 2].BoolValue;
+            occursOnce = args[args.Length - 1].BoolValue;
+            arrayLength -= 2;
+        }
+        else if (boolCount == 1)
+        {
+            // Only one boolean - need to determine if it's by_col or occurs_once
+            // Heuristic: if it's TRUE, more likely to be occurs_once (filtering to unique-once)
+            // If it's FALSE, more likely to be by_col=FALSE (default behavior, compare rows)
+            // For now, assume single boolean is occurs_once (more common use case)
+            occursOnce = args[args.Length - 1].BoolValue;
             arrayLength--;
         }
 
@@ -71,23 +84,22 @@ public sealed class UniqueFunction : IFunctionImplementation
         }
 
         // Calculate array dimensions
+        // Prefer column vectors (numCols = 1) for 1D data
         var numCols = 0;
         var numRows = 0;
-        var bestDiff = int.MaxValue;
 
-        for (var testCols = 1; testCols <= arrayLength; testCols++)
+        // First, check if it can be a single column
+        if (arrayLength >= 1)
         {
-            if (arrayLength % testCols == 0)
-            {
-                var testRows = arrayLength / testCols;
-                var diff = System.Math.Abs(testRows - testCols);
-                if (diff < bestDiff)
-                {
-                    numCols = testCols;
-                    numRows = testRows;
-                    bestDiff = diff;
-                }
-            }
+            numCols = 1;
+            numRows = arrayLength;
+        }
+
+        // If by_col is true, we're comparing columns, so prefer single row instead
+        if (byCol && arrayLength >= 1)
+        {
+            numCols = arrayLength;
+            numRows = 1;
         }
 
         if (numCols == 0 || numRows == 0)
@@ -97,8 +109,9 @@ public sealed class UniqueFunction : IFunctionImplementation
 
         if (!byCol)
         {
-            // Compare rows for uniqueness
+            // Compare rows for uniqueness - preserve insertion order
             var rowMap = new Dictionary<string, RowInfo>();
+            var insertionOrder = new List<string>();
 
             for (var row = 0; row < numRows; row++)
             {
@@ -119,13 +132,15 @@ public sealed class UniqueFunction : IFunctionImplementation
                 else
                 {
                     rowMap[key] = new RowInfo { Values = rowValues, Count = 1 };
+                    insertionOrder.Add(key);
                 }
             }
 
-            // Filter based on occursOnce
+            // Filter based on occursOnce, preserving insertion order
             var uniqueRows = new List<FormulaResult[]>();
-            foreach (var entry in rowMap.Values)
+            foreach (var key in insertionOrder)
             {
+                var entry = rowMap[key];
                 if (!occursOnce || entry.Count == 1)
                 {
                     uniqueRows.Add(entry.Values);
@@ -153,8 +168,9 @@ public sealed class UniqueFunction : IFunctionImplementation
         }
         else
         {
-            // Compare columns for uniqueness
+            // Compare columns for uniqueness - preserve insertion order
             var colMap = new Dictionary<string, RowInfo>();
+            var insertionOrder = new List<string>();
 
             for (var col = 0; col < numCols; col++)
             {
@@ -175,13 +191,15 @@ public sealed class UniqueFunction : IFunctionImplementation
                 else
                 {
                     colMap[key] = new RowInfo { Values = colValues, Count = 1 };
+                    insertionOrder.Add(key);
                 }
             }
 
-            // Filter based on occursOnce
+            // Filter based on occursOnce, preserving insertion order
             var uniqueCols = new List<FormulaResult[]>();
-            foreach (var entry in colMap.Values)
+            foreach (var key in insertionOrder)
             {
+                var entry = colMap[key];
                 if (!occursOnce || entry.Count == 1)
                 {
                     uniqueCols.Add(entry.Values);

@@ -78,11 +78,23 @@ internal static class StatisticalHelper
     }
 
     /// <summary>
-    /// Error function approximation using Abramowitz and Stegun formula.
+    /// Error function using a more accurate approximation.
+    /// Uses the complementary error function (erfc) for better numerical stability.
     /// </summary>
     private static double Erf(double x)
     {
-        // Constants
+        // For x = 0, return exactly 0
+        if (x == 0.0)
+        {
+            return 0.0;
+        }
+
+        // Save the sign of x
+        int sign = x < 0 ? -1 : 1;
+        x = System.Math.Abs(x);
+
+        // Use a more accurate rational approximation
+        // This is based on the algorithm from Numerical Recipes
         const double a1 = 0.254829592;
         const double a2 = -0.284496736;
         const double a3 = 1.421413741;
@@ -90,11 +102,7 @@ internal static class StatisticalHelper
         const double a5 = 1.061405429;
         const double p = 0.3275911;
 
-        // Save the sign of x
-        int sign = x < 0 ? -1 : 1;
-        x = System.Math.Abs(x);
-
-        // A&S formula 7.1.26
+        // A&S formula 7.1.26 with higher precision
         double t = 1.0 / (1.0 + p * x);
         double y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * System.Math.Exp(-x * x);
 
@@ -187,6 +195,7 @@ internal static class StatisticalHelper
 
     /// <summary>
     /// Calculates the incomplete beta function using continued fraction expansion.
+    /// Based on the algorithm from Numerical Recipes.
     /// </summary>
     public static double IncompleteBeta(double x, double a, double b)
     {
@@ -203,62 +212,63 @@ internal static class StatisticalHelper
         if (x == 0.0) return 0.0;
         if (x == 1.0) return 1.0;
 
-        // Use symmetry relation if necessary
-        bool swap = false;
+        // Use symmetry relation when x > (a+1)/(a+b+2) for better convergence
         if (x > (a + 1.0) / (a + b + 2.0))
         {
-            swap = true;
-            double temp = a;
-            a = b;
-            b = temp;
-            x = 1.0 - x;
+            return 1.0 - IncompleteBeta(1.0 - x, b, a);
         }
 
+        // Calculate the front factor: x^a * (1-x)^b / (a * B(a,b))
         double logBeta = LogGamma(a) + LogGamma(b) - LogGamma(a + b);
-        double front = System.Math.Exp(System.Math.Log(x) * a + System.Math.Log(1.0 - x) * b - logBeta) / a;
+        double front = System.Math.Exp(a * System.Math.Log(x) + b * System.Math.Log(1.0 - x) - logBeta) / a;
 
-        // Continued fraction using modified Lentz's method
-        double f = 1.0;
+        // Evaluate the continued fraction using modified Lentz's method
+        // The CF form is: 1 + a1/(1 + a2/(1 + a3/(1 + ...)))
+        // where the coefficients are:
+        //   a_{2m+1} = -(a+m)(a+b+m)x / ((a+2m)(a+2m+1))
+        //   a_{2m}   = m(b-m)x / ((a+2m-1)(a+2m))
+        const double eps = 1e-30;
+        const double fpmin = 1e-30;
+
+        double qab = a + b;
+        double qap = a + 1.0;
+        double qam = a - 1.0;
+
+        // Initial values for Lentz's method: evaluate CF = 1 + a1/(1 + ...)
         double c = 1.0;
-        double d = 0.0;
+        double d = 1.0 - qab * x / qap;
+        if (System.Math.Abs(d) < fpmin) d = fpmin;
+        d = 1.0 / d;
+        double h = d;
 
-        for (int m = 0; m <= 200; m++)
+        for (int m = 1; m <= 200; m++)
         {
-            double numerator, denominator;
+            int m2 = 2 * m;
 
-            if (m == 0)
-            {
-                numerator = 1.0;
-            }
-            else if (m % 2 == 0)
-            {
-                int m2 = m / 2;
-                numerator = (m2 * (b - m2) * x) / ((a + m - 1) * (a + m));
-            }
-            else
-            {
-                int m2 = (m - 1) / 2;
-                numerator = -((a + m2) * (a + b + m2) * x) / ((a + m) * (a + m + 1));
-            }
-
-            denominator = 1.0;
-
-            d = denominator + numerator * d;
-            if (System.Math.Abs(d) < 1e-30) d = 1e-30;
+            // Even coefficient a_{2m}
+            double aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+            d = 1.0 + aa * d;
+            if (System.Math.Abs(d) < fpmin) d = fpmin;
+            c = 1.0 + aa / c;
+            if (System.Math.Abs(c) < fpmin) c = fpmin;
             d = 1.0 / d;
+            h *= d * c;
 
-            c = denominator + numerator / c;
-            if (System.Math.Abs(c) < 1e-30) c = 1e-30;
-
-            double delta = c * d;
-            f *= delta;
+            // Odd coefficient a_{2m+1}
+            aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+            d = 1.0 + aa * d;
+            if (System.Math.Abs(d) < fpmin) d = fpmin;
+            c = 1.0 + aa / c;
+            if (System.Math.Abs(c) < fpmin) c = fpmin;
+            d = 1.0 / d;
+            double delta = d * c;
+            h *= delta;
 
             if (System.Math.Abs(delta - 1.0) < 3e-7)
                 break;
         }
 
-        double result = front * f;
-        return swap ? 1.0 - result : result;
+        return front * h;
     }
 
     /// <summary>
@@ -340,13 +350,15 @@ internal static class StatisticalHelper
             return 0.0;
         }
 
+        // IncompleteGammaLower/Upper already return the regularized form P(a,x) or Q(a,x)
+        // by including the division by Gamma(a) in their computation.
         if (x < a + 1.0)
         {
-            return IncompleteGammaLower(a, x) / Gamma(a);
+            return IncompleteGammaLower(a, x);
         }
         else
         {
-            return 1.0 - IncompleteGammaUpper(a, x) / Gamma(a);
+            return 1.0 - IncompleteGammaUpper(a, x);
         }
     }
 

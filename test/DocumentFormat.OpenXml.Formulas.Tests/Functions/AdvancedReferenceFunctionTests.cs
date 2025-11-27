@@ -35,7 +35,7 @@ public class AdvancedReferenceFunctionTests
         var result = func.Execute(context, args);
 
         Assert.Equal(FormulaResultType.Number, result.Type);
-        Assert.Equal(43.0, result.NumericValue); // D3 = 43
+        Assert.Equal(33.0, result.NumericValue); // D3 = 33
     }
 
     [Fact]
@@ -401,7 +401,7 @@ public class AdvancedReferenceFunctionTests
         var result = func.Execute(context, args);
 
         Assert.Equal(FormulaResultType.Number, result.Type);
-        Assert.Equal(43.0, result.NumericValue); // D3 = 43
+        Assert.Equal(33.0, result.NumericValue); // D3 = 33
     }
 
     [Fact]
@@ -621,7 +621,7 @@ public class AdvancedReferenceFunctionTests
         // Create a 4x4 grid of test data
         // A1=10, B1=11, C1=12, D1=13
         // A2=20, B2=21, C2=22, D2=23
-        // A3=30, B3=31, C3=32, D3=43
+        // A3=30, B3=31, C3=32, D3=33
         // A4=40, B4=41, C4=42, D4=43
 
         for (int row = 1; row <= 4; row++)
@@ -630,7 +630,7 @@ public class AdvancedReferenceFunctionTests
             for (int col = 1; col <= 4; col++)
             {
                 var cellRef = GetColumnLetter(col) + row.ToString();
-                var value = (row - 1) * 10 + col + (col - 1) * 10;
+                var value = row * 10 + (col - 1);
 
                 var cell = new Cell
                 {

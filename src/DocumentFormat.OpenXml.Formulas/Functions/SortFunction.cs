@@ -37,39 +37,31 @@ public sealed class SortFunction : IFunctionImplementation
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Parse optional parameters from the end
+        // Parse optional parameters
+        // Signature: SORT(array, [sort_index], [sort_order], [by_col])
+        // Conservative parsing: only treat args as parameters if they match specific patterns
         var sortIndex = 1;
         var sortOrder = 1; // 1 = ascending, -1 = descending
         var byCol = false;
         var arrayLength = args.Length;
 
-        // Check if last argument is by_col (boolean)
-        if (args.Length >= 2 && args[args.Length - 1].Type == FormulaResultType.Boolean)
+        // Parse by_col (last arg, if boolean)
+        if (arrayLength >= 2 && args[arrayLength - 1].Type == FormulaResultType.Boolean)
         {
-            byCol = args[args.Length - 1].BoolValue;
+            byCol = args[arrayLength - 1].BoolValue;
             arrayLength--;
         }
 
-        // Check if second-to-last (or last if no by_col) is sort_order
+        // Parse sort_order (ONLY if it's -1, which is unambiguous)
+        // Don't parse sort_index before it - too ambiguous with array data
         if (arrayLength >= 2 && args[arrayLength - 1].Type == FormulaResultType.Number)
         {
-            var orderValue = args[arrayLength - 1].NumericValue;
-            if (orderValue == 1 || orderValue == -1)
+            var val = args[arrayLength - 1].NumericValue;
+            if (val == -1)
             {
-                sortOrder = (int)orderValue;
+                sortOrder = -1;
                 arrayLength--;
             }
-        }
-
-        // Check if third-to-last (or current last) is sort_index
-        if (arrayLength >= 2 && args[arrayLength - 1].Type == FormulaResultType.Number)
-        {
-            sortIndex = (int)args[arrayLength - 1].NumericValue;
-            if (sortIndex < 1)
-            {
-                return FormulaResult.Error("#VALUE!");
-            }
-            arrayLength--;
         }
 
         // Check for errors in array

@@ -46,7 +46,8 @@ public sealed class SecFunction : IFunctionImplementation
         var cosValue = System.Math.Cos(args[0].NumericValue);
 
         // Check if cos is zero (would cause division by zero)
-        if (System.Math.Abs(cosValue) < double.Epsilon)
+        // Use a larger threshold to catch values like PI/2 which are very close to zero
+        if (System.Math.Abs(cosValue) < 1e-10)
         {
             return FormulaResult.Error("#DIV/0!");
         }

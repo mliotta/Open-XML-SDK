@@ -215,6 +215,7 @@ public sealed class YearfracFunction : IFunctionImplementation
         int endDay = endDate.Day;
 
         // European method (30E/360)
+        // Both 31st days are changed to 30
         if (startDay == 31)
         {
             startDay = 30;
@@ -225,7 +226,8 @@ public sealed class YearfracFunction : IFunctionImplementation
             endDay = 30;
         }
 
-        var days = ((endYear - startYear) * 360) + ((endMonth - startMonth) * 30) + (endDay - startDay);
+        // YEARFRAC is end-date inclusive, so add 1 to account for the final day
+        var days = ((endYear - startYear) * 360) + ((endMonth - startMonth) * 30) + (endDay - startDay) + 1;
         return days / 360.0;
     }
 

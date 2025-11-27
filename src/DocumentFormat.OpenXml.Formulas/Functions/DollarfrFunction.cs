@@ -63,7 +63,9 @@ public sealed class DollarfrFunction : IFunctionImplementation
             var decimalPart = System.Math.Abs(decimalDollar) - integerPart;
 
             // Convert decimal part to fractional representation
-            var fractionalPart = decimalPart * fraction;
+            // Example: 1.125 with fraction 16 means (0.125 * 16) = 2, so result is 1.02
+            var numerator = System.Math.Round(decimalPart * fraction);
+            var fractionalPart = numerator / 100.0;
 
             // Reconstruct with proper sign
             var result = decimalDollar < 0 ? -(integerPart + fractionalPart) : (integerPart + fractionalPart);

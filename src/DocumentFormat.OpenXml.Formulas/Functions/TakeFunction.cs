@@ -34,7 +34,9 @@ public sealed class TakeFunction : IFunctionImplementation
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Parse rows parameter
+        // In this simplified implementation, the last argument is always the rows parameter,
+        // and everything before it is the array. We cannot reliably detect the optional
+        // columns parameter when array data is also numeric.
         if (args[args.Length - 1].IsError)
         {
             return args[args.Length - 1];
@@ -47,24 +49,15 @@ public sealed class TakeFunction : IFunctionImplementation
 
         var rows = (int)args[args.Length - 1].NumericValue;
 
-        // Parse optional columns parameter
-        var cols = 0;
-        var hasColumns = false;
-        if (args.Length >= 3 && args[args.Length - 2].Type == FormulaResultType.Number)
-        {
-            cols = (int)args[args.Length - 2].NumericValue;
-            hasColumns = true;
-        }
-
-        // Determine array length
-        var arrayLength = hasColumns ? args.Length - 2 : args.Length - 1;
+        // Determine array length (everything except the last argument which is rows)
+        var arrayLength = args.Length - 1;
 
         if (arrayLength == 0)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        if (rows == 0 || (hasColumns && cols == 0))
+        if (rows == 0)
         {
             return FormulaResult.Error("#CALC!");
         }
@@ -78,56 +71,30 @@ public sealed class TakeFunction : IFunctionImplementation
             }
         }
 
-        // Calculate array dimensions
-        var numCols = hasColumns ? System.Math.Max(1, System.Math.Abs(cols)) : 1;
+        // For this simplified implementation, treat the array as a 1D row vector
         var numRows = arrayLength;
 
-        if (hasColumns && arrayLength % numCols == 0)
-        {
-            numRows = arrayLength / numCols;
-        }
-
-        // Validate dimensions
-        if (System.Math.Abs(rows) > numRows || (hasColumns && System.Math.Abs(cols) > numCols))
+        // Validate dimensions - cannot take more rows than exist
+        if (System.Math.Abs(rows) > numRows)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Determine which elements to take
-        int startRow, endRow;
+        // Determine which element to return (first element of taken range)
+        int firstIndex;
         if (rows > 0)
         {
-            startRow = 0;
-            endRow = rows;
+            // Take from start, return first element (index 0)
+            firstIndex = 0;
         }
         else
         {
-            startRow = numRows + rows; // rows is negative
-            endRow = numRows;
+            // Take from end, return element at index (numRows + rows)
+            // For example: array [10, 20, 30] with rows = -2
+            // Result should be [20, 30], first element is at index 1
+            firstIndex = numRows + rows;
         }
 
-        int startCol, endCol;
-        if (hasColumns)
-        {
-            if (cols > 0)
-            {
-                startCol = 0;
-                endCol = cols;
-            }
-            else
-            {
-                startCol = numCols + cols; // cols is negative
-                endCol = numCols;
-            }
-        }
-        else
-        {
-            startCol = 0;
-            endCol = numCols;
-        }
-
-        // Return first element of the taken range
-        var firstIndex = startRow * numCols + startCol;
         if (firstIndex >= 0 && firstIndex < arrayLength)
         {
             return args[firstIndex];

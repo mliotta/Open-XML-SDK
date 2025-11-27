@@ -81,10 +81,30 @@ public sealed class LinestFunction : IFunctionImplementation
             return FormulaResult.Error("#N/A");
         }
 
-        // Need at least 2 data points for regression
-        if (yValues.Count < 2)
+        // Need at least 1 data point
+        if (yValues.Count < 1)
         {
             return FormulaResult.Error("#N/A");
+        }
+
+        // With 1 data point, handle specially
+        if (yValues.Count == 1)
+        {
+            // If known_x was not explicitly provided (args.Length < 2), return #N/A
+            // Cannot do regression with only y values
+            if (args.Length < 2)
+            {
+                return FormulaResult.Error("#N/A");
+            }
+
+            // For single point with explicit x: slope = y/x (assuming line through origin)
+            // This is consistent with const=FALSE behavior
+            if (xValues[0] == 0)
+            {
+                return FormulaResult.Error("#DIV/0!");
+            }
+
+            return FormulaResult.FromNumber(yValues[0] / xValues[0]);
         }
 
         // Handle const parameter (args[2])

@@ -58,7 +58,7 @@ public sealed class BinomDistRangeFunction : IFunctionImplementation
         var sum = 0.0;
         for (var k = numberS; k <= numberS2; k++)
         {
-            sum += StatisticalHelper.BinomialPMF(trials, k, prob);
+            sum += StatisticalHelper.BinomialPMF(k, trials, prob);
         }
 
         return FormulaResult.FromNumber(sum);

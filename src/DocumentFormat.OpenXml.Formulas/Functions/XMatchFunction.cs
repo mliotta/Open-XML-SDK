@@ -44,55 +44,104 @@ public sealed class XMatchFunction : IFunctionImplementation
             return lookupValue;
         }
 
-        // Determine if we have optional parameters (match_mode and search_mode)
-        var lastArg = args[args.Length - 1];
-        var secondToLastArg = args.Length >= 3 ? args[args.Length - 2] : FormulaResult.Empty;
+        // XMATCH arguments:
+        // args[0] = lookup_value
+        // args[1..n] = lookup_array (variable length)
+        // args[n+1] = match_mode (optional)
+        // args[n+2] = search_mode (optional)
 
-        var hasSearchMode = args.Length >= 4 && lastArg.Type == FormulaResultType.Number;
-        var hasMatchMode = args.Length >= 3 && secondToLastArg.Type == FormulaResultType.Number;
-
-        // Default values
+        // Strategy: Work backwards to identify optional parameters
+        // Optional parameters are always at the end in this order: [match_mode], [search_mode]
         var matchMode = 0;
         var searchMode = 1;
+        var hasMatchMode = false;
+        var hasSearchMode = false;
 
-        // Extract optional parameters
-        if (hasSearchMode)
+        // Minimum: 1 lookup_value + 1 array element = 2 args
+        // With all optionals: lookup_value + array + match_mode + search_mode = at least 4 args
+
+        // Step 1: Check if we have both match_mode and search_mode (4+ args, last two are numbers)
+        if (args.Length >= 4)
         {
+            var lastArg = args[args.Length - 1];
+            var secondLastArg = args[args.Length - 2];
+
             if (lastArg.IsError)
             {
                 return lastArg;
             }
 
-            searchMode = (int)lastArg.NumericValue;
-            if (searchMode < -2 || searchMode > 2 || searchMode == 0)
+            if (secondLastArg.IsError)
             {
-                return FormulaResult.Error("#VALUE!");
+                return secondLastArg;
+            }
+
+            // Check if both last args are numbers
+            if (lastArg.Type == FormulaResultType.Number && secondLastArg.Type == FormulaResultType.Number)
+            {
+                var lastVal = (int)lastArg.NumericValue;
+                var secondLastVal = (int)secondLastArg.NumericValue;
+
+                // Check if they form a valid (match_mode, search_mode) pair
+                var isValidMatchMode = secondLastVal >= -1 && secondLastVal <= 2;
+                var isValidSearchMode = lastVal >= -2 && lastVal <= 2 && lastVal != 0;
+
+                if (isValidMatchMode && isValidSearchMode)
+                {
+                    // Both are valid - treat as match_mode + search_mode
+                    hasMatchMode = true;
+                    hasSearchMode = true;
+                    matchMode = secondLastVal;
+                    searchMode = lastVal;
+                }
+                else if (!isValidSearchMode && isValidMatchMode)
+                {
+                    // Last is invalid search_mode but second-last is valid match_mode
+                    // This means user provided invalid search_mode
+                    return FormulaResult.Error("#VALUE!");
+                }
+                // If isValidSearchMode but not isValidMatchMode, fall through to check just search_mode
+                // If neither valid, fall through to check just match_mode
             }
         }
 
-        if (hasMatchMode)
+        // Step 2: If we didn't find both, check for just match_mode (3+ args, last is number)
+        if (!hasMatchMode && !hasSearchMode && args.Length >= 3)
         {
-            if (secondToLastArg.IsError)
+            var lastArg = args[args.Length - 1];
+
+            if (lastArg.IsError)
             {
-                return secondToLastArg;
+                return lastArg;
             }
 
-            matchMode = (int)secondToLastArg.NumericValue;
-            if (matchMode < -1 || matchMode > 2)
+            if (lastArg.Type == FormulaResultType.Number)
             {
-                return FormulaResult.Error("#VALUE!");
+                var val = (int)lastArg.NumericValue;
+
+                // Check if it's a valid match_mode
+                if (val >= -1 && val <= 2)
+                {
+                    hasMatchMode = true;
+                    matchMode = val;
+                }
+                else
+                {
+                    // It's a number but not valid match_mode - error
+                    return FormulaResult.Error("#VALUE!");
+                }
             }
         }
 
-        // Extract lookup_array (everything between lookup_value and optional parameters)
+        var optionalCount = (hasSearchMode ? 1 : 0) + (hasMatchMode ? 1 : 0);
+        var arrayLength = args.Length - 1 - optionalCount;
+
+        if (arrayLength <= 0)
+        {
+            return FormulaResult.Error("#VALUE!");
+        }
+
         var arrayStartIndex = 1;
-        var optionalParamsCount = (hasSearchMode ? 1 : 0) + (hasMatchMode ? 1 : 0);
-        var arrayLength = args.Length - 1 - optionalParamsCount;
-
-        if (arrayLength == 0)
-        {
-            return FormulaResult.Error("#N/A");
-        }
 
         // Check for errors in array
         for (var i = arrayStartIndex; i < arrayStartIndex + arrayLength; i++)

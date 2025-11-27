@@ -42,7 +42,7 @@ public sealed class DecimalFunction : IFunctionImplementation
         string text;
         if (args[0].Type == FormulaResultType.Text)
         {
-            text = args[0].StringValue?.Trim() ?? string.Empty;
+            text = args[0].StringValue?.Trim().ToUpperInvariant() ?? string.Empty;
         }
         else if (args[0].Type == FormulaResultType.Number)
         {
@@ -79,17 +79,35 @@ public sealed class DecimalFunction : IFunctionImplementation
         try
         {
             // Convert from the specified base to decimal
-            var result = Convert.ToInt64(text, radix);
+            // Convert.ToInt64 only supports bases 2, 8, 10, 16, so we need a custom implementation
+            long result = 0;
+            foreach (char c in text)
+            {
+                int digit;
+                if (c >= '0' && c <= '9')
+                {
+                    digit = c - '0';
+                }
+                else if (c >= 'A' && c <= 'Z')
+                {
+                    digit = c - 'A' + 10;
+                }
+                else
+                {
+                    // Invalid character
+                    return FormulaResult.Error("#NUM!");
+                }
+
+                if (digit >= radix)
+                {
+                    // Digit is too large for the radix
+                    return FormulaResult.Error("#NUM!");
+                }
+
+                result = result * radix + digit;
+            }
+
             return FormulaResult.FromNumber(result);
-        }
-        catch (ArgumentException)
-        {
-            // Invalid characters for the specified base
-            return FormulaResult.Error("#NUM!");
-        }
-        catch (FormatException)
-        {
-            return FormulaResult.Error("#NUM!");
         }
         catch (OverflowException)
         {

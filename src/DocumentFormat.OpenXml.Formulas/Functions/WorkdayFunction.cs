@@ -70,13 +70,20 @@ public sealed class WorkdayFunction : IFunctionImplementation
             var startDate = DateTime.FromOADate(args[0].NumericValue);
             var daysToAdd = (int)args[1].NumericValue;
 
+            // Special case: if days to add is 0, return the start date
+            if (daysToAdd == 0)
+            {
+                return FormulaResult.FromNumber(startDate.ToOADate());
+            }
+
             // Determine direction (forward or backward)
             int direction = daysToAdd >= 0 ? 1 : -1;
             int remainingDays = System.Math.Abs(daysToAdd);
 
             var currentDate = startDate;
 
-            // Add/subtract working days
+            // Move by the specified number of working days
+            // The start date is NOT counted as one of the working days
             while (remainingDays > 0)
             {
                 currentDate = currentDate.AddDays(direction);

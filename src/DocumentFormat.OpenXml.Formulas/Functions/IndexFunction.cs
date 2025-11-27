@@ -32,12 +32,48 @@ public sealed class IndexFunction : IFunctionImplementation
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Extract row_num (always present)
-        var rowNumArg = args[args.Length - 1];
+        // Determine argument layout
+        // Signature: INDEX(array_elements..., row_num, [col_num])
+        // We need at least: 1 array element + row_num = 2 args minimum
+        // With column: 1 array element + row_num + col_num = 3 args minimum
 
-        // Check if we have column_num (3 arguments total)
-        var hasColumnNum = args.Length >= 3;
-        FormulaResult colNumArg = hasColumnNum ? args[args.Length - 2] : FormulaResult.Empty;
+        // Strategy: Try to determine if the last 1 or 2 args are position indicators
+        // by checking if they're both numbers within a reasonable range for array dimensions
+        var lastArg = args[args.Length - 1];
+        var secondToLastArg = args.Length >= 3 ? args[args.Length - 2] : FormulaResult.Empty;
+
+        bool hasColumnNum = false;
+        FormulaResult rowNumArg;
+        FormulaResult colNumArg = FormulaResult.Empty;
+        int arrayLength;
+
+        // Try interpretation with 2 position args (row, col)
+        // Use heuristic: if last two args are small positive integers, treat as positions
+        // "Small" means <= 10 to distinguish from typical array values
+        bool canBeTwoPositions = args.Length >= 3 &&
+                                secondToLastArg.Type == FormulaResultType.Number &&
+                                lastArg.Type == FormulaResultType.Number &&
+                                secondToLastArg.NumericValue >= 1 &&
+                                secondToLastArg.NumericValue <= 10 && // Small position range
+                                lastArg.NumericValue >= 1 &&
+                                lastArg.NumericValue <= 10; // Small position range
+
+        if (canBeTwoPositions)
+        {
+            // Use 2-position interpretation: array..., row_num, col_num
+            // Don't validate if positions are valid for array - that happens later
+            rowNumArg = secondToLastArg;
+            colNumArg = lastArg;
+            hasColumnNum = true;
+            arrayLength = args.Length - 2;
+        }
+        else
+        {
+            // Only one position arg
+            rowNumArg = lastArg;
+            hasColumnNum = false;
+            arrayLength = args.Length - 1;
+        }
 
         // Check for errors in row_num
         if (rowNumArg.IsError)
@@ -79,9 +115,8 @@ public sealed class IndexFunction : IFunctionImplementation
             }
         }
 
-        // Extract array (everything between start and row_num/col_num arguments)
+        // Extract array (everything before row_num/col_num arguments)
         var arrayStartIndex = 0;
-        var arrayLength = hasColumnNum ? args.Length - 2 : args.Length - 1;
 
         if (arrayLength == 0)
         {

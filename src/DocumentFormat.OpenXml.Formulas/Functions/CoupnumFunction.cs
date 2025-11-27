@@ -27,23 +27,26 @@ public sealed class CoupnumFunction : IFunctionImplementation
     /// <inheritdoc/>
     public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
-        if (args.Length < 3 || args.Length > 4)
-        {
-            return FormulaResult.Error("#VALUE!");
-        }
-
-        // Check for errors in required arguments
-        for (int i = 0; i < System.Math.Min(args.Length, 3); i++)
+        // Check for errors in all provided arguments first (Excel error propagation rule)
+        for (int i = 0; i < args.Length; i++)
         {
             if (args[i].IsError)
             {
                 return args[i];
             }
+        }
 
-            if (args[i].Type != FormulaResultType.Number)
-            {
-                return FormulaResult.Error("#VALUE!");
-            }
+        if (args.Length < 3 || args.Length > 4)
+        {
+            return FormulaResult.Error("#VALUE!");
+        }
+
+        // Check types for required arguments
+        if (args[0].Type != FormulaResultType.Number ||
+            args[1].Type != FormulaResultType.Number ||
+            args[2].Type != FormulaResultType.Number)
+        {
+            return FormulaResult.Error("#VALUE!");
         }
 
         var basis = 0;

@@ -15,5 +15,10 @@
     <ProjectReference Include="..\DocumentFormat.OpenXml.Tests.Assets\DocumentFormat.OpenXml.Tests.Assets.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="TestFiles\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>

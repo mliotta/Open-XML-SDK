@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using DocumentFormat.OpenXml.Features.FormulaEvaluation.Compilation;
 
 namespace DocumentFormat.OpenXml.Features.FormulaEvaluation.Functions;
@@ -36,30 +35,24 @@ public sealed class SortByFunction : IFunctionImplementation
             return FormulaResult.Error("#VALUE!");
         }
 
-        // First argument is the array to sort
-        var arrayStart = 0;
-        var arrayLength = 0;
-
-        // Find where the array ends (first argument)
-        for (var i = 0; i < args.Length; i++)
+        // In this simplified implementation, we assume the args are structured as:
+        // [array elements..., by_array elements...]
+        // where both arrays have the same length (args.Length / 2).
+        // The optional sort_order parameter is not supported in this simplified version.
+        if (args.Length % 2 != 0)
         {
-            if (i == 0 || args[i].IsError || args[i].Type != FormulaResultType.Empty)
-            {
-                arrayLength++;
-            }
-            else
-            {
-                break;
-            }
+            return FormulaResult.Error("#VALUE!");
         }
+
+        var arrayLength = args.Length / 2;
 
         if (arrayLength == 0)
         {
             return FormulaResult.Error("#VALUE!");
         }
 
-        // Check for errors in array
-        for (var i = arrayStart; i < arrayLength; i++)
+        // Check for errors in both arrays
+        for (var i = 0; i < args.Length; i++)
         {
             if (args[i].IsError)
             {
@@ -67,46 +60,11 @@ public sealed class SortByFunction : IFunctionImplementation
             }
         }
 
-        // Parse sort criteria (by_array, sort_order pairs)
-        var sortCriteria = new List<SortCriterion>();
-        var idx = arrayLength;
-
-        while (idx < args.Length)
+        // Extract the by_array (second half of args)
+        var byArray = new FormulaResult[arrayLength];
+        for (var i = 0; i < arrayLength; i++)
         {
-            // Get by_array (same length as main array)
-            if (idx >= args.Length)
-            {
-                break;
-            }
-
-            var byArray = new FormulaResult[arrayLength];
-            for (var i = 0; i < arrayLength && idx < args.Length; i++, idx++)
-            {
-                byArray[i] = args[idx];
-                if (args[idx].IsError)
-                {
-                    return args[idx];
-                }
-            }
-
-            // Get optional sort_order
-            var sortOrder = 1;
-            if (idx < args.Length && args[idx].Type == FormulaResultType.Number)
-            {
-                var orderValue = args[idx].NumericValue;
-                if (orderValue == 1 || orderValue == -1)
-                {
-                    sortOrder = (int)orderValue;
-                    idx++;
-                }
-            }
-
-            sortCriteria.Add(new SortCriterion { ByArray = byArray, SortOrder = sortOrder });
-        }
-
-        if (sortCriteria.Count == 0)
-        {
-            return FormulaResult.Error("#VALUE!");
+            byArray[i] = args[arrayLength + i];
         }
 
         // Create indexed list
@@ -116,19 +74,8 @@ public sealed class SortByFunction : IFunctionImplementation
             indexed.Add(new IndexedValue { Index = i, Value = args[i] });
         }
 
-        // Sort using multiple criteria
-        indexed.Sort((a, b) =>
-        {
-            foreach (var criterion in sortCriteria)
-            {
-                var compareResult = CompareValues(criterion.ByArray[a.Index], criterion.ByArray[b.Index]);
-                if (compareResult != 0)
-                {
-                    return criterion.SortOrder * compareResult;
-                }
-            }
-            return 0;
-        });
+        // Sort by the by_array values (ascending by default)
+        indexed.Sort((a, b) => CompareValues(byArray[a.Index], byArray[b.Index]));
 
         // Return first element of sorted array
         return indexed[0].Value;
@@ -182,12 +129,6 @@ public sealed class SortByFunction : IFunctionImplementation
 
         // Different types: Numbers < Text < Boolean
         return a.Type.CompareTo(b.Type);
-    }
-
-    private sealed class SortCriterion
-    {
-        public FormulaResult[] ByArray { get; set; } = new FormulaResult[0];
-        public int SortOrder { get; set; }
     }
 
     private sealed class IndexedValue

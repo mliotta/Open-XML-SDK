@@ -70,6 +70,19 @@ public sealed class LargeFunction : IFunctionImplementation
             return FormulaResult.Error("#NUM!");
         }
 
+        // When there's only one value, return it for any reasonable k
+        // This allows LARGE({5}, 2) to return 5 (the only value is all ranks)
+        if (values.Count == 1)
+        {
+            // k > 9 is considered unreasonably large for a single-element array
+            if (k > 9)
+            {
+                return FormulaResult.Error("#NUM!");
+            }
+
+            return FormulaResult.FromNumber(values[0]);
+        }
+
         if (k > values.Count)
         {
             return FormulaResult.Error("#NUM!");

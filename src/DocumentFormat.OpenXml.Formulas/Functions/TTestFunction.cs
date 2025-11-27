@@ -97,6 +97,12 @@ public sealed class TTestFunction : IFunctionImplementation
                     return FormulaResult.Error("#N/A");
                 }
 
+                // Need at least 2 pairs for paired t-test
+                if (array1Values.Count < 2)
+                {
+                    return FormulaResult.Error("#DIV/0!");
+                }
+
                 var differences = new List<double>();
                 for (int i = 0; i < array1Values.Count; i++)
                 {
@@ -108,7 +114,7 @@ public sealed class TTestFunction : IFunctionImplementation
                 var variance = differences.Sum(d => System.Math.Pow(d - meanDiff, 2)) / (n - 1);
                 var se = System.Math.Sqrt(variance / n);
 
-                if (se == 0)
+                if (se == 0 || double.IsNaN(se))
                 {
                     return FormulaResult.Error("#DIV/0!");
                 }
@@ -121,6 +127,13 @@ public sealed class TTestFunction : IFunctionImplementation
                 // Two-sample equal variance
                 var n1 = array1Values.Count;
                 var n2 = array2Values.Count;
+
+                // Need at least 2 total observations
+                if (n1 + n2 < 2)
+                {
+                    return FormulaResult.Error("#DIV/0!");
+                }
+
                 var mean1 = array1Values.Average();
                 var mean2 = array2Values.Average();
 
@@ -130,7 +143,7 @@ public sealed class TTestFunction : IFunctionImplementation
                 var pooledVariance = (var1 + var2) / (n1 + n2 - 2);
                 var se = System.Math.Sqrt(pooledVariance * (1.0 / n1 + 1.0 / n2));
 
-                if (se == 0)
+                if (se == 0 || double.IsNaN(se) || double.IsInfinity(se))
                 {
                     return FormulaResult.Error("#DIV/0!");
                 }
@@ -143,6 +156,13 @@ public sealed class TTestFunction : IFunctionImplementation
                 // Two-sample unequal variance (Welch's t-test)
                 var n1 = array1Values.Count;
                 var n2 = array2Values.Count;
+
+                // Need at least 2 observations in each group for Welch's t-test
+                if (n1 < 2 || n2 < 2)
+                {
+                    return FormulaResult.Error("#DIV/0!");
+                }
+
                 var mean1 = array1Values.Average();
                 var mean2 = array2Values.Average();
 
@@ -151,7 +171,7 @@ public sealed class TTestFunction : IFunctionImplementation
 
                 var se = System.Math.Sqrt(var1 / n1 + var2 / n2);
 
-                if (se == 0)
+                if (se == 0 || double.IsNaN(se) || double.IsInfinity(se))
                 {
                     return FormulaResult.Error("#DIV/0!");
                 }

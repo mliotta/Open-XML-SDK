@@ -446,6 +446,7 @@ public class NewDistributionFunctionTests
 
         Assert.Equal(FormulaResultType.Number, result.Type);
         // For large samples, t-distribution approaches normal
-        Assert.InRange(result.NumericValue, 0.48, 0.50);
+        // CONFIDENCE.T(0.05, 2.5, 1000) ≈ 1.96 * 2.5 / sqrt(1000) ≈ 0.155
+        Assert.InRange(result.NumericValue, 0.154, 0.156);
     }
 }

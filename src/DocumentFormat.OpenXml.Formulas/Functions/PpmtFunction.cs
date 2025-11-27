@@ -168,7 +168,8 @@ public sealed class PpmtFunction : IFunctionImplementation
                 }
 
                 // Interest for the period is the remaining balance times the rate
-                ipmt = remainingBalance * rate;
+                // Interest is negative (outflow) when you have a positive balance (loan)
+                ipmt = -(remainingBalance * rate);
 
                 // For beginning of period, adjust
                 if (type == 1.0)

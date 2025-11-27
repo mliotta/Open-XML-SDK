@@ -506,28 +506,34 @@ public class SecuritiesFunctionTests
     }
 
     // Error Propagation Tests
-    [Fact]
-    public void SecuritiesFunctions_PropagateErrors()
+    [Theory]
+    [InlineData("DOLLARDE")]
+    [InlineData("DOLLARFR")]
+    [InlineData("COUPNCD")]
+    [InlineData("COUPPCD")]
+    [InlineData("COUPNUM")]
+    [InlineData("COUPDAYBS")]
+    [InlineData("COUPDAYS")]
+    [InlineData("COUPDAYSNC")]
+    public void SecuritiesFunctions_PropagateErrors(string functionName)
     {
-        var functions = new IFunctionImplementation[]
+        var func = functionName switch
         {
-            DollardeFunction.Instance,
-            DollarfrFunction.Instance,
-            CoupncdFunction.Instance,
-            CouppcdFunction.Instance,
-            CoupnumFunction.Instance,
-            CoupdaybsFunction.Instance,
-            CoupdaysFunction.Instance,
-            CoupdaysncFunction.Instance,
+            "DOLLARDE" => (IFunctionImplementation)DollardeFunction.Instance,
+            "DOLLARFR" => DollarfrFunction.Instance,
+            "COUPNCD" => CoupncdFunction.Instance,
+            "COUPPCD" => CouppcdFunction.Instance,
+            "COUPNUM" => CoupnumFunction.Instance,
+            "COUPDAYBS" => CoupdaybsFunction.Instance,
+            "COUPDAYS" => CoupdaysFunction.Instance,
+            "COUPDAYSNC" => CoupdaysncFunction.Instance,
+            _ => throw new ArgumentException($"Unknown function: {functionName}"),
         };
 
-        foreach (var func in functions)
-        {
-            var args = new[] { FormulaResult.Error("#DIV/0!"), FormulaResult.FromNumber(1) };
-            var result = func.Execute(null!, args);
+        var args = new[] { FormulaResult.Error("#DIV/0!"), FormulaResult.FromNumber(1) };
+        var result = func.Execute(null!, args);
 
-            Assert.True(result.IsError);
-            Assert.Equal("#DIV/0!", result.ErrorValue);
-        }
+        Assert.True(result.IsError);
+        Assert.Equal("#DIV/0!", result.ErrorValue);
     }
 }
