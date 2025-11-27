@@ -25,11 +25,11 @@ public sealed class ValueFunction : IFunctionImplementation
     public string Name => "VALUE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,7 +37,7 @@ public sealed class ValueFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             return args[0];
         }
@@ -46,9 +46,9 @@ public sealed class ValueFunction : IFunctionImplementation
 
         if (double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out var number))
         {
-            return CellValue.FromNumber(number);
+            return FormulaResult.FromNumber(number);
         }
 
-        return CellValue.Error("#VALUE!");
+        return FormulaResult.Error("#VALUE!");
     }
 }

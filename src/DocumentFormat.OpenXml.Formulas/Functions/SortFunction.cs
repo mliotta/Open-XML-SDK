@@ -30,11 +30,11 @@ public sealed class SortFunction : IFunctionImplementation
     public string Name => "SORT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse optional parameters from the end
@@ -44,14 +44,14 @@ public sealed class SortFunction : IFunctionImplementation
         var arrayLength = args.Length;
 
         // Check if last argument is by_col (boolean)
-        if (args.Length >= 2 && args[args.Length - 1].Type == CellValueType.Boolean)
+        if (args.Length >= 2 && args[args.Length - 1].Type == FormulaResultType.Boolean)
         {
             byCol = args[args.Length - 1].BoolValue;
             arrayLength--;
         }
 
         // Check if second-to-last (or last if no by_col) is sort_order
-        if (arrayLength >= 2 && args[arrayLength - 1].Type == CellValueType.Number)
+        if (arrayLength >= 2 && args[arrayLength - 1].Type == FormulaResultType.Number)
         {
             var orderValue = args[arrayLength - 1].NumericValue;
             if (orderValue == 1 || orderValue == -1)
@@ -62,12 +62,12 @@ public sealed class SortFunction : IFunctionImplementation
         }
 
         // Check if third-to-last (or current last) is sort_index
-        if (arrayLength >= 2 && args[arrayLength - 1].Type == CellValueType.Number)
+        if (arrayLength >= 2 && args[arrayLength - 1].Type == FormulaResultType.Number)
         {
             sortIndex = (int)args[arrayLength - 1].NumericValue;
             if (sortIndex < 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
             arrayLength--;
         }
@@ -109,17 +109,17 @@ public sealed class SortFunction : IFunctionImplementation
 
         if (numCols == 0 || numRows == 0)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // Validate sort_index is within bounds
         if (byCol && sortIndex > numRows)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         else if (!byCol && sortIndex > numCols)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Sort by rows (default behavior)
@@ -129,7 +129,7 @@ public sealed class SortFunction : IFunctionImplementation
             var rows = new List<RowData>();
             for (var row = 0; row < numRows; row++)
             {
-                var rowValues = new CellValue[numCols];
+                var rowValues = new FormulaResult[numCols];
                 for (var col = 0; col < numCols; col++)
                 {
                     rowValues[col] = args[row * numCols + col];
@@ -147,7 +147,7 @@ public sealed class SortFunction : IFunctionImplementation
             });
 
             // Flatten sorted rows back to array
-            var sorted = new CellValue[arrayLength];
+            var sorted = new FormulaResult[arrayLength];
             for (var i = 0; i < numRows; i++)
             {
                 for (var col = 0; col < numCols; col++)
@@ -165,7 +165,7 @@ public sealed class SortFunction : IFunctionImplementation
             var cols = new List<RowData>();
             for (var col = 0; col < numCols; col++)
             {
-                var colValues = new CellValue[numRows];
+                var colValues = new FormulaResult[numRows];
                 for (var row = 0; row < numRows; row++)
                 {
                     colValues[row] = args[row * numCols + col];
@@ -183,7 +183,7 @@ public sealed class SortFunction : IFunctionImplementation
             });
 
             // Flatten sorted columns back to array
-            var sorted = new CellValue[arrayLength];
+            var sorted = new FormulaResult[arrayLength];
             for (var row = 0; row < numRows; row++)
             {
                 for (var i = 0; i < numCols; i++)
@@ -196,18 +196,18 @@ public sealed class SortFunction : IFunctionImplementation
         }
     }
 
-    private static int CompareValues(CellValue a, CellValue b)
+    private static int CompareValues(FormulaResult a, FormulaResult b)
     {
         // Empty values sort last
-        if (a.Type == CellValueType.Empty && b.Type == CellValueType.Empty)
+        if (a.Type == FormulaResultType.Empty && b.Type == FormulaResultType.Empty)
         {
             return 0;
         }
-        if (a.Type == CellValueType.Empty)
+        if (a.Type == FormulaResultType.Empty)
         {
             return 1;
         }
-        if (b.Type == CellValueType.Empty)
+        if (b.Type == FormulaResultType.Empty)
         {
             return -1;
         }
@@ -231,11 +231,11 @@ public sealed class SortFunction : IFunctionImplementation
         {
             switch (a.Type)
             {
-                case CellValueType.Number:
+                case FormulaResultType.Number:
                     return a.NumericValue.CompareTo(b.NumericValue);
-                case CellValueType.Text:
+                case FormulaResultType.Text:
                     return string.Compare(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase);
-                case CellValueType.Boolean:
+                case FormulaResultType.Boolean:
                     return a.BoolValue.CompareTo(b.BoolValue);
                 default:
                     return 0;
@@ -249,6 +249,6 @@ public sealed class SortFunction : IFunctionImplementation
     private sealed class RowData
     {
         public int Index { get; set; }
-        public CellValue[] Values { get; set; } = null!;
+        public FormulaResult[] Values { get; set; } = null!;
     }
 }

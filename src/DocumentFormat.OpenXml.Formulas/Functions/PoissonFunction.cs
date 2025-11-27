@@ -24,7 +24,7 @@ public sealed class PoissonFunction : IFunctionImplementation
     public string Name => "POISSON";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         return PoissonDistFunction.Instance.Execute(context, args);
     }

@@ -25,7 +25,7 @@ public sealed class NormDistLegacyFunction : IFunctionImplementation
     public string Name => "NORMDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // NORMDIST has the same signature as NORM.DIST
         // Delegate directly to NORM.DIST

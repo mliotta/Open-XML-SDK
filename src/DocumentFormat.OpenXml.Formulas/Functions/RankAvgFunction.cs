@@ -26,11 +26,11 @@ public sealed class RankAvgFunction : IFunctionImplementation
     public string Name => "RANK.AVG";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -38,9 +38,9 @@ public sealed class RankAvgFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -55,7 +55,7 @@ public sealed class RankAvgFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 values.Add(args[i].NumericValue);
             }
@@ -63,13 +63,13 @@ public sealed class RankAvgFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Check if number exists in the list
         if (!values.Contains(number))
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Calculate average rank for duplicates (descending order)
@@ -84,6 +84,6 @@ public sealed class RankAvgFunction : IFunctionImplementation
         // last_rank = greaterCount + equalCount
         double avgRank = (greaterCount + 1 + greaterCount + equalCount) / 2.0;
 
-        return CellValue.FromNumber(avgRank);
+        return FormulaResult.FromNumber(avgRank);
     }
 }

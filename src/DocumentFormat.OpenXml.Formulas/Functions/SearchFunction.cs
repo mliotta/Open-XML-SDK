@@ -26,11 +26,11 @@ public sealed class SearchFunction : IFunctionImplementation
     public string Name => "SEARCH";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -54,16 +54,16 @@ public sealed class SearchFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             startNum = (int)args[2].NumericValue;
 
             if (startNum < 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -72,7 +72,7 @@ public sealed class SearchFunction : IFunctionImplementation
 
         if (startIndex >= withinText.Length)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Convert Excel wildcards to regex (? = single char, * = any chars)
@@ -84,10 +84,10 @@ public sealed class SearchFunction : IFunctionImplementation
 
         if (!match.Success)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Return 1-based position
-        return CellValue.FromNumber(startIndex + match.Index + 1);
+        return FormulaResult.FromNumber(startIndex + match.Index + 1);
     }
 }

@@ -25,11 +25,11 @@ public sealed class ConfidenceFunction : IFunctionImplementation
     public string Name => "CONFIDENCE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -42,39 +42,39 @@ public sealed class ConfidenceFunction : IFunctionImplementation
         }
 
         // Get alpha (significance level)
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double alpha = args[0].NumericValue;
 
         if (alpha <= 0 || alpha >= 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get standard deviation
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double standardDev = args[1].NumericValue;
 
         if (standardDev <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get sample size
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double size = args[2].NumericValue;
 
         if (size < 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
@@ -83,11 +83,11 @@ public sealed class ConfidenceFunction : IFunctionImplementation
             // where z is the critical value from standard normal distribution
             double z = StatisticalHelper.NormSInv(1 - alpha / 2);
             double result = z * (standardDev / System.Math.Sqrt(size));
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

@@ -25,11 +25,11 @@ public sealed class IntrateFunction : IFunctionImplementation
     public string Name => "INTRATE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 4 || args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,31 +40,31 @@ public sealed class IntrateFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var basis = 0;
-        if (args.Length == 5 && args[4].Type != CellValueType.Empty)
+        if (args.Length == 5 && args[4].Type != FormulaResultType.Empty)
         {
             if (args[4].IsError)
             {
                 return args[4];
             }
 
-            if (args[4].Type == CellValueType.Number)
+            if (args[4].Type == FormulaResultType.Number)
             {
                 basis = (int)args[4].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -78,12 +78,12 @@ public sealed class IntrateFunction : IFunctionImplementation
             // Validate inputs
             if (investment <= 0 || redemption <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (settlement >= maturity)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate interest rate
@@ -92,14 +92,14 @@ public sealed class IntrateFunction : IFunctionImplementation
 
             if (double.IsNaN(interestRate) || double.IsInfinity(interestRate))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(interestRate);
+            return FormulaResult.FromNumber(interestRate);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

@@ -24,11 +24,11 @@ public sealed class IfnaFunction : IFunctionImplementation
     public string Name => "IFNA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // If the first argument is specifically #N/A error, return the second argument

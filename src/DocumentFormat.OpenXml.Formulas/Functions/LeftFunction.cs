@@ -25,11 +25,11 @@ public sealed class LeftFunction : IFunctionImplementation
     public string Name => "LEFT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -47,20 +47,20 @@ public sealed class LeftFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             numChars = (int)args[1].NumericValue;
 
             if (numChars < 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var result = numChars >= text.Length ? text : text.Substring(0, numChars);
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 }

@@ -25,11 +25,11 @@ public sealed class CoupdaybsFunction : IFunctionImplementation
     public string Name => "COUPDAYBS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,9 +40,9 @@ public sealed class CoupdaybsFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -54,17 +54,17 @@ public sealed class CoupdaybsFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type == CellValueType.Number)
+            if (args[3].Type == FormulaResultType.Number)
             {
                 basis = (int)args[3].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -77,22 +77,22 @@ public sealed class CoupdaybsFunction : IFunctionImplementation
             // Validate inputs
             if (!DayCountHelper.IsValidFrequency(frequency))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (settlement >= maturity)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             var previousCouponDate = DayCountHelper.GetPreviousCouponDate(settlement, maturity, frequency);
             var days = DayCountHelper.DaysBetween(previousCouponDate, settlement, basis);
 
-            return CellValue.FromNumber(days);
+            return FormulaResult.FromNumber(days);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

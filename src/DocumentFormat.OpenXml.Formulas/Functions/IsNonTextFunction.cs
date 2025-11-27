@@ -24,15 +24,15 @@ public sealed class IsNonTextFunction : IFunctionImplementation
     public string Name => "ISNONTEXT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
-        var isNonText = args[0].Type != CellValueType.Text;
-        return CellValue.FromBool(isNonText);
+        var isNonText = args[0].Type != FormulaResultType.Text;
+        return FormulaResult.FromBool(isNonText);
     }
 }

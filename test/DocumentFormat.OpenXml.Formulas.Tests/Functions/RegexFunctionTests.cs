@@ -21,13 +21,13 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc123"),
-            CellValue.FromString(@"\d+"),
+            FormulaResult.FromString("abc123"),
+            FormulaResult.FromString(@"\d+"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -37,13 +37,13 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abcdef"),
-            CellValue.FromString(@"\d+"),
+            FormulaResult.FromString("abcdef"),
+            FormulaResult.FromString(@"\d+"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -53,8 +53,8 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.FromString("hello"),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString("hello"),
         };
 
         var result = func.Execute(null!, args);
@@ -68,9 +68,9 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.FromString("hello"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString("hello"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -84,9 +84,9 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("line1\nline2"),
-            CellValue.FromString("^line2"),
-            CellValue.FromNumber(2),
+            FormulaResult.FromString("line1\nline2"),
+            FormulaResult.FromString("^line2"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -100,9 +100,9 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("line1\nline2"),
-            CellValue.FromString("line1.line2"),
-            CellValue.FromNumber(4),
+            FormulaResult.FromString("line1\nline2"),
+            FormulaResult.FromString("line1.line2"),
+            FormulaResult.FromNumber(4),
         };
 
         var result = func.Execute(null!, args);
@@ -116,9 +116,9 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("HELLO\nWORLD"),
-            CellValue.FromString("hello.world"),
-            CellValue.FromNumber(5),
+            FormulaResult.FromString("HELLO\nWORLD"),
+            FormulaResult.FromString("hello.world"),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -132,8 +132,8 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("user@example.com"),
-            CellValue.FromString(@"^[\w\.-]+@[\w\.-]+\.\w+$"),
+            FormulaResult.FromString("user@example.com"),
+            FormulaResult.FromString(@"^[\w\.-]+@[\w\.-]+\.\w+$"),
         };
 
         var result = func.Execute(null!, args);
@@ -147,8 +147,8 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("[invalid"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("[invalid"),
         };
 
         var result = func.Execute(null!, args);
@@ -163,9 +163,9 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("test"),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromNumber(-1),
         };
 
         var result = func.Execute(null!, args);
@@ -180,8 +180,8 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromString("test"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromString("test"),
         };
 
         var result = func.Execute(null!, args);
@@ -196,7 +196,7 @@ public class RegexFunctionTests
         var func = RegexTestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
+            FormulaResult.FromString("test"),
         };
 
         var result = func.Execute(null!, args);
@@ -215,13 +215,13 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc123def"),
-            CellValue.FromString(@"\d+"),
+            FormulaResult.FromString("abc123def"),
+            FormulaResult.FromString(@"\d+"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("123", result.StringValue);
     }
 
@@ -231,8 +231,8 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abcdef"),
-            CellValue.FromString(@"\d+"),
+            FormulaResult.FromString("abcdef"),
+            FormulaResult.FromString(@"\d+"),
         };
 
         var result = func.Execute(null!, args);
@@ -247,10 +247,10 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("user@example.com"),
-            CellValue.FromString(@"^([\w\.-]+)@([\w\.-]+)\.(\w+)$"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("user@example.com"),
+            FormulaResult.FromString(@"^([\w\.-]+)@([\w\.-]+)\.(\w+)$"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -264,10 +264,10 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("user@example.com"),
-            CellValue.FromString(@"^([\w\.-]+)@([\w\.-]+)\.(\w+)$"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(2),
+            FormulaResult.FromString("user@example.com"),
+            FormulaResult.FromString(@"^([\w\.-]+)@([\w\.-]+)\.(\w+)$"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -281,10 +281,10 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Price: $99.99"),
-            CellValue.FromString(@"\$(\d+\.\d+)"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
+            FormulaResult.FromString("Price: $99.99"),
+            FormulaResult.FromString(@"\$(\d+\.\d+)"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -298,9 +298,9 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("HELLO123"),
-            CellValue.FromString("hello"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("HELLO123"),
+            FormulaResult.FromString("hello"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -314,10 +314,10 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test123"),
-            CellValue.FromString(@"\d+"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(10),
+            FormulaResult.FromString("test123"),
+            FormulaResult.FromString(@"\d+"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -332,10 +332,10 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test123"),
-            CellValue.FromString(@"\d+"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromString("test123"),
+            FormulaResult.FromString(@"\d+"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(-1),
         };
 
         var result = func.Execute(null!, args);
@@ -350,8 +350,8 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("[invalid"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("[invalid"),
         };
 
         var result = func.Execute(null!, args);
@@ -366,8 +366,8 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.Error("#REF!"),
+            FormulaResult.FromString("test"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -382,7 +382,7 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
+            FormulaResult.FromString("test"),
         };
 
         var result = func.Execute(null!, args);
@@ -397,10 +397,10 @@ public class RegexFunctionTests
         var func = RegexExtractFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test123"),
-            CellValue.FromString(@"(\d+)"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(5),
+            FormulaResult.FromString("test123"),
+            FormulaResult.FromString(@"(\d+)"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -419,14 +419,14 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc123def456"),
-            CellValue.FromString(@"\d+"),
-            CellValue.FromString("X"),
+            FormulaResult.FromString("abc123def456"),
+            FormulaResult.FromString(@"\d+"),
+            FormulaResult.FromString("X"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("abcXdefX", result.StringValue);
     }
 
@@ -436,11 +436,11 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello World Hello"),
-            CellValue.FromString("Hello"),
-            CellValue.FromString("Hi"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
+            FormulaResult.FromString("Hello World Hello"),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString("Hi"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -454,11 +454,11 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc123def456"),
-            CellValue.FromString(@"\d+"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("abc123def456"),
+            FormulaResult.FromString(@"\d+"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -472,11 +472,11 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc123def456ghi789"),
-            CellValue.FromString(@"\d+"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(2),
+            FormulaResult.FromString("abc123def456ghi789"),
+            FormulaResult.FromString(@"\d+"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -490,9 +490,9 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abcdef"),
-            CellValue.FromString(@"\d+"),
-            CellValue.FromString("X"),
+            FormulaResult.FromString("abcdef"),
+            FormulaResult.FromString(@"\d+"),
+            FormulaResult.FromString("X"),
         };
 
         var result = func.Execute(null!, args);
@@ -506,10 +506,10 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello HELLO hello"),
-            CellValue.FromString("hello"),
-            CellValue.FromString("Hi"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("Hello HELLO hello"),
+            FormulaResult.FromString("hello"),
+            FormulaResult.FromString("Hi"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -523,9 +523,9 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc123def456"),
-            CellValue.FromString(@"\d+"),
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString("abc123def456"),
+            FormulaResult.FromString(@"\d+"),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -539,9 +539,9 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("555-123-4567"),
-            CellValue.FromString(@"(\d{3})-(\d{3})-(\d{4})"),
-            CellValue.FromString("($1) $2-$3"),
+            FormulaResult.FromString("555-123-4567"),
+            FormulaResult.FromString(@"(\d{3})-(\d{3})-(\d{4})"),
+            FormulaResult.FromString("($1) $2-$3"),
         };
 
         var result = func.Execute(null!, args);
@@ -555,11 +555,11 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc123def"),
-            CellValue.FromString(@"\d+"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(5),
+            FormulaResult.FromString("abc123def"),
+            FormulaResult.FromString(@"\d+"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -573,9 +573,9 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("[invalid"),
-            CellValue.FromString("X"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("[invalid"),
+            FormulaResult.FromString("X"),
         };
 
         var result = func.Execute(null!, args);
@@ -590,11 +590,11 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("test"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(-1),
         };
 
         var result = func.Execute(null!, args);
@@ -609,9 +609,9 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
-            CellValue.FromString("test"),
-            CellValue.FromString("X"),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("X"),
         };
 
         var result = func.Execute(null!, args);
@@ -626,8 +626,8 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("test"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("test"),
         };
 
         var result = func.Execute(null!, args);
@@ -642,10 +642,10 @@ public class RegexFunctionTests
         var func = RegexReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("line1\nline2\nline3"),
-            CellValue.FromString("^line"),
-            CellValue.FromString("LINE"),
-            CellValue.FromNumber(2),
+            FormulaResult.FromString("line1\nline2\nline3"),
+            FormulaResult.FromString("^line"),
+            FormulaResult.FromString("LINE"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);

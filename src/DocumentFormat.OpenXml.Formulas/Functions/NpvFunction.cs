@@ -25,11 +25,11 @@ public sealed class NpvFunction : IFunctionImplementation
     public string Name => "NPV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in rate argument
@@ -39,9 +39,9 @@ public sealed class NpvFunction : IFunctionImplementation
         }
 
         // Validate rate argument is a number
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rate = args[0].NumericValue;
@@ -58,9 +58,9 @@ public sealed class NpvFunction : IFunctionImplementation
             }
 
             // Validate value argument is a number
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             var value = args[i].NumericValue;
@@ -68,7 +68,7 @@ public sealed class NpvFunction : IFunctionImplementation
 
             if (double.IsInfinity(discountFactor) || double.IsNaN(discountFactor))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             npv += value / discountFactor;
@@ -76,9 +76,9 @@ public sealed class NpvFunction : IFunctionImplementation
 
         if (double.IsNaN(npv) || double.IsInfinity(npv))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(npv);
+        return FormulaResult.FromNumber(npv);
     }
 }

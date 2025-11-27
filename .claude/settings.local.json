@@ -3,7 +3,17 @@
     "allow": [
       "Bash(wc:*)",
       "Bash(perl -i.bak3 -pe:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(gh issue create:*)",
+      "Bash(dotnet build:*)",
+      "Bash(git add:*)",
+      "Bash(git push)",
+      "Bash(git commit:*)",
+      "Bash(tree:*)",
+      "Bash(gh api:*)",
+      "Bash(find:*)",
+      "Bash(perl -i -pe:*)"
     ],
     "deny": [],
     "ask": []

@@ -25,11 +25,11 @@ public sealed class NperFunction : IFunctionImplementation
     public string Name => "NPER";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -49,9 +49,9 @@ public sealed class NperFunction : IFunctionImplementation
         }
 
         // Validate required arguments are numbers
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rate = args[0].NumericValue;
@@ -68,9 +68,9 @@ public sealed class NperFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type != CellValueType.Number)
+            if (args[3].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             fv = args[3].NumericValue;
@@ -84,9 +84,9 @@ public sealed class NperFunction : IFunctionImplementation
                 return args[4];
             }
 
-            if (args[4].Type != CellValueType.Number)
+            if (args[4].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             type = args[4].NumericValue;
@@ -95,13 +95,13 @@ public sealed class NperFunction : IFunctionImplementation
         // Validate type is 0 or 1
         if (type != 0.0 && type != 1.0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate pmt is not zero when rate is zero
         if (rate == 0.0 && pmt == 0.0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         double nper;
@@ -119,7 +119,7 @@ public sealed class NperFunction : IFunctionImplementation
             // Check for valid inputs to avoid log of negative number
             if (pmtWithType == 0.0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             var numerator = pmtWithType - fv * rate;
@@ -127,7 +127,7 @@ public sealed class NperFunction : IFunctionImplementation
 
             if (numerator <= 0.0 || denominator <= 0.0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             nper = System.Math.Log(numerator / denominator) / System.Math.Log(1 + rate);
@@ -135,9 +135,9 @@ public sealed class NperFunction : IFunctionImplementation
 
         if (double.IsNaN(nper) || double.IsInfinity(nper) || nper < 0.0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(nper);
+        return FormulaResult.FromNumber(nper);
     }
 }

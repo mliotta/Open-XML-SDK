@@ -25,11 +25,11 @@ public sealed class AddressFunction : IFunctionImplementation
     public string Name => "ADDRESS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract row_num (required)
@@ -39,15 +39,15 @@ public sealed class AddressFunction : IFunctionImplementation
             return rowNumArg;
         }
 
-        if (rowNumArg.Type != CellValueType.Number)
+        if (rowNumArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rowNum = (int)rowNumArg.NumericValue;
         if (rowNum < 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract column_num (required)
@@ -57,15 +57,15 @@ public sealed class AddressFunction : IFunctionImplementation
             return colNumArg;
         }
 
-        if (colNumArg.Type != CellValueType.Number)
+        if (colNumArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var colNum = (int)colNumArg.NumericValue;
         if (colNum < 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract abs_num (optional, default = 1 for absolute)
@@ -78,12 +78,12 @@ public sealed class AddressFunction : IFunctionImplementation
                 return absNumArg;
             }
 
-            if (absNumArg.Type == CellValueType.Number)
+            if (absNumArg.Type == FormulaResultType.Number)
             {
                 absNum = (int)absNumArg.NumericValue;
                 if (absNum < 1 || absNum > 4)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
         }
@@ -98,11 +98,11 @@ public sealed class AddressFunction : IFunctionImplementation
                 return a1Arg;
             }
 
-            if (a1Arg.Type == CellValueType.Boolean)
+            if (a1Arg.Type == FormulaResultType.Boolean)
             {
                 useA1 = a1Arg.BoolValue;
             }
-            else if (a1Arg.Type == CellValueType.Number)
+            else if (a1Arg.Type == FormulaResultType.Number)
             {
                 useA1 = a1Arg.NumericValue != 0;
             }
@@ -118,7 +118,7 @@ public sealed class AddressFunction : IFunctionImplementation
                 return sheetArg;
             }
 
-            if (sheetArg.Type == CellValueType.Text)
+            if (sheetArg.Type == FormulaResultType.Text)
             {
                 sheetText = sheetArg.StringValue;
             }
@@ -151,7 +151,7 @@ public sealed class AddressFunction : IFunctionImplementation
             }
         }
 
-        return CellValue.FromString(address);
+        return FormulaResult.FromString(address);
     }
 
     private static string BuildA1Address(int row, int col, int absNum)

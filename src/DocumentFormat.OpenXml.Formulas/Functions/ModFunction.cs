@@ -25,11 +25,11 @@ public sealed class ModFunction : IFunctionImplementation
     public string Name => "MOD";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,9 +42,9 @@ public sealed class ModFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -52,12 +52,12 @@ public sealed class ModFunction : IFunctionImplementation
 
         if (divisor == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Excel MOD uses: MOD(n, d) = n - d*INT(n/d)
         // This matches Excel's behavior for negative numbers
         var result = number - divisor * System.Math.Floor(number / divisor);
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

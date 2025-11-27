@@ -25,11 +25,11 @@ public sealed class TextBeforeFunction : IFunctionImplementation
     public string Name => "TEXTBEFORE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -50,7 +50,7 @@ public sealed class TextBeforeFunction : IFunctionImplementation
         var instanceNum = 1;
         var matchMode = 0; // 0 = case-sensitive, 1 = case-insensitive
         var matchEnd = 0; // 0 = search from start, 1 = search from end
-        var ifNotFound = CellValue.Error("#N/A");
+        var ifNotFound = FormulaResult.Error("#N/A");
 
         // Parse optional arguments
         if (args.Length >= 3)
@@ -60,12 +60,12 @@ public sealed class TextBeforeFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Number)
+            if (args[2].Type == FormulaResultType.Number)
             {
                 instanceNum = (int)args[2].NumericValue;
                 if (instanceNum == 0 || instanceNum < -1)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
         }
@@ -77,12 +77,12 @@ public sealed class TextBeforeFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type == CellValueType.Number)
+            if (args[3].Type == FormulaResultType.Number)
             {
                 matchMode = (int)args[3].NumericValue;
                 if (matchMode != 0 && matchMode != 1)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
         }
@@ -94,12 +94,12 @@ public sealed class TextBeforeFunction : IFunctionImplementation
                 return args[4];
             }
 
-            if (args[4].Type == CellValueType.Number)
+            if (args[4].Type == FormulaResultType.Number)
             {
                 matchEnd = (int)args[4].NumericValue;
                 if (matchEnd != 0 && matchEnd != 1)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
         }
@@ -115,7 +115,7 @@ public sealed class TextBeforeFunction : IFunctionImplementation
         // Empty delimiter returns empty string
         if (string.IsNullOrEmpty(delimiter))
         {
-            return CellValue.FromString(string.Empty);
+            return FormulaResult.FromString(string.Empty);
         }
 
         var comparisonType = matchMode == 1 ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
@@ -130,7 +130,7 @@ public sealed class TextBeforeFunction : IFunctionImplementation
                 return ifNotFound;
             }
 
-            return CellValue.FromString(text.Substring(0, position));
+            return FormulaResult.FromString(text.Substring(0, position));
         }
 
         // Search from start (match_end = 0)
@@ -142,7 +142,7 @@ public sealed class TextBeforeFunction : IFunctionImplementation
                 return ifNotFound;
             }
 
-            return CellValue.FromString(text.Substring(0, position));
+            return FormulaResult.FromString(text.Substring(0, position));
         }
         else
         {
@@ -154,7 +154,7 @@ public sealed class TextBeforeFunction : IFunctionImplementation
                 return ifNotFound;
             }
 
-            return CellValue.FromString(text.Substring(0, position));
+            return FormulaResult.FromString(text.Substring(0, position));
         }
     }
 

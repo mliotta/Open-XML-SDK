@@ -30,11 +30,11 @@ public sealed class TrendFunction : IFunctionImplementation
     public string Name => "TREND";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors in known_y's
@@ -47,7 +47,7 @@ public sealed class TrendFunction : IFunctionImplementation
         var xValues = new List<double>();
 
         // Extract numeric values from known_y's
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             yValues.Add(args[0].NumericValue);
         }
@@ -60,7 +60,7 @@ public sealed class TrendFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type == CellValueType.Number)
+            if (args[1].Type == FormulaResultType.Number)
             {
                 xValues.Add(args[1].NumericValue);
             }
@@ -77,13 +77,13 @@ public sealed class TrendFunction : IFunctionImplementation
         // Arrays must have same length
         if (yValues.Count != xValues.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Need at least 1 data point
         if (yValues.Count < 1)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Handle new_x's (args[2])
@@ -95,7 +95,7 @@ public sealed class TrendFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Number)
+            if (args[2].Type == FormulaResultType.Number)
             {
                 newX = args[2].NumericValue;
             }
@@ -115,11 +115,11 @@ public sealed class TrendFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type == CellValueType.Boolean)
+            if (args[3].Type == FormulaResultType.Boolean)
             {
                 useIntercept = args[3].BoolValue;
             }
-            else if (args[3].Type == CellValueType.Number)
+            else if (args[3].Type == FormulaResultType.Number)
             {
                 useIntercept = args[3].NumericValue != 0;
             }
@@ -130,18 +130,18 @@ public sealed class TrendFunction : IFunctionImplementation
         {
             if (useIntercept)
             {
-                return CellValue.FromNumber(yValues[0]);
+                return FormulaResult.FromNumber(yValues[0]);
             }
             else
             {
                 // Force through origin: slope = y/x
                 if (xValues[0] == 0.0)
                 {
-                    return CellValue.Error("#DIV/0!");
+                    return FormulaResult.Error("#DIV/0!");
                 }
 
                 var slope = yValues[0] / xValues[0];
-                return CellValue.FromNumber(slope * newX);
+                return FormulaResult.FromNumber(slope * newX);
             }
         }
 
@@ -169,7 +169,7 @@ public sealed class TrendFunction : IFunctionImplementation
 
             if (sumSquaresX == 0.0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             trendSlope = sumProduct / sumSquaresX;
@@ -189,7 +189,7 @@ public sealed class TrendFunction : IFunctionImplementation
 
             if (sumXX == 0.0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             trendSlope = sumXY / sumXX;
@@ -199,6 +199,6 @@ public sealed class TrendFunction : IFunctionImplementation
         // Calculate trend value
         var result = trendIntercept + (trendSlope * newX);
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

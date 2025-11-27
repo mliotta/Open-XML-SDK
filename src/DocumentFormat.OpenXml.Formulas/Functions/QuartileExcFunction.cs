@@ -26,11 +26,11 @@ public sealed class QuartileExcFunction : IFunctionImplementation
     public string Name => "QUARTILE.EXC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors
@@ -45,9 +45,9 @@ public sealed class QuartileExcFunction : IFunctionImplementation
         }
 
         // Get quart value
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var quart = (int)args[1].NumericValue;
@@ -55,7 +55,7 @@ public sealed class QuartileExcFunction : IFunctionImplementation
         // quart must be 1, 2, or 3 (exclusive method doesn't support 0 and 4)
         if (quart < 1 || quart > 3)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Map quartile to percentile
@@ -72,14 +72,14 @@ public sealed class QuartileExcFunction : IFunctionImplementation
                 percentile = 0.75; // Third quartile
                 break;
             default:
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
         }
 
         // Use PERCENTILE.EXC function to calculate the result
         var percentileArgs = new[]
         {
             args[0],
-            CellValue.FromNumber(percentile),
+            FormulaResult.FromNumber(percentile),
         };
 
         return PercentileExcFunction.Instance.Execute(context, percentileArgs);

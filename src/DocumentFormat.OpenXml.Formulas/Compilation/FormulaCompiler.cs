@@ -24,10 +24,10 @@ public class FormulaCompiler
     /// </summary>
     /// <param name="ast">The formula AST.</param>
     /// <returns>A compiled lambda expression.</returns>
-    public Expression<Func<CellContext, CellValue>> Compile(FormulaNode ast)
+    public Expression<Func<CellContext, FormulaResult>> Compile(FormulaNode ast)
     {
         var body = CompileNode(ast);
-        return Expression.Lambda<Func<CellContext, CellValue>>(body, _ctxParam);
+        return Expression.Lambda<Func<CellContext, FormulaResult>>(body, _ctxParam);
     }
 
     private Expression CompileNode(FormulaNode node)
@@ -49,20 +49,20 @@ public class FormulaCompiler
     {
         if (node.Value is double d)
         {
-            return Expression.Constant(CellValue.FromNumber(d));
+            return Expression.Constant(FormulaResult.FromNumber(d));
         }
 
         if (node.Value is string s)
         {
-            return Expression.Constant(CellValue.FromString(s));
+            return Expression.Constant(FormulaResult.FromString(s));
         }
 
         if (node.Value is bool b)
         {
-            return Expression.Constant(CellValue.FromBool(b));
+            return Expression.Constant(FormulaResult.FromBool(b));
         }
 
-        if (node.Value is CellValue cv)
+        if (node.Value is FormulaResult cv)
         {
             return Expression.Constant(cv);
         }
@@ -81,9 +81,9 @@ public class FormulaCompiler
             return CompileConcat(left, right);
         }
 
-        // Get NumericValue from CellValue
-        var leftValue = Expression.Property(left, nameof(CellValue.NumericValue));
-        var rightValue = Expression.Property(right, nameof(CellValue.NumericValue));
+        // Get NumericValue from FormulaResult
+        var leftValue = Expression.Property(left, nameof(FormulaResult.NumericValue));
+        var rightValue = Expression.Property(right, nameof(FormulaResult.NumericValue));
 
         Expression result = node.Operator switch
         {
@@ -101,7 +101,7 @@ public class FormulaCompiler
             _ => throw new CompilationException($"Unsupported operator: {node.Operator}"),
         };
 
-        // For comparison operators, convert bool to CellValue
+        // For comparison operators, convert bool to FormulaResult
         if (node.Operator == BinaryOperator.GreaterThan ||
             node.Operator == BinaryOperator.LessThan ||
             node.Operator == BinaryOperator.GreaterThanOrEqual ||
@@ -109,26 +109,26 @@ public class FormulaCompiler
             node.Operator == BinaryOperator.Equals ||
             node.Operator == BinaryOperator.NotEqual)
         {
-            var fromBoolMethod = typeof(CellValue).GetMethod(nameof(CellValue.FromBool), BindingFlags.Public | BindingFlags.Static);
+            var fromBoolMethod = typeof(FormulaResult).GetMethod(nameof(FormulaResult.FromBool), BindingFlags.Public | BindingFlags.Static);
             if (fromBoolMethod == null)
             {
-                throw new CompilationException($"Method {nameof(CellValue.FromBool)} not found");
+                throw new CompilationException($"Method {nameof(FormulaResult.FromBool)} not found");
             }
 
             return Expression.Call(fromBoolMethod, result);
         }
 
-        // For arithmetic operators (except divide, which is already wrapped), convert double to CellValue
+        // For arithmetic operators (except divide, which is already wrapped), convert double to FormulaResult
         if (node.Operator == BinaryOperator.Divide)
         {
-            // Already returns CellValue from CompileSafeDivide
+            // Already returns FormulaResult from CompileSafeDivide
             return result;
         }
 
-        var fromNumberMethod = typeof(CellValue).GetMethod(nameof(CellValue.FromNumber), BindingFlags.Public | BindingFlags.Static);
+        var fromNumberMethod = typeof(FormulaResult).GetMethod(nameof(FormulaResult.FromNumber), BindingFlags.Public | BindingFlags.Static);
         if (fromNumberMethod == null)
         {
-            throw new CompilationException($"Method {nameof(CellValue.FromNumber)} not found");
+            throw new CompilationException($"Method {nameof(FormulaResult.FromNumber)} not found");
         }
 
         return Expression.Call(fromNumberMethod, result);
@@ -136,23 +136,23 @@ public class FormulaCompiler
 
     private Expression CompileSafeDivide(Expression left, Expression right)
     {
-        // if (right == 0) return Error("#DIV/0!") else return CellValue.FromNumber(left / right)
+        // if (right == 0) return Error("#DIV/0!") else return FormulaResult.FromNumber(left / right)
         var zero = Expression.Constant(0.0);
 
-        var errorMethod = typeof(CellValue).GetMethod(nameof(CellValue.Error), BindingFlags.Public | BindingFlags.Static);
+        var errorMethod = typeof(FormulaResult).GetMethod(nameof(FormulaResult.Error), BindingFlags.Public | BindingFlags.Static);
         if (errorMethod == null)
         {
-            throw new CompilationException($"Method {nameof(CellValue.Error)} not found");
+            throw new CompilationException($"Method {nameof(FormulaResult.Error)} not found");
         }
 
         var divByZeroError = Expression.Call(errorMethod, Expression.Constant("#DIV/0!"));
 
         var division = Expression.Divide(left, right);
 
-        var fromNumberMethod = typeof(CellValue).GetMethod(nameof(CellValue.FromNumber), BindingFlags.Public | BindingFlags.Static);
+        var fromNumberMethod = typeof(FormulaResult).GetMethod(nameof(FormulaResult.FromNumber), BindingFlags.Public | BindingFlags.Static);
         if (fromNumberMethod == null)
         {
-            throw new CompilationException($"Method {nameof(CellValue.FromNumber)} not found");
+            throw new CompilationException($"Method {nameof(FormulaResult.FromNumber)} not found");
         }
 
         var divisionResult = Expression.Call(fromNumberMethod, division);
@@ -203,21 +203,21 @@ public class FormulaCompiler
                     Expression.Constant(range.Start),
                     Expression.Constant(range.End));
 
-                // Convert IEnumerable<CellValue> to CellValue[]
+                // Convert IEnumerable<FormulaResult> to FormulaResult[]
                 var toArrayMethod = typeof(Enumerable).GetMethod(nameof(Enumerable.ToArray));
                 if (toArrayMethod == null)
                 {
                     throw new CompilationException($"Method {nameof(Enumerable.ToArray)} not found");
                 }
 
-                var arrayExpr = Expression.Call(toArrayMethod.MakeGenericMethod(typeof(CellValue)), rangeExpr);
+                var arrayExpr = Expression.Call(toArrayMethod.MakeGenericMethod(typeof(FormulaResult)), rangeExpr);
                 compiledArgs.Add(arrayExpr);
             }
             else
             {
                 // Single value - wrap in array
                 var valueExpr = CompileNode(arg);
-                var arrayExpr = Expression.NewArrayInit(typeof(CellValue), valueExpr);
+                var arrayExpr = Expression.NewArrayInit(typeof(FormulaResult), valueExpr);
                 compiledArgs.Add(arrayExpr);
             }
         }
@@ -226,7 +226,7 @@ public class FormulaCompiler
         Expression argsArray;
         if (compiledArgs.Count == 0)
         {
-            argsArray = Expression.NewArrayInit(typeof(CellValue));
+            argsArray = Expression.NewArrayInit(typeof(FormulaResult));
         }
         else if (compiledArgs.Count == 1 && node.Arguments[0] is RangeNode)
         {
@@ -255,7 +255,7 @@ public class FormulaCompiler
     {
         // Call runtime helper that does single allocation + Array.Copy
         // This avoids LINQ Concat's intermediate enumerables and works on all target frameworks
-        var arrayOfArraysExpr = Expression.NewArrayInit(typeof(CellValue[]), arrays);
+        var arrayOfArraysExpr = Expression.NewArrayInit(typeof(FormulaResult[]), arrays);
 
         var helperMethod = typeof(FormulaCompiler).GetMethod(
             nameof(ConcatenateArraysAtRuntime),
@@ -272,7 +272,7 @@ public class FormulaCompiler
     /// <summary>
     /// Runtime helper that efficiently concatenates arrays with single allocation.
     /// </summary>
-    private static CellValue[] ConcatenateArraysAtRuntime(params CellValue[][] arrays)
+    private static FormulaResult[] ConcatenateArraysAtRuntime(params FormulaResult[][] arrays)
     {
         // Calculate total length
         var totalLength = 0;
@@ -282,7 +282,7 @@ public class FormulaCompiler
         }
 
         // Allocate result array once
-        var result = new CellValue[totalLength];
+        var result = new FormulaResult[totalLength];
 
         // Copy all arrays using Array.Copy
         var offset = 0;
@@ -310,13 +310,13 @@ public class FormulaCompiler
 
     private Expression CompileNegate(Expression operand)
     {
-        var numValue = Expression.Property(operand, nameof(CellValue.NumericValue));
+        var numValue = Expression.Property(operand, nameof(FormulaResult.NumericValue));
         var negated = Expression.Negate(numValue);
 
-        var fromNumberMethod = typeof(CellValue).GetMethod(nameof(CellValue.FromNumber), BindingFlags.Public | BindingFlags.Static);
+        var fromNumberMethod = typeof(FormulaResult).GetMethod(nameof(FormulaResult.FromNumber), BindingFlags.Public | BindingFlags.Static);
         if (fromNumberMethod == null)
         {
-            throw new CompilationException($"Method {nameof(CellValue.FromNumber)} not found");
+            throw new CompilationException($"Method {nameof(FormulaResult.FromNumber)} not found");
         }
 
         return Expression.Call(fromNumberMethod, negated);
@@ -324,14 +324,14 @@ public class FormulaCompiler
 
     private Expression CompilePercent(Expression operand)
     {
-        var numValue = Expression.Property(operand, nameof(CellValue.NumericValue));
+        var numValue = Expression.Property(operand, nameof(FormulaResult.NumericValue));
         var hundred = Expression.Constant(100.0);
         var percent = Expression.Divide(numValue, hundred);
 
-        var fromNumberMethod = typeof(CellValue).GetMethod(nameof(CellValue.FromNumber), BindingFlags.Public | BindingFlags.Static);
+        var fromNumberMethod = typeof(FormulaResult).GetMethod(nameof(FormulaResult.FromNumber), BindingFlags.Public | BindingFlags.Static);
         if (fromNumberMethod == null)
         {
-            throw new CompilationException($"Method {nameof(CellValue.FromNumber)} not found");
+            throw new CompilationException($"Method {nameof(FormulaResult.FromNumber)} not found");
         }
 
         return Expression.Call(fromNumberMethod, percent);
@@ -347,10 +347,10 @@ public class FormulaCompiler
 
         var power = Expression.Call(powMethod, left, right);
 
-        var fromNumberMethod = typeof(CellValue).GetMethod(nameof(CellValue.FromNumber), BindingFlags.Public | BindingFlags.Static);
+        var fromNumberMethod = typeof(FormulaResult).GetMethod(nameof(FormulaResult.FromNumber), BindingFlags.Public | BindingFlags.Static);
         if (fromNumberMethod == null)
         {
-            throw new CompilationException($"Method {nameof(CellValue.FromNumber)} not found");
+            throw new CompilationException($"Method {nameof(FormulaResult.FromNumber)} not found");
         }
 
         return Expression.Call(fromNumberMethod, power);
@@ -359,8 +359,8 @@ public class FormulaCompiler
     private Expression CompileConcat(Expression left, Expression right)
     {
         // Get StringValue from both CellValues
-        var leftString = Expression.Property(left, nameof(CellValue.StringValue));
-        var rightString = Expression.Property(right, nameof(CellValue.StringValue));
+        var leftString = Expression.Property(left, nameof(FormulaResult.StringValue));
+        var rightString = Expression.Property(right, nameof(FormulaResult.StringValue));
 
         var concatMethod = typeof(string).GetMethod(nameof(string.Concat), new[] { typeof(string), typeof(string) });
         if (concatMethod == null)
@@ -370,10 +370,10 @@ public class FormulaCompiler
 
         var concatenated = Expression.Call(concatMethod, leftString, rightString);
 
-        var fromStringMethod = typeof(CellValue).GetMethod(nameof(CellValue.FromString), BindingFlags.Public | BindingFlags.Static);
+        var fromStringMethod = typeof(FormulaResult).GetMethod(nameof(FormulaResult.FromString), BindingFlags.Public | BindingFlags.Static);
         if (fromStringMethod == null)
         {
-            throw new CompilationException($"Method {nameof(CellValue.FromString)} not found");
+            throw new CompilationException($"Method {nameof(FormulaResult.FromString)} not found");
         }
 
         return Expression.Call(fromStringMethod, concatenated);

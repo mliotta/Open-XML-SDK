@@ -24,11 +24,11 @@ public sealed class AndFunction : IFunctionImplementation
     public string Name => "AND";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -41,19 +41,19 @@ public sealed class AndFunction : IFunctionImplementation
             // Evaluate as boolean
             var isTrue = arg.Type switch
             {
-                CellValueType.Boolean => arg.BoolValue,
-                CellValueType.Number => arg.NumericValue != 0,
-                CellValueType.Text => !string.IsNullOrEmpty(arg.StringValue),
-                CellValueType.Empty => false,
+                FormulaResultType.Boolean => arg.BoolValue,
+                FormulaResultType.Number => arg.NumericValue != 0,
+                FormulaResultType.Text => !string.IsNullOrEmpty(arg.StringValue),
+                FormulaResultType.Empty => false,
                 _ => false,
             };
 
             if (!isTrue)
             {
-                return CellValue.FromBool(false);
+                return FormulaResult.FromBool(false);
             }
         }
 
-        return CellValue.FromBool(true);
+        return FormulaResult.FromBool(true);
     }
 }

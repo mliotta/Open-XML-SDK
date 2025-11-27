@@ -25,11 +25,11 @@ public sealed class TruncFunction : IFunctionImplementation
     public string Name => "TRUNC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,9 +37,9 @@ public sealed class TruncFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -52,9 +52,9 @@ public sealed class TruncFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             numDigits = (int)args[1].NumericValue;
@@ -63,6 +63,6 @@ public sealed class TruncFunction : IFunctionImplementation
         // Truncate by multiplying, truncating, and dividing back
         var multiplier = System.Math.Pow(10, numDigits);
         var result = System.Math.Truncate(number * multiplier) / multiplier;
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

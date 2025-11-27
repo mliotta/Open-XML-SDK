@@ -21,13 +21,13 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("1,234.6", result.StringValue);
     }
 
@@ -37,14 +37,14 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(1),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("1234.6", result.StringValue);
     }
 
@@ -54,7 +54,7 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
+            FormulaResult.FromNumber(1234.567),
         };
 
         var result = func.Execute(null!, args);
@@ -68,8 +68,8 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -83,8 +83,8 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.56789),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1234.56789),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -98,8 +98,8 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-1234.567),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(-1234.567),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -113,8 +113,8 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(-1),
         };
 
         var result = func.Execute(null!, args);
@@ -128,9 +128,9 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(2),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
@@ -144,9 +144,9 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -160,8 +160,8 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(12.5),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(12.5),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -175,8 +175,8 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234567.89),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1234567.89),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -190,8 +190,8 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(2),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -206,8 +206,8 @@ public class FormattingFunctionTests
         var func = FixedFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(2),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -220,7 +220,7 @@ public class FormattingFunctionTests
     public void Fixed_WrongArgumentCount_ReturnsError()
     {
         var func = FixedFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -238,13 +238,13 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("$1,234.57", result.StringValue);
     }
 
@@ -254,7 +254,7 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
+            FormulaResult.FromNumber(1234.567),
         };
 
         var result = func.Execute(null!, args);
@@ -268,8 +268,8 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -283,8 +283,8 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.56789),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1234.56789),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -298,8 +298,8 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-1234.567),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(-1234.567),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -313,8 +313,8 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(-1),
         };
 
         var result = func.Execute(null!, args);
@@ -328,8 +328,8 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(12.5),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(12.5),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -343,8 +343,8 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234567.89),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1234567.89),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -358,8 +358,8 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(99.99),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(99.99),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -373,7 +373,7 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         };
 
         var result = func.Execute(null!, args);
@@ -388,7 +388,7 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(null!, args);
@@ -403,9 +403,9 @@ public class FormattingFunctionTests
         var func = DollarFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -424,14 +424,14 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("1.234,56"),
-            CellValue.FromString(","),
-            CellValue.FromString("."),
+            FormulaResult.FromString("1.234,56"),
+            FormulaResult.FromString(","),
+            FormulaResult.FromString("."),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1234.56, result.NumericValue);
     }
 
@@ -441,7 +441,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("1,234.56"),
+            FormulaResult.FromString("1,234.56"),
         };
 
         var result = func.Execute(null!, args);
@@ -455,9 +455,9 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("2.500,75"),
-            CellValue.FromString(","),
-            CellValue.FromString("."),
+            FormulaResult.FromString("2.500,75"),
+            FormulaResult.FromString(","),
+            FormulaResult.FromString("."),
         };
 
         var result = func.Execute(null!, args);
@@ -471,8 +471,8 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("1234.56"),
-            CellValue.FromString("."),
+            FormulaResult.FromString("1234.56"),
+            FormulaResult.FromString("."),
         };
 
         var result = func.Execute(null!, args);
@@ -486,7 +486,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("50%"),
+            FormulaResult.FromString("50%"),
         };
 
         var result = func.Execute(null!, args);
@@ -500,7 +500,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("12.5%"),
+            FormulaResult.FromString("12.5%"),
         };
 
         var result = func.Execute(null!, args);
@@ -514,7 +514,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("-1,234.56"),
+            FormulaResult.FromString("-1,234.56"),
         };
 
         var result = func.Execute(null!, args);
@@ -528,9 +528,9 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("-1.234,56"),
-            CellValue.FromString(","),
-            CellValue.FromString("."),
+            FormulaResult.FromString("-1.234,56"),
+            FormulaResult.FromString(","),
+            FormulaResult.FromString("."),
         };
 
         var result = func.Execute(null!, args);
@@ -544,9 +544,9 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("1 234,56"),
-            CellValue.FromString(","),
-            CellValue.FromString(" "),
+            FormulaResult.FromString("1 234,56"),
+            FormulaResult.FromString(","),
+            FormulaResult.FromString(" "),
         };
 
         var result = func.Execute(null!, args);
@@ -560,7 +560,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("123"),
+            FormulaResult.FromString("123"),
         };
 
         var result = func.Execute(null!, args);
@@ -574,7 +574,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("0.5"),
+            FormulaResult.FromString("0.5"),
         };
 
         var result = func.Execute(null!, args);
@@ -588,7 +588,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("  1,234.56  "),
+            FormulaResult.FromString("  1,234.56  "),
         };
 
         var result = func.Execute(null!, args);
@@ -602,7 +602,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -617,7 +617,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("not a number"),
+            FormulaResult.FromString("not a number"),
         };
 
         var result = func.Execute(null!, args);
@@ -632,9 +632,9 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("1,234,56"),
-            CellValue.FromString(","),
-            CellValue.FromString(","),
+            FormulaResult.FromString("1,234,56"),
+            FormulaResult.FromString(","),
+            FormulaResult.FromString(","),
         };
 
         var result = func.Execute(null!, args);
@@ -649,7 +649,7 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -664,10 +664,10 @@ public class FormattingFunctionTests
         var func = NumberValueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("123"),
-            CellValue.FromString("."),
-            CellValue.FromString(","),
-            CellValue.FromString("extra"),
+            FormulaResult.FromString("123"),
+            FormulaResult.FromString("."),
+            FormulaResult.FromString(","),
+            FormulaResult.FromString("extra"),
         };
 
         var result = func.Execute(null!, args);

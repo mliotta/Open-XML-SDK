@@ -25,11 +25,11 @@ public sealed class FindFunction : IFunctionImplementation
     public string Name => "FIND";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -53,16 +53,16 @@ public sealed class FindFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             startNum = (int)args[2].NumericValue;
 
             if (startNum < 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -71,17 +71,17 @@ public sealed class FindFunction : IFunctionImplementation
 
         if (startIndex >= withinText.Length)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var position = withinText.IndexOf(findText, startIndex, StringComparison.Ordinal);
 
         if (position == -1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Return 1-based position
-        return CellValue.FromNumber(position + 1);
+        return FormulaResult.FromNumber(position + 1);
     }
 }

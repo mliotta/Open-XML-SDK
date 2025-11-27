@@ -25,11 +25,11 @@ public sealed class PhoneticFunction : IFunctionImplementation
     public string Name => "PHONETIC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -41,6 +41,6 @@ public sealed class PhoneticFunction : IFunctionImplementation
         // Full implementation would extract phonetic guide text which is stored separately in Excel
         var text = args[0].StringValue;
 
-        return CellValue.FromString(text);
+        return FormulaResult.FromString(text);
     }
 }

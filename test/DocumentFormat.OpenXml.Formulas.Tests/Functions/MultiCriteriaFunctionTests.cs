@@ -21,14 +21,14 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(100.0, result.NumericValue);
     }
 
@@ -38,9 +38,9 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(3),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -54,11 +54,11 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromString("Yes"),
-            CellValue.FromString("Yes"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromString("Yes"),
+            FormulaResult.FromString("Yes"),
         };
 
         var result = func.Execute(null!, args);
@@ -72,11 +72,11 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromString("No"),
-            CellValue.FromString("Yes"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromString("No"),
+            FormulaResult.FromString("Yes"),
         };
 
         var result = func.Execute(null!, args);
@@ -90,13 +90,13 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(250),
-            CellValue.FromNumber(15),
-            CellValue.FromString(">=10"),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
-            CellValue.FromNumber(100),
-            CellValue.FromString(">50"),
+            FormulaResult.FromNumber(250),
+            FormulaResult.FromNumber(15),
+            FormulaResult.FromString(">=10"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromString(">50"),
         };
 
         var result = func.Execute(null!, args);
@@ -110,9 +110,9 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -126,8 +126,8 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -142,10 +142,10 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromString("Yes"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromString("Yes"),
         };
 
         var result = func.Execute(null!, args);
@@ -160,9 +160,9 @@ public class MultiCriteriaFunctionTests
         var func = SumIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -181,13 +181,13 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -197,8 +197,8 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -212,10 +212,10 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromNumber(8),
-            CellValue.FromString("<10"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromNumber(8),
+            FormulaResult.FromString("<10"),
         };
 
         var result = func.Execute(null!, args);
@@ -229,10 +229,10 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromNumber(12),
-            CellValue.FromString("<10"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromNumber(12),
+            FormulaResult.FromString("<10"),
         };
 
         var result = func.Execute(null!, args);
@@ -246,12 +246,12 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(15),
-            CellValue.FromString(">=10"),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
-            CellValue.FromNumber(100),
-            CellValue.FromString(">50"),
+            FormulaResult.FromNumber(15),
+            FormulaResult.FromString(">=10"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromString(">50"),
         };
 
         var result = func.Execute(null!, args);
@@ -265,10 +265,10 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Apple"),
-            CellValue.FromNumber(5),
-            CellValue.FromString(">3"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString(">3"),
         };
 
         var result = func.Execute(null!, args);
@@ -282,7 +282,7 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -297,9 +297,9 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromNumber(8),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromNumber(8),
         };
 
         var result = func.Execute(null!, args);
@@ -314,8 +314,8 @@ public class MultiCriteriaFunctionTests
         var func = CountIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
-            CellValue.FromString(">5"),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -334,14 +334,14 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">=10"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">=10"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(100.0, result.NumericValue);
     }
 
@@ -351,9 +351,9 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(3),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -368,11 +368,11 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(75),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromString("Yes"),
-            CellValue.FromString("Yes"),
+            FormulaResult.FromNumber(75),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromString("Yes"),
+            FormulaResult.FromString("Yes"),
         };
 
         var result = func.Execute(null!, args);
@@ -386,11 +386,11 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(75),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromString("No"),
-            CellValue.FromString("Yes"),
+            FormulaResult.FromNumber(75),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromString("No"),
+            FormulaResult.FromString("Yes"),
         };
 
         var result = func.Execute(null!, args);
@@ -405,13 +405,13 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(150),
-            CellValue.FromNumber(15),
-            CellValue.FromString(">=10"),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
-            CellValue.FromNumber(100),
-            CellValue.FromString(">50"),
+            FormulaResult.FromNumber(150),
+            FormulaResult.FromNumber(15),
+            FormulaResult.FromString(">=10"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromString(">50"),
         };
 
         var result = func.Execute(null!, args);
@@ -425,9 +425,9 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -442,8 +442,8 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -458,10 +458,10 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromString("Yes"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromString("Yes"),
         };
 
         var result = func.Execute(null!, args);
@@ -476,9 +476,9 @@ public class MultiCriteriaFunctionTests
         var func = AverageIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -497,14 +497,14 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(100.0, result.NumericValue);
     }
 
@@ -514,9 +514,9 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromString("South"),
-            CellValue.FromString("North"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromString("North"),
         };
 
         var result = func.Execute(null!, args);
@@ -530,11 +530,11 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(250),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
-            CellValue.FromNumber(120),
-            CellValue.FromString(">100"),
+            FormulaResult.FromNumber(250),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromNumber(120),
+            FormulaResult.FromString(">100"),
         };
 
         var result = func.Execute(null!, args);
@@ -548,11 +548,11 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(250),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
-            CellValue.FromNumber(80),
-            CellValue.FromString(">100"),
+            FormulaResult.FromNumber(250),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromNumber(80),
+            FormulaResult.FromString(">100"),
         };
 
         var result = func.Execute(null!, args);
@@ -566,13 +566,13 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(500),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
-            CellValue.FromNumber(120),
-            CellValue.FromString(">100"),
-            CellValue.FromString("Q1"),
-            CellValue.FromString("Q1"),
+            FormulaResult.FromNumber(500),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromNumber(120),
+            FormulaResult.FromString(">100"),
+            FormulaResult.FromString("Q1"),
+            FormulaResult.FromString("Q1"),
         };
 
         var result = func.Execute(null!, args);
@@ -586,9 +586,9 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
         };
 
         var result = func.Execute(null!, args);
@@ -602,8 +602,8 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromString("North"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromString("North"),
         };
 
         var result = func.Execute(null!, args);
@@ -618,10 +618,10 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
-            CellValue.FromNumber(120),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromNumber(120),
         };
 
         var result = func.Execute(null!, args);
@@ -636,9 +636,9 @@ public class MultiCriteriaFunctionTests
         var func = MaxIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromString("North"),
-            CellValue.FromString("North"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("North"),
         };
 
         var result = func.Execute(null!, args);
@@ -657,14 +657,14 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(50),
-            CellValue.FromString("South"),
-            CellValue.FromString("South"),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromString("South"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(50.0, result.NumericValue);
     }
 
@@ -674,9 +674,9 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(50),
-            CellValue.FromString("North"),
-            CellValue.FromString("South"),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromString("North"),
+            FormulaResult.FromString("South"),
         };
 
         var result = func.Execute(null!, args);
@@ -690,11 +690,11 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30),
-            CellValue.FromString("South"),
-            CellValue.FromString("South"),
-            CellValue.FromNumber(25),
-            CellValue.FromString("<50"),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromNumber(25),
+            FormulaResult.FromString("<50"),
         };
 
         var result = func.Execute(null!, args);
@@ -708,11 +708,11 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30),
-            CellValue.FromString("South"),
-            CellValue.FromString("South"),
-            CellValue.FromNumber(60),
-            CellValue.FromString("<50"),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromNumber(60),
+            FormulaResult.FromString("<50"),
         };
 
         var result = func.Execute(null!, args);
@@ -726,13 +726,13 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25),
-            CellValue.FromString("South"),
-            CellValue.FromString("South"),
-            CellValue.FromNumber(30),
-            CellValue.FromString("<50"),
-            CellValue.FromString("Q2"),
-            CellValue.FromString("Q2"),
+            FormulaResult.FromNumber(25),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromString("<50"),
+            FormulaResult.FromString("Q2"),
+            FormulaResult.FromString("Q2"),
         };
 
         var result = func.Execute(null!, args);
@@ -746,9 +746,9 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromString("South"),
-            CellValue.FromString("South"),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromString("South"),
         };
 
         var result = func.Execute(null!, args);
@@ -762,8 +762,8 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(50),
-            CellValue.FromString("South"),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromString("South"),
         };
 
         var result = func.Execute(null!, args);
@@ -778,10 +778,10 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(50),
-            CellValue.FromString("South"),
-            CellValue.FromString("South"),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -796,9 +796,9 @@ public class MultiCriteriaFunctionTests
         var func = MinIfsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
-            CellValue.FromString("South"),
-            CellValue.FromString("South"),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromString("South"),
+            FormulaResult.FromString("South"),
         };
 
         var result = func.Execute(null!, args);

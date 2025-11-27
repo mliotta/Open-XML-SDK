@@ -25,11 +25,11 @@ public sealed class EdateFunction : IFunctionImplementation
     public string Name => "EDATE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,9 +42,9 @@ public sealed class EdateFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -56,11 +56,11 @@ public sealed class EdateFunction : IFunctionImplementation
             var resultDate = startDate.AddMonths(monthsToAdd);
 
             var serialDate = resultDate.ToOADate();
-            return CellValue.FromNumber(serialDate);
+            return FormulaResult.FromNumber(serialDate);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

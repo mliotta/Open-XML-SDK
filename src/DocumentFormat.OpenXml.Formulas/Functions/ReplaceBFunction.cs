@@ -25,11 +25,11 @@ public sealed class ReplaceBFunction : IFunctionImplementation
     public string Name => "REPLACEB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -55,9 +55,9 @@ public sealed class ReplaceBFunction : IFunctionImplementation
         var oldText = args[0].StringValue;
         var newText = args[3].StringValue;
 
-        if (args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var startNum = (int)args[1].NumericValue;
@@ -65,7 +65,7 @@ public sealed class ReplaceBFunction : IFunctionImplementation
 
         if (startNum < 1 || numBytes < 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Get bytes from old text
@@ -78,7 +78,7 @@ public sealed class ReplaceBFunction : IFunctionImplementation
         if (startIndex > oldBytes.Length)
         {
             // Just append the new text
-            return CellValue.FromString(oldText + newText);
+            return FormulaResult.FromString(oldText + newText);
         }
 
         // Calculate end position
@@ -107,6 +107,6 @@ public sealed class ReplaceBFunction : IFunctionImplementation
 
         var result = Encoding.UTF8.GetString(resultBytes);
 
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 }

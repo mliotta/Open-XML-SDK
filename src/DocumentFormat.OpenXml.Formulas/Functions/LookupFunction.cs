@@ -26,11 +26,11 @@ public sealed class LookupFunction : IFunctionImplementation
     public string Name => "LOOKUP";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -49,7 +49,7 @@ public sealed class LookupFunction : IFunctionImplementation
         var searchValue = args[1];
 
         // Check if values match (exact match for Phase 0)
-        if (lookupValue.Type == CellValueType.Number && searchValue.Type == CellValueType.Number)
+        if (lookupValue.Type == FormulaResultType.Number && searchValue.Type == FormulaResultType.Number)
         {
             if (System.Math.Abs(lookupValue.NumericValue - searchValue.NumericValue) < 1e-10)
             {
@@ -61,7 +61,7 @@ public sealed class LookupFunction : IFunctionImplementation
                 return searchValue;
             }
         }
-        else if (lookupValue.Type == CellValueType.Text && searchValue.Type == CellValueType.Text)
+        else if (lookupValue.Type == FormulaResultType.Text && searchValue.Type == FormulaResultType.Text)
         {
             if (string.Equals(lookupValue.StringValue, searchValue.StringValue, StringComparison.OrdinalIgnoreCase))
             {
@@ -75,6 +75,6 @@ public sealed class LookupFunction : IFunctionImplementation
 
         // Full array/vector lookup requires array support
         // For Phase 0, return #N/A if no match found
-        return CellValue.Error("#N/A");
+        return FormulaResult.Error("#N/A");
     }
 }

@@ -25,11 +25,11 @@ public sealed class FvscheduleFunction : IFunctionImplementation
     public string Name => "FVSCHEDULE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in principal argument
@@ -39,9 +39,9 @@ public sealed class FvscheduleFunction : IFunctionImplementation
         }
 
         // Validate principal argument is a number
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var principal = args[0].NumericValue;
@@ -57,9 +57,9 @@ public sealed class FvscheduleFunction : IFunctionImplementation
                 return args[i + 1];
             }
 
-            if (args[i + 1].Type != CellValueType.Number)
+            if (args[i + 1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             schedule[i] = args[i + 1].NumericValue;
@@ -74,10 +74,10 @@ public sealed class FvscheduleFunction : IFunctionImplementation
 
             if (double.IsNaN(fv) || double.IsInfinity(fv))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
-        return CellValue.FromNumber(fv);
+        return FormulaResult.FromNumber(fv);
     }
 }

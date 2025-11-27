@@ -18,14 +18,14 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),    // trials
-            CellValue.FromNumber(0.5),   // probability
-            CellValue.FromNumber(5),     // number_s
+            FormulaResult.FromNumber(10),    // trials
+            FormulaResult.FromNumber(0.5),   // probability
+            FormulaResult.FromNumber(5),     // number_s
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // P(X=5) for n=10, p=0.5 should be approximately 0.246
         Assert.True(result.NumericValue > 0.24 && result.NumericValue < 0.25);
     }
@@ -36,15 +36,15 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),    // trials
-            CellValue.FromNumber(0.5),   // probability
-            CellValue.FromNumber(4),     // number_s
-            CellValue.FromNumber(6),     // number_s2
+            FormulaResult.FromNumber(10),    // trials
+            FormulaResult.FromNumber(0.5),   // probability
+            FormulaResult.FromNumber(4),     // number_s
+            FormulaResult.FromNumber(6),     // number_s2
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // P(4 <= X <= 6) for n=10, p=0.5 should be approximately 0.656
         Assert.True(result.NumericValue > 0.65 && result.NumericValue < 0.66);
     }
@@ -55,10 +55,10 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),    // trials
-            CellValue.FromNumber(0.5),   // probability
-            CellValue.FromNumber(6),     // number_s
-            CellValue.FromNumber(4),     // number_s2 (less than number_s)
+            FormulaResult.FromNumber(10),    // trials
+            FormulaResult.FromNumber(0.5),   // probability
+            FormulaResult.FromNumber(6),     // number_s
+            FormulaResult.FromNumber(4),     // number_s2 (less than number_s)
         };
 
         var result = func.Execute(null!, args);
@@ -73,9 +73,9 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-5),    // trials
-            CellValue.FromNumber(0.5),   // probability
-            CellValue.FromNumber(2),     // number_s
+            FormulaResult.FromNumber(-5),    // trials
+            FormulaResult.FromNumber(0.5),   // probability
+            FormulaResult.FromNumber(2),     // number_s
         };
 
         var result = func.Execute(null!, args);
@@ -90,9 +90,9 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),    // trials
-            CellValue.FromNumber(1.5),   // probability (>1)
-            CellValue.FromNumber(5),     // number_s
+            FormulaResult.FromNumber(10),    // trials
+            FormulaResult.FromNumber(1.5),   // probability (>1)
+            FormulaResult.FromNumber(5),     // number_s
         };
 
         var result = func.Execute(null!, args);
@@ -107,9 +107,9 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),    // trials
-            CellValue.FromNumber(0.5),   // probability
-            CellValue.FromNumber(15),    // number_s (>trials)
+            FormulaResult.FromNumber(10),    // trials
+            FormulaResult.FromNumber(0.5),   // probability
+            FormulaResult.FromNumber(15),    // number_s (>trials)
         };
 
         var result = func.Execute(null!, args);
@@ -124,8 +124,8 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),    // trials
-            CellValue.FromNumber(0.5),   // probability
+            FormulaResult.FromNumber(10),    // trials
+            FormulaResult.FromNumber(0.5),   // probability
         };
 
         var result = func.Execute(null!, args);
@@ -140,9 +140,9 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(5),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -157,14 +157,14 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),    // trials
-            CellValue.FromNumber(0.0),   // probability
-            CellValue.FromNumber(0),     // number_s
+            FormulaResult.FromNumber(10),    // trials
+            FormulaResult.FromNumber(0.0),   // probability
+            FormulaResult.FromNumber(0),     // number_s
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // P(X=0) for n=10, p=0 should be 1.0
         Assert.Equal(1.0, result.NumericValue, 5);
     }
@@ -175,14 +175,14 @@ public class BinomDistRangeFunctionTests
         var func = BinomDistRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),    // trials
-            CellValue.FromNumber(1.0),   // probability
-            CellValue.FromNumber(10),    // number_s
+            FormulaResult.FromNumber(10),    // trials
+            FormulaResult.FromNumber(1.0),   // probability
+            FormulaResult.FromNumber(10),    // number_s
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // P(X=10) for n=10, p=1 should be 1.0
         Assert.Equal(1.0, result.NumericValue, 5);
     }

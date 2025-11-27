@@ -176,7 +176,7 @@ public class OracleValidationTests
         return result;
     }
 
-    private bool CompareValues(CellValue ourValue, string excelValue, CellValues? excelDataType)
+    private bool CompareValues(FormulaResult ourValue, string excelValue, CellValues? excelDataType)
     {
         // Handle errors
         if (ourValue.IsError)
@@ -185,7 +185,7 @@ public class OracleValidationTests
         }
 
         // Handle numbers
-        if (ourValue.Type == CellValueType.Number)
+        if (ourValue.Type == FormulaResultType.Number)
         {
             if (double.TryParse(excelValue, out var excelNumber))
             {
@@ -197,13 +197,13 @@ public class OracleValidationTests
         }
 
         // Handle text
-        if (ourValue.Type == CellValueType.Text)
+        if (ourValue.Type == FormulaResultType.Text)
         {
             return string.Equals(ourValue.StringValue, excelValue, StringComparison.Ordinal);
         }
 
         // Handle booleans
-        if (ourValue.Type == CellValueType.Boolean)
+        if (ourValue.Type == FormulaResultType.Boolean)
         {
             // Excel stores TRUE as "1" and FALSE as "0"
             if (excelDataType == CellValues.Boolean)
@@ -220,7 +220,7 @@ public class OracleValidationTests
         return false;
     }
 
-    private string FormatValue(CellValue value)
+    private string FormatValue(FormulaResult value)
     {
         if (value.IsError)
         {
@@ -229,9 +229,9 @@ public class OracleValidationTests
 
         return value.Type switch
         {
-            CellValueType.Number => value.NumericValue.ToString(),
-            CellValueType.Text => value.StringValue,
-            CellValueType.Boolean => value.BoolValue.ToString(),
+            FormulaResultType.Number => value.NumericValue.ToString(),
+            FormulaResultType.Text => value.StringValue,
+            FormulaResultType.Boolean => value.BoolValue.ToString(),
             _ => value.ToString() ?? "NULL",
         };
     }

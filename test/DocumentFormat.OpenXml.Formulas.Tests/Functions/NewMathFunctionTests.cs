@@ -23,13 +23,13 @@ public class NewMathFunctionTests
         var func = SumProductFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(6.0, result.NumericValue);
     }
 
@@ -39,14 +39,14 @@ public class NewMathFunctionTests
         var func = SumProductFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(24.0, result.NumericValue); // 2*3*4 = 24
     }
 
@@ -55,7 +55,7 @@ public class NewMathFunctionTests
     {
         var func = SumProductFunction.Instance;
 
-        var result = func.Execute(null!, Array.Empty<CellValue>());
+        var result = func.Execute(null!, Array.Empty<FormulaResult>());
 
         Assert.True(result.IsError);
         Assert.Equal("#VALUE!", result.ErrorValue);
@@ -67,8 +67,8 @@ public class NewMathFunctionTests
         var func = SumProductFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
@@ -83,8 +83,8 @@ public class NewMathFunctionTests
         var func = SumProductFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromString("text"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("text"),
         };
 
         var result = func.Execute(null!, args);
@@ -105,9 +105,9 @@ public class NewMathFunctionTests
         // Call multiple times to check range
         for (int i = 0; i < 10; i++)
         {
-            var result = func.Execute(null!, Array.Empty<CellValue>());
+            var result = func.Execute(null!, Array.Empty<FormulaResult>());
 
-            Assert.Equal(CellValueType.Number, result.Type);
+            Assert.Equal(FormulaResultType.Number, result.Type);
             Assert.True(result.NumericValue >= 0.0);
             Assert.True(result.NumericValue < 1.0);
         }
@@ -120,7 +120,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result.IsError);
@@ -141,11 +141,11 @@ public class NewMathFunctionTests
         {
             var result = func.Execute(null!, new[]
             {
-                CellValue.FromNumber(1),
-                CellValue.FromNumber(10),
+                FormulaResult.FromNumber(1),
+                FormulaResult.FromNumber(10),
             });
 
-            Assert.Equal(CellValueType.Number, result.Type);
+            Assert.Equal(FormulaResultType.Number, result.Type);
             Assert.True(result.NumericValue >= 1.0);
             Assert.True(result.NumericValue <= 10.0);
             Assert.Equal(System.Math.Floor(result.NumericValue), result.NumericValue); // Should be integer
@@ -159,8 +159,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         });
 
         Assert.Equal(5.0, result.NumericValue);
@@ -173,8 +173,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result.IsError);
@@ -188,7 +188,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result.IsError);
@@ -202,8 +202,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(10),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result.IsError);
@@ -217,8 +217,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(10),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result.IsError);
@@ -236,7 +236,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -249,7 +249,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         });
 
         Assert.Equal(120.0, result.NumericValue); // 5! = 5*4*3*2*1 = 120
@@ -262,7 +262,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.Equal(3628800.0, result.NumericValue); // 10!
@@ -275,7 +275,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-5),
+            FormulaResult.FromNumber(-5),
         });
 
         Assert.True(result.IsError);
@@ -289,7 +289,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(5.9),
+            FormulaResult.FromNumber(5.9),
         });
 
         Assert.Equal(120.0, result.NumericValue); // 5! = 120
@@ -300,7 +300,7 @@ public class NewMathFunctionTests
     {
         var func = FactFunction.Instance;
 
-        var result = func.Execute(null!, Array.Empty<CellValue>());
+        var result = func.Execute(null!, Array.Empty<FormulaResult>());
 
         Assert.True(result.IsError);
         Assert.Equal("#VALUE!", result.ErrorValue);
@@ -313,7 +313,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result.IsError);
@@ -327,7 +327,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         });
 
         Assert.True(result.IsError);
@@ -345,8 +345,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(24),
-            CellValue.FromNumber(36),
+            FormulaResult.FromNumber(24),
+            FormulaResult.FromNumber(36),
         });
 
         Assert.Equal(12.0, result.NumericValue);
@@ -359,9 +359,9 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(12),
-            CellValue.FromNumber(18),
-            CellValue.FromNumber(24),
+            FormulaResult.FromNumber(12),
+            FormulaResult.FromNumber(18),
+            FormulaResult.FromNumber(24),
         });
 
         Assert.Equal(6.0, result.NumericValue);
@@ -374,8 +374,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(7),
-            CellValue.FromNumber(13),
+            FormulaResult.FromNumber(7),
+            FormulaResult.FromNumber(13),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -388,8 +388,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(12),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(12),
         });
 
         Assert.Equal(12.0, result.NumericValue);
@@ -400,7 +400,7 @@ public class NewMathFunctionTests
     {
         var func = GcdFunction.Instance;
 
-        var result = func.Execute(null!, Array.Empty<CellValue>());
+        var result = func.Execute(null!, Array.Empty<FormulaResult>());
 
         Assert.True(result.IsError);
         Assert.Equal("#VALUE!", result.ErrorValue);
@@ -413,8 +413,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(24),
-            CellValue.FromString("text"),
+            FormulaResult.FromNumber(24),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result.IsError);
@@ -428,8 +428,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(24),
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.FromNumber(24),
+            FormulaResult.Error("#DIV/0!"),
         });
 
         Assert.True(result.IsError);
@@ -447,8 +447,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4),
-            CellValue.FromNumber(6),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromNumber(6),
         });
 
         Assert.Equal(12.0, result.NumericValue);
@@ -461,9 +461,9 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
         });
 
         Assert.Equal(12.0, result.NumericValue);
@@ -476,8 +476,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         });
 
         Assert.Equal(5.0, result.NumericValue);
@@ -490,8 +490,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(12),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(12),
         });
 
         Assert.Equal(12.0, result.NumericValue);
@@ -504,8 +504,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(12),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(12),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -516,7 +516,7 @@ public class NewMathFunctionTests
     {
         var func = LcmFunction.Instance;
 
-        var result = func.Execute(null!, Array.Empty<CellValue>());
+        var result = func.Execute(null!, Array.Empty<FormulaResult>());
 
         Assert.True(result.IsError);
         Assert.Equal("#VALUE!", result.ErrorValue);
@@ -529,8 +529,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4),
-            CellValue.FromString("text"),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result.IsError);
@@ -544,8 +544,8 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4),
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.FromNumber(4),
+            FormulaResult.Error("#DIV/0!"),
         });
 
         Assert.True(result.IsError);
@@ -563,7 +563,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(3),
         });
 
         Assert.Equal(4.0, result.NumericValue);
@@ -576,7 +576,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(4),
         });
 
         Assert.Equal(4.0, result.NumericValue);
@@ -589,7 +589,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(3.1),
+            FormulaResult.FromNumber(3.1),
         });
 
         Assert.Equal(4.0, result.NumericValue);
@@ -602,7 +602,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-3),
+            FormulaResult.FromNumber(-3),
         });
 
         Assert.Equal(-4.0, result.NumericValue);
@@ -615,7 +615,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-4),
+            FormulaResult.FromNumber(-4),
         });
 
         Assert.Equal(-4.0, result.NumericValue);
@@ -628,7 +628,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -639,7 +639,7 @@ public class NewMathFunctionTests
     {
         var func = EvenFunction.Instance;
 
-        var result = func.Execute(null!, Array.Empty<CellValue>());
+        var result = func.Execute(null!, Array.Empty<FormulaResult>());
 
         Assert.True(result.IsError);
         Assert.Equal("#VALUE!", result.ErrorValue);
@@ -652,7 +652,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result.IsError);
@@ -666,7 +666,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         });
 
         Assert.True(result.IsError);
@@ -684,7 +684,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.Equal(3.0, result.NumericValue);
@@ -697,7 +697,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(3),
         });
 
         Assert.Equal(3.0, result.NumericValue);
@@ -710,7 +710,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2.1),
+            FormulaResult.FromNumber(2.1),
         });
 
         Assert.Equal(3.0, result.NumericValue);
@@ -723,7 +723,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-2),
+            FormulaResult.FromNumber(-2),
         });
 
         Assert.Equal(-3.0, result.NumericValue);
@@ -736,7 +736,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-3),
+            FormulaResult.FromNumber(-3),
         });
 
         Assert.Equal(-3.0, result.NumericValue);
@@ -749,7 +749,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -760,7 +760,7 @@ public class NewMathFunctionTests
     {
         var func = OddFunction.Instance;
 
-        var result = func.Execute(null!, Array.Empty<CellValue>());
+        var result = func.Execute(null!, Array.Empty<FormulaResult>());
 
         Assert.True(result.IsError);
         Assert.Equal("#VALUE!", result.ErrorValue);
@@ -773,7 +773,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result.IsError);
@@ -787,7 +787,7 @@ public class NewMathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         });
 
         Assert.True(result.IsError);

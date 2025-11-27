@@ -58,7 +58,7 @@ public class CompilerTests
         var result = compiled(context);
 
         // Assert
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(30.0, result.NumericValue);
     }
 

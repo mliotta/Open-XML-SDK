@@ -26,11 +26,11 @@ public sealed class WebServiceFunction : IFunctionImplementation
     public string Name => "WEBSERVICE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -44,6 +44,6 @@ public sealed class WebServiceFunction : IFunctionImplementation
         // 2. Data exfiltration
         // 3. Unwanted external network access
         // 4. Timing-based side channel attacks
-        return CellValue.Error("#VALUE!");
+        return FormulaResult.Error("#VALUE!");
     }
 }

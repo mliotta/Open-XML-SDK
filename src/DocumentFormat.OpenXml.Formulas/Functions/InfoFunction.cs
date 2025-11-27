@@ -44,65 +44,65 @@ public sealed class InfoFunction : IFunctionImplementation
     public string Name => "INFO";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        if (args[0].Type != CellValueType.Text)
+        if (args[0].Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var typeText = args[0].StringValue.ToLowerInvariant();
 
         return typeText switch
         {
-            "directory" => CellValue.FromString(Environment.CurrentDirectory),
-            "numfile" => CellValue.FromNumber(1),
-            "origin" => CellValue.FromString("$A$1"),
-            "osversion" => CellValue.FromString(Environment.OSVersion.ToString()),
-            "recalc" => CellValue.FromString("Automatic"),
-            "release" => CellValue.FromString("16.0"),
+            "directory" => FormulaResult.FromString(Environment.CurrentDirectory),
+            "numfile" => FormulaResult.FromNumber(1),
+            "origin" => FormulaResult.FromString("$A$1"),
+            "osversion" => FormulaResult.FromString(Environment.OSVersion.ToString()),
+            "recalc" => FormulaResult.FromString("Automatic"),
+            "release" => FormulaResult.FromString("16.0"),
             "system" => GetSystemType(),
-            "memavail" => CellValue.FromNumber(GetAvailableMemory()),
-            "memused" => CellValue.FromNumber(GC.GetTotalMemory(false)),
-            "totmem" => CellValue.FromNumber(GetTotalMemory()),
-            _ => CellValue.Error("#VALUE!"),
+            "memavail" => FormulaResult.FromNumber(GetAvailableMemory()),
+            "memused" => FormulaResult.FromNumber(GC.GetTotalMemory(false)),
+            "totmem" => FormulaResult.FromNumber(GetTotalMemory()),
+            _ => FormulaResult.Error("#VALUE!"),
         };
     }
 
-    private static CellValue GetSystemType()
+    private static FormulaResult GetSystemType()
     {
 #if NET5_0_OR_GREATER
         if (OperatingSystem.IsMacOS())
         {
-            return CellValue.FromString("mac");
+            return FormulaResult.FromString("mac");
         }
         else if (OperatingSystem.IsWindows())
         {
-            return CellValue.FromString("pcdos");
+            return FormulaResult.FromString("pcdos");
         }
         else
         {
-            return CellValue.FromString("unix");
+            return FormulaResult.FromString("unix");
         }
 #else
         // For .NET Standard 2.0, use runtime identifier
         var osDescription = Environment.OSVersion.Platform.ToString().ToLowerInvariant();
         if (osDescription.Contains("unix") || osDescription.Contains("linux"))
         {
-            return CellValue.FromString("unix");
+            return FormulaResult.FromString("unix");
         }
         else if (osDescription.Contains("win"))
         {
-            return CellValue.FromString("pcdos");
+            return FormulaResult.FromString("pcdos");
         }
         else
         {
-            return CellValue.FromString("mac");
+            return FormulaResult.FromString("mac");
         }
 #endif
     }

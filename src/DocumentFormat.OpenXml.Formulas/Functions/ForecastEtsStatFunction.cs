@@ -28,11 +28,11 @@ public sealed class ForecastEtsStatFunction : IFunctionImplementation
     public string Name => "FORECAST.ETS.STAT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -46,7 +46,7 @@ public sealed class ForecastEtsStatFunction : IFunctionImplementation
 
         // Extract values array
         var values = new List<double>();
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             values.Add(args[0].NumericValue);
         }
@@ -56,12 +56,12 @@ public sealed class ForecastEtsStatFunction : IFunctionImplementation
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract timeline array
         var timeline = new List<double>();
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             timeline.Add(args[1].NumericValue);
         }
@@ -71,40 +71,40 @@ public sealed class ForecastEtsStatFunction : IFunctionImplementation
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check arrays have same length
         if (values.Count != timeline.Count)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Need at least 2 data points
         if (values.Count < 2)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Get statistic_type
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         int statisticType = (int)args[2].NumericValue;
         if (statisticType < 1 || statisticType > 8)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get optional seasonality parameter (default: 0 = auto-detect)
         int seasonality = 0;
-        if (args.Length > 3 && args[3].Type == CellValueType.Number)
+        if (args.Length > 3 && args[3].Type == FormulaResultType.Number)
         {
             seasonality = (int)args[3].NumericValue;
             if (seasonality < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -123,7 +123,7 @@ public sealed class ForecastEtsStatFunction : IFunctionImplementation
             {
                 if (sortedTimeline[i] <= sortedTimeline[i - 1])
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
 
@@ -147,15 +147,15 @@ public sealed class ForecastEtsStatFunction : IFunctionImplementation
                 _ => throw new ArgumentException("Invalid statistic type"),
             };
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (ArgumentException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         catch (Exception)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
     }
 

@@ -26,11 +26,11 @@ public sealed class GestepFunction : IFunctionImplementation
     public string Name => "GESTEP";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -38,9 +38,9 @@ public sealed class GestepFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -53,15 +53,15 @@ public sealed class GestepFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             step = args[1].NumericValue;
         }
 
         // Return 1 if number >= step, 0 otherwise
-        return CellValue.FromNumber(number >= step ? 1 : 0);
+        return FormulaResult.FromNumber(number >= step ? 1 : 0);
     }
 }

@@ -25,7 +25,7 @@ public sealed class GammaInvLegacyFunction : IFunctionImplementation
     public string Name => "GAMMAINV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // GAMMAINV has the same signature as GAMMA.INV
         // Delegate directly to GAMMA.INV

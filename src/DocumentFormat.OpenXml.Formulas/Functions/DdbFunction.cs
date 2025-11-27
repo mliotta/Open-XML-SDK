@@ -25,11 +25,11 @@ public sealed class DdbFunction : IFunctionImplementation
     public string Name => "DDB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 4 || args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,9 +40,9 @@ public sealed class DdbFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -60,9 +60,9 @@ public sealed class DdbFunction : IFunctionImplementation
                 return args[4];
             }
 
-            if (args[4].Type != CellValueType.Number)
+            if (args[4].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             factor = args[4].NumericValue;
@@ -71,13 +71,13 @@ public sealed class DdbFunction : IFunctionImplementation
         // Validate inputs
         if (cost < 0 || salvage < 0 || life <= 0 || period < 1 || period > life || factor <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Special case: if salvage >= cost, no depreciation
         if (salvage >= cost)
         {
-            return CellValue.FromNumber(0.0);
+            return FormulaResult.FromNumber(0.0);
         }
 
         // Calculate depreciation rate
@@ -115,9 +115,9 @@ public sealed class DdbFunction : IFunctionImplementation
 
         if (double.IsNaN(periodDepreciation) || double.IsInfinity(periodDepreciation))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(periodDepreciation);
+        return FormulaResult.FromNumber(periodDepreciation);
     }
 }

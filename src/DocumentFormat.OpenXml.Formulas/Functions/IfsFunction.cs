@@ -25,13 +25,13 @@ public sealed class IfsFunction : IFunctionImplementation
     public string Name => "IFS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // IFS requires at least 2 arguments (1 condition and 1 value)
         // Arguments must come in pairs (condition, value)
         if (args.Length < 2 || args.Length % 2 != 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Evaluate condition/value pairs in order
@@ -55,10 +55,10 @@ public sealed class IfsFunction : IFunctionImplementation
             // Evaluate condition as boolean
             var isTrue = condition.Type switch
             {
-                CellValueType.Boolean => condition.BoolValue,
-                CellValueType.Number => condition.NumericValue != 0,
-                CellValueType.Text => !string.IsNullOrEmpty(condition.StringValue),
-                CellValueType.Empty => false,
+                FormulaResultType.Boolean => condition.BoolValue,
+                FormulaResultType.Number => condition.NumericValue != 0,
+                FormulaResultType.Text => !string.IsNullOrEmpty(condition.StringValue),
+                FormulaResultType.Empty => false,
                 _ => false,
             };
 
@@ -70,6 +70,6 @@ public sealed class IfsFunction : IFunctionImplementation
         }
 
         // No conditions matched, return #N/A error
-        return CellValue.Error("#N/A");
+        return FormulaResult.Error("#N/A");
     }
 }

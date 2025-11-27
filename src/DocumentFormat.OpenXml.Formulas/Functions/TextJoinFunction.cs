@@ -25,11 +25,11 @@ public sealed class TextJoinFunction : IFunctionImplementation
     public string Name => "TEXTJOIN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First argument: delimiter
@@ -47,11 +47,11 @@ public sealed class TextJoinFunction : IFunctionImplementation
         }
 
         bool ignoreEmpty;
-        if (args[1].Type == CellValueType.Boolean)
+        if (args[1].Type == FormulaResultType.Boolean)
         {
             ignoreEmpty = args[1].BoolValue;
         }
-        else if (args[1].Type == CellValueType.Number)
+        else if (args[1].Type == FormulaResultType.Number)
         {
             // Excel allows numeric values: 0 = FALSE, non-zero = TRUE
             ignoreEmpty = args[1].NumericValue != 0;
@@ -70,7 +70,7 @@ public sealed class TextJoinFunction : IFunctionImplementation
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -102,6 +102,6 @@ public sealed class TextJoinFunction : IFunctionImplementation
             first = false;
         }
 
-        return CellValue.FromString(result.ToString());
+        return FormulaResult.FromString(result.ToString());
     }
 }

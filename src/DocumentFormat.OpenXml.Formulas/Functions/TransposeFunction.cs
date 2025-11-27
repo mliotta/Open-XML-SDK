@@ -25,11 +25,11 @@ public sealed class TransposeFunction : IFunctionImplementation
     public string Name => "TRANSPOSE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in input array
@@ -71,13 +71,13 @@ public sealed class TransposeFunction : IFunctionImplementation
 
         if (numCols == 0 || numRows == 0)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // Create transposed array
         // Original: row-major [r0c0, r0c1, r1c0, r1c1]
         // Transposed: [r0c0, r1c0, r0c1, r1c1]
-        var transposed = new CellValue[arrayLength];
+        var transposed = new FormulaResult[arrayLength];
 
         for (var row = 0; row < numRows; row++)
         {

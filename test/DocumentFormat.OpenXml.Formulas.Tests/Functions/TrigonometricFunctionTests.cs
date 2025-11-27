@@ -21,10 +21,10 @@ public class TrigonometricFunctionTests
         // ASIN(0.5) ≈ 0.5236 (30 degrees in radians)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.PI / 6, result.NumericValue, 10);
     }
 
@@ -35,7 +35,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -48,7 +48,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.Equal(System.Math.PI / 2, result.NumericValue, 10);
@@ -61,7 +61,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.Equal(-System.Math.PI / 2, result.NumericValue, 10);
@@ -75,7 +75,7 @@ public class TrigonometricFunctionTests
         // Greater than 1
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1.5),
+            FormulaResult.FromNumber(1.5),
         });
 
         Assert.True(result1.IsError);
@@ -84,7 +84,7 @@ public class TrigonometricFunctionTests
         // Less than -1
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1.5),
+            FormulaResult.FromNumber(-1.5),
         });
 
         Assert.True(result2.IsError);
@@ -99,8 +99,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         });
 
         Assert.True(result1.IsError);
@@ -109,7 +109,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -123,7 +123,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         });
 
         Assert.True(result.IsError);
@@ -139,10 +139,10 @@ public class TrigonometricFunctionTests
         // ACOS(0.5) ≈ 1.0472 (60 degrees in radians)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.PI / 3, result.NumericValue, 10);
     }
 
@@ -153,7 +153,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.Equal(0.0, result.NumericValue, 10);
@@ -166,7 +166,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(System.Math.PI / 2, result.NumericValue, 10);
@@ -179,7 +179,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.Equal(System.Math.PI, result.NumericValue, 10);
@@ -193,7 +193,7 @@ public class TrigonometricFunctionTests
         // Greater than 1
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1.5),
+            FormulaResult.FromNumber(1.5),
         });
 
         Assert.True(result1.IsError);
@@ -202,7 +202,7 @@ public class TrigonometricFunctionTests
         // Less than -1
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1.5),
+            FormulaResult.FromNumber(-1.5),
         });
 
         Assert.True(result2.IsError);
@@ -217,8 +217,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         });
 
         Assert.True(result1.IsError);
@@ -227,7 +227,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -243,10 +243,10 @@ public class TrigonometricFunctionTests
         // ATAN(1) ≈ 0.7854 (45 degrees in radians)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.PI / 4, result.NumericValue, 10);
     }
 
@@ -257,7 +257,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -270,7 +270,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.Equal(-System.Math.PI / 4, result.NumericValue, 10);
@@ -283,7 +283,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1000),
+            FormulaResult.FromNumber(1000),
         });
 
         // ATAN approaches PI/2 for large positive values
@@ -298,8 +298,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -308,7 +308,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -324,11 +324,11 @@ public class TrigonometricFunctionTests
         // ATAN2(1, 1) ≈ 0.7854 (45 degrees in radians)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.PI / 4, result.NumericValue, 10);
     }
 
@@ -340,32 +340,32 @@ public class TrigonometricFunctionTests
         // Quadrant I
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
         Assert.True(result1.NumericValue > 0 && result1.NumericValue < System.Math.PI / 2);
 
         // Quadrant II
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromNumber(1),
         });
         Assert.True(result2.NumericValue > System.Math.PI / 2);
 
         // Quadrant III
         var result3 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
         Assert.True(result3.NumericValue < -System.Math.PI / 2);
 
         // Quadrant IV
         var result4 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(-1),
         });
         Assert.True(result4.NumericValue < 0 && result4.NumericValue > -System.Math.PI / 2);
     }
@@ -377,8 +377,8 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -393,7 +393,7 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -402,8 +402,8 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result2.IsError);
@@ -419,10 +419,10 @@ public class TrigonometricFunctionTests
         // SINH(1) ≈ 1.1752
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.Sinh(1), result.NumericValue, 10);
     }
 
@@ -433,7 +433,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue, 10);
@@ -446,7 +446,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.Equal(-System.Math.Sinh(1), result.NumericValue, 10);
@@ -460,8 +460,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -470,7 +470,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -486,10 +486,10 @@ public class TrigonometricFunctionTests
         // COSH(1)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.Cosh(1), result.NumericValue, 10);
     }
 
@@ -500,7 +500,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -513,12 +513,12 @@ public class TrigonometricFunctionTests
 
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(2),
         });
 
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-2),
+            FormulaResult.FromNumber(-2),
         });
 
         Assert.Equal(result1.NumericValue, result2.NumericValue, 10);
@@ -532,8 +532,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -542,7 +542,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -558,10 +558,10 @@ public class TrigonometricFunctionTests
         // TANH(1)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.Tanh(1), result.NumericValue, 10);
     }
 
@@ -572,7 +572,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -585,7 +585,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         });
 
         // TANH approaches 1 for large positive values
@@ -600,8 +600,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -610,7 +610,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -625,10 +625,10 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.Asinh(1), result.NumericValue, 10);
     }
 
@@ -639,7 +639,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -652,7 +652,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.Equal(-System.Math.Asinh(1), result.NumericValue, 10);
@@ -666,8 +666,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -676,7 +676,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -691,10 +691,10 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(2),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.Acosh(2), result.NumericValue, 10);
     }
 
@@ -705,7 +705,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.Equal(0.0, result.NumericValue, 10);
@@ -718,7 +718,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         });
 
         Assert.True(result.IsError);
@@ -732,7 +732,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -746,7 +746,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.True(result.IsError);
@@ -761,8 +761,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -771,7 +771,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -786,10 +786,10 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.Atanh(0.5), result.NumericValue, 10);
     }
 
@@ -800,7 +800,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -813,7 +813,7 @@ public class TrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-0.5),
+            FormulaResult.FromNumber(-0.5),
         });
 
         Assert.Equal(-System.Math.Atanh(0.5), result.NumericValue, 10);
@@ -827,7 +827,7 @@ public class TrigonometricFunctionTests
         // Greater than or equal to 1
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -836,7 +836,7 @@ public class TrigonometricFunctionTests
         // Less than or equal to -1
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.True(result2.IsError);
@@ -845,7 +845,7 @@ public class TrigonometricFunctionTests
         // Greater than 1
         var result3 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1.5),
+            FormulaResult.FromNumber(1.5),
         });
 
         Assert.True(result3.IsError);
@@ -854,7 +854,7 @@ public class TrigonometricFunctionTests
         // Less than -1
         var result4 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1.5),
+            FormulaResult.FromNumber(-1.5),
         });
 
         Assert.True(result4.IsError);
@@ -869,8 +869,8 @@ public class TrigonometricFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         });
 
         Assert.True(result1.IsError);
@@ -879,7 +879,7 @@ public class TrigonometricFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);

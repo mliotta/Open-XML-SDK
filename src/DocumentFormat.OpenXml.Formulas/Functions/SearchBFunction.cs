@@ -27,11 +27,11 @@ public sealed class SearchBFunction : IFunctionImplementation
     public string Name => "SEARCHB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -55,16 +55,16 @@ public sealed class SearchBFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             startNum = (int)args[2].NumericValue;
 
             if (startNum < 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -76,7 +76,7 @@ public sealed class SearchBFunction : IFunctionImplementation
 
         if (startIndex >= withinBytes.Length)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Convert start byte position to character position for regex matching
@@ -92,7 +92,7 @@ public sealed class SearchBFunction : IFunctionImplementation
 
         if (!match.Success)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Calculate the byte position of the match
@@ -101,6 +101,6 @@ public sealed class SearchBFunction : IFunctionImplementation
         var bytePosition = Encoding.UTF8.GetByteCount(textUpToMatch);
 
         // Return 1-based position
-        return CellValue.FromNumber(bytePosition + 1);
+        return FormulaResult.FromNumber(bytePosition + 1);
     }
 }

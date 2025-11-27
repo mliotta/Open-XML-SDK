@@ -27,11 +27,11 @@ public sealed class RomanFunction : IFunctionImplementation
     public string Name => "ROMAN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First argument: number to convert
@@ -40,21 +40,21 @@ public sealed class RomanFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = (int)args[0].NumericValue;
 
         if (number < 0 || number > 3999)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (number == 0)
         {
-            return CellValue.FromString(string.Empty);
+            return FormulaResult.FromString(string.Empty);
         }
 
         // Second argument: form (optional, default is 0 - classic)
@@ -66,21 +66,21 @@ public sealed class RomanFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             form = (int)args[1].NumericValue;
 
             if (form < 0 || form > 4)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var result = ConvertToRoman(number, form);
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 
     private static string ConvertToRoman(int number, int form)

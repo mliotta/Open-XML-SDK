@@ -25,14 +25,14 @@ public sealed class SheetsFunction : IFunctionImplementation
     public string Name => "SHEETS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
             // Return the total number of sheets in the workbook
             // Note: This requires access to the workbook part
             // For now, we'll return 1 as the default
-            return CellValue.FromNumber(1);
+            return FormulaResult.FromNumber(1);
         }
 
         var reference = args[0];
@@ -45,6 +45,6 @@ public sealed class SheetsFunction : IFunctionImplementation
 
         // If a reference is provided, we would need to parse it and count the sheets
         // For now, return 1 as a default
-        return CellValue.FromNumber(1);
+        return FormulaResult.FromNumber(1);
     }
 }

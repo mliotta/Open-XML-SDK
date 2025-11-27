@@ -26,18 +26,18 @@ public sealed class ChooseRowsFunction : IFunctionImplementation
     public string Name => "CHOOSEROWS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse row numbers from the end
         var rowCount = 0;
         for (var i = args.Length - 1; i >= 1; i--)
         {
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 rowCount++;
             }
@@ -49,7 +49,7 @@ public sealed class ChooseRowsFunction : IFunctionImplementation
 
         if (rowCount == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var arrayLength = args.Length - rowCount;
@@ -68,7 +68,7 @@ public sealed class ChooseRowsFunction : IFunctionImplementation
 
         if (firstRowNum == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Calculate array dimensions (assume square-ish array)
@@ -93,7 +93,7 @@ public sealed class ChooseRowsFunction : IFunctionImplementation
         var actualRowNum = firstRowNum > 0 ? firstRowNum : numRows + firstRowNum + 1;
         if (actualRowNum < 1 || actualRowNum > numRows)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Return first element of the first chosen row
@@ -103,6 +103,6 @@ public sealed class ChooseRowsFunction : IFunctionImplementation
             return args[firstIndex];
         }
 
-        return CellValue.Error("#REF!");
+        return FormulaResult.Error("#REF!");
     }
 }

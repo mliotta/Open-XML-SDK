@@ -21,12 +21,12 @@ public class WebAndExtendedArrayFunctionTests
         var func = EncodeUrlFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("hello world"),
+            FormulaResult.FromString("hello world"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("hello%20world", result.StringValue);
     }
 
@@ -36,12 +36,12 @@ public class WebAndExtendedArrayFunctionTests
         var func = EncodeUrlFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("hello@example.com?foo=bar&baz=qux"),
+            FormulaResult.FromString("hello@example.com?foo=bar&baz=qux"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.True(result.StringValue.Contains("%40")); // @ encoded
         Assert.True(result.StringValue.Contains("%3F")); // ? encoded
     }
@@ -52,12 +52,12 @@ public class WebAndExtendedArrayFunctionTests
         var func = EncodeUrlFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal(string.Empty, result.StringValue);
     }
 
@@ -67,7 +67,7 @@ public class WebAndExtendedArrayFunctionTests
         var func = EncodeUrlFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(null!, args);
@@ -82,7 +82,7 @@ public class WebAndExtendedArrayFunctionTests
         var func = WebServiceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("http://example.com"),
+            FormulaResult.FromString("http://example.com"),
         };
 
         var result = func.Execute(null!, args);
@@ -97,13 +97,13 @@ public class WebAndExtendedArrayFunctionTests
         var func = FilterXmlFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("<root><value>42</value></root>"),
-            CellValue.FromString("/root/value"),
+            FormulaResult.FromString("<root><value>42</value></root>"),
+            FormulaResult.FromString("/root/value"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(42.0, result.NumericValue);
     }
 
@@ -113,13 +113,13 @@ public class WebAndExtendedArrayFunctionTests
         var func = FilterXmlFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("<root><name>John</name></root>"),
-            CellValue.FromString("/root/name"),
+            FormulaResult.FromString("<root><name>John</name></root>"),
+            FormulaResult.FromString("/root/name"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("John", result.StringValue);
     }
 
@@ -129,8 +129,8 @@ public class WebAndExtendedArrayFunctionTests
         var func = FilterXmlFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("not xml"),
-            CellValue.FromString("/root"),
+            FormulaResult.FromString("not xml"),
+            FormulaResult.FromString("/root"),
         };
 
         var result = func.Execute(null!, args);
@@ -145,8 +145,8 @@ public class WebAndExtendedArrayFunctionTests
         var func = FilterXmlFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("<root><value>42</value></root>"),
-            CellValue.FromString("/root/missing"),
+            FormulaResult.FromString("<root><value>42</value></root>"),
+            FormulaResult.FromString("/root/missing"),
         };
 
         var result = func.Execute(null!, args);
@@ -168,17 +168,17 @@ public class WebAndExtendedArrayFunctionTests
         // Result should sort to: [20, 30, 10] (by values 1, 2, 3)
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(20.0, result.NumericValue); // First element after sorting
     }
 
@@ -189,10 +189,10 @@ public class WebAndExtendedArrayFunctionTests
         // TAKE([10, 20, 30], 2) should return [10, 20]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(2), // rows
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(2), // rows
         };
 
         var result = func.Execute(null!, args);
@@ -207,10 +207,10 @@ public class WebAndExtendedArrayFunctionTests
         // TAKE([10, 20, 30], -2) should return [20, 30]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(-2), // rows (from end)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(-2), // rows (from end)
         };
 
         var result = func.Execute(null!, args);
@@ -225,10 +225,10 @@ public class WebAndExtendedArrayFunctionTests
         // DROP([10, 20, 30], 1) should return [20, 30]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(1), // rows to drop
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(1), // rows to drop
         };
 
         var result = func.Execute(null!, args);
@@ -243,10 +243,10 @@ public class WebAndExtendedArrayFunctionTests
         // DROP([10, 20, 30], -1) should return [10, 20]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(-1), // rows to drop from end
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(-1), // rows to drop from end
         };
 
         var result = func.Execute(null!, args);
@@ -260,9 +260,9 @@ public class WebAndExtendedArrayFunctionTests
         var func = VStackFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -276,9 +276,9 @@ public class WebAndExtendedArrayFunctionTests
         var func = HStackFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -292,9 +292,9 @@ public class WebAndExtendedArrayFunctionTests
         var func = ToColFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -308,10 +308,10 @@ public class WebAndExtendedArrayFunctionTests
         var func = ToColFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(1), // ignore blanks
+            FormulaResult.Empty,
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(1), // ignore blanks
         };
 
         var result = func.Execute(null!, args);
@@ -325,9 +325,9 @@ public class WebAndExtendedArrayFunctionTests
         var func = ToRowFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -341,10 +341,10 @@ public class WebAndExtendedArrayFunctionTests
         var func = ChooseColsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(1), // column number
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(1), // column number
         };
 
         var result = func.Execute(null!, args);
@@ -358,10 +358,10 @@ public class WebAndExtendedArrayFunctionTests
         var func = ChooseRowsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(1), // row number
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(1), // row number
         };
 
         var result = func.Execute(null!, args);
@@ -375,9 +375,9 @@ public class WebAndExtendedArrayFunctionTests
         var func = ExpandFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(5), // rows
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(5), // rows
         };
 
         var result = func.Execute(null!, args);
@@ -391,10 +391,10 @@ public class WebAndExtendedArrayFunctionTests
         var func = WrapColsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(2), // wrap_count
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(2), // wrap_count
         };
 
         var result = func.Execute(null!, args);
@@ -408,10 +408,10 @@ public class WebAndExtendedArrayFunctionTests
         var func = WrapRowsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(2), // wrap_count
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(2), // wrap_count
         };
 
         var result = func.Execute(null!, args);

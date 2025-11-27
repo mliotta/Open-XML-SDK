@@ -22,11 +22,11 @@ public sealed class AscFunction : IFunctionImplementation
 
     public string Name => "ASC";
 
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -34,9 +34,9 @@ public sealed class AscFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Text)
+        if (args[0].Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var text = args[0].StringValue;
@@ -60,6 +60,6 @@ public sealed class AscFunction : IFunctionImplementation
             }
         }
 
-        return CellValue.FromString(result.ToString());
+        return FormulaResult.FromString(result.ToString());
     }
 }

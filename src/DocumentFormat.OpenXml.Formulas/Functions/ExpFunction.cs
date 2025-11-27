@@ -25,11 +25,11 @@ public sealed class ExpFunction : IFunctionImplementation
     public string Name => "EXP";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,18 +37,18 @@ public sealed class ExpFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var result = System.Math.Exp(args[0].NumericValue);
 
         if (double.IsInfinity(result) || double.IsNaN(result))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

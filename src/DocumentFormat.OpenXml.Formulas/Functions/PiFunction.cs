@@ -25,13 +25,13 @@ public sealed class PiFunction : IFunctionImplementation
     public string Name => "PI";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        return CellValue.FromNumber(System.Math.PI);
+        return FormulaResult.FromNumber(System.Math.PI);
     }
 }

@@ -24,11 +24,11 @@ public sealed class TDist2TFunction : IFunctionImplementation
     public string Name => "T.DIST.2T";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,39 +41,39 @@ public sealed class TDist2TFunction : IFunctionImplementation
         }
 
         // Get x value
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double x = args[0].NumericValue;
 
         // For two-tailed test, x must be non-negative
         if (x < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get degrees of freedom
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double df = args[1].NumericValue;
 
         if (df < 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
         {
             // Two-tailed: P(|T| > x) = 2 * P(T > x) = 2 * (1 - CDF(x))
             double result = 2.0 * (1.0 - StatisticalHelper.TDistCDF(x, df));
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

@@ -25,7 +25,7 @@ public sealed class PearsonFunction : IFunctionImplementation
     public string Name => "PEARSON";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // PEARSON is identical to CORREL
         return CorrelFunction.Instance.Execute(context, args);

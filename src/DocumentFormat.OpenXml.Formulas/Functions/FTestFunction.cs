@@ -26,11 +26,11 @@ public sealed class FTestFunction : IFunctionImplementation
     public string Name => "F.TEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -48,7 +48,7 @@ public sealed class FTestFunction : IFunctionImplementation
 
         if (values1.Count < 2 || values2.Count < 2)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         try
@@ -62,7 +62,7 @@ public sealed class FTestFunction : IFunctionImplementation
 
             if (variance1 <= 0 || variance2 <= 0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             // Calculate F statistic
@@ -74,19 +74,19 @@ public sealed class FTestFunction : IFunctionImplementation
             double cdf = StatisticalHelper.FDistCDF(f, df1, df2);
             double pValue = 2.0 * System.Math.Min(cdf, 1.0 - cdf);
 
-            return CellValue.FromNumber(pValue);
+            return FormulaResult.FromNumber(pValue);
         }
         catch (System.Exception)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 
-    private List<double> ExtractNumericValues(CellValue arg)
+    private List<double> ExtractNumericValues(FormulaResult arg)
     {
         var values = new List<double>();
 
-        if (arg.Type == CellValueType.Number)
+        if (arg.Type == FormulaResultType.Number)
         {
             values.Add(arg.NumericValue);
         }

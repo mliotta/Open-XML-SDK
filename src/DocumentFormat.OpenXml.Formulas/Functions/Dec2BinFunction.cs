@@ -25,11 +25,11 @@ public sealed class Dec2BinFunction : IFunctionImplementation
     public string Name => "DEC2BIN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,9 +37,9 @@ public sealed class Dec2BinFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -47,7 +47,7 @@ public sealed class Dec2BinFunction : IFunctionImplementation
         // Validate range: -512 to 511 (10-bit signed)
         if (number < -512.0 || number > 511.0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Truncate to integer
@@ -61,21 +61,21 @@ public sealed class Dec2BinFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             places = (int)System.Math.Floor(args[1].NumericValue);
 
             if (places < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (places > 10)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -98,12 +98,12 @@ public sealed class Dec2BinFunction : IFunctionImplementation
         {
             if (binaryString.Length > places)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             binaryString = binaryString.PadLeft(places, '0');
         }
 
-        return CellValue.FromString(binaryString);
+        return FormulaResult.FromString(binaryString);
     }
 }

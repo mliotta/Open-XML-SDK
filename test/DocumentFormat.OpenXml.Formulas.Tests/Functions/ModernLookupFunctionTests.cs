@@ -21,18 +21,18 @@ public class ModernLookupFunctionTests
         var func = XLookupFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Banana"), // lookup_value
-            CellValue.FromString("Apple"),  // lookup_array
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(100), // return_array
-            CellValue.FromNumber(200),
-            CellValue.FromNumber(300),
+            FormulaResult.FromString("Banana"), // lookup_value
+            FormulaResult.FromString("Apple"),  // lookup_array
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(100), // return_array
+            FormulaResult.FromNumber(200),
+            FormulaResult.FromNumber(300),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(200.0, result.NumericValue);
     }
 
@@ -42,19 +42,19 @@ public class ModernLookupFunctionTests
         var func = XLookupFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Orange"), // lookup_value
-            CellValue.FromString("Apple"),  // lookup_array
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(100), // return_array
-            CellValue.FromNumber(200),
-            CellValue.FromNumber(300),
-            CellValue.FromString("Not Found"), // if_not_found
+            FormulaResult.FromString("Orange"), // lookup_value
+            FormulaResult.FromString("Apple"),  // lookup_array
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(100), // return_array
+            FormulaResult.FromNumber(200),
+            FormulaResult.FromNumber(300),
+            FormulaResult.FromString("Not Found"), // if_not_found
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Not Found", result.StringValue);
     }
 
@@ -64,22 +64,22 @@ public class ModernLookupFunctionTests
         var func = XLookupFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25), // lookup_value
-            CellValue.FromNumber(10), // lookup_array
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromString("A"), // return_array
-            CellValue.FromString("B"),
-            CellValue.FromString("C"),
-            CellValue.FromString("D"),
-            CellValue.Error("#N/A"), // if_not_found
-            CellValue.FromNumber(-1), // match_mode (exact or next smaller)
+            FormulaResult.FromNumber(25), // lookup_value
+            FormulaResult.FromNumber(10), // lookup_array
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromString("A"), // return_array
+            FormulaResult.FromString("B"),
+            FormulaResult.FromString("C"),
+            FormulaResult.FromString("D"),
+            FormulaResult.Error("#N/A"), // if_not_found
+            FormulaResult.FromNumber(-1), // match_mode (exact or next smaller)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("B", result.StringValue); // 20 is the next smaller value
     }
 
@@ -89,22 +89,22 @@ public class ModernLookupFunctionTests
         var func = XLookupFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25), // lookup_value
-            CellValue.FromNumber(10), // lookup_array
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromString("A"), // return_array
-            CellValue.FromString("B"),
-            CellValue.FromString("C"),
-            CellValue.FromString("D"),
-            CellValue.Error("#N/A"), // if_not_found
-            CellValue.FromNumber(1), // match_mode (exact or next larger)
+            FormulaResult.FromNumber(25), // lookup_value
+            FormulaResult.FromNumber(10), // lookup_array
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromString("A"), // return_array
+            FormulaResult.FromString("B"),
+            FormulaResult.FromString("C"),
+            FormulaResult.FromString("D"),
+            FormulaResult.Error("#N/A"), // if_not_found
+            FormulaResult.FromNumber(1), // match_mode (exact or next larger)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("C", result.StringValue); // 30 is the next larger value
     }
 
@@ -114,20 +114,20 @@ public class ModernLookupFunctionTests
         var func = XLookupFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("B*"), // lookup_value with wildcard
-            CellValue.FromString("Apple"), // lookup_array
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(100), // return_array
-            CellValue.FromNumber(200),
-            CellValue.FromNumber(300),
-            CellValue.Error("#N/A"), // if_not_found
-            CellValue.FromNumber(2), // match_mode (wildcard)
+            FormulaResult.FromString("B*"), // lookup_value with wildcard
+            FormulaResult.FromString("Apple"), // lookup_array
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(100), // return_array
+            FormulaResult.FromNumber(200),
+            FormulaResult.FromNumber(300),
+            FormulaResult.Error("#N/A"), // if_not_found
+            FormulaResult.FromNumber(2), // match_mode (wildcard)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(200.0, result.NumericValue); // Matches "Banana"
     }
 
@@ -137,21 +137,21 @@ public class ModernLookupFunctionTests
         var func = XLookupFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"), // lookup_value
-            CellValue.FromString("Apple"), // lookup_array (duplicate)
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Apple"), // Another Apple
-            CellValue.FromNumber(100), // return_array
-            CellValue.FromNumber(200),
-            CellValue.FromNumber(300),
-            CellValue.Error("#N/A"), // if_not_found
-            CellValue.FromNumber(0), // match_mode (exact)
-            CellValue.FromNumber(-1), // search_mode (last to first)
+            FormulaResult.FromString("Apple"), // lookup_value
+            FormulaResult.FromString("Apple"), // lookup_array (duplicate)
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Apple"), // Another Apple
+            FormulaResult.FromNumber(100), // return_array
+            FormulaResult.FromNumber(200),
+            FormulaResult.FromNumber(300),
+            FormulaResult.Error("#N/A"), // if_not_found
+            FormulaResult.FromNumber(0), // match_mode (exact)
+            FormulaResult.FromNumber(-1), // search_mode (last to first)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(300.0, result.NumericValue); // Last match
     }
 
@@ -161,8 +161,8 @@ public class ModernLookupFunctionTests
         var func = XLookupFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
         };
 
         var result = func.Execute(null!, args);
@@ -177,11 +177,11 @@ public class ModernLookupFunctionTests
         var func = XLookupFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"), // lookup_value
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(200),
+            FormulaResult.Error("#DIV/0!"), // lookup_value
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(200),
         };
 
         var result = func.Execute(null!, args);
@@ -200,15 +200,15 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Banana"), // lookup_value
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
+            FormulaResult.FromString("Banana"), // lookup_value
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue); // Second position
     }
 
@@ -218,11 +218,11 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Orange"), // lookup_value
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(0), // match_mode (exact)
+            FormulaResult.FromString("Orange"), // lookup_value
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(0), // match_mode (exact)
         };
 
         var result = func.Execute(null!, args);
@@ -237,17 +237,17 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(-1), // match_mode (exact or next smaller)
+            FormulaResult.FromNumber(25), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(-1), // match_mode (exact or next smaller)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue); // Position of 20
     }
 
@@ -257,17 +257,17 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(1), // match_mode (exact or next larger)
+            FormulaResult.FromNumber(25), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(1), // match_mode (exact or next larger)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue); // Position of 30
     }
 
@@ -277,16 +277,16 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("B*"), // lookup_value with wildcard
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(2), // match_mode (wildcard)
+            FormulaResult.FromString("B*"), // lookup_value with wildcard
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(2), // match_mode (wildcard)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue); // Matches "Banana"
     }
 
@@ -296,17 +296,17 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"), // lookup_value
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Apple"), // Another Apple
-            CellValue.FromNumber(0), // match_mode (exact)
-            CellValue.FromNumber(-1), // search_mode (last to first)
+            FormulaResult.FromString("Apple"), // lookup_value
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Apple"), // Another Apple
+            FormulaResult.FromNumber(0), // match_mode (exact)
+            FormulaResult.FromNumber(-1), // search_mode (last to first)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue); // Last match (third position)
     }
 
@@ -316,19 +316,19 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(50),
-            CellValue.FromNumber(0), // match_mode (exact)
-            CellValue.FromNumber(2), // search_mode (binary search ascending)
+            FormulaResult.FromNumber(30), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromNumber(0), // match_mode (exact)
+            FormulaResult.FromNumber(2), // search_mode (binary search ascending)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -338,10 +338,10 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(5), // invalid match_mode
+            FormulaResult.FromNumber(10), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(5), // invalid match_mode
         };
 
         var result = func.Execute(null!, args);
@@ -356,11 +356,11 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(0), // match_mode
-            CellValue.FromNumber(0), // invalid search_mode (0 is not allowed)
+            FormulaResult.FromNumber(10), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(0), // match_mode
+            FormulaResult.FromNumber(0), // invalid search_mode (0 is not allowed)
         };
 
         var result = func.Execute(null!, args);
@@ -375,7 +375,7 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // lookup_value only
+            FormulaResult.FromNumber(10), // lookup_value only
         };
 
         var result = func.Execute(null!, args);
@@ -390,9 +390,9 @@ public class ModernLookupFunctionTests
         var func = XMatchFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
+            FormulaResult.Error("#REF!"), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
         };
 
         var result = func.Execute(null!, args);
@@ -411,13 +411,13 @@ public class ModernLookupFunctionTests
         var func = HyperlinkFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("https://example.com"), // link_location
-            CellValue.FromString("Click here"), // friendly_name
+            FormulaResult.FromString("https://example.com"), // link_location
+            FormulaResult.FromString("Click here"), // friendly_name
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Click here", result.StringValue);
     }
 
@@ -427,12 +427,12 @@ public class ModernLookupFunctionTests
         var func = HyperlinkFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("https://example.com"), // link_location
+            FormulaResult.FromString("https://example.com"), // link_location
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("https://example.com", result.StringValue);
     }
 
@@ -442,13 +442,13 @@ public class ModernLookupFunctionTests
         var func = HyperlinkFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("https://example.com"),
-            CellValue.FromNumber(42), // numeric friendly_name
+            FormulaResult.FromString("https://example.com"),
+            FormulaResult.FromNumber(42), // numeric friendly_name
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(42.0, result.NumericValue);
     }
 
@@ -458,7 +458,7 @@ public class ModernLookupFunctionTests
         var func = HyperlinkFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#NAME?"),
+            FormulaResult.Error("#NAME?"),
         };
 
         var result = func.Execute(null!, args);
@@ -471,7 +471,7 @@ public class ModernLookupFunctionTests
     public void Hyperlink_NoArguments_ReturnsError()
     {
         var func = HyperlinkFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -487,11 +487,11 @@ public class ModernLookupFunctionTests
     public void Sheet_NoArguments_ReturnsDefaultSheetNumber()
     {
         var func = SheetFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue); // Default sheet number
     }
 
@@ -501,12 +501,12 @@ public class ModernLookupFunctionTests
         var func = SheetFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Sheet1!A1"),
+            FormulaResult.FromString("Sheet1!A1"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue); // Default implementation
     }
 
@@ -516,7 +516,7 @@ public class ModernLookupFunctionTests
         var func = SheetFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -533,11 +533,11 @@ public class ModernLookupFunctionTests
     public void Sheets_NoArguments_ReturnsDefaultCount()
     {
         var func = SheetsFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue); // Default sheet count
     }
 
@@ -547,12 +547,12 @@ public class ModernLookupFunctionTests
         var func = SheetsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Sheet1:Sheet3"),
+            FormulaResult.FromString("Sheet1:Sheet3"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue); // Default implementation
     }
 
@@ -562,7 +562,7 @@ public class ModernLookupFunctionTests
         var func = SheetsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#NAME?"),
+            FormulaResult.Error("#NAME?"),
         };
 
         var result = func.Execute(null!, args);
@@ -581,12 +581,12 @@ public class ModernLookupFunctionTests
         var func = IsFormulaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A1"),
+            FormulaResult.FromString("A1"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue); // Default implementation
     }
 
@@ -596,7 +596,7 @@ public class ModernLookupFunctionTests
         var func = IsFormulaFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -609,7 +609,7 @@ public class ModernLookupFunctionTests
     public void IsFormula_NoArguments_ReturnsError()
     {
         var func = IsFormulaFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -627,7 +627,7 @@ public class ModernLookupFunctionTests
         var func = FormulaTextFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A1"),
+            FormulaResult.FromString("A1"),
         };
 
         var result = func.Execute(null!, args);
@@ -642,7 +642,7 @@ public class ModernLookupFunctionTests
         var func = FormulaTextFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -655,7 +655,7 @@ public class ModernLookupFunctionTests
     public void FormulaText_NoArguments_ReturnsError()
     {
         var func = FormulaTextFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -673,8 +673,8 @@ public class ModernLookupFunctionTests
         var func = GetPivotDataFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Sales"),
-            CellValue.FromString("A1"),
+            FormulaResult.FromString("Sales"),
+            FormulaResult.FromString("A1"),
         };
 
         var result = func.Execute(null!, args);
@@ -689,7 +689,7 @@ public class ModernLookupFunctionTests
         var func = GetPivotDataFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Sales"),
+            FormulaResult.FromString("Sales"),
         };
 
         var result = func.Execute(null!, args);
@@ -704,8 +704,8 @@ public class ModernLookupFunctionTests
         var func = GetPivotDataFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#NAME?"),
-            CellValue.FromString("A1"),
+            FormulaResult.Error("#NAME?"),
+            FormulaResult.FromString("A1"),
         };
 
         var result = func.Execute(null!, args);

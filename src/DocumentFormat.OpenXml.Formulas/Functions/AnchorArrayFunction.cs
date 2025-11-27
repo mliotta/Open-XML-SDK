@@ -30,11 +30,11 @@ public sealed class AnchorArrayFunction : IFunctionImplementation
     public string Name => "ANCHORARRAY";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors

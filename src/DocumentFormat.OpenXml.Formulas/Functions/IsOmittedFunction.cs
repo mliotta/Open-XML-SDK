@@ -30,17 +30,17 @@ public sealed class IsOmittedFunction : IFunctionImplementation
     public string Name => "ISOMITTED";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
         // In a full LAMBDA implementation, this would check if the parameter was omitted
         // For now, we check if the value is empty
-        var isOmitted = args[0].Type == CellValueType.Empty;
-        return CellValue.FromBool(isOmitted);
+        var isOmitted = args[0].Type == FormulaResultType.Empty;
+        return FormulaResult.FromBool(isOmitted);
     }
 }

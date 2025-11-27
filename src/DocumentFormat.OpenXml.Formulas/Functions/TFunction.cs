@@ -24,11 +24,11 @@ public sealed class TFunction : IFunctionImplementation
     public string Name => "T";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,11 +37,11 @@ public sealed class TFunction : IFunctionImplementation
         }
 
         // If the value is text, return it; otherwise return empty string
-        if (args[0].Type == CellValueType.Text)
+        if (args[0].Type == FormulaResultType.Text)
         {
             return args[0];
         }
 
-        return CellValue.FromString(string.Empty);
+        return FormulaResult.FromString(string.Empty);
     }
 }

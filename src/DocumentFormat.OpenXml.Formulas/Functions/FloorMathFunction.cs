@@ -26,11 +26,11 @@ public sealed class FloorMathFunction : IFunctionImplementation
     public string Name => "FLOOR.MATH";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -38,9 +38,9 @@ public sealed class FloorMathFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -54,9 +54,9 @@ public sealed class FloorMathFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             significance = args[1].NumericValue;
@@ -71,9 +71,9 @@ public sealed class FloorMathFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             mode = args[2].NumericValue;
@@ -81,7 +81,7 @@ public sealed class FloorMathFunction : IFunctionImplementation
 
         if (significance == 0)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
         // Use absolute value of significance
@@ -108,6 +108,6 @@ public sealed class FloorMathFunction : IFunctionImplementation
             }
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

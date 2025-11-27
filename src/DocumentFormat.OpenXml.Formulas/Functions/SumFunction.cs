@@ -25,13 +25,13 @@ public sealed class SumFunction : IFunctionImplementation
     public string Name => "SUM";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var sum = 0.0;
 
         foreach (var arg in args)
         {
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 sum += arg.NumericValue;
             }
@@ -41,6 +41,6 @@ public sealed class SumFunction : IFunctionImplementation
             }
         }
 
-        return CellValue.FromNumber(sum);
+        return FormulaResult.FromNumber(sum);
     }
 }

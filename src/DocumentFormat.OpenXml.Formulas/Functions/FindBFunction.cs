@@ -26,11 +26,11 @@ public sealed class FindBFunction : IFunctionImplementation
     public string Name => "FINDB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -54,16 +54,16 @@ public sealed class FindBFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             startNum = (int)args[2].NumericValue;
 
             if (startNum < 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -76,7 +76,7 @@ public sealed class FindBFunction : IFunctionImplementation
 
         if (startIndex >= withinBytes.Length)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Find the byte position
@@ -84,11 +84,11 @@ public sealed class FindBFunction : IFunctionImplementation
 
         if (position == -1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Return 1-based position
-        return CellValue.FromNumber(position + 1);
+        return FormulaResult.FromNumber(position + 1);
     }
 
     private static int FindBytePattern(byte[] haystack, byte[] needle, int startIndex)

@@ -25,7 +25,7 @@ public sealed class ModeSnglFunction : IFunctionImplementation
     public string Name => "MODE.SNGL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Delegate to MODE implementation
         return ModeFunction.Instance.Execute(context, args);

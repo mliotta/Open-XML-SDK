@@ -20,13 +20,13 @@ public class NewStatisticalFunctionTests
         var func = IfnaFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
-            CellValue.FromString("Not found"),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromString("Not found"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Not found", result.StringValue);
     }
 
@@ -36,13 +36,13 @@ public class NewStatisticalFunctionTests
         var func = IfnaFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
-            CellValue.FromNumber(0),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -52,13 +52,13 @@ public class NewStatisticalFunctionTests
         var func = IfnaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.FromString("Error"),
+            FormulaResult.FromNumber(42),
+            FormulaResult.FromString("Error"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(42.0, result.NumericValue);
     }
 
@@ -68,8 +68,8 @@ public class NewStatisticalFunctionTests
         var func = IfnaFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromString("Alternative"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromString("Alternative"),
         };
 
         var result = func.Execute(null!, args);
@@ -84,8 +84,8 @@ public class NewStatisticalFunctionTests
         var func = IfnaFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#VALUE!"),
-            CellValue.FromNumber(0),
+            FormulaResult.Error("#VALUE!"),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -100,13 +100,13 @@ public class NewStatisticalFunctionTests
         var func = IfnaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.FromString("Fallback"),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString("Fallback"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Hello", result.StringValue);
     }
 
@@ -116,7 +116,7 @@ public class NewStatisticalFunctionTests
         var func = IfnaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
@@ -131,9 +131,9 @@ public class NewStatisticalFunctionTests
         var func = IfnaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -149,14 +149,14 @@ public class NewStatisticalFunctionTests
         var func = SkewFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // For perfectly symmetric data [1,2,3], skewness should be 0
         Assert.Equal(0.0, result.NumericValue, 10);
     }
@@ -168,15 +168,15 @@ public class NewStatisticalFunctionTests
         // Right-skewed distribution
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0); // Positive skew
     }
 
@@ -187,15 +187,15 @@ public class NewStatisticalFunctionTests
         // Left-skewed distribution
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(8),
-            CellValue.FromNumber(9),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(8),
+            FormulaResult.FromNumber(9),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Negative skew
     }
 
@@ -205,8 +205,8 @@ public class NewStatisticalFunctionTests
         var func = SkewFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -221,7 +221,7 @@ public class NewStatisticalFunctionTests
         var func = SkewFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -236,9 +236,9 @@ public class NewStatisticalFunctionTests
         var func = SkewFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -253,9 +253,9 @@ public class NewStatisticalFunctionTests
         var func = SkewFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -270,16 +270,16 @@ public class NewStatisticalFunctionTests
         var func = SkewFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromString("text"),
-            CellValue.FromNumber(2),
-            CellValue.FromBool(true),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Should calculate skewness of 1, 2, 3 only
         Assert.Equal(0.0, result.NumericValue, 10);
     }
@@ -290,9 +290,9 @@ public class NewStatisticalFunctionTests
         var func = SkewFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text1"),
-            CellValue.FromString("text2"),
-            CellValue.FromString("text3"),
+            FormulaResult.FromString("text1"),
+            FormulaResult.FromString("text2"),
+            FormulaResult.FromString("text3"),
         };
 
         var result = func.Execute(null!, args);
@@ -308,15 +308,15 @@ public class NewStatisticalFunctionTests
         var func = KurtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Excel's KURT returns excess kurtosis (kurtosis - 3)
         // For uniform distribution, excess kurtosis is negative
     }
@@ -328,21 +328,21 @@ public class NewStatisticalFunctionTests
         // Values approximating normal distribution
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(7),
-            CellValue.FromNumber(8),
-            CellValue.FromNumber(9),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(7),
+            FormulaResult.FromNumber(8),
+            FormulaResult.FromNumber(9),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // For uniform distribution, excess kurtosis is approximately -1.2
         Assert.True(result.NumericValue < 0);
     }
@@ -353,9 +353,9 @@ public class NewStatisticalFunctionTests
         var func = KurtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -370,7 +370,7 @@ public class NewStatisticalFunctionTests
         var func = KurtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -385,10 +385,10 @@ public class NewStatisticalFunctionTests
         var func = KurtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -403,10 +403,10 @@ public class NewStatisticalFunctionTests
         var func = KurtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.Error("#NUM!"),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.Error("#NUM!"),
+            FormulaResult.FromNumber(4),
         };
 
         var result = func.Execute(null!, args);
@@ -421,17 +421,17 @@ public class NewStatisticalFunctionTests
         var func = KurtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromString("text"),
-            CellValue.FromNumber(2),
-            CellValue.FromBool(false),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Should calculate kurtosis of 1, 2, 3, 4 only
     }
 
@@ -441,10 +441,10 @@ public class NewStatisticalFunctionTests
         var func = KurtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text1"),
-            CellValue.FromString("text2"),
-            CellValue.FromString("text3"),
-            CellValue.FromString("text4"),
+            FormulaResult.FromString("text1"),
+            FormulaResult.FromString("text2"),
+            FormulaResult.FromString("text3"),
+            FormulaResult.FromString("text4"),
         };
 
         var result = func.Execute(null!, args);
@@ -460,13 +460,13 @@ public class NewStatisticalFunctionTests
         var func = FrequencyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // 5 <= 10, so it should be counted in first bin
         Assert.Equal(1.0, result.NumericValue);
     }
@@ -477,13 +477,13 @@ public class NewStatisticalFunctionTests
         var func = FrequencyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(15),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(15),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // 15 > 10, so it's not counted in first bin (Phase 0 returns first bin only)
         Assert.Equal(0.0, result.NumericValue);
     }
@@ -494,13 +494,13 @@ public class NewStatisticalFunctionTests
         var func = FrequencyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // 10 <= 10, so it should be counted
         Assert.Equal(1.0, result.NumericValue);
     }
@@ -511,13 +511,13 @@ public class NewStatisticalFunctionTests
         var func = FrequencyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(10),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -527,8 +527,8 @@ public class NewStatisticalFunctionTests
         var func = FrequencyFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(10),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -543,8 +543,8 @@ public class NewStatisticalFunctionTests
         var func = FrequencyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.Error("#VALUE!"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.Error("#VALUE!"),
         };
 
         var result = func.Execute(null!, args);
@@ -559,7 +559,7 @@ public class NewStatisticalFunctionTests
         var func = FrequencyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -574,9 +574,9 @@ public class NewStatisticalFunctionTests
         var func = FrequencyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);

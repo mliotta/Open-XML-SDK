@@ -26,11 +26,11 @@ public sealed class MMultFunction : IFunctionImplementation
     public string Name => "MMULT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -45,12 +45,12 @@ public sealed class MMultFunction : IFunctionImplementation
 
         // Phase 0: Simplified implementation
         // If both are numbers, multiply them
-        if (args[0].Type == CellValueType.Number && args[1].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number && args[1].Type == FormulaResultType.Number)
         {
-            return CellValue.FromNumber(args[0].NumericValue * args[1].NumericValue);
+            return FormulaResult.FromNumber(args[0].NumericValue * args[1].NumericValue);
         }
 
         // Full matrix multiplication requires array support
-        return CellValue.Error("#VALUE!");
+        return FormulaResult.Error("#VALUE!");
     }
 }

@@ -25,11 +25,11 @@ public sealed class EffectFunction : IFunctionImplementation
     public string Name => "EFFECT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -44,9 +44,9 @@ public sealed class EffectFunction : IFunctionImplementation
         }
 
         // Validate arguments are numbers
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var nominalRate = args[0].NumericValue;
@@ -55,14 +55,14 @@ public sealed class EffectFunction : IFunctionImplementation
         // Validate inputs
         if (nominalRate <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // npery must be >= 1 and will be truncated to integer
         var periodsPerYear = (int)System.Math.Truncate(npery);
         if (periodsPerYear < 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // EFFECT formula: (1 + nominal_rate/npery)^npery - 1
@@ -70,9 +70,9 @@ public sealed class EffectFunction : IFunctionImplementation
 
         if (double.IsNaN(effectiveRate) || double.IsInfinity(effectiveRate))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(effectiveRate);
+        return FormulaResult.FromNumber(effectiveRate);
     }
 }

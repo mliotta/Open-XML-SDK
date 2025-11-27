@@ -10,7 +10,7 @@ namespace DocumentFormat.OpenXml.Features.FormulaEvaluation.Functions;
 /// ISREF(value) - TRUE if value is a reference.
 /// </summary>
 /// <remarks>
-/// In the current implementation, we don't have a distinct Reference type in CellValue.
+/// In the current implementation, we don't have a distinct Reference type in FormulaResult.
 /// This function returns FALSE for all values since references are typically resolved
 /// before function execution. A full implementation would require tracking whether
 /// a value originated from a cell reference.
@@ -30,17 +30,17 @@ public sealed class IsRefFunction : IFunctionImplementation
     public string Name => "ISREF";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
         // In Excel, ISREF returns TRUE for cell references, named ranges, etc.
-        // Since CellValue doesn't currently have a Reference type, we return FALSE
+        // Since FormulaResult doesn't currently have a Reference type, we return FALSE
         // This would need to be enhanced if the system tracks reference types
-        return CellValue.FromBool(false);
+        return FormulaResult.FromBool(false);
     }
 }

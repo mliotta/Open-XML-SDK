@@ -24,15 +24,15 @@ public sealed class IsBlankFunction : IFunctionImplementation
     public string Name => "ISBLANK";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
-        var isBlank = args[0].Type == CellValueType.Empty;
-        return CellValue.FromBool(isBlank);
+        var isBlank = args[0].Type == FormulaResultType.Empty;
+        return FormulaResult.FromBool(isBlank);
     }
 }

@@ -26,11 +26,11 @@ public sealed class Hex2DecFunction : IFunctionImplementation
     public string Name => "HEX2DEC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -43,7 +43,7 @@ public sealed class Hex2DecFunction : IFunctionImplementation
         // Validate hex string length (max 10 characters for signed 40-bit)
         if (hexString.Length > 10)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate hex string contains only valid characters
@@ -51,7 +51,7 @@ public sealed class Hex2DecFunction : IFunctionImplementation
         {
             if (!IsHexChar(c))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -67,17 +67,17 @@ public sealed class Hex2DecFunction : IFunctionImplementation
                     value = value - 0x10000000000L;
                 }
 
-                return CellValue.FromNumber(value);
+                return FormulaResult.FromNumber(value);
             }
             else
             {
                 int value = Convert.ToInt32(hexString, 16);
-                return CellValue.FromNumber(value);
+                return FormulaResult.FromNumber(value);
             }
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 

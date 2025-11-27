@@ -29,11 +29,11 @@ public sealed class IrrFunction : IFunctionImplementation
     public string Name => "IRR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in values argument
@@ -50,7 +50,7 @@ public sealed class IrrFunction : IFunctionImplementation
         if (args.Length == 2)
         {
             // This is actually the guess parameter
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Since we can't easily handle arrays in this simple implementation,
@@ -77,9 +77,9 @@ public sealed class IrrFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             values[i] = args[i].NumericValue;
@@ -108,7 +108,7 @@ public sealed class IrrFunction : IFunctionImplementation
 
         if (!hasPositive || !hasNegative)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Use Newton-Raphson method to find the rate where NPV = 0
@@ -127,7 +127,7 @@ public sealed class IrrFunction : IFunctionImplementation
 
                 if (double.IsInfinity(discountFactor) || double.IsNaN(discountFactor))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
                 // NPV += value / (1 + rate)^period
@@ -142,17 +142,17 @@ public sealed class IrrFunction : IFunctionImplementation
             {
                 if (double.IsNaN(rate) || double.IsInfinity(rate))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
-                return CellValue.FromNumber(rate);
+                return FormulaResult.FromNumber(rate);
             }
 
             // Newton-Raphson iteration: rate_new = rate_old - f(rate) / f'(rate)
             if (System.Math.Abs(dnpv) < 1e-10)
             {
                 // Derivative too small, can't continue
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             var newRate = rate - npv / dnpv;
@@ -189,14 +189,14 @@ public sealed class IrrFunction : IFunctionImplementation
         if (System.Math.Abs(finalNpv) > 0.01)
         {
             // Solution didn't converge well enough
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (double.IsNaN(rate) || double.IsInfinity(rate))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(rate);
+        return FormulaResult.FromNumber(rate);
     }
 }

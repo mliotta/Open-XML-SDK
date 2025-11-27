@@ -26,11 +26,11 @@ public sealed class SeriesSumFunction : IFunctionImplementation
     public string Name => "SERIESSUM";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in all arguments
@@ -43,11 +43,11 @@ public sealed class SeriesSumFunction : IFunctionImplementation
         }
 
         // Validate first three arguments are numbers
-        if (args[0].Type != CellValueType.Number ||
-            args[1].Type != CellValueType.Number ||
-            args[2].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number ||
+            args[1].Type != FormulaResultType.Number ||
+            args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var x = args[0].NumericValue;
@@ -56,9 +56,9 @@ public sealed class SeriesSumFunction : IFunctionImplementation
 
         // Fourth argument should be a number (representing a single coefficient)
         // In a full implementation, this would handle arrays
-        if (args[3].Type != CellValueType.Number)
+        if (args[3].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // For single coefficient, the formula is: coefficient * x^n
@@ -68,7 +68,7 @@ public sealed class SeriesSumFunction : IFunctionImplementation
         double power;
         if (x == 0 && n < 0)
         {
-            return CellValue.Error("#NUM!"); // Division by zero
+            return FormulaResult.Error("#NUM!"); // Division by zero
         }
 
         try
@@ -77,7 +77,7 @@ public sealed class SeriesSumFunction : IFunctionImplementation
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         var result = coefficient * power;
@@ -85,9 +85,9 @@ public sealed class SeriesSumFunction : IFunctionImplementation
         // Check for overflow or invalid result
         if (double.IsInfinity(result) || double.IsNaN(result))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

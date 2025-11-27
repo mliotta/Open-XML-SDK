@@ -25,7 +25,7 @@ public sealed class ExponDistLegacyFunction : IFunctionImplementation
     public string Name => "EXPONDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // EXPONDIST has the same signature as EXPON.DIST
         // Delegate directly to EXPON.DIST

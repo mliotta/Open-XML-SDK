@@ -24,12 +24,12 @@ public sealed class ChooseFunction : IFunctionImplementation
     public string Name => "CHOOSE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // CHOOSE requires at least 2 arguments (index and one value)
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First argument must be the index
@@ -39,9 +39,9 @@ public sealed class ChooseFunction : IFunctionImplementation
             return indexArg; // Propagate errors
         }
 
-        if (indexArg.Type != CellValueType.Number)
+        if (indexArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var index = (int)indexArg.NumericValue;
@@ -50,7 +50,7 @@ public sealed class ChooseFunction : IFunctionImplementation
         // Index must be between 1 and the number of values
         if (index < 1 || index > args.Length - 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Return the value at the specified index

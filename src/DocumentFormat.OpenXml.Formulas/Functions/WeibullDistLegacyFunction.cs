@@ -25,7 +25,7 @@ public sealed class WeibullDistLegacyFunction : IFunctionImplementation
     public string Name => "WEIBULL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // WEIBULL has the same signature as WEIBULL.DIST
         // Delegate directly to WEIBULL.DIST

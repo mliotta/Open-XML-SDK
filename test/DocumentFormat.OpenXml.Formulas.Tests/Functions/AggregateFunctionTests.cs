@@ -20,14 +20,14 @@ public class AggregateFunctionTests
         var func = AverageAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue);
     }
 
@@ -37,14 +37,14 @@ public class AggregateFunctionTests
         var func = AverageAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString("text"),
-            CellValue.FromNumber(20),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(20),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue); // (10 + 0 + 20) / 3 = 10
     }
 
@@ -54,14 +54,14 @@ public class AggregateFunctionTests
         var func = AverageAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromBool(true),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue); // (2 + 1 + 3) / 3 = 2
     }
 
@@ -71,14 +71,14 @@ public class AggregateFunctionTests
         var func = AverageAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(4),
-            CellValue.FromBool(false),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue); // (4 + 0 + 2) / 3 = 2
     }
 
@@ -88,7 +88,7 @@ public class AggregateFunctionTests
         var func = AverageAFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
+            FormulaResult.Empty,
         };
 
         var result = func.Execute(null!, args);
@@ -104,14 +104,14 @@ public class AggregateFunctionTests
         var func = MinAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(8),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(8),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue);
     }
 
@@ -121,14 +121,14 @@ public class AggregateFunctionTests
         var func = MinAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString("text"),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -138,14 +138,14 @@ public class AggregateFunctionTests
         var func = MinAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromBool(true),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -156,14 +156,14 @@ public class AggregateFunctionTests
         var func = MaxAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(8),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(8),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(8.0, result.NumericValue);
     }
 
@@ -173,14 +173,14 @@ public class AggregateFunctionTests
         var func = MaxAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-5),
-            CellValue.FromString("text"),
-            CellValue.FromNumber(-2),
+            FormulaResult.FromNumber(-5),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(-2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -191,14 +191,14 @@ public class AggregateFunctionTests
         var func = StDevAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue, 10);
     }
 
@@ -208,14 +208,14 @@ public class AggregateFunctionTests
         var func = StDevAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromString("text"),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(4),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Values: 2, 0, 4 -> mean=2, stdev=2.0
         Assert.Equal(2.0, result.NumericValue, 10);
     }
@@ -226,7 +226,7 @@ public class AggregateFunctionTests
         var func = StDevAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -242,14 +242,14 @@ public class AggregateFunctionTests
         var func = StDevPAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.816496580927726, result.NumericValue, 10);
     }
 
@@ -259,7 +259,7 @@ public class AggregateFunctionTests
         var func = StDevPAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -274,14 +274,14 @@ public class AggregateFunctionTests
         var func = VarAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -291,14 +291,14 @@ public class AggregateFunctionTests
         var func = VarAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromBool(true),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Values: 2, 1, 3 -> variance = 1.0
         Assert.Equal(1.0, result.NumericValue, 10);
     }
@@ -310,14 +310,14 @@ public class AggregateFunctionTests
         var func = VarPAFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.6666666666666666, result.NumericValue, 10);
     }
 
@@ -328,15 +328,15 @@ public class AggregateFunctionTests
         var func = SubtotalFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1), // Function code 1 = AVERAGE
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(1), // Function code 1 = AVERAGE
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(20.0, result.NumericValue);
     }
 
@@ -346,15 +346,15 @@ public class AggregateFunctionTests
         var func = SubtotalFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(9), // Function code 9 = SUM
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(9), // Function code 9 = SUM
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(60.0, result.NumericValue);
     }
 
@@ -364,15 +364,15 @@ public class AggregateFunctionTests
         var func = SubtotalFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(4), // Function code 4 = MAX
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(4), // Function code 4 = MAX
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(30.0, result.NumericValue);
     }
 
@@ -382,15 +382,15 @@ public class AggregateFunctionTests
         var func = SubtotalFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(101), // Function code 101 = AVERAGE (ignore hidden)
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(101), // Function code 101 = AVERAGE (ignore hidden)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(20.0, result.NumericValue);
     }
 
@@ -400,8 +400,8 @@ public class AggregateFunctionTests
         var func = SubtotalFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(99), // Invalid function code
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(99), // Invalid function code
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -416,7 +416,7 @@ public class AggregateFunctionTests
         var func = SubtotalFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -432,16 +432,16 @@ public class AggregateFunctionTests
         var func = AggregateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1), // Function code 1 = AVERAGE
-            CellValue.FromNumber(0), // Options
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(1), // Function code 1 = AVERAGE
+            FormulaResult.FromNumber(0), // Options
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(20.0, result.NumericValue);
     }
 
@@ -451,16 +451,16 @@ public class AggregateFunctionTests
         var func = AggregateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(9), // Function code 9 = SUM
-            CellValue.FromNumber(0), // Options
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(9), // Function code 9 = SUM
+            FormulaResult.FromNumber(0), // Options
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(60.0, result.NumericValue);
     }
 
@@ -470,16 +470,16 @@ public class AggregateFunctionTests
         var func = AggregateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(9), // Function code 9 = SUM
-            CellValue.FromNumber(2), // Options 2 = ignore errors
-            CellValue.FromNumber(10),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(20),
+            FormulaResult.FromNumber(9), // Function code 9 = SUM
+            FormulaResult.FromNumber(2), // Options 2 = ignore errors
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(20),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(30.0, result.NumericValue);
     }
 
@@ -489,11 +489,11 @@ public class AggregateFunctionTests
         var func = AggregateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(9), // Function code 9 = SUM
-            CellValue.FromNumber(0), // Options 0 = don't ignore errors
-            CellValue.FromNumber(10),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(20),
+            FormulaResult.FromNumber(9), // Function code 9 = SUM
+            FormulaResult.FromNumber(0), // Options 0 = don't ignore errors
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(20),
         };
 
         var result = func.Execute(null!, args);
@@ -508,16 +508,16 @@ public class AggregateFunctionTests
         var func = AggregateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(12), // Function code 12 = MEDIAN
-            CellValue.FromNumber(0), // Options
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(12), // Function code 12 = MEDIAN
+            FormulaResult.FromNumber(0), // Options
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(20.0, result.NumericValue);
     }
 
@@ -527,9 +527,9 @@ public class AggregateFunctionTests
         var func = AggregateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(99), // Invalid function code
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(99), // Invalid function code
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -544,8 +544,8 @@ public class AggregateFunctionTests
         var func = AggregateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -560,9 +560,9 @@ public class AggregateFunctionTests
         var func = AggregateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(99), // Invalid options
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(99), // Invalid options
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);

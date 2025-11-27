@@ -20,11 +20,11 @@ public sealed class BinomDistRangeFunction : IFunctionImplementation
 
     public string Name => "BINOM.DIST.RANGE";
 
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -35,24 +35,24 @@ public sealed class BinomDistRangeFunction : IFunctionImplementation
             }
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var trials = (int)args[0].NumericValue;
         var prob = args[1].NumericValue;
         var numberS = (int)args[2].NumericValue;
-        var numberS2 = args.Length == 4 && args[3].Type == CellValueType.Number ? (int)args[3].NumericValue : numberS;
+        var numberS2 = args.Length == 4 && args[3].Type == FormulaResultType.Number ? (int)args[3].NumericValue : numberS;
 
         if (trials < 0 || prob < 0 || prob > 1 || numberS < 0 || numberS2 < 0 || numberS > trials || numberS2 > trials)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (numberS > numberS2)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         var sum = 0.0;
@@ -61,6 +61,6 @@ public sealed class BinomDistRangeFunction : IFunctionImplementation
             sum += StatisticalHelper.BinomialPMF(trials, k, prob);
         }
 
-        return CellValue.FromNumber(sum);
+        return FormulaResult.FromNumber(sum);
     }
 }

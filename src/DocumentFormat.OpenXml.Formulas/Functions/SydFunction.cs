@@ -25,11 +25,11 @@ public sealed class SydFunction : IFunctionImplementation
     public string Name => "SYD";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -40,9 +40,9 @@ public sealed class SydFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -54,7 +54,7 @@ public sealed class SydFunction : IFunctionImplementation
         // Validate inputs
         if (life <= 0 || period < 1 || period > life)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate sum-of-years' digits depreciation
@@ -67,9 +67,9 @@ public sealed class SydFunction : IFunctionImplementation
 
         if (double.IsNaN(depreciation) || double.IsInfinity(depreciation))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(depreciation);
+        return FormulaResult.FromNumber(depreciation);
     }
 }

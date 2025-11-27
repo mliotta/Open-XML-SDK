@@ -27,11 +27,11 @@ public sealed class PercentileFunction : IFunctionImplementation
     public string Name => "PERCENTILE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors
@@ -46,9 +46,9 @@ public sealed class PercentileFunction : IFunctionImplementation
         }
 
         // Get k value
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var k = args[1].NumericValue;
@@ -56,20 +56,20 @@ public sealed class PercentileFunction : IFunctionImplementation
         // k must be between 0 and 1
         if (k < 0 || k > 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Collect all numeric values
         var values = new List<double>();
 
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             values.Add(args[0].NumericValue);
         }
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Sort values in ascending order
@@ -81,7 +81,7 @@ public sealed class PercentileFunction : IFunctionImplementation
 
         if (n == 1)
         {
-            return CellValue.FromNumber(values[0]);
+            return FormulaResult.FromNumber(values[0]);
         }
 
         // Calculate position (0-based)
@@ -92,7 +92,7 @@ public sealed class PercentileFunction : IFunctionImplementation
         // If position is exact, return that value
         if (lowerIndex == upperIndex)
         {
-            return CellValue.FromNumber(values[lowerIndex]);
+            return FormulaResult.FromNumber(values[lowerIndex]);
         }
 
         // Linear interpolation between lower and upper values
@@ -101,6 +101,6 @@ public sealed class PercentileFunction : IFunctionImplementation
         var fraction = position - lowerIndex;
         var result = lowerValue + fraction * (upperValue - lowerValue);
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

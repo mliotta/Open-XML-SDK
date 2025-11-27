@@ -25,11 +25,11 @@ public sealed class MdurationFunction : IFunctionImplementation
     public string Name => "MDURATION";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 5 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Use DURATION function to calculate Macaulay duration
@@ -51,14 +51,14 @@ public sealed class MdurationFunction : IFunctionImplementation
 
             if (double.IsNaN(modifiedDuration) || double.IsInfinity(modifiedDuration) || modifiedDuration < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(modifiedDuration);
+            return FormulaResult.FromNumber(modifiedDuration);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

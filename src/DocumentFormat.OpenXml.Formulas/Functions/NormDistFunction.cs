@@ -24,11 +24,11 @@ public sealed class NormDistFunction : IFunctionImplementation
     public string Name => "NORM.DIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,54 +41,54 @@ public sealed class NormDistFunction : IFunctionImplementation
         }
 
         // Get x value
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double x = args[0].NumericValue;
 
         // Get mean
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double mean = args[1].NumericValue;
 
         // Get standard deviation
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double standardDev = args[2].NumericValue;
 
         if (standardDev <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get cumulative flag
         bool cumulative;
-        if (args[3].Type == CellValueType.Boolean)
+        if (args[3].Type == FormulaResultType.Boolean)
         {
             cumulative = args[3].BoolValue;
         }
-        else if (args[3].Type == CellValueType.Number)
+        else if (args[3].Type == FormulaResultType.Number)
         {
             cumulative = args[3].NumericValue != 0;
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
         {
             double result = StatisticalHelper.NormDist(x, mean, standardDev, cumulative);
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

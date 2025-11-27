@@ -25,11 +25,11 @@ public sealed class CleanFunction : IFunctionImplementation
     public string Name => "CLEAN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -41,7 +41,7 @@ public sealed class CleanFunction : IFunctionImplementation
 
         if (string.IsNullOrEmpty(text))
         {
-            return CellValue.FromString(string.Empty);
+            return FormulaResult.FromString(string.Empty);
         }
 
         // Remove non-printable characters (ASCII codes 0-31)
@@ -54,6 +54,6 @@ public sealed class CleanFunction : IFunctionImplementation
             }
         }
 
-        return CellValue.FromString(sb.ToString());
+        return FormulaResult.FromString(sb.ToString());
     }
 }

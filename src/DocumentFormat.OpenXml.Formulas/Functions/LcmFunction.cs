@@ -25,11 +25,11 @@ public sealed class LcmFunction : IFunctionImplementation
     public string Name => "LCM";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Collect all numbers
@@ -42,7 +42,7 @@ public sealed class LcmFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 var value = System.Math.Abs(arg.NumericValue);
                 var intValue = (long)System.Math.Floor(value);
@@ -50,20 +50,20 @@ public sealed class LcmFunction : IFunctionImplementation
                 // LCM is only defined for positive integers
                 if (intValue < 0)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
                 numbers.Add(intValue);
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         if (numbers.Count == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Calculate LCM of all numbers
@@ -75,11 +75,11 @@ public sealed class LcmFunction : IFunctionImplementation
             // Check for overflow
             if (result < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 
     private static long CalculateLcm(long a, long b)

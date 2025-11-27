@@ -28,11 +28,11 @@ public sealed class IndirectFunction : IFunctionImplementation
     public string Name => "INDIRECT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract ref_text (required)
@@ -42,9 +42,9 @@ public sealed class IndirectFunction : IFunctionImplementation
             return refTextArg;
         }
 
-        if (refTextArg.Type != CellValueType.Text)
+        if (refTextArg.Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var refText = refTextArg.StringValue;
@@ -59,11 +59,11 @@ public sealed class IndirectFunction : IFunctionImplementation
                 return a1Arg;
             }
 
-            if (a1Arg.Type == CellValueType.Boolean)
+            if (a1Arg.Type == FormulaResultType.Boolean)
             {
                 useA1 = a1Arg.BoolValue;
             }
-            else if (a1Arg.Type == CellValueType.Number)
+            else if (a1Arg.Type == FormulaResultType.Number)
             {
                 useA1 = a1Arg.NumericValue != 0;
             }
@@ -84,13 +84,13 @@ public sealed class IndirectFunction : IFunctionImplementation
 
         if (cellReference == null)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // For Phase 0: Return the value at the referenced cell
         if (context == null)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         return context.GetCell(cellReference);

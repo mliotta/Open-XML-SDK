@@ -25,11 +25,11 @@ public sealed class Oct2DecFunction : IFunctionImplementation
     public string Name => "OCT2DEC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,7 +42,7 @@ public sealed class Oct2DecFunction : IFunctionImplementation
         // Validate octal string length (max 10 characters for 30-bit)
         if (octalString.Length > 10)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate octal string contains only valid characters (0-7)
@@ -50,7 +50,7 @@ public sealed class Oct2DecFunction : IFunctionImplementation
         {
             if (c < '0' || c > '7')
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -66,17 +66,17 @@ public sealed class Oct2DecFunction : IFunctionImplementation
                     value = value - 0x40000000L;
                 }
 
-                return CellValue.FromNumber(value);
+                return FormulaResult.FromNumber(value);
             }
             else
             {
                 int value = Convert.ToInt32(octalString, 8);
-                return CellValue.FromNumber(value);
+                return FormulaResult.FromNumber(value);
             }
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

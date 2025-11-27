@@ -27,11 +27,11 @@ public sealed class ForecastEtsConfintFunction : IFunctionImplementation
     public string Name => "FORECAST.ETS.CONFINT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 7)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -44,15 +44,15 @@ public sealed class ForecastEtsConfintFunction : IFunctionImplementation
         }
 
         // Get target_date
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double targetDate = args[0].NumericValue;
 
         // Extract values array
         var values = new List<double>();
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             values.Add(args[1].NumericValue);
         }
@@ -62,12 +62,12 @@ public sealed class ForecastEtsConfintFunction : IFunctionImplementation
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract timeline array
         var timeline = new List<double>();
-        if (args[2].Type == CellValueType.Number)
+        if (args[2].Type == FormulaResultType.Number)
         {
             timeline.Add(args[2].NumericValue);
         }
@@ -77,40 +77,40 @@ public sealed class ForecastEtsConfintFunction : IFunctionImplementation
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check arrays have same length
         if (values.Count != timeline.Count)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Need at least 2 data points
         if (values.Count < 2)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Get optional confidence_level parameter (default: 0.95)
         double confidenceLevel = 0.95;
-        if (args.Length > 3 && args[3].Type == CellValueType.Number)
+        if (args.Length > 3 && args[3].Type == FormulaResultType.Number)
         {
             confidenceLevel = args[3].NumericValue;
             if (confidenceLevel <= 0 || confidenceLevel >= 1)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
         // Get optional seasonality parameter (default: 0 = auto-detect)
         int seasonality = 0;
-        if (args.Length > 4 && args[4].Type == CellValueType.Number)
+        if (args.Length > 4 && args[4].Type == FormulaResultType.Number)
         {
             seasonality = (int)args[4].NumericValue;
             if (seasonality < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -129,21 +129,21 @@ public sealed class ForecastEtsConfintFunction : IFunctionImplementation
             {
                 if (sortedTimeline[i] <= sortedTimeline[i - 1])
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
 
             // Check if target date is beyond the timeline
             if (targetDate <= sortedTimeline[sortedTimeline.Length - 1])
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate steps ahead
             double avgStep = CalculateAverageStep(sortedTimeline);
             if (avgStep <= 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             int stepsAhead = (int)System.Math.Ceiling((targetDate - sortedTimeline[sortedTimeline.Length - 1]) / avgStep);
@@ -164,15 +164,15 @@ public sealed class ForecastEtsConfintFunction : IFunctionImplementation
                 stepsAhead,
                 confidenceLevel);
 
-            return CellValue.FromNumber(confidenceInterval);
+            return FormulaResult.FromNumber(confidenceInterval);
         }
         catch (ArgumentException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         catch (Exception)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
     }
 

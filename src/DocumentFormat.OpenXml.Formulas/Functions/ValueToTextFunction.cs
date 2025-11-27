@@ -26,11 +26,11 @@ public sealed class ValueToTextFunction : IFunctionImplementation
     public string Name => "VALUETOTEXT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors
@@ -49,12 +49,12 @@ public sealed class ValueToTextFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type == CellValueType.Number)
+            if (args[1].Type == FormulaResultType.Number)
             {
                 format = (int)args[1].NumericValue;
                 if (format != 0 && format != 1)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
         }
@@ -64,25 +64,25 @@ public sealed class ValueToTextFunction : IFunctionImplementation
         // Convert value to text based on type
         switch (value.Type)
         {
-            case CellValueType.Text:
+            case FormulaResultType.Text:
                 return format == 1
-                    ? CellValue.FromString($"\"{value.StringValue}\"")
-                    : CellValue.FromString(value.StringValue);
+                    ? FormulaResult.FromString($"\"{value.StringValue}\"")
+                    : FormulaResult.FromString(value.StringValue);
 
-            case CellValueType.Number:
-                return CellValue.FromString(value.NumericValue.ToString(CultureInfo.InvariantCulture));
+            case FormulaResultType.Number:
+                return FormulaResult.FromString(value.NumericValue.ToString(CultureInfo.InvariantCulture));
 
-            case CellValueType.Boolean:
-                return CellValue.FromString(value.BoolValue ? "TRUE" : "FALSE");
+            case FormulaResultType.Boolean:
+                return FormulaResult.FromString(value.BoolValue ? "TRUE" : "FALSE");
 
-            case CellValueType.Empty:
-                return CellValue.FromString(string.Empty);
+            case FormulaResultType.Empty:
+                return FormulaResult.FromString(string.Empty);
 
-            case CellValueType.Error:
-                return CellValue.FromString(value.ErrorValue ?? "#VALUE!");
+            case FormulaResultType.Error:
+                return FormulaResult.FromString(value.ErrorValue ?? "#VALUE!");
 
             default:
-                return CellValue.FromString(value.StringValue);
+                return FormulaResult.FromString(value.StringValue);
         }
     }
 }

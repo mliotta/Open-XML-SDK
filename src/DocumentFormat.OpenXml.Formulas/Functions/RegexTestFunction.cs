@@ -28,11 +28,11 @@ public sealed class RegexTestFunction : IFunctionImplementation
     public string Name => "REGEXTEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -43,9 +43,9 @@ public sealed class RegexTestFunction : IFunctionImplementation
             }
         }
 
-        if (args[0].Type != CellValueType.Text || args[1].Type != CellValueType.Text)
+        if (args[0].Type != FormulaResultType.Text || args[1].Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var text = args[0].StringValue;
@@ -54,15 +54,15 @@ public sealed class RegexTestFunction : IFunctionImplementation
 
         if (args.Length >= 3)
         {
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             mode = (int)args[2].NumericValue;
             if (mode < 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -74,11 +74,11 @@ public sealed class RegexTestFunction : IFunctionImplementation
         try
         {
             // Use static method which caches compiled regexes internally
-            return CellValue.FromBool(Regex.IsMatch(text, pattern, options));
+            return FormulaResult.FromBool(Regex.IsMatch(text, pattern, options));
         }
         catch (ArgumentException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
     }
 }

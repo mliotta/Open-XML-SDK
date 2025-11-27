@@ -24,11 +24,11 @@ public sealed class UnicodeFunction : IFunctionImplementation
     public string Name => "UNICODE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -40,7 +40,7 @@ public sealed class UnicodeFunction : IFunctionImplementation
 
         if (string.IsNullOrEmpty(text))
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Get the code point of the first character
@@ -57,6 +57,6 @@ public sealed class UnicodeFunction : IFunctionImplementation
             codePoint = text[0];
         }
 
-        return CellValue.FromNumber(codePoint);
+        return FormulaResult.FromNumber(codePoint);
     }
 }

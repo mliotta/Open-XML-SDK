@@ -24,7 +24,7 @@ public sealed class RankEqFunction : IFunctionImplementation
     public string Name => "RANK.EQ";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // RANK.EQ is the same as RANK - returns the same rank for duplicate values
         return RankFunction.Instance.Execute(context, args);

@@ -22,13 +22,13 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(8),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(8),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(28.0, result.NumericValue); // 8!/(2!*6!) = 28
     }
 
@@ -38,13 +38,13 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue); // C(n, 0) = 1
     }
 
@@ -54,13 +54,13 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue); // C(n, n) = 1
     }
 
@@ -70,13 +70,13 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(120.0, result.NumericValue); // 10!/(3!*7!) = 120
     }
 
@@ -86,13 +86,13 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(8.9),
-            CellValue.FromNumber(2.1),
+            FormulaResult.FromNumber(8.9),
+            FormulaResult.FromNumber(2.1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(28.0, result.NumericValue); // Truncates to COMBIN(8, 2)
     }
 
@@ -102,8 +102,8 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -118,8 +118,8 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-5),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(-5),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -134,8 +134,8 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(-2),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(-2),
         };
 
         var result = func.Execute(null!, args);
@@ -150,7 +150,7 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -165,8 +165,8 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(2),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -181,8 +181,8 @@ public class CombinatoricsFunctionTests
         var func = CombinFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(2),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -201,13 +201,13 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(8),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(8),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(56.0, result.NumericValue); // 8!/(8-2)! = 8*7 = 56
     }
 
@@ -217,13 +217,13 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue); // P(n, 0) = 1
     }
 
@@ -233,13 +233,13 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(120.0, result.NumericValue); // 5! = 120
     }
 
@@ -249,13 +249,13 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(720.0, result.NumericValue); // 10*9*8 = 720
     }
 
@@ -265,13 +265,13 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(8.9),
-            CellValue.FromNumber(2.1),
+            FormulaResult.FromNumber(8.9),
+            FormulaResult.FromNumber(2.1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(56.0, result.NumericValue); // Truncates to PERMUT(8, 2)
     }
 
@@ -281,8 +281,8 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -297,8 +297,8 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-5),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(-5),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -313,8 +313,8 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(-2),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(-2),
         };
 
         var result = func.Execute(null!, args);
@@ -329,7 +329,7 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -344,8 +344,8 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(2),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -360,8 +360,8 @@ public class CombinatoricsFunctionTests
         var func = PermutFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(2),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -380,13 +380,13 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(9.0, result.NumericValue); // 10 rounded to nearest multiple of 3 is 9
     }
 
@@ -396,13 +396,13 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(11),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(11),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(12.0, result.NumericValue); // 11 rounded to nearest multiple of 3 is 12
     }
 
@@ -412,13 +412,13 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(15),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(15),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(15.0, result.NumericValue);
     }
 
@@ -428,13 +428,13 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(7.5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(7.5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue); // 7.5 rounds to 10 (away from zero)
     }
 
@@ -444,13 +444,13 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-10),
-            CellValue.FromNumber(-3),
+            FormulaResult.FromNumber(-10),
+            FormulaResult.FromNumber(-3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-9.0, result.NumericValue);
     }
 
@@ -460,13 +460,13 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.3),
-            CellValue.FromNumber(0.2),
+            FormulaResult.FromNumber(1.3),
+            FormulaResult.FromNumber(0.2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.4, result.NumericValue, 10);
     }
 
@@ -476,8 +476,8 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -492,8 +492,8 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(-3),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(-3),
         };
 
         var result = func.Execute(null!, args);
@@ -508,7 +508,7 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -523,8 +523,8 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(3),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -539,8 +539,8 @@ public class CombinatoricsFunctionTests
         var func = MroundFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(3),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -559,13 +559,13 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue); // 10/3 = 3.333... -> 3
     }
 
@@ -575,13 +575,13 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(15),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(15),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -591,13 +591,13 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-10),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(-10),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-3.0, result.NumericValue); // -10/3 = -3.333... -> -3 (toward zero)
     }
 
@@ -607,13 +607,13 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(-3),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(-3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-3.0, result.NumericValue);
     }
 
@@ -623,13 +623,13 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-10),
-            CellValue.FromNumber(-3),
+            FormulaResult.FromNumber(-10),
+            FormulaResult.FromNumber(-3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -639,13 +639,13 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10.5),
-            CellValue.FromNumber(2.3),
+            FormulaResult.FromNumber(10.5),
+            FormulaResult.FromNumber(2.3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(4.0, result.NumericValue); // 10.5/2.3 = 4.565... -> 4
     }
 
@@ -655,13 +655,13 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -671,8 +671,8 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -687,7 +687,7 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -702,8 +702,8 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(3),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -718,8 +718,8 @@ public class CombinatoricsFunctionTests
         var func = QuotientFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(3),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);

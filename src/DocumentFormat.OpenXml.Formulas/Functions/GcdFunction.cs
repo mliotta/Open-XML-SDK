@@ -25,11 +25,11 @@ public sealed class GcdFunction : IFunctionImplementation
     public string Name => "GCD";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Collect all numbers
@@ -42,7 +42,7 @@ public sealed class GcdFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 var value = System.Math.Abs(arg.NumericValue);
                 var intValue = (long)System.Math.Floor(value);
@@ -50,20 +50,20 @@ public sealed class GcdFunction : IFunctionImplementation
                 // GCD is only defined for integers
                 if (intValue < 0)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
                 numbers.Add(intValue);
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         if (numbers.Count == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Calculate GCD of all numbers
@@ -73,7 +73,7 @@ public sealed class GcdFunction : IFunctionImplementation
             result = CalculateGcd(result, numbers[i]);
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 
     private static long CalculateGcd(long a, long b)

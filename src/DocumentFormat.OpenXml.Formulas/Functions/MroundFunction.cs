@@ -26,11 +26,11 @@ public sealed class MroundFunction : IFunctionImplementation
     public string Name => "MROUND";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -43,9 +43,9 @@ public sealed class MroundFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -54,19 +54,19 @@ public sealed class MroundFunction : IFunctionImplementation
         // Multiple cannot be zero
         if (multiple == 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Excel MROUND requires number and multiple to have the same sign
         if ((number > 0 && multiple < 0) || (number < 0 && multiple > 0))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate: ROUND(number/multiple, 0) * multiple
         // Use MidpointRounding.AwayFromZero to match Excel behavior
         var result = System.Math.Round(number / multiple, 0, MidpointRounding.AwayFromZero) * multiple;
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

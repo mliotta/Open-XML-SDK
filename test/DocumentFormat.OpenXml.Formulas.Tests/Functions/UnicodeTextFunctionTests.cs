@@ -21,12 +21,12 @@ public class UnicodeTextFunctionTests
         var func = TrimAllFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("  hello  world  "),
+            FormulaResult.FromString("  hello  world  "),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("helloworld", result.StringValue);
     }
 
@@ -36,7 +36,7 @@ public class UnicodeTextFunctionTests
         var func = TrimAllFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("  a  b  c  "),
+            FormulaResult.FromString("  a  b  c  "),
         };
 
         var result = func.Execute(null!, args);
@@ -50,7 +50,7 @@ public class UnicodeTextFunctionTests
         var func = TrimAllFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("helloworld"),
+            FormulaResult.FromString("helloworld"),
         };
 
         var result = func.Execute(null!, args);
@@ -64,7 +64,7 @@ public class UnicodeTextFunctionTests
         var func = TrimAllFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("     "),
+            FormulaResult.FromString("     "),
         };
 
         var result = func.Execute(null!, args);
@@ -78,7 +78,7 @@ public class UnicodeTextFunctionTests
         var func = TrimAllFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -92,7 +92,7 @@ public class UnicodeTextFunctionTests
         var func = TrimAllFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("hello\tworld"),
+            FormulaResult.FromString("hello\tworld"),
         };
 
         var result = func.Execute(null!, args);
@@ -106,7 +106,7 @@ public class UnicodeTextFunctionTests
         var func = TrimAllFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(null!, args);
@@ -121,8 +121,8 @@ public class UnicodeTextFunctionTests
         var func = TrimAllFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("extra"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("extra"),
         };
 
         var result = func.Execute(null!, args);
@@ -141,12 +141,12 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(65),
+            FormulaResult.FromNumber(65),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("A", result.StringValue);
     }
 
@@ -156,7 +156,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(9731),
+            FormulaResult.FromNumber(9731),
         };
 
         var result = func.Execute(null!, args);
@@ -170,7 +170,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(8364),
+            FormulaResult.FromNumber(8364),
         };
 
         var result = func.Execute(null!, args);
@@ -184,7 +184,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(128512), // 😀 (Grinning Face)
+            FormulaResult.FromNumber(128512), // 😀 (Grinning Face)
         };
 
         var result = func.Execute(null!, args);
@@ -198,7 +198,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(20013), // 中
+            FormulaResult.FromNumber(20013), // 中
         };
 
         var result = func.Execute(null!, args);
@@ -212,7 +212,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -227,7 +227,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1114112),
+            FormulaResult.FromNumber(1114112),
         };
 
         var result = func.Execute(null!, args);
@@ -242,7 +242,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0xD800), // Start of surrogate range
+            FormulaResult.FromNumber(0xD800), // Start of surrogate range
         };
 
         var result = func.Execute(null!, args);
@@ -257,7 +257,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("not a number"),
+            FormulaResult.FromString("not a number"),
         };
 
         var result = func.Execute(null!, args);
@@ -272,7 +272,7 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -287,8 +287,8 @@ public class UnicodeTextFunctionTests
         var func = UnicharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(65),
-            CellValue.FromNumber(66),
+            FormulaResult.FromNumber(65),
+            FormulaResult.FromNumber(66),
         };
 
         var result = func.Execute(null!, args);
@@ -307,12 +307,12 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
+            FormulaResult.FromString("A"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(65.0, result.NumericValue);
     }
 
@@ -322,7 +322,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("☃"),
+            FormulaResult.FromString("☃"),
         };
 
         var result = func.Execute(null!, args);
@@ -336,7 +336,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("€"),
+            FormulaResult.FromString("€"),
         };
 
         var result = func.Execute(null!, args);
@@ -350,7 +350,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("中"),
+            FormulaResult.FromString("中"),
         };
 
         var result = func.Execute(null!, args);
@@ -364,7 +364,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("😀"), // Grinning Face
+            FormulaResult.FromString("😀"), // Grinning Face
         };
 
         var result = func.Execute(null!, args);
@@ -378,7 +378,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("ABC"),
+            FormulaResult.FromString("ABC"),
         };
 
         var result = func.Execute(null!, args);
@@ -392,7 +392,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("😀ABC"),
+            FormulaResult.FromString("😀ABC"),
         };
 
         var result = func.Execute(null!, args);
@@ -406,7 +406,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("a"),
+            FormulaResult.FromString("a"),
         };
 
         var result = func.Execute(null!, args);
@@ -420,7 +420,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(" "),
+            FormulaResult.FromString(" "),
         };
 
         var result = func.Execute(null!, args);
@@ -434,7 +434,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -449,7 +449,7 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#NULL!"),
+            FormulaResult.Error("#NULL!"),
         };
 
         var result = func.Execute(null!, args);
@@ -464,8 +464,8 @@ public class UnicodeTextFunctionTests
         var func = UnicodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -484,12 +484,12 @@ public class UnicodeTextFunctionTests
         var func = PhoneticFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Tokyo"),
+            FormulaResult.FromString("Tokyo"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Tokyo", result.StringValue);
     }
 
@@ -499,7 +499,7 @@ public class UnicodeTextFunctionTests
         var func = PhoneticFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("東京"),
+            FormulaResult.FromString("東京"),
         };
 
         var result = func.Execute(null!, args);
@@ -513,7 +513,7 @@ public class UnicodeTextFunctionTests
         var func = PhoneticFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -527,7 +527,7 @@ public class UnicodeTextFunctionTests
         var func = PhoneticFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(12345),
+            FormulaResult.FromNumber(12345),
         };
 
         var result = func.Execute(null!, args);
@@ -541,7 +541,7 @@ public class UnicodeTextFunctionTests
         var func = PhoneticFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -555,7 +555,7 @@ public class UnicodeTextFunctionTests
         var func = PhoneticFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#NAME?"),
+            FormulaResult.Error("#NAME?"),
         };
 
         var result = func.Execute(null!, args);
@@ -570,8 +570,8 @@ public class UnicodeTextFunctionTests
         var func = PhoneticFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("extra"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("extra"),
         };
 
         var result = func.Execute(null!, args);
@@ -584,7 +584,7 @@ public class UnicodeTextFunctionTests
     public void Phonetic_NoArguments_ReturnsError()
     {
         var func = PhoneticFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -603,7 +603,7 @@ public class UnicodeTextFunctionTests
         var unichar = UnicharFunction.Instance;
         var unicode = UnicodeFunction.Instance;
 
-        var charResult = unichar.Execute(null!, new[] { CellValue.FromNumber(65) });
+        var charResult = unichar.Execute(null!, new[] { FormulaResult.FromNumber(65) });
         Assert.Equal("A", charResult.StringValue);
 
         var codeResult = unicode.Execute(null!, new[] { charResult });
@@ -617,7 +617,7 @@ public class UnicodeTextFunctionTests
         var unichar = UnicharFunction.Instance;
         var unicode = UnicodeFunction.Instance;
 
-        var charResult = unichar.Execute(null!, new[] { CellValue.FromNumber(128512) });
+        var charResult = unichar.Execute(null!, new[] { FormulaResult.FromNumber(128512) });
         Assert.Equal("😀", charResult.StringValue);
 
         var codeResult = unicode.Execute(null!, new[] { charResult });
@@ -631,7 +631,7 @@ public class UnicodeTextFunctionTests
         var unichar = UnicharFunction.Instance;
         var unicode = UnicodeFunction.Instance;
 
-        var charResult = unichar.Execute(null!, new[] { CellValue.FromNumber(20013) });
+        var charResult = unichar.Execute(null!, new[] { FormulaResult.FromNumber(20013) });
         Assert.Equal("中", charResult.StringValue);
 
         var codeResult = unicode.Execute(null!, new[] { charResult });

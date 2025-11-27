@@ -28,11 +28,11 @@ public sealed class BaseFunction : IFunctionImplementation
     public string Name => "BASE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First argument: number to convert
@@ -41,16 +41,16 @@ public sealed class BaseFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = (long)args[0].NumericValue;
 
         if (number < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Second argument: radix (base)
@@ -59,16 +59,16 @@ public sealed class BaseFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var radix = (int)args[1].NumericValue;
 
         if (radix < 2 || radix > 36)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Third argument: minimum length (optional)
@@ -80,16 +80,16 @@ public sealed class BaseFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             minLength = (int)args[2].NumericValue;
 
             if (minLength < 0 || minLength > 255)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -105,10 +105,10 @@ public sealed class BaseFunction : IFunctionImplementation
         // Check if result exceeds maximum length
         if (result.Length > 255)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 
     private static string ConvertToBase(long number, int radix)

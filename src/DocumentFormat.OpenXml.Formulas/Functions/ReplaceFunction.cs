@@ -24,11 +24,11 @@ public sealed class ReplaceFunction : IFunctionImplementation
     public string Name => "REPLACE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -53,9 +53,9 @@ public sealed class ReplaceFunction : IFunctionImplementation
 
         var oldText = args[0].StringValue;
 
-        if (args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var startNum = (int)args[1].NumericValue;
@@ -64,7 +64,7 @@ public sealed class ReplaceFunction : IFunctionImplementation
 
         if (startNum < 1 || numChars < 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Excel uses 1-based indexing
@@ -73,7 +73,7 @@ public sealed class ReplaceFunction : IFunctionImplementation
         // If start position is beyond the text length, append new text
         if (startIndex >= oldText.Length)
         {
-            return CellValue.FromString(oldText + newText);
+            return FormulaResult.FromString(oldText + newText);
         }
 
         // Calculate the end position of the replacement
@@ -82,6 +82,6 @@ public sealed class ReplaceFunction : IFunctionImplementation
         // Build the result: part before + new text + part after
         var result = oldText.Substring(0, startIndex) + newText + oldText.Substring(endIndex);
 
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 }

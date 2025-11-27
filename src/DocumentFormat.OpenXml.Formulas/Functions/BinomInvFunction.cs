@@ -24,11 +24,11 @@ public sealed class BinomInvFunction : IFunctionImplementation
     public string Name => "BINOM.INV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -39,10 +39,10 @@ public sealed class BinomInvFunction : IFunctionImplementation
             }
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number ||
-            args[2].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number ||
+            args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         int trials = (int)args[0].NumericValue;
@@ -51,7 +51,7 @@ public sealed class BinomInvFunction : IFunctionImplementation
 
         if (trials < 0 || probabilityS < 0 || probabilityS > 1 || alpha < 0 || alpha > 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
@@ -62,16 +62,16 @@ public sealed class BinomInvFunction : IFunctionImplementation
                 double cdf = StatisticalHelper.BinomialCDF(k, trials, probabilityS);
                 if (cdf >= alpha)
                 {
-                    return CellValue.FromNumber(k);
+                    return FormulaResult.FromNumber(k);
                 }
             }
 
             // Should not reach here if alpha <= 1, but return trials as fallback
-            return CellValue.FromNumber(trials);
+            return FormulaResult.FromNumber(trials);
         }
         catch (System.Exception)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

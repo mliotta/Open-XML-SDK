@@ -24,11 +24,11 @@ public sealed class GammalnFunction : IFunctionImplementation
     public string Name => "GAMMALN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -36,26 +36,26 @@ public sealed class GammalnFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         double x = args[0].NumericValue;
 
         if (x <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
         {
             double result = StatisticalHelper.LogGamma(x);
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

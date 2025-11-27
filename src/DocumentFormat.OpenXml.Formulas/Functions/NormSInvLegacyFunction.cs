@@ -25,7 +25,7 @@ public sealed class NormSInvLegacyFunction : IFunctionImplementation
     public string Name => "NORMSINV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // NORMSINV has the same signature as NORM.S.INV
         // Delegate directly to NORM.S.INV

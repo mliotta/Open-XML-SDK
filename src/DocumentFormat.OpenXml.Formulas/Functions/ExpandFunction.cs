@@ -25,11 +25,11 @@ public sealed class ExpandFunction : IFunctionImplementation
     public string Name => "EXPAND";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse rows parameter
@@ -39,23 +39,23 @@ public sealed class ExpandFunction : IFunctionImplementation
             return rowsArg;
         }
 
-        if (rowsArg.Type != CellValueType.Number)
+        if (rowsArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rows = (int)rowsArg.NumericValue;
 
         // Parse optional columns parameter
         var cols = 0;
-        var hasColumns = args.Length >= 3 && args[args.Length - 2].Type == CellValueType.Number;
+        var hasColumns = args.Length >= 3 && args[args.Length - 2].Type == FormulaResultType.Number;
         if (hasColumns)
         {
             cols = (int)args[args.Length - 2].NumericValue;
         }
 
         // Parse optional pad_with parameter
-        var padWith = CellValue.Error("#N/A");
+        var padWith = FormulaResult.Error("#N/A");
         var hasPadWith = false;
         if (args.Length >= 4)
         {
@@ -80,7 +80,7 @@ public sealed class ExpandFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in array

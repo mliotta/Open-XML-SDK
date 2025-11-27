@@ -25,7 +25,7 @@ public sealed class ConcatFunction : IFunctionImplementation
     public string Name => "CONCAT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var result = new StringBuilder();
 
@@ -39,6 +39,6 @@ public sealed class ConcatFunction : IFunctionImplementation
             result.Append(arg.StringValue);
         }
 
-        return CellValue.FromString(result.ToString());
+        return FormulaResult.FromString(result.ToString());
     }
 }

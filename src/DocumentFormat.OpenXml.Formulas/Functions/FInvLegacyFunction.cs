@@ -25,7 +25,7 @@ public sealed class FInvLegacyFunction : IFunctionImplementation
     public string Name => "FINV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // FINV is equivalent to F.INV.RT
         return FInvRTFunction.Instance.Execute(context, args);

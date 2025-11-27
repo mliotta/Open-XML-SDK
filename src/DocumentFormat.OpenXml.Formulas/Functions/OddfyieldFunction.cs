@@ -25,11 +25,11 @@ public sealed class OddfyieldFunction : IFunctionImplementation
     public string Name => "ODDFYIELD";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 8 || args.Length > 9)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,31 +40,31 @@ public sealed class OddfyieldFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var basis = 0;
-        if (args.Length == 9 && args[8].Type != CellValueType.Empty)
+        if (args.Length == 9 && args[8].Type != FormulaResultType.Empty)
         {
             if (args[8].IsError)
             {
                 return args[8];
             }
 
-            if (args[8].Type == CellValueType.Number)
+            if (args[8].Type == FormulaResultType.Number)
             {
                 basis = (int)args[8].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -82,17 +82,17 @@ public sealed class OddfyieldFunction : IFunctionImplementation
             // Validate inputs
             if (!DayCountHelper.IsValidFrequency(frequency))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (rate < 0 || pr <= 0 || redemption <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (issue >= settlement || settlement >= firstCoupon || firstCoupon >= maturity)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Use Newton-Raphson method to solve for yield
@@ -105,15 +105,15 @@ public sealed class OddfyieldFunction : IFunctionImplementation
                 // Calculate price at current yield guess
                 var priceArgs = new[]
                 {
-                    CellValue.FromNumber(settlement.ToOADate()),
-                    CellValue.FromNumber(maturity.ToOADate()),
-                    CellValue.FromNumber(issue.ToOADate()),
-                    CellValue.FromNumber(firstCoupon.ToOADate()),
-                    CellValue.FromNumber(rate),
-                    CellValue.FromNumber(guess),
-                    CellValue.FromNumber(redemption),
-                    CellValue.FromNumber(frequency),
-                    CellValue.FromNumber(basis),
+                    FormulaResult.FromNumber(settlement.ToOADate()),
+                    FormulaResult.FromNumber(maturity.ToOADate()),
+                    FormulaResult.FromNumber(issue.ToOADate()),
+                    FormulaResult.FromNumber(firstCoupon.ToOADate()),
+                    FormulaResult.FromNumber(rate),
+                    FormulaResult.FromNumber(guess),
+                    FormulaResult.FromNumber(redemption),
+                    FormulaResult.FromNumber(frequency),
+                    FormulaResult.FromNumber(basis),
                 };
 
                 var priceResult = OddfpriceFunction.Instance.Execute(context, priceArgs);
@@ -128,22 +128,22 @@ public sealed class OddfyieldFunction : IFunctionImplementation
                 // Check for convergence
                 if (System.Math.Abs(priceDiff) < tolerance)
                 {
-                    return CellValue.FromNumber(guess);
+                    return FormulaResult.FromNumber(guess);
                 }
 
                 // Calculate derivative (price change for small yield change)
                 var delta = 0.0001;
                 var priceArgsPlus = new[]
                 {
-                    CellValue.FromNumber(settlement.ToOADate()),
-                    CellValue.FromNumber(maturity.ToOADate()),
-                    CellValue.FromNumber(issue.ToOADate()),
-                    CellValue.FromNumber(firstCoupon.ToOADate()),
-                    CellValue.FromNumber(rate),
-                    CellValue.FromNumber(guess + delta),
-                    CellValue.FromNumber(redemption),
-                    CellValue.FromNumber(frequency),
-                    CellValue.FromNumber(basis),
+                    FormulaResult.FromNumber(settlement.ToOADate()),
+                    FormulaResult.FromNumber(maturity.ToOADate()),
+                    FormulaResult.FromNumber(issue.ToOADate()),
+                    FormulaResult.FromNumber(firstCoupon.ToOADate()),
+                    FormulaResult.FromNumber(rate),
+                    FormulaResult.FromNumber(guess + delta),
+                    FormulaResult.FromNumber(redemption),
+                    FormulaResult.FromNumber(frequency),
+                    FormulaResult.FromNumber(basis),
                 };
 
                 var pricePlusResult = OddfpriceFunction.Instance.Execute(context, priceArgsPlus);
@@ -165,16 +165,16 @@ public sealed class OddfyieldFunction : IFunctionImplementation
                 // Keep yield reasonable
                 if (guess < -1 || guess > 10)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
 
             // If we didn't converge, return error
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

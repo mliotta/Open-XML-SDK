@@ -24,11 +24,11 @@ public sealed class HyperlinkFunction : IFunctionImplementation
     public string Name => "HYPERLINK";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var linkLocation = args[0];
@@ -51,19 +51,19 @@ public sealed class HyperlinkFunction : IFunctionImplementation
         // Return the friendly name as the display value
         // Note: The actual hyperlink functionality requires cell formatting/metadata
         // which is beyond the scope of formula evaluation
-        if (friendlyName.Type == CellValueType.Text)
+        if (friendlyName.Type == FormulaResultType.Text)
         {
-            return CellValue.FromString(friendlyName.StringValue);
+            return FormulaResult.FromString(friendlyName.StringValue);
         }
-        else if (friendlyName.Type == CellValueType.Number)
+        else if (friendlyName.Type == FormulaResultType.Number)
         {
-            return CellValue.FromNumber(friendlyName.NumericValue);
+            return FormulaResult.FromNumber(friendlyName.NumericValue);
         }
-        else if (linkLocation.Type == CellValueType.Text)
+        else if (linkLocation.Type == FormulaResultType.Text)
         {
-            return CellValue.FromString(linkLocation.StringValue);
+            return FormulaResult.FromString(linkLocation.StringValue);
         }
 
-        return CellValue.Error("#VALUE!");
+        return FormulaResult.Error("#VALUE!");
     }
 }

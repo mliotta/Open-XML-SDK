@@ -25,11 +25,11 @@ public sealed class DeltaFunction : IFunctionImplementation
     public string Name => "DELTA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,9 +37,9 @@ public sealed class DeltaFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number1 = args[0].NumericValue;
@@ -52,15 +52,15 @@ public sealed class DeltaFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             number2 = args[1].NumericValue;
         }
 
         // Return 1 if equal, 0 otherwise
-        return CellValue.FromNumber(System.Math.Abs(number1 - number2) < 1e-10 ? 1 : 0);
+        return FormulaResult.FromNumber(System.Math.Abs(number1 - number2) < 1e-10 ? 1 : 0);
     }
 }

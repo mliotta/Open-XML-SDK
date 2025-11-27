@@ -26,11 +26,11 @@ public sealed class Oct2BinFunction : IFunctionImplementation
     public string Name => "OCT2BIN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -43,7 +43,7 @@ public sealed class Oct2BinFunction : IFunctionImplementation
         // Validate octal string length (max 10 characters for 30-bit)
         if (octalString.Length > 10)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate octal string contains only 0-7
@@ -51,7 +51,7 @@ public sealed class Oct2BinFunction : IFunctionImplementation
         {
             if (c < '0' || c > '7')
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -63,21 +63,21 @@ public sealed class Oct2BinFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             places = (int)System.Math.Floor(args[1].NumericValue);
 
             if (places < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (places > 10)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -96,7 +96,7 @@ public sealed class Oct2BinFunction : IFunctionImplementation
             // Validate range for binary output (-512 to 511 for 10-bit)
             if (decimalValue < -512 || decimalValue > 511)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             string binaryString;
@@ -118,17 +118,17 @@ public sealed class Oct2BinFunction : IFunctionImplementation
             {
                 if (binaryString.Length > places)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
                 binaryString = binaryString.PadLeft(places, '0');
             }
 
-            return CellValue.FromString(binaryString);
+            return FormulaResult.FromString(binaryString);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

@@ -24,15 +24,15 @@ public sealed class IsErrorFunction : IFunctionImplementation
     public string Name => "ISERROR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
         var isError = args[0].IsError;
-        return CellValue.FromBool(isError);
+        return FormulaResult.FromBool(isError);
     }
 }

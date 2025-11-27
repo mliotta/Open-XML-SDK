@@ -25,11 +25,11 @@ public sealed class ColumnsFunction : IFunctionImplementation
     public string Name => "COLUMNS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in array
@@ -44,7 +44,7 @@ public sealed class ColumnsFunction : IFunctionImplementation
         // If single cell, return 1
         if (args.Length == 1)
         {
-            return CellValue.FromNumber(1);
+            return FormulaResult.FromNumber(1);
         }
 
         // For multiple cells, infer the array dimensions using the same heuristic as INDEX/VLOOKUP
@@ -73,9 +73,9 @@ public sealed class ColumnsFunction : IFunctionImplementation
         if (numCols == 0)
         {
             // Shouldn't happen for valid arrays, but fallback to treating as single column
-            return CellValue.FromNumber(1);
+            return FormulaResult.FromNumber(1);
         }
 
-        return CellValue.FromNumber(numCols);
+        return FormulaResult.FromNumber(numCols);
     }
 }

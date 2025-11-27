@@ -24,15 +24,15 @@ public sealed class IsLogicalFunction : IFunctionImplementation
     public string Name => "ISLOGICAL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
-        var isLogical = args[0].Type == CellValueType.Boolean;
-        return CellValue.FromBool(isLogical);
+        var isLogical = args[0].Type == FormulaResultType.Boolean;
+        return FormulaResult.FromBool(isLogical);
     }
 }

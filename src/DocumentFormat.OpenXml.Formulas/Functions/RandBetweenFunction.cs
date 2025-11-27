@@ -28,11 +28,11 @@ public sealed class RandBetweenFunction : IFunctionImplementation
     public string Name => "RANDBETWEEN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -45,9 +45,9 @@ public sealed class RandBetweenFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var bottom = (int)System.Math.Floor(args[0].NumericValue);
@@ -55,11 +55,11 @@ public sealed class RandBetweenFunction : IFunctionImplementation
 
         if (bottom > top)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Random.Next is exclusive on upper bound, so add 1
         var result = _random.Next(bottom, top + 1);
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

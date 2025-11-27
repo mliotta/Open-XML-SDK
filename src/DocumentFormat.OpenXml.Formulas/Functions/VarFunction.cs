@@ -27,7 +27,7 @@ public sealed class VarFunction : IFunctionImplementation
     public string Name => "VAR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var values = new List<double>();
 
@@ -38,7 +38,7 @@ public sealed class VarFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
@@ -46,7 +46,7 @@ public sealed class VarFunction : IFunctionImplementation
 
         if (values.Count < 2)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate mean
@@ -56,6 +56,6 @@ public sealed class VarFunction : IFunctionImplementation
         var sumSquaredDiffs = values.Sum(v => System.Math.Pow(v - mean, 2));
         var variance = sumSquaredDiffs / (values.Count - 1);
 
-        return CellValue.FromNumber(variance);
+        return FormulaResult.FromNumber(variance);
     }
 }

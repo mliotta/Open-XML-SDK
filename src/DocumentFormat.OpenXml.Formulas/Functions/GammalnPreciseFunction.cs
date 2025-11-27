@@ -24,7 +24,7 @@ public sealed class GammalnPreciseFunction : IFunctionImplementation
     public string Name => "GAMMALN.PRECISE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         return GammalnFunction.Instance.Execute(context, args);
     }

@@ -25,7 +25,7 @@ public sealed class ConfidenceNormFunction : IFunctionImplementation
     public string Name => "CONFIDENCE.NORM";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Delegate to CONFIDENCE implementation
         return ConfidenceFunction.Instance.Execute(context, args);

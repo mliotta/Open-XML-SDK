@@ -24,16 +24,16 @@ public sealed class IsNaFunction : IFunctionImplementation
     public string Name => "ISNA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
         // Check if the value is specifically the #N/A error
         var isNa = args[0].IsError && args[0].ErrorValue == "#N/A";
-        return CellValue.FromBool(isNa);
+        return FormulaResult.FromBool(isNa);
     }
 }

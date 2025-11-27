@@ -33,11 +33,11 @@ public sealed class RandArrayFunction : IFunctionImplementation
     public string Name => "RANDARRAY";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Default values
@@ -48,72 +48,72 @@ public sealed class RandArrayFunction : IFunctionImplementation
         bool wholeNumber = false;
 
         // Parse rows (optional, default 1)
-        if (args.Length > 0 && args[0].Type != CellValueType.Empty)
+        if (args.Length > 0 && args[0].Type != FormulaResultType.Empty)
         {
             if (args[0].IsError)
             {
                 return args[0];
             }
 
-            if (args[0].Type != CellValueType.Number)
+            if (args[0].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             rows = (int)args[0].NumericValue;
             if (rows < 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         // Parse columns (optional, default 1)
-        if (args.Length > 1 && args[1].Type != CellValueType.Empty)
+        if (args.Length > 1 && args[1].Type != FormulaResultType.Empty)
         {
             if (args[1].IsError)
             {
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             columns = (int)args[1].NumericValue;
             if (columns < 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         // Parse min (optional, default 0)
-        if (args.Length > 2 && args[2].Type != CellValueType.Empty)
+        if (args.Length > 2 && args[2].Type != FormulaResultType.Empty)
         {
             if (args[2].IsError)
             {
                 return args[2];
             }
 
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             min = args[2].NumericValue;
         }
 
         // Parse max (optional, default 1)
-        if (args.Length > 3 && args[3].Type != CellValueType.Empty)
+        if (args.Length > 3 && args[3].Type != FormulaResultType.Empty)
         {
             if (args[3].IsError)
             {
                 return args[3];
             }
 
-            if (args[3].Type != CellValueType.Number)
+            if (args[3].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             max = args[3].NumericValue;
@@ -122,28 +122,28 @@ public sealed class RandArrayFunction : IFunctionImplementation
         // Validate min < max
         if (min >= max)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse whole_number (optional, default FALSE)
-        if (args.Length > 4 && args[4].Type != CellValueType.Empty)
+        if (args.Length > 4 && args[4].Type != FormulaResultType.Empty)
         {
             if (args[4].IsError)
             {
                 return args[4];
             }
 
-            if (args[4].Type == CellValueType.Boolean)
+            if (args[4].Type == FormulaResultType.Boolean)
             {
                 wholeNumber = args[4].BoolValue;
             }
-            else if (args[4].Type == CellValueType.Number)
+            else if (args[4].Type == FormulaResultType.Number)
             {
                 wholeNumber = args[4].NumericValue != 0;
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -151,7 +151,7 @@ public sealed class RandArrayFunction : IFunctionImplementation
         var totalCells = rows * columns;
         if (totalCells > 1000000) // 1 million cell limit
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Generate the array (flattened)
@@ -164,6 +164,6 @@ public sealed class RandArrayFunction : IFunctionImplementation
             value = System.Math.Floor(value);
         }
 
-        return CellValue.FromNumber(value);
+        return FormulaResult.FromNumber(value);
     }
 }

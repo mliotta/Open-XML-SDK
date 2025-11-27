@@ -25,11 +25,11 @@ public sealed class SumProductFunction : IFunctionImplementation
     public string Name => "SUMPRODUCT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Collect all numeric values from each array
@@ -42,20 +42,20 @@ public sealed class SumProductFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 arrays.Add(new[] { arg.NumericValue });
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         // Check if all arrays are non-empty
         if (arrays.Count == 0)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
         // Get the length (all arrays should have same length in Excel, but we'll handle single values)
@@ -64,7 +64,7 @@ public sealed class SumProductFunction : IFunctionImplementation
         {
             if (array.Length != length && array.Length != 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -82,6 +82,6 @@ public sealed class SumProductFunction : IFunctionImplementation
             sum += product;
         }
 
-        return CellValue.FromNumber(sum);
+        return FormulaResult.FromNumber(sum);
     }
 }

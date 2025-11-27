@@ -24,11 +24,11 @@ public sealed class ImSechFunction : IFunctionImplementation
     public string Name => "IMSECH";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -39,7 +39,7 @@ public sealed class ImSechFunction : IFunctionImplementation
         var inumber = args[0].StringValue;
         if (!ComplexNumber.TryParse(inumber, out var complex))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         var result = ComplexNumber.Sech(complex!);
@@ -48,10 +48,10 @@ public sealed class ImSechFunction : IFunctionImplementation
         if (double.IsNaN(result.Real) || double.IsNaN(result.Imaginary) ||
             double.IsInfinity(result.Real) || double.IsInfinity(result.Imaginary))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         var suffix = inumber.EndsWith("j") ? "j" : "i";
-        return CellValue.FromString(result.ToString(suffix));
+        return FormulaResult.FromString(result.ToString(suffix));
     }
 }

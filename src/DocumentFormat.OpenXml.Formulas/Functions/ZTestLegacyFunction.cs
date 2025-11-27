@@ -24,7 +24,7 @@ public sealed class ZTestLegacyFunction : IFunctionImplementation
     public string Name => "ZTEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // ZTEST is the same as Z.TEST
         return ZTestFunction.Instance.Execute(context, args);

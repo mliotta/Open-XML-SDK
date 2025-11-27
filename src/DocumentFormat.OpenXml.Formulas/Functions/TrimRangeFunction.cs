@@ -32,11 +32,11 @@ public sealed class TrimRangeFunction : IFunctionImplementation
     public string Name => "TRIMRANGE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse optional parameters
@@ -46,14 +46,14 @@ public sealed class TrimRangeFunction : IFunctionImplementation
         var arrayLength = args.Length;
 
         // Check if last argument is cols_to_trim
-        if (args.Length >= 2 && args[args.Length - 1].Type == CellValueType.Number)
+        if (args.Length >= 2 && args[args.Length - 1].Type == FormulaResultType.Number)
         {
             colsTrim = (int)args[args.Length - 1].NumericValue;
             arrayLength--;
         }
 
         // Check if second-to-last (or last if no cols_to_trim) is rows_to_trim
-        if (arrayLength >= 2 && args[arrayLength - 1].Type == CellValueType.Number)
+        if (arrayLength >= 2 && args[arrayLength - 1].Type == FormulaResultType.Number)
         {
             rowsTrim = (int)args[arrayLength - 1].NumericValue;
             arrayLength--;
@@ -61,7 +61,7 @@ public sealed class TrimRangeFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in array
@@ -77,13 +77,13 @@ public sealed class TrimRangeFunction : IFunctionImplementation
         for (var i = 0; i < arrayLength; i++)
         {
             var val = args[i];
-            if (val.Type != CellValueType.Empty)
+            if (val.Type != FormulaResultType.Empty)
             {
                 return val;
             }
         }
 
         // All values are empty
-        return CellValue.Empty;
+        return FormulaResult.Empty;
     }
 }

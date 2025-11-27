@@ -27,11 +27,11 @@ public sealed class SlopeFunction : IFunctionImplementation
     public string Name => "SLOPE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var yValues = new List<double>();
@@ -43,7 +43,7 @@ public sealed class SlopeFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             yValues.Add(args[0].NumericValue);
         }
@@ -54,7 +54,7 @@ public sealed class SlopeFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             xValues.Add(args[1].NumericValue);
         }
@@ -62,13 +62,13 @@ public sealed class SlopeFunction : IFunctionImplementation
         // Arrays must have same length
         if (yValues.Count != xValues.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Need at least 2 data points
         if (yValues.Count < 2)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate means
@@ -92,11 +92,11 @@ public sealed class SlopeFunction : IFunctionImplementation
         // Check for division by zero (no variance in x)
         if (sumSquaresX == 0.0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         var slope = sumProduct / sumSquaresX;
 
-        return CellValue.FromNumber(slope);
+        return FormulaResult.FromNumber(slope);
     }
 }

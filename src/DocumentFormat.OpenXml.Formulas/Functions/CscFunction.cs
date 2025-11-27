@@ -26,11 +26,11 @@ public sealed class CscFunction : IFunctionImplementation
     public string Name => "CSC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -38,9 +38,9 @@ public sealed class CscFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var sinValue = System.Math.Sin(args[0].NumericValue);
@@ -48,16 +48,16 @@ public sealed class CscFunction : IFunctionImplementation
         // Check if sin is zero (would cause division by zero)
         if (System.Math.Abs(sinValue) < double.Epsilon)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         var result = 1.0 / sinValue;
 
         if (double.IsInfinity(result) || double.IsNaN(result))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

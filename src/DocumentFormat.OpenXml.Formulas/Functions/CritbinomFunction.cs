@@ -25,7 +25,7 @@ public sealed class CritbinomFunction : IFunctionImplementation
     public string Name => "CRITBINOM";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Delegate to BINOM.INV
         return BinomInvFunction.Instance.Execute(context, args);

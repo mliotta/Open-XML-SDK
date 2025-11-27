@@ -24,11 +24,11 @@ public sealed class IsFormulaFunction : IFunctionImplementation
     public string Name => "ISFORMULA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var reference = args[0];
@@ -40,13 +40,13 @@ public sealed class IsFormulaFunction : IFunctionImplementation
         }
 
         // Reference must be text (cell reference like "A1")
-        if (reference.Type != CellValueType.Text)
+        if (reference.Type != FormulaResultType.Text)
         {
-            return CellValue.FromBool(false);
+            return FormulaResult.FromBool(false);
         }
 
         // Note: This is a limitation - we need access to the actual Cell object to check if it has a formula
         // For now, we'll return FALSE as this requires deeper integration with the worksheet
-        return CellValue.FromBool(false);
+        return FormulaResult.FromBool(false);
     }
 }

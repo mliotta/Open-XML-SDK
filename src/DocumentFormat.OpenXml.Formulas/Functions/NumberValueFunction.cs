@@ -25,11 +25,11 @@ public sealed class NumberValueFunction : IFunctionImplementation
     public string Name => "NUMBERVALUE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -41,7 +41,7 @@ public sealed class NumberValueFunction : IFunctionImplementation
         var text = args[0].StringValue;
         if (string.IsNullOrEmpty(text) || text.Trim().Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Get decimal separator (default ".")
@@ -79,7 +79,7 @@ public sealed class NumberValueFunction : IFunctionImplementation
         // Validate that separators are different
         if (decimalSeparator == groupSeparator && !string.IsNullOrEmpty(groupSeparator))
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse the number
@@ -113,14 +113,14 @@ public sealed class NumberValueFunction : IFunctionImplementation
                     number /= 100;
                 }
 
-                return CellValue.FromNumber(number);
+                return FormulaResult.FromNumber(number);
             }
 
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         catch
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
     }
 }

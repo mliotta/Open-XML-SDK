@@ -25,7 +25,7 @@ public sealed class MinFunction : IFunctionImplementation
     public string Name => "MIN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var min = double.MaxValue;
         var hasValue = false;
@@ -37,7 +37,7 @@ public sealed class MinFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 min = System.Math.Min(min, arg.NumericValue);
                 hasValue = true;
@@ -46,9 +46,9 @@ public sealed class MinFunction : IFunctionImplementation
 
         if (!hasValue)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
-        return CellValue.FromNumber(min);
+        return FormulaResult.FromNumber(min);
     }
 }

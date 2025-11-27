@@ -25,11 +25,11 @@ public sealed class LeftBFunction : IFunctionImplementation
     public string Name => "LEFTB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -47,22 +47,22 @@ public sealed class LeftBFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             numBytes = (int)args[1].NumericValue;
 
             if (numBytes < 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         if (numBytes == 0)
         {
-            return CellValue.FromString(string.Empty);
+            return FormulaResult.FromString(string.Empty);
         }
 
         // Get bytes from text
@@ -70,7 +70,7 @@ public sealed class LeftBFunction : IFunctionImplementation
 
         if (numBytes >= bytes.Length)
         {
-            return CellValue.FromString(text);
+            return FormulaResult.FromString(text);
         }
 
         // Take only the requested number of bytes
@@ -83,7 +83,7 @@ public sealed class LeftBFunction : IFunctionImplementation
         // Remove any incomplete characters at the end
         result = RemoveIncompleteCharacters(result);
 
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 
     private static string RemoveIncompleteCharacters(string text)

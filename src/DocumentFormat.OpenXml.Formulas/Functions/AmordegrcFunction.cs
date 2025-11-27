@@ -25,11 +25,11 @@ public sealed class AmordegrcFunction : IFunctionImplementation
     public string Name => "AMORDEGRC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 6 || args.Length > 7)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,31 +40,31 @@ public sealed class AmordegrcFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var basis = 0;
-        if (args.Length == 7 && args[6].Type != CellValueType.Empty)
+        if (args.Length == 7 && args[6].Type != FormulaResultType.Empty)
         {
             if (args[6].IsError)
             {
                 return args[6];
             }
 
-            if (args[6].Type == CellValueType.Number)
+            if (args[6].Type == FormulaResultType.Number)
             {
                 basis = (int)args[6].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -80,17 +80,17 @@ public sealed class AmordegrcFunction : IFunctionImplementation
             // Validate inputs
             if (cost < 0 || salvage < 0 || rate <= 0 || period < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (salvage >= cost)
             {
-                return CellValue.FromNumber(0);
+                return FormulaResult.FromNumber(0);
             }
 
             if (datePurchased > firstPeriod)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate total life in years
@@ -124,7 +124,7 @@ public sealed class AmordegrcFunction : IFunctionImplementation
                 var fraction = DayCountHelper.DayCountFraction(datePurchased, firstPeriod, basis);
                 var depreciation = bookValue * depreciationRate * fraction;
                 var maxDepreciation = bookValue - salvage;
-                return CellValue.FromNumber(System.Math.Min(depreciation, maxDepreciation));
+                return FormulaResult.FromNumber(System.Math.Min(depreciation, maxDepreciation));
             }
 
             // Calculate book value at start of requested period
@@ -155,7 +155,7 @@ public sealed class AmordegrcFunction : IFunctionImplementation
             // Calculate depreciation for requested period
             if (bookValue <= salvage)
             {
-                return CellValue.FromNumber(0);
+                return FormulaResult.FromNumber(0);
             }
 
             var remainingLifeAtPeriod = life - period;
@@ -167,14 +167,14 @@ public sealed class AmordegrcFunction : IFunctionImplementation
 
             if (double.IsNaN(finalDepreciation) || double.IsInfinity(finalDepreciation))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(System.Math.Max(0, finalDepreciation));
+            return FormulaResult.FromNumber(System.Math.Max(0, finalDepreciation));
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

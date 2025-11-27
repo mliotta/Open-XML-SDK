@@ -25,11 +25,11 @@ public sealed class MidFunction : IFunctionImplementation
     public string Name => "MID";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -49,9 +49,9 @@ public sealed class MidFunction : IFunctionImplementation
 
         var text = args[0].StringValue;
 
-        if (args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var startNum = (int)args[1].NumericValue;
@@ -59,7 +59,7 @@ public sealed class MidFunction : IFunctionImplementation
 
         if (startNum < 1 || numChars < 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Excel uses 1-based indexing
@@ -67,11 +67,11 @@ public sealed class MidFunction : IFunctionImplementation
 
         if (startIndex >= text.Length)
         {
-            return CellValue.FromString(string.Empty);
+            return FormulaResult.FromString(string.Empty);
         }
 
         var length = System.Math.Min(numChars, text.Length - startIndex);
         var result = text.Substring(startIndex, length);
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 }

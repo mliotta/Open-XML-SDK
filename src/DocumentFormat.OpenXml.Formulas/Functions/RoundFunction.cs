@@ -25,11 +25,11 @@ public sealed class RoundFunction : IFunctionImplementation
     public string Name => "ROUND";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,20 +42,20 @@ public sealed class RoundFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
         var digits = (int)args[1].NumericValue;
 
         var result = System.Math.Round(number, digits, MidpointRounding.AwayFromZero);
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

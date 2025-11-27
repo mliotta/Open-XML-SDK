@@ -25,11 +25,11 @@ public sealed class YearfracFunction : IFunctionImplementation
     public string Name => "YEARFRAC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,9 +42,9 @@ public sealed class YearfracFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Default to US (NASD) 30/360 method (basis = 0)
@@ -57,17 +57,17 @@ public sealed class YearfracFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Number)
+            if (args[2].Type == FormulaResultType.Number)
             {
                 basis = (int)args[2].NumericValue;
                 if (basis < 0 || basis > 4)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -79,7 +79,7 @@ public sealed class YearfracFunction : IFunctionImplementation
             // Validate start_date < end_date
             if (startDate > endDate)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             double fraction = basis switch
@@ -92,11 +92,11 @@ public sealed class YearfracFunction : IFunctionImplementation
                 _ => 0.0,
             };
 
-            return CellValue.FromNumber(fraction);
+            return FormulaResult.FromNumber(fraction);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 

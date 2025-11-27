@@ -25,11 +25,11 @@ public sealed class DurationFunction : IFunctionImplementation
     public string Name => "DURATION";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 5 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,9 +40,9 @@ public sealed class DurationFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -54,17 +54,17 @@ public sealed class DurationFunction : IFunctionImplementation
                 return args[5];
             }
 
-            if (args[5].Type == CellValueType.Number)
+            if (args[5].Type == FormulaResultType.Number)
             {
                 basis = (int)args[5].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -79,12 +79,12 @@ public sealed class DurationFunction : IFunctionImplementation
             // Validate inputs
             if (!DayCountHelper.IsValidFrequency(frequency))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (settlement >= maturity || coupon < 0 || yld < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             var couponRate = coupon / frequency;
@@ -130,14 +130,14 @@ public sealed class DurationFunction : IFunctionImplementation
 
             if (double.IsNaN(duration) || double.IsInfinity(duration) || duration < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(duration);
+            return FormulaResult.FromNumber(duration);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

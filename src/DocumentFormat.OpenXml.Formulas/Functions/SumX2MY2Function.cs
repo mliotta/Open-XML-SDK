@@ -24,11 +24,11 @@ public sealed class SumX2MY2Function : IFunctionImplementation
     public string Name => "SUMX2MY2";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,9 +42,9 @@ public sealed class SumX2MY2Function : IFunctionImplementation
         }
 
         // Both arguments must be numbers for single-value case
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // For single values, compute x² - y²
@@ -55,9 +55,9 @@ public sealed class SumX2MY2Function : IFunctionImplementation
         // Check for overflow
         if (double.IsInfinity(result) || double.IsNaN(result))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

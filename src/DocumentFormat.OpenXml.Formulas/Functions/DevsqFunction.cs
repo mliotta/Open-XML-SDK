@@ -25,11 +25,11 @@ public sealed class DevsqFunction : IFunctionImplementation
     public string Name => "DEVSQ";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var values = new List<double>();
@@ -41,7 +41,7 @@ public sealed class DevsqFunction : IFunctionImplementation
                 return arg;
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
@@ -49,7 +49,7 @@ public sealed class DevsqFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate mean
@@ -68,6 +68,6 @@ public sealed class DevsqFunction : IFunctionImplementation
             deviationSum += deviation * deviation;
         }
 
-        return CellValue.FromNumber(deviationSum);
+        return FormulaResult.FromNumber(deviationSum);
     }
 }

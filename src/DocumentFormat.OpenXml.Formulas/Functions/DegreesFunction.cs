@@ -25,11 +25,11 @@ public sealed class DegreesFunction : IFunctionImplementation
     public string Name => "DEGREES";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,14 +37,14 @@ public sealed class DegreesFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var radians = args[0].NumericValue;
         var degrees = radians * 180.0 / System.Math.PI;
 
-        return CellValue.FromNumber(degrees);
+        return FormulaResult.FromNumber(degrees);
     }
 }

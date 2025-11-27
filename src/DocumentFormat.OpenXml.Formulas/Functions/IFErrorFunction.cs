@@ -24,11 +24,11 @@ public sealed class IFErrorFunction : IFunctionImplementation
     public string Name => "IFERROR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // If the first argument is an error, return the second argument

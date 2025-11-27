@@ -25,11 +25,11 @@ public sealed class WrapColsFunction : IFunctionImplementation
     public string Name => "WRAPCOLS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse wrap_count parameter
@@ -39,16 +39,16 @@ public sealed class WrapColsFunction : IFunctionImplementation
             return wrapCountArg;
         }
 
-        if (wrapCountArg.Type != CellValueType.Number)
+        if (wrapCountArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var wrapCount = (int)wrapCountArg.NumericValue;
 
         if (wrapCount <= 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse optional pad_with parameter
@@ -57,7 +57,7 @@ public sealed class WrapColsFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in array

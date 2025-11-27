@@ -28,11 +28,11 @@ public sealed class MatchFunction : IFunctionImplementation
     public string Name => "MATCH";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract lookup_value (first argument)
@@ -46,7 +46,7 @@ public sealed class MatchFunction : IFunctionImplementation
 
         // Determine if we have match_type (last argument)
         var lastArg = args[args.Length - 1];
-        var hasMatchType = args.Length >= 3 && lastArg.Type == CellValueType.Number;
+        var hasMatchType = args.Length >= 3 && lastArg.Type == FormulaResultType.Number;
 
         // Default match type is 1
         var matchType = 1;
@@ -63,7 +63,7 @@ public sealed class MatchFunction : IFunctionImplementation
             // Validate match type (-1, 0, or 1)
             if (matchType != -1 && matchType != 0 && matchType != 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -73,7 +73,7 @@ public sealed class MatchFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Check for errors in array
@@ -95,12 +95,12 @@ public sealed class MatchFunction : IFunctionImplementation
                 if (ValuesEqual(arrayValue, lookupValue))
                 {
                     // Return 1-based position
-                    return CellValue.FromNumber(i + 1);
+                    return FormulaResult.FromNumber(i + 1);
                 }
             }
 
             // No match found
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
         else if (matchType == 1)
         {
@@ -127,12 +127,12 @@ public sealed class MatchFunction : IFunctionImplementation
             if (lastMatchIndex >= 0)
             {
                 // Return 1-based position
-                return CellValue.FromNumber(lastMatchIndex + 1);
+                return FormulaResult.FromNumber(lastMatchIndex + 1);
             }
             else
             {
                 // No value <= lookup_value found
-                return CellValue.Error("#N/A");
+                return FormulaResult.Error("#N/A");
             }
         }
         else // matchType == -1
@@ -160,17 +160,17 @@ public sealed class MatchFunction : IFunctionImplementation
             if (lastMatchIndex >= 0)
             {
                 // Return 1-based position
-                return CellValue.FromNumber(lastMatchIndex + 1);
+                return FormulaResult.FromNumber(lastMatchIndex + 1);
             }
             else
             {
                 // No value >= lookup_value found
-                return CellValue.Error("#N/A");
+                return FormulaResult.Error("#N/A");
             }
         }
     }
 
-    private static bool ValuesEqual(CellValue a, CellValue b)
+    private static bool ValuesEqual(FormulaResult a, FormulaResult b)
     {
         if (a.Type != b.Type)
         {
@@ -179,15 +179,15 @@ public sealed class MatchFunction : IFunctionImplementation
 
         return a.Type switch
         {
-            CellValueType.Number => System.Math.Abs(a.NumericValue - b.NumericValue) < 1e-10,
-            CellValueType.Text => string.Equals(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
-            CellValueType.Boolean => a.BoolValue == b.BoolValue,
-            CellValueType.Empty => true,
+            FormulaResultType.Number => System.Math.Abs(a.NumericValue - b.NumericValue) < 1e-10,
+            FormulaResultType.Text => string.Equals(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
+            FormulaResultType.Boolean => a.BoolValue == b.BoolValue,
+            FormulaResultType.Empty => true,
             _ => false,
         };
     }
 
-    private static int CompareValues(CellValue a, CellValue b)
+    private static int CompareValues(FormulaResult a, FormulaResult b)
     {
         // Compare two values for ordering
         if (a.Type != b.Type)
@@ -198,10 +198,10 @@ public sealed class MatchFunction : IFunctionImplementation
 
         return a.Type switch
         {
-            CellValueType.Number => a.NumericValue.CompareTo(b.NumericValue),
-            CellValueType.Text => string.Compare(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
-            CellValueType.Boolean => a.BoolValue.CompareTo(b.BoolValue),
-            CellValueType.Empty => 0,
+            FormulaResultType.Number => a.NumericValue.CompareTo(b.NumericValue),
+            FormulaResultType.Text => string.Compare(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
+            FormulaResultType.Boolean => a.BoolValue.CompareTo(b.BoolValue),
+            FormulaResultType.Empty => 0,
             _ => 0,
         };
     }

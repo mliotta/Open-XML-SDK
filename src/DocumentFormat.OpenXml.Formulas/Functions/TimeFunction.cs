@@ -25,11 +25,11 @@ public sealed class TimeFunction : IFunctionImplementation
     public string Name => "TIME";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -47,9 +47,9 @@ public sealed class TimeFunction : IFunctionImplementation
             return args[2];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -61,7 +61,7 @@ public sealed class TimeFunction : IFunctionImplementation
             // Handle negative values and overflow
             if (hour < 0 || minute < 0 || second < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Time is stored as fraction of day
@@ -69,11 +69,11 @@ public sealed class TimeFunction : IFunctionImplementation
             var timeValue = (hour / 24.0) + (minute / 1440.0) + (second / 86400.0);
 
             // Excel allows time values > 1 (represents multiple days)
-            return CellValue.FromNumber(timeValue);
+            return FormulaResult.FromNumber(timeValue);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

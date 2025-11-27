@@ -26,11 +26,11 @@ public sealed class RankFunction : IFunctionImplementation
     public string Name => "RANK";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -38,9 +38,9 @@ public sealed class RankFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -58,7 +58,7 @@ public sealed class RankFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 values.Add(args[i].NumericValue);
             }
@@ -66,18 +66,18 @@ public sealed class RankFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Check if number exists in the list
         if (!values.Contains(number))
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Calculate rank in descending order (largest = rank 1)
         var rank = values.Count(v => v > number) + 1;
 
-        return CellValue.FromNumber(rank);
+        return FormulaResult.FromNumber(rank);
     }
 }

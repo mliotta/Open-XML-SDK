@@ -25,11 +25,11 @@ public sealed class PricediscFunction : IFunctionImplementation
     public string Name => "PRICEDISC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 4 || args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,9 +40,9 @@ public sealed class PricediscFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -54,17 +54,17 @@ public sealed class PricediscFunction : IFunctionImplementation
                 return args[4];
             }
 
-            if (args[4].Type == CellValueType.Number)
+            if (args[4].Type == FormulaResultType.Number)
             {
                 basis = (int)args[4].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -78,7 +78,7 @@ public sealed class PricediscFunction : IFunctionImplementation
             // Validate inputs
             if (settlement >= maturity || discount <= 0 || redemption <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate fraction of year
@@ -90,14 +90,14 @@ public sealed class PricediscFunction : IFunctionImplementation
 
             if (double.IsNaN(price) || double.IsInfinity(price) || price < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(price);
+            return FormulaResult.FromNumber(price);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

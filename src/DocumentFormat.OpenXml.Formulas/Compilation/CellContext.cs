@@ -22,7 +22,7 @@ public class CellContext
 
     // TODO: Phase 0 limitation - cache never invalidates.
     // Phase 1 must add invalidation when cell values change.
-    private readonly Dictionary<string, CellValue> _cache = new();
+    private readonly Dictionary<string, FormulaResult> _cache = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CellContext"/> class.
@@ -46,7 +46,7 @@ public class CellContext
     /// </summary>
     /// <param name="reference">The cell reference (e.g., "A1").</param>
     /// <returns>The cell value.</returns>
-    public CellValue GetCell(string reference)
+    public FormulaResult GetCell(string reference)
     {
         if (_cache.TryGetValue(reference, out var cached))
         {
@@ -54,7 +54,7 @@ public class CellContext
         }
 
         var cell = FindCell(_worksheet, reference);
-        return _cache[reference] = ReadCellValue(cell);
+        return _cache[reference] = ReadFormulaResult(cell);
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class CellContext
     /// <param name="start">Start cell reference.</param>
     /// <param name="end">End cell reference.</param>
     /// <returns>Enumerable of cell values.</returns>
-    public IEnumerable<CellValue> GetRange(string start, string end)
+    public IEnumerable<FormulaResult> GetRange(string start, string end)
     {
         int startCol, startRow;
         ParseCellReference(start, out startCol, out startRow);
@@ -93,17 +93,17 @@ public class CellContext
             .FirstOrDefault(c => string.Equals(c.CellReference?.Value, reference, StringComparison.OrdinalIgnoreCase));
     }
 
-    private CellValue ReadCellValue(Cell? cell)
+    private FormulaResult ReadFormulaResult(Cell? cell)
     {
         if (cell == null)
         {
-            return CellValue.Empty;
+            return FormulaResult.Empty;
         }
 
         var cellValue = cell.CellValue?.Text;
         if (string.IsNullOrEmpty(cellValue))
         {
-            return CellValue.Empty;
+            return FormulaResult.Empty;
         }
 
         // Check data type
@@ -111,12 +111,12 @@ public class CellContext
 
         if (dataType == CellValues.Boolean)
         {
-            return CellValue.FromBool(cellValue == "1" || string.Equals(cellValue, "true", StringComparison.OrdinalIgnoreCase));
+            return FormulaResult.FromBool(cellValue == "1" || string.Equals(cellValue, "true", StringComparison.OrdinalIgnoreCase));
         }
 
         if (dataType == CellValues.Error)
         {
-            return CellValue.Error(cellValue!);
+            return FormulaResult.Error(cellValue!);
         }
 
         if (dataType == CellValues.SharedString)
@@ -127,26 +127,26 @@ public class CellContext
                 var sharedString = GetSharedString(index);
                 if (sharedString != null)
                 {
-                    return CellValue.FromString(sharedString);
+                    return FormulaResult.FromString(sharedString);
                 }
             }
 
             // If we can't resolve, return the index as a string (fallback)
-            return CellValue.FromString(cellValue!);
+            return FormulaResult.FromString(cellValue!);
         }
 
         if (dataType == CellValues.String || dataType == CellValues.InlineString)
         {
-            return CellValue.FromString(cellValue!);
+            return FormulaResult.FromString(cellValue!);
         }
 
         // Try to parse as number
         if (double.TryParse(cellValue, NumberStyles.Float, CultureInfo.InvariantCulture, out var number))
         {
-            return CellValue.FromNumber(number);
+            return FormulaResult.FromNumber(number);
         }
 
-        return CellValue.FromString(cellValue!);
+        return FormulaResult.FromString(cellValue!);
     }
 
     private string? GetSharedString(int index)

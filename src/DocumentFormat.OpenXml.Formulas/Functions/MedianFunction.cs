@@ -26,7 +26,7 @@ public sealed class MedianFunction : IFunctionImplementation
     public string Name => "MEDIAN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var values = new List<double>();
 
@@ -37,7 +37,7 @@ public sealed class MedianFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
@@ -45,7 +45,7 @@ public sealed class MedianFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         values.Sort();
@@ -57,12 +57,12 @@ public sealed class MedianFunction : IFunctionImplementation
         {
             // Even number of values - average the two middle values
             var median = (values[middle - 1] + values[middle]) / 2.0;
-            return CellValue.FromNumber(median);
+            return FormulaResult.FromNumber(median);
         }
         else
         {
             // Odd number of values - take the middle value
-            return CellValue.FromNumber(values[middle]);
+            return FormulaResult.FromNumber(values[middle]);
         }
     }
 }

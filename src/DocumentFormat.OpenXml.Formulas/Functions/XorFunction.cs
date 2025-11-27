@@ -25,11 +25,11 @@ public sealed class XorFunction : IFunctionImplementation
     public string Name => "XOR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         int trueCount = 0;
@@ -45,10 +45,10 @@ public sealed class XorFunction : IFunctionImplementation
             // Evaluate as boolean
             var isTrue = arg.Type switch
             {
-                CellValueType.Boolean => arg.BoolValue,
-                CellValueType.Number => arg.NumericValue != 0,
-                CellValueType.Text => !string.IsNullOrEmpty(arg.StringValue),
-                CellValueType.Empty => false,
+                FormulaResultType.Boolean => arg.BoolValue,
+                FormulaResultType.Number => arg.NumericValue != 0,
+                FormulaResultType.Text => !string.IsNullOrEmpty(arg.StringValue),
+                FormulaResultType.Empty => false,
                 _ => false,
             };
 
@@ -59,6 +59,6 @@ public sealed class XorFunction : IFunctionImplementation
         }
 
         // XOR returns TRUE if odd number of TRUE values
-        return CellValue.FromBool(trueCount % 2 == 1);
+        return FormulaResult.FromBool(trueCount % 2 == 1);
     }
 }

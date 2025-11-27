@@ -25,11 +25,11 @@ public sealed class ProperFunction : IFunctionImplementation
     public string Name => "PROPER";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -41,6 +41,6 @@ public sealed class ProperFunction : IFunctionImplementation
         var textInfo = CultureInfo.InvariantCulture.TextInfo;
         var result = textInfo.ToTitleCase(text.ToLowerInvariant());
 
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 }

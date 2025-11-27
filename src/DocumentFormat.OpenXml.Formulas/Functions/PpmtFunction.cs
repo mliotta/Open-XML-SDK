@@ -25,11 +25,11 @@ public sealed class PpmtFunction : IFunctionImplementation
     public string Name => "PPMT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 4 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -54,10 +54,10 @@ public sealed class PpmtFunction : IFunctionImplementation
         }
 
         // Validate required arguments are numbers
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number ||
-            args[2].Type != CellValueType.Number || args[3].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number ||
+            args[2].Type != FormulaResultType.Number || args[3].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rate = args[0].NumericValue;
@@ -75,9 +75,9 @@ public sealed class PpmtFunction : IFunctionImplementation
                 return args[4];
             }
 
-            if (args[4].Type != CellValueType.Number)
+            if (args[4].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             fv = args[4].NumericValue;
@@ -91,9 +91,9 @@ public sealed class PpmtFunction : IFunctionImplementation
                 return args[5];
             }
 
-            if (args[5].Type != CellValueType.Number)
+            if (args[5].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             type = args[5].NumericValue;
@@ -102,19 +102,19 @@ public sealed class PpmtFunction : IFunctionImplementation
         // Validate type is 0 or 1
         if (type != 0.0 && type != 1.0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate nper is positive
         if (nper <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate per is in valid range
         if (per < 1 || per > nper)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate the payment amount first using PMT formula
@@ -132,7 +132,7 @@ public sealed class PpmtFunction : IFunctionImplementation
 
         if (double.IsNaN(pmt) || double.IsInfinity(pmt))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate the interest portion using IPMT logic
@@ -183,9 +183,9 @@ public sealed class PpmtFunction : IFunctionImplementation
 
         if (double.IsNaN(ppmt) || double.IsInfinity(ppmt))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(ppmt);
+        return FormulaResult.FromNumber(ppmt);
     }
 }

@@ -24,11 +24,11 @@ public sealed class GammaFunction : IFunctionImplementation
     public string Name => "GAMMA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -36,9 +36,9 @@ public sealed class GammaFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         double number = args[0].NumericValue;
@@ -46,17 +46,17 @@ public sealed class GammaFunction : IFunctionImplementation
         // GAMMA function is not defined for zero and negative integers
         if (number <= 0 && number == System.Math.Floor(number))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
         {
             double result = StatisticalHelper.Gamma(number);
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

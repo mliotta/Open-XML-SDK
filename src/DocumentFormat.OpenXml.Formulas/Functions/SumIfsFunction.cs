@@ -26,14 +26,14 @@ public sealed class SumIfsFunction : IFunctionImplementation
     public string Name => "SUMIFS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // SUMIFS requires at least 3 arguments (sum_range, criteria_range1, criteria1)
         // and additional criteria pairs (criteria_range, criteria)
         // Total arguments must be odd (sum_range + pairs of criteria_range/criteria)
         if (args.Length < 3 || args.Length % 2 == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -66,19 +66,19 @@ public sealed class SumIfsFunction : IFunctionImplementation
         // If all criteria are met, include in sum
         if (allCriteriaMet)
         {
-            if (sumRange.Type == CellValueType.Number)
+            if (sumRange.Type == FormulaResultType.Number)
             {
                 sum += sumRange.NumericValue;
             }
         }
 
-        return CellValue.FromNumber(sum);
+        return FormulaResult.FromNumber(sum);
     }
 
-    private static bool MatchesCriteria(CellValue value, CellValue criteria)
+    private static bool MatchesCriteria(FormulaResult value, FormulaResult criteria)
     {
         // Handle criteria as a comparison operator + value
-        if (criteria.Type == CellValueType.Text)
+        if (criteria.Type == FormulaResultType.Text)
         {
             var criteriaText = criteria.StringValue;
 
@@ -87,14 +87,14 @@ public sealed class SumIfsFunction : IFunctionImplementation
             {
                 if (double.TryParse(criteriaText.Substring(2), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue >= threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue >= threshold;
                 }
             }
             else if (criteriaText.StartsWith("<="))
             {
                 if (double.TryParse(criteriaText.Substring(2), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue <= threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue <= threshold;
                 }
             }
             else if (criteriaText.StartsWith("<>"))
@@ -102,25 +102,25 @@ public sealed class SumIfsFunction : IFunctionImplementation
                 var compareValue = criteriaText.Substring(2);
                 if (double.TryParse(compareValue, out var numValue))
                 {
-                    return value.Type != CellValueType.Number || value.NumericValue != numValue;
+                    return value.Type != FormulaResultType.Number || value.NumericValue != numValue;
                 }
                 else
                 {
-                    return value.Type != CellValueType.Text || !value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
+                    return value.Type != FormulaResultType.Text || !value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
                 }
             }
             else if (criteriaText.StartsWith(">"))
             {
                 if (double.TryParse(criteriaText.Substring(1), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue > threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue > threshold;
                 }
             }
             else if (criteriaText.StartsWith("<"))
             {
                 if (double.TryParse(criteriaText.Substring(1), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue < threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue < threshold;
                 }
             }
             else if (criteriaText.StartsWith("="))
@@ -128,28 +128,28 @@ public sealed class SumIfsFunction : IFunctionImplementation
                 var compareValue = criteriaText.Substring(1);
                 if (double.TryParse(compareValue, out var numValue))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue == numValue;
+                    return value.Type == FormulaResultType.Number && value.NumericValue == numValue;
                 }
                 else
                 {
-                    return value.Type == CellValueType.Text && value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
+                    return value.Type == FormulaResultType.Text && value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
                 }
             }
             else
             {
                 // Direct text comparison (case-insensitive)
-                return value.Type == CellValueType.Text && value.StringValue.Equals(criteriaText, StringComparison.OrdinalIgnoreCase);
+                return value.Type == FormulaResultType.Text && value.StringValue.Equals(criteriaText, StringComparison.OrdinalIgnoreCase);
             }
         }
-        else if (criteria.Type == CellValueType.Number)
+        else if (criteria.Type == FormulaResultType.Number)
         {
             // Direct numeric comparison
-            return value.Type == CellValueType.Number && value.NumericValue == criteria.NumericValue;
+            return value.Type == FormulaResultType.Number && value.NumericValue == criteria.NumericValue;
         }
-        else if (criteria.Type == CellValueType.Boolean)
+        else if (criteria.Type == FormulaResultType.Boolean)
         {
             // Boolean comparison
-            return value.Type == CellValueType.Boolean && value.BoolValue == criteria.BoolValue;
+            return value.Type == FormulaResultType.Boolean && value.BoolValue == criteria.BoolValue;
         }
 
         return false;

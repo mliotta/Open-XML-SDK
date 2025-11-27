@@ -25,11 +25,11 @@ public sealed class DollardeFunction : IFunctionImplementation
     public string Name => "DOLLARDE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,9 +42,9 @@ public sealed class DollardeFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var fractionalDollar = args[0].NumericValue;
@@ -53,7 +53,7 @@ public sealed class DollardeFunction : IFunctionImplementation
         // Fraction must be positive
         if (fraction <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
@@ -68,11 +68,11 @@ public sealed class DollardeFunction : IFunctionImplementation
             // Reconstruct with proper sign
             var result = fractionalDollar < 0 ? -(integerPart + decimalPart) : (integerPart + decimalPart);
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

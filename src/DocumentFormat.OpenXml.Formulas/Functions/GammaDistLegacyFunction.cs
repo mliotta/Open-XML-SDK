@@ -25,7 +25,7 @@ public sealed class GammaDistLegacyFunction : IFunctionImplementation
     public string Name => "GAMMADIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // GAMMADIST has the same signature as GAMMA.DIST
         // Delegate directly to GAMMA.DIST

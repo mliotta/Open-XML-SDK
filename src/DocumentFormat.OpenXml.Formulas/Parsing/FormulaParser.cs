@@ -246,7 +246,7 @@ public class FormulaParser
 
             case TokenType.Error:
                 Advance();
-                return new LiteralNode { Value = CellValue.Error(token.Text) };
+                return new LiteralNode { Value = FormulaResult.Error(token.Text) };
 
             case TokenType.Function:
                 return ParseFunction();

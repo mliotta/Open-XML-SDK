@@ -24,15 +24,15 @@ public sealed class IsTextFunction : IFunctionImplementation
     public string Name => "ISTEXT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
-        var isText = args[0].Type == CellValueType.Text;
-        return CellValue.FromBool(isText);
+        var isText = args[0].Type == FormulaResultType.Text;
+        return FormulaResult.FromBool(isText);
     }
 }

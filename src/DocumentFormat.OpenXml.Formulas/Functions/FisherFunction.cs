@@ -24,11 +24,11 @@ public sealed class FisherFunction : IFunctionImplementation
     public string Name => "FISHER";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -36,9 +36,9 @@ public sealed class FisherFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         double x = args[0].NumericValue;
@@ -46,12 +46,12 @@ public sealed class FisherFunction : IFunctionImplementation
         // x must be between -1 and 1 (exclusive)
         if (x <= -1 || x >= 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Fisher transformation: 0.5 * ln((1 + x) / (1 - x))
         double result = 0.5 * System.Math.Log((1 + x) / (1 - x));
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

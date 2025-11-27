@@ -24,7 +24,7 @@ public sealed class ProductFunction : IFunctionImplementation
     public string Name => "PRODUCT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var product = 1.0;
         var hasValue = false;
@@ -36,7 +36,7 @@ public sealed class ProductFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 product *= arg.NumericValue;
                 hasValue = true;
@@ -45,9 +45,9 @@ public sealed class ProductFunction : IFunctionImplementation
 
         if (!hasValue)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
-        return CellValue.FromNumber(product);
+        return FormulaResult.FromNumber(product);
     }
 }

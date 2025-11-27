@@ -26,11 +26,11 @@ public sealed class PercentrankExcFunction : IFunctionImplementation
     public string Name => "PERCENTRANK.EXC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Get the value to find rank for
@@ -40,7 +40,7 @@ public sealed class PercentrankExcFunction : IFunctionImplementation
         var xIndex = args.Length - 1;
         bool hasSignificance = false;
 
-        if (args.Length >= 3 && args[args.Length - 1].Type == CellValueType.Number)
+        if (args.Length >= 3 && args[args.Length - 1].Type == FormulaResultType.Number)
         {
             var lastVal = args[args.Length - 1].NumericValue;
             if (lastVal >= 1 && lastVal <= 15)
@@ -56,9 +56,9 @@ public sealed class PercentrankExcFunction : IFunctionImplementation
             return args[xIndex];
         }
 
-        if (args[xIndex].Type != CellValueType.Number)
+        if (args[xIndex].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         x = args[xIndex].NumericValue;
@@ -74,7 +74,7 @@ public sealed class PercentrankExcFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 values.Add(args[i].NumericValue);
             }
@@ -82,7 +82,7 @@ public sealed class PercentrankExcFunction : IFunctionImplementation
 
         if (values.Count <= 1)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Sort values
@@ -91,7 +91,7 @@ public sealed class PercentrankExcFunction : IFunctionImplementation
         // Check if x is within range (exclusive)
         if (x <= sorted[0] || x >= sorted[sorted.Length - 1])
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Find position and interpolate
@@ -130,6 +130,6 @@ public sealed class PercentrankExcFunction : IFunctionImplementation
         double multiplier = System.Math.Pow(10, significance);
         double result = System.Math.Round(rank * multiplier) / multiplier;
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

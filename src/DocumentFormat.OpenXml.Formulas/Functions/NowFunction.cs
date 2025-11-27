@@ -25,15 +25,15 @@ public sealed class NowFunction : IFunctionImplementation
     public string Name => "NOW";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Excel stores dates as OLE Automation dates (days since 1/1/1900)
         var serialDate = DateTime.Now.ToOADate();
-        return CellValue.FromNumber(serialDate);
+        return FormulaResult.FromNumber(serialDate);
     }
 }

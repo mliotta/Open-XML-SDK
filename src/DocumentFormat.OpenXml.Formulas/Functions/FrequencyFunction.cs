@@ -29,11 +29,11 @@ public sealed class FrequencyFunction : IFunctionImplementation
     public string Name => "FREQUENCY";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -49,14 +49,14 @@ public sealed class FrequencyFunction : IFunctionImplementation
 
         // Extract data values from first argument
         var dataValues = new List<double>();
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             dataValues.Add(args[0].NumericValue);
         }
 
         // Extract bin values from second argument
         var binValues = new List<double>();
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             binValues.Add(args[1].NumericValue);
         }
@@ -69,7 +69,7 @@ public sealed class FrequencyFunction : IFunctionImplementation
         // For now, we return the total count of data values
         if (dataValues.Count == 0)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
         // Calculate frequency distribution
@@ -98,6 +98,6 @@ public sealed class FrequencyFunction : IFunctionImplementation
 
         // Phase 0: Return the first frequency (count of values <= first bin)
         // In a full implementation, this would return an array
-        return CellValue.FromNumber(frequencies[0]);
+        return FormulaResult.FromNumber(frequencies[0]);
     }
 }

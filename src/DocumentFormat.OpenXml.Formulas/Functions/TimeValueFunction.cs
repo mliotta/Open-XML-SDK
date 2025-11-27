@@ -26,11 +26,11 @@ public sealed class TimeValueFunction : IFunctionImplementation
     public string Name => "TIMEVALUE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -38,9 +38,9 @@ public sealed class TimeValueFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Text)
+        if (args[0].Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -53,15 +53,15 @@ public sealed class TimeValueFunction : IFunctionImplementation
                 // Return only the time portion (fractional part of OADate)
                 var oaDate = dateTime.ToOADate();
                 var timeValue = oaDate - System.Math.Floor(oaDate);
-                return CellValue.FromNumber(timeValue);
+                return FormulaResult.FromNumber(timeValue);
             }
 
             // If parsing fails, return error
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         catch
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
     }
 }

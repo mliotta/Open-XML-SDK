@@ -24,11 +24,11 @@ public sealed class GetPivotDataFunction : IFunctionImplementation
     public string Name => "GETPIVOTDATA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var dataField = args[0];
@@ -47,6 +47,6 @@ public sealed class GetPivotDataFunction : IFunctionImplementation
 
         // GETPIVOTDATA requires access to pivot table structures which is complex
         // For now, return #REF! to indicate this feature is not fully implemented
-        return CellValue.Error("#REF!");
+        return FormulaResult.Error("#REF!");
     }
 }

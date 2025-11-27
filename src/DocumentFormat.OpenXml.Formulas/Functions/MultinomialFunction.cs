@@ -26,11 +26,11 @@ public sealed class MultinomialFunction : IFunctionImplementation
     public string Name => "MULTINOMIAL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var numbers = new System.Collections.Generic.List<int>();
@@ -43,9 +43,9 @@ public sealed class MultinomialFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type != CellValueType.Number)
+            if (arg.Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             var value = arg.NumericValue;
@@ -53,7 +53,7 @@ public sealed class MultinomialFunction : IFunctionImplementation
             // Must be non-negative
             if (value < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Truncate to integer
@@ -82,7 +82,7 @@ public sealed class MultinomialFunction : IFunctionImplementation
                     // Check for overflow
                     if (double.IsInfinity(result))
                     {
-                        return CellValue.Error("#NUM!");
+                        return FormulaResult.Error("#NUM!");
                     }
                 }
             }
@@ -94,6 +94,6 @@ public sealed class MultinomialFunction : IFunctionImplementation
             remaining -= n;
         }
 
-        return CellValue.FromNumber(System.Math.Round(result, 0));
+        return FormulaResult.FromNumber(System.Math.Round(result, 0));
     }
 }

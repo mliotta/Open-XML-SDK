@@ -27,11 +27,11 @@ public sealed class CovariancePFunction : IFunctionImplementation
     public string Name => "COVARIANCE.P";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var array1Values = new List<double>();
@@ -43,7 +43,7 @@ public sealed class CovariancePFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             array1Values.Add(args[0].NumericValue);
         }
@@ -54,7 +54,7 @@ public sealed class CovariancePFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             array2Values.Add(args[1].NumericValue);
         }
@@ -62,13 +62,13 @@ public sealed class CovariancePFunction : IFunctionImplementation
         // Arrays must have same length
         if (array1Values.Count != array2Values.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Need at least 1 data point
         if (array1Values.Count < 1)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate means
@@ -88,6 +88,6 @@ public sealed class CovariancePFunction : IFunctionImplementation
 
         var covariance = sumProduct / array1Values.Count;
 
-        return CellValue.FromNumber(covariance);
+        return FormulaResult.FromNumber(covariance);
     }
 }

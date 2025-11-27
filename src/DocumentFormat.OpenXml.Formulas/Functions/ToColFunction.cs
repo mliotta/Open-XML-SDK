@@ -25,23 +25,23 @@ public sealed class ToColFunction : IFunctionImplementation
     public string Name => "TOCOL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse optional ignore parameter
         var ignore = 0;
-        var hasIgnore = args.Length >= 2 && args[args.Length - 1].Type == CellValueType.Number;
+        var hasIgnore = args.Length >= 2 && args[args.Length - 1].Type == FormulaResultType.Number;
         if (hasIgnore)
         {
             ignore = (int)args[args.Length - 1].NumericValue;
         }
 
         // Parse optional scan_by_column parameter
-        var hasScanByCol = args.Length >= 3 && args[args.Length - 2].Type == CellValueType.Boolean;
+        var hasScanByCol = args.Length >= 3 && args[args.Length - 2].Type == FormulaResultType.Boolean;
 
         // Determine array length
         var arrayLength = args.Length;
@@ -56,7 +56,7 @@ public sealed class ToColFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in array
@@ -74,7 +74,7 @@ public sealed class ToColFunction : IFunctionImplementation
         {
             var shouldIgnore = false;
 
-            if ((ignore & 1) != 0 && args[i].Type == CellValueType.Empty)
+            if ((ignore & 1) != 0 && args[i].Type == FormulaResultType.Empty)
             {
                 shouldIgnore = true;
             }
@@ -91,6 +91,6 @@ public sealed class ToColFunction : IFunctionImplementation
         }
 
         // All elements ignored
-        return CellValue.Error("#CALC!");
+        return FormulaResult.Error("#CALC!");
     }
 }

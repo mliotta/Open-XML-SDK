@@ -25,11 +25,11 @@ public sealed class ProbFunction : IFunctionImplementation
     public string Name => "PROB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse arguments - structure is: x_values..., prob_values..., lower_limit, [upper_limit]
@@ -52,7 +52,7 @@ public sealed class ProbFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 xValues.Add(args[i].NumericValue);
             }
@@ -66,12 +66,12 @@ public sealed class ProbFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 double prob = args[i].NumericValue;
                 if (prob < 0 || prob > 1)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
                 probValues.Add(prob);
             }
@@ -79,7 +79,7 @@ public sealed class ProbFunction : IFunctionImplementation
 
         if (xValues.Count != probValues.Count || xValues.Count == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Verify probabilities sum to 1 (with tolerance)
@@ -90,14 +90,14 @@ public sealed class ProbFunction : IFunctionImplementation
         }
         if (System.Math.Abs(sumProb - 1.0) > 0.0001)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get lower limit
         int lowerLimitIndex = rangeSize * 2;
-        if (args[lowerLimitIndex].Type != CellValueType.Number)
+        if (args[lowerLimitIndex].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double lowerLimit = args[lowerLimitIndex].NumericValue;
 
@@ -105,9 +105,9 @@ public sealed class ProbFunction : IFunctionImplementation
         double upperLimit = lowerLimit;
         if (hasUpperLimit)
         {
-            if (args[lowerLimitIndex + 1].Type != CellValueType.Number)
+            if (args[lowerLimitIndex + 1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
             upperLimit = args[lowerLimitIndex + 1].NumericValue;
         }
@@ -122,6 +122,6 @@ public sealed class ProbFunction : IFunctionImplementation
             }
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

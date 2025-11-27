@@ -25,7 +25,7 @@ public sealed class BetaInvLegacyFunction : IFunctionImplementation
     public string Name => "BETAINV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // BETAINV has the same signature as BETA.INV
         // Delegate directly to BETA.INV

@@ -27,11 +27,11 @@ public sealed class ForecastEtsFunction : IFunctionImplementation
     public string Name => "FORECAST.ETS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -44,15 +44,15 @@ public sealed class ForecastEtsFunction : IFunctionImplementation
         }
 
         // Get target_date
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double targetDate = args[0].NumericValue;
 
         // Extract values array
         var values = new List<double>();
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             values.Add(args[1].NumericValue);
         }
@@ -62,12 +62,12 @@ public sealed class ForecastEtsFunction : IFunctionImplementation
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract timeline array
         var timeline = new List<double>();
-        if (args[2].Type == CellValueType.Number)
+        if (args[2].Type == FormulaResultType.Number)
         {
             timeline.Add(args[2].NumericValue);
         }
@@ -77,29 +77,29 @@ public sealed class ForecastEtsFunction : IFunctionImplementation
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check arrays have same length
         if (values.Count != timeline.Count)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Need at least 2 data points
         if (values.Count < 2)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Get optional seasonality parameter (default: 0 = auto-detect)
         int seasonality = 0;
-        if (args.Length > 3 && args[3].Type == CellValueType.Number)
+        if (args.Length > 3 && args[3].Type == FormulaResultType.Number)
         {
             seasonality = (int)args[3].NumericValue;
             if (seasonality < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -118,7 +118,7 @@ public sealed class ForecastEtsFunction : IFunctionImplementation
             {
                 if (sortedTimeline[i] <= sortedTimeline[i - 1])
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
 
@@ -127,14 +127,14 @@ public sealed class ForecastEtsFunction : IFunctionImplementation
             {
                 // For dates within or at the end of timeline, use interpolation or last value
                 // Excel behavior: if target is in past or present, return error
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate steps ahead based on timeline spacing
             double avgStep = CalculateAverageStep(sortedTimeline);
             if (avgStep <= 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             int stepsAhead = (int)System.Math.Ceiling((targetDate - sortedTimeline[sortedTimeline.Length - 1]) / avgStep);
@@ -153,15 +153,15 @@ public sealed class ForecastEtsFunction : IFunctionImplementation
             double[] forecasts = ForecastHelper.ForecastValues(etsResult, stepsAhead);
             double forecastValue = forecasts[stepsAhead - 1];
 
-            return CellValue.FromNumber(forecastValue);
+            return FormulaResult.FromNumber(forecastValue);
         }
         catch (ArgumentException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         catch (Exception)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
     }
 

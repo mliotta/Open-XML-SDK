@@ -24,11 +24,11 @@ public sealed class NegBinomDistFunction : IFunctionImplementation
     public string Name => "NEGBINOM.DIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -39,10 +39,10 @@ public sealed class NegBinomDistFunction : IFunctionImplementation
             }
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number ||
-            args[2].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number ||
+            args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         int numberF = (int)args[0].NumericValue;
@@ -51,21 +51,21 @@ public sealed class NegBinomDistFunction : IFunctionImplementation
 
         if (numberF < 0 || numberS < 1 || probabilityS < 0 || probabilityS > 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         bool cumulative;
-        if (args[3].Type == CellValueType.Boolean)
+        if (args[3].Type == FormulaResultType.Boolean)
         {
             cumulative = args[3].BoolValue;
         }
-        else if (args[3].Type == CellValueType.Number)
+        else if (args[3].Type == FormulaResultType.Number)
         {
             cumulative = args[3].NumericValue != 0;
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -86,11 +86,11 @@ public sealed class NegBinomDistFunction : IFunctionImplementation
                 result = NegBinomPMF(numberF, numberS, probabilityS);
             }
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.Exception)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 

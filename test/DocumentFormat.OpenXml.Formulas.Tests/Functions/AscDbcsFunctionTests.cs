@@ -20,12 +20,12 @@ public class AscDbcsFunctionTests
         var func = AscFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("ＡＢＣ"),
+            FormulaResult.FromString("ＡＢＣ"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("ABC", result.StringValue);
     }
 
@@ -35,7 +35,7 @@ public class AscDbcsFunctionTests
         var func = AscFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("　"), // Full-width space U+3000
+            FormulaResult.FromString("　"), // Full-width space U+3000
         };
 
         var result = func.Execute(null!, args);
@@ -49,7 +49,7 @@ public class AscDbcsFunctionTests
         var func = AscFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("ＡBＣ"), // Full A, half B, full C
+            FormulaResult.FromString("ＡBＣ"), // Full A, half B, full C
         };
 
         var result = func.Execute(null!, args);
@@ -63,7 +63,7 @@ public class AscDbcsFunctionTests
         var func = AscFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("１２３"),
+            FormulaResult.FromString("１２３"),
         };
 
         var result = func.Execute(null!, args);
@@ -77,7 +77,7 @@ public class AscDbcsFunctionTests
         var func = AscFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -91,8 +91,8 @@ public class AscDbcsFunctionTests
         var func = AscFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("ABC"),
-            CellValue.FromString("DEF"),
+            FormulaResult.FromString("ABC"),
+            FormulaResult.FromString("DEF"),
         };
 
         var result = func.Execute(null!, args);
@@ -107,7 +107,7 @@ public class AscDbcsFunctionTests
         var func = AscFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
@@ -122,7 +122,7 @@ public class AscDbcsFunctionTests
         var func = AscFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("！＠＃"), // Full-width !, @, #
+            FormulaResult.FromString("！＠＃"), // Full-width !, @, #
         };
 
         var result = func.Execute(null!, args);
@@ -140,12 +140,12 @@ public class AscDbcsFunctionTests
         var func = DbcsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("ABC"),
+            FormulaResult.FromString("ABC"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("ＡＢＣ", result.StringValue);
     }
 
@@ -155,7 +155,7 @@ public class AscDbcsFunctionTests
         var func = DbcsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(" "), // Half-width space U+0020
+            FormulaResult.FromString(" "), // Half-width space U+0020
         };
 
         var result = func.Execute(null!, args);
@@ -169,7 +169,7 @@ public class AscDbcsFunctionTests
         var func = DbcsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("AＢC"), // Half A, full B, half C
+            FormulaResult.FromString("AＢC"), // Half A, full B, half C
         };
 
         var result = func.Execute(null!, args);
@@ -183,7 +183,7 @@ public class AscDbcsFunctionTests
         var func = DbcsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("123"),
+            FormulaResult.FromString("123"),
         };
 
         var result = func.Execute(null!, args);
@@ -197,7 +197,7 @@ public class AscDbcsFunctionTests
         var func = DbcsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -211,8 +211,8 @@ public class AscDbcsFunctionTests
         var func = DbcsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("ABC"),
-            CellValue.FromString("DEF"),
+            FormulaResult.FromString("ABC"),
+            FormulaResult.FromString("DEF"),
         };
 
         var result = func.Execute(null!, args);
@@ -227,7 +227,7 @@ public class AscDbcsFunctionTests
         var func = DbcsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
@@ -242,7 +242,7 @@ public class AscDbcsFunctionTests
         var func = DbcsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("!@#"),
+            FormulaResult.FromString("!@#"),
         };
 
         var result = func.Execute(null!, args);
@@ -263,7 +263,7 @@ public class AscDbcsFunctionTests
         string original = "ＡＢＣ１２３";
 
         // Full-width -> half-width
-        var halfWidth = ascFunc.Execute(null!, new[] { CellValue.FromString(original) });
+        var halfWidth = ascFunc.Execute(null!, new[] { FormulaResult.FromString(original) });
         Assert.Equal("ABC123", halfWidth.StringValue);
 
         // Half-width -> full-width (should restore original)

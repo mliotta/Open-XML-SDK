@@ -20,7 +20,7 @@ public interface IFormulaEvaluator : IDisposable
     /// <param name="worksheet">The worksheet containing the cell.</param>
     /// <param name="cell">The cell containing the formula.</param>
     /// <returns>Result containing the evaluated cell value or an error.</returns>
-    Result<CellValue> TryEvaluate(Worksheet worksheet, Cell cell);
+    Result<FormulaResult> TryEvaluate(Worksheet worksheet, Cell cell);
 
     /// <summary>
     /// Recalculates all formulas in the worksheet in dependency order.

@@ -77,11 +77,11 @@ public sealed class ConvertFunction : IFunctionImplementation
     };
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -99,9 +99,9 @@ public sealed class ConvertFunction : IFunctionImplementation
             return args[2];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -110,17 +110,17 @@ public sealed class ConvertFunction : IFunctionImplementation
 
         if (!_units.TryGetValue(fromUnit, out var fromInfo))
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         if (!_units.TryGetValue(toUnit, out var toInfo))
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         if (fromInfo.Category != toInfo.Category)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         double result;
@@ -137,7 +137,7 @@ public sealed class ConvertFunction : IFunctionImplementation
             result = (baseValue - toInfo.Offset) / toInfo.Factor;
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 
     private static double ConvertTemperature(double value, string fromUnit, string toUnit)

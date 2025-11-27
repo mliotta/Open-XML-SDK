@@ -25,11 +25,11 @@ public sealed class WeekdayFunction : IFunctionImplementation
     public string Name => "WEEKDAY";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,9 +37,9 @@ public sealed class WeekdayFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var returnType = 1; // Default: Sunday=1, Saturday=7
@@ -51,9 +51,9 @@ public sealed class WeekdayFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             returnType = (int)args[1].NumericValue;
@@ -73,11 +73,11 @@ public sealed class WeekdayFunction : IFunctionImplementation
                 _ => dayOfWeek + 1, // Default to type 1
             };
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

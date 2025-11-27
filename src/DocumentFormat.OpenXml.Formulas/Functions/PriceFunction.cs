@@ -25,11 +25,11 @@ public sealed class PriceFunction : IFunctionImplementation
     public string Name => "PRICE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 6 || args.Length > 7)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,9 +40,9 @@ public sealed class PriceFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -54,17 +54,17 @@ public sealed class PriceFunction : IFunctionImplementation
                 return args[6];
             }
 
-            if (args[6].Type == CellValueType.Number)
+            if (args[6].Type == FormulaResultType.Number)
             {
                 basis = (int)args[6].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -80,12 +80,12 @@ public sealed class PriceFunction : IFunctionImplementation
             // Validate inputs
             if (!DayCountHelper.IsValidFrequency(frequency))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (settlement >= maturity || rate < 0 || yld < 0 || redemption <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             var couponRate = rate / frequency;
@@ -125,14 +125,14 @@ public sealed class PriceFunction : IFunctionImplementation
 
             if (double.IsNaN(price) || double.IsInfinity(price))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(price);
+            return FormulaResult.FromNumber(price);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

@@ -26,11 +26,11 @@ public sealed class DecimalFunction : IFunctionImplementation
     public string Name => "DECIMAL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First argument: text to convert
@@ -40,22 +40,22 @@ public sealed class DecimalFunction : IFunctionImplementation
         }
 
         string text;
-        if (args[0].Type == CellValueType.Text)
+        if (args[0].Type == FormulaResultType.Text)
         {
             text = args[0].StringValue?.Trim() ?? string.Empty;
         }
-        else if (args[0].Type == CellValueType.Number)
+        else if (args[0].Type == FormulaResultType.Number)
         {
             text = args[0].NumericValue.ToString("F0");
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (string.IsNullOrEmpty(text))
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Second argument: radix (base)
@@ -64,36 +64,36 @@ public sealed class DecimalFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var radix = (int)args[1].NumericValue;
 
         if (radix < 2 || radix > 36)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
         {
             // Convert from the specified base to decimal
             var result = Convert.ToInt64(text, radix);
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (ArgumentException)
         {
             // Invalid characters for the specified base
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
         catch (FormatException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
         catch (OverflowException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

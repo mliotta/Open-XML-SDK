@@ -27,12 +27,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(0),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue, 5);
     }
 
@@ -47,12 +47,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.InRange(result.NumericValue, 0.49, 0.50); // Approximately half a year
     }
 
@@ -67,12 +67,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(2),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(30.0 / 360.0, result.NumericValue, 5);
     }
 
@@ -87,12 +87,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(3),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(30.0 / 365.0, result.NumericValue, 5);
     }
 
@@ -107,12 +107,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(4),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue, 5);
     }
 
@@ -127,11 +127,11 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue, 5);
     }
 
@@ -145,9 +145,9 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -164,9 +164,9 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(5), // Invalid basis (must be 0-4)
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(5), // Invalid basis (must be 0-4)
         });
 
         Assert.True(result.IsError);
@@ -181,7 +181,7 @@ public class DateFractionFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result1.IsError);
@@ -190,8 +190,8 @@ public class DateFractionFunctionTests
         // Non-numeric date argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(44927),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result2.IsError);
@@ -205,9 +205,9 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(44927),
-            CellValue.FromNumber(0),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(44927),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -225,12 +225,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.InRange(result.NumericValue, 1.99, 2.01); // Very close to 2.0
     }
 
@@ -249,12 +249,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("Y"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("Y"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1, result.NumericValue);
     }
 
@@ -269,12 +269,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("M"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("M"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2, result.NumericValue);
     }
 
@@ -289,12 +289,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("D"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("D"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(14, result.NumericValue);
     }
 
@@ -309,12 +309,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("YM"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("YM"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2, result.NumericValue);
     }
 
@@ -329,12 +329,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("YD"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("YD"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(14, result.NumericValue);
     }
 
@@ -349,12 +349,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("MD"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("MD"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(14, result.NumericValue);
     }
 
@@ -369,23 +369,23 @@ public class DateFractionFunctionTests
         // Test lowercase
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("y"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("y"),
         });
 
-        Assert.Equal(CellValueType.Number, result1.Type);
+        Assert.Equal(FormulaResultType.Number, result1.Type);
         Assert.Equal(1, result1.NumericValue);
 
         // Test mixed case
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("Y"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("Y"),
         });
 
-        Assert.Equal(CellValueType.Number, result2.Type);
+        Assert.Equal(FormulaResultType.Number, result2.Type);
         Assert.Equal(1, result2.NumericValue);
     }
 
@@ -399,9 +399,9 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("Y"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("Y"),
         });
 
         Assert.True(result.IsError);
@@ -418,9 +418,9 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("X"), // Invalid unit
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("X"), // Invalid unit
         });
 
         Assert.True(result.IsError);
@@ -435,8 +435,8 @@ public class DateFractionFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
-            CellValue.FromNumber(44957),
+            FormulaResult.FromNumber(44927),
+            FormulaResult.FromNumber(44957),
         });
 
         Assert.True(result1.IsError);
@@ -445,9 +445,9 @@ public class DateFractionFunctionTests
         // Non-text unit argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
-            CellValue.FromNumber(44957),
-            CellValue.FromNumber(1), // Should be text
+            FormulaResult.FromNumber(44927),
+            FormulaResult.FromNumber(44957),
+            FormulaResult.FromNumber(1), // Should be text
         });
 
         Assert.True(result2.IsError);
@@ -461,9 +461,9 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#REF!"),
-            CellValue.FromNumber(44927),
-            CellValue.FromString("Y"),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromNumber(44927),
+            FormulaResult.FromString("Y"),
         });
 
         Assert.True(result.IsError);
@@ -481,12 +481,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("D"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("D"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2, result.NumericValue); // Feb 28 -> Feb 29 -> Mar 1 = 2 days
     }
 
@@ -501,12 +501,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("Y"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("Y"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0, result.NumericValue);
     }
 
@@ -521,12 +521,12 @@ public class DateFractionFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("YM"),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("YM"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5, result.NumericValue);
     }
 

@@ -27,11 +27,11 @@ public sealed class NetworkdaysFunction : IFunctionImplementation
     public string Name => "NETWORKDAYS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -44,9 +44,9 @@ public sealed class NetworkdaysFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse optional holidays (currently only supports single holiday value)
@@ -58,7 +58,7 @@ public sealed class NetworkdaysFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Number)
+            if (args[2].Type == FormulaResultType.Number)
             {
                 // Single holiday date
                 holidays.Add((int)System.Math.Floor(args[2].NumericValue));
@@ -103,11 +103,11 @@ public sealed class NetworkdaysFunction : IFunctionImplementation
                 workingDays = -workingDays;
             }
 
-            return CellValue.FromNumber(workingDays);
+            return FormulaResult.FromNumber(workingDays);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

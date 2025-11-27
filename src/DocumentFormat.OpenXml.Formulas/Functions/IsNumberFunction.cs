@@ -24,15 +24,15 @@ public sealed class IsNumberFunction : IFunctionImplementation
     public string Name => "ISNUMBER";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
-        var isNumber = args[0].Type == CellValueType.Number;
-        return CellValue.FromBool(isNumber);
+        var isNumber = args[0].Type == FormulaResultType.Number;
+        return FormulaResult.FromBool(isNumber);
     }
 }

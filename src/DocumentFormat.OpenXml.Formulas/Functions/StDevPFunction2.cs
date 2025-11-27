@@ -25,7 +25,7 @@ public sealed class StDevPFunction2 : IFunctionImplementation
     public string Name => "STDEV.P";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Delegate to STDEVP implementation
         return StDevPFunction.Instance.Execute(context, args);

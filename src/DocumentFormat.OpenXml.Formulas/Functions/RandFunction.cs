@@ -28,13 +28,13 @@ public sealed class RandFunction : IFunctionImplementation
     public string Name => "RAND";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        return CellValue.FromNumber(_random.NextDouble());
+        return FormulaResult.FromNumber(_random.NextDouble());
     }
 }

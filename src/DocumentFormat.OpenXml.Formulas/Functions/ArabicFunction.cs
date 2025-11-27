@@ -37,11 +37,11 @@ public sealed class ArabicFunction : IFunctionImplementation
     public string Name => "ARABIC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -50,33 +50,33 @@ public sealed class ArabicFunction : IFunctionImplementation
         }
 
         string text;
-        if (args[0].Type == CellValueType.Text)
+        if (args[0].Type == FormulaResultType.Text)
         {
             text = args[0].StringValue?.Trim().ToUpperInvariant() ?? string.Empty;
         }
-        else if (args[0].Type == CellValueType.Number)
+        else if (args[0].Type == FormulaResultType.Number)
         {
             // If it's already a number, just return it
             return args[0];
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (string.IsNullOrEmpty(text))
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
         {
             var result = ConvertRomanToArabic(text);
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
     }
 

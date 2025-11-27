@@ -25,7 +25,7 @@ public sealed class FTestLegacyFunction : IFunctionImplementation
     public string Name => "FTEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // FTEST has the same signature as F.TEST
         // Delegate directly to F.TEST

@@ -27,12 +27,12 @@ public sealed class SwitchFunction : IFunctionImplementation
     public string Name => "SWITCH";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // SWITCH requires at least 3 arguments (expression, value1, result1)
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var expression = args[0];
@@ -85,10 +85,10 @@ public sealed class SwitchFunction : IFunctionImplementation
         }
 
         // No match and no default, return #N/A
-        return CellValue.Error("#N/A");
+        return FormulaResult.Error("#N/A");
     }
 
-    private static bool ValuesMatch(CellValue expr, CellValue value)
+    private static bool ValuesMatch(FormulaResult expr, FormulaResult value)
     {
         // Type must match
         if (expr.Type != value.Type)
@@ -98,10 +98,10 @@ public sealed class SwitchFunction : IFunctionImplementation
 
         return expr.Type switch
         {
-            CellValueType.Number => System.Math.Abs(expr.NumericValue - value.NumericValue) < 1e-10,
-            CellValueType.Text => string.Equals(expr.StringValue, value.StringValue, StringComparison.OrdinalIgnoreCase),
-            CellValueType.Boolean => expr.BoolValue == value.BoolValue,
-            CellValueType.Empty => true,
+            FormulaResultType.Number => System.Math.Abs(expr.NumericValue - value.NumericValue) < 1e-10,
+            FormulaResultType.Text => string.Equals(expr.StringValue, value.StringValue, StringComparison.OrdinalIgnoreCase),
+            FormulaResultType.Boolean => expr.BoolValue == value.BoolValue,
+            FormulaResultType.Empty => true,
             _ => false,
         };
     }

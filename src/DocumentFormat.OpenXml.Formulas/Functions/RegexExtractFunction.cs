@@ -22,11 +22,11 @@ public sealed class RegexExtractFunction : IFunctionImplementation
 
     public string Name => "REGEXEXTRACT";
 
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -37,9 +37,9 @@ public sealed class RegexExtractFunction : IFunctionImplementation
             }
         }
 
-        if (args[0].Type != CellValueType.Text || args[1].Type != CellValueType.Text)
+        if (args[0].Type != FormulaResultType.Text || args[1].Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var text = args[0].StringValue;
@@ -47,17 +47,17 @@ public sealed class RegexExtractFunction : IFunctionImplementation
         var mode = 0;
         var group = 0;
 
-        if (args.Length >= 3 && args[2].Type == CellValueType.Number)
+        if (args.Length >= 3 && args[2].Type == FormulaResultType.Number)
         {
             mode = (int)args[2].NumericValue;
         }
 
-        if (args.Length >= 4 && args[3].Type == CellValueType.Number)
+        if (args.Length >= 4 && args[3].Type == FormulaResultType.Number)
         {
             group = (int)args[3].NumericValue;
             if (group < 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -73,19 +73,19 @@ public sealed class RegexExtractFunction : IFunctionImplementation
 
             if (!match.Success)
             {
-                return CellValue.Error("#N/A");
+                return FormulaResult.Error("#N/A");
             }
 
             if (group >= match.Groups.Count)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
-            return CellValue.FromString(match.Groups[group].Value);
+            return FormulaResult.FromString(match.Groups[group].Value);
         }
         catch (ArgumentException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
     }
 }

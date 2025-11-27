@@ -24,11 +24,11 @@ public sealed class ImPowerFunction : IFunctionImplementation
     public string Name => "IMPOWER";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -44,18 +44,18 @@ public sealed class ImPowerFunction : IFunctionImplementation
         var inumber = args[0].StringValue;
         if (!ComplexNumber.TryParse(inumber, out var complex))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var power = (int)args[1].NumericValue;
         var result = ComplexNumber.Power(complex!, power);
 
         var suffix = inumber.EndsWith("j") ? "j" : "i";
-        return CellValue.FromString(result.ToString(suffix));
+        return FormulaResult.FromString(result.ToString(suffix));
     }
 }

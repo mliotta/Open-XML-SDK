@@ -25,11 +25,11 @@ public sealed class MirrFunction : IFunctionImplementation
     public string Name => "MIRR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Last two arguments are finance_rate and reinvest_rate
@@ -48,9 +48,9 @@ public sealed class MirrFunction : IFunctionImplementation
         }
 
         // Validate rates are numbers
-        if (financeRateArg.Type != CellValueType.Number || reinvestRateArg.Type != CellValueType.Number)
+        if (financeRateArg.Type != FormulaResultType.Number || reinvestRateArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var financeRate = financeRateArg.NumericValue;
@@ -67,9 +67,9 @@ public sealed class MirrFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             values[i] = args[i].NumericValue;
@@ -98,7 +98,7 @@ public sealed class MirrFunction : IFunctionImplementation
 
         if (!hasPositive || !hasNegative)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate present value of negative cash flows (costs) discounted at finance_rate
@@ -125,7 +125,7 @@ public sealed class MirrFunction : IFunctionImplementation
         // Check for division by zero
         if (pvNegative == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // MIRR formula: (FV_positive / -PV_negative)^(1/(n-1)) - 1
@@ -133,9 +133,9 @@ public sealed class MirrFunction : IFunctionImplementation
 
         if (double.IsNaN(mirr) || double.IsInfinity(mirr))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(mirr);
+        return FormulaResult.FromNumber(mirr);
     }
 }

@@ -26,11 +26,11 @@ public sealed class TextSplitFunction : IFunctionImplementation
     public string Name => "TEXTSPLIT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -54,7 +54,7 @@ public sealed class TextSplitFunction : IFunctionImplementation
         var padWith = string.Empty;
 
         // Parse optional arguments
-        if (args.Length >= 3 && args[2].Type != CellValueType.Empty)
+        if (args.Length >= 3 && args[2].Type != FormulaResultType.Empty)
         {
             if (args[2].IsError)
             {
@@ -71,11 +71,11 @@ public sealed class TextSplitFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type == CellValueType.Boolean)
+            if (args[3].Type == FormulaResultType.Boolean)
             {
                 ignoreEmpty = args[3].BoolValue;
             }
-            else if (args[3].Type == CellValueType.Number)
+            else if (args[3].Type == FormulaResultType.Number)
             {
                 ignoreEmpty = args[3].NumericValue != 0;
             }
@@ -88,12 +88,12 @@ public sealed class TextSplitFunction : IFunctionImplementation
                 return args[4];
             }
 
-            if (args[4].Type == CellValueType.Number)
+            if (args[4].Type == FormulaResultType.Number)
             {
                 matchMode = (int)args[4].NumericValue;
                 if (matchMode != 0 && matchMode != 1)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
         }
@@ -111,7 +111,7 @@ public sealed class TextSplitFunction : IFunctionImplementation
         // Empty text returns single cell with empty string
         if (string.IsNullOrEmpty(text))
         {
-            return CellValue.FromString(string.Empty);
+            return FormulaResult.FromString(string.Empty);
         }
 
         var comparisonType = matchMode == 1 ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
@@ -179,10 +179,10 @@ public sealed class TextSplitFunction : IFunctionImplementation
         // Return first row, first column as simplified implementation
         if (resultGrid.Count > 0 && resultGrid[0].Count > 0)
         {
-            return CellValue.FromString(resultGrid[0][0]);
+            return FormulaResult.FromString(resultGrid[0][0]);
         }
 
-        return CellValue.FromString(string.Empty);
+        return FormulaResult.FromString(string.Empty);
     }
 
     private static List<string> SplitString(string text, string delimiter, StringComparison comparison)

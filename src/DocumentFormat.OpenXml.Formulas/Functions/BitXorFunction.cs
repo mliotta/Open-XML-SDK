@@ -24,11 +24,11 @@ public sealed class BitXorFunction : IFunctionImplementation
     public string Name => "BITXOR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -41,9 +41,9 @@ public sealed class BitXorFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var num1 = (long)args[0].NumericValue;
@@ -52,9 +52,9 @@ public sealed class BitXorFunction : IFunctionImplementation
         // Must be non-negative and fit in 48 bits (Excel's limit)
         if (num1 < 0 || num2 < 0 || num1 > 281474976710655 || num2 > 281474976710655)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(num1 ^ num2);
+        return FormulaResult.FromNumber(num1 ^ num2);
     }
 }

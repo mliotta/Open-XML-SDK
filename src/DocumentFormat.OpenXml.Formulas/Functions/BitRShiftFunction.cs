@@ -24,11 +24,11 @@ public sealed class BitRShiftFunction : IFunctionImplementation
     public string Name => "BITRSHIFT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -41,9 +41,9 @@ public sealed class BitRShiftFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = (long)args[0].NumericValue;
@@ -52,13 +52,13 @@ public sealed class BitRShiftFunction : IFunctionImplementation
         // Must be non-negative and fit in 48 bits (Excel's limit)
         if (number < 0 || number > 281474976710655)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Shift amount must be reasonable
         if (shift < -53 || shift > 53)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         long result;
@@ -74,9 +74,9 @@ public sealed class BitRShiftFunction : IFunctionImplementation
         // Result must fit in 48 bits
         if (result < 0 || result > 281474976710655)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

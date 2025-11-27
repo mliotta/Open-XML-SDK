@@ -26,11 +26,11 @@ public sealed class CombinaFunction : IFunctionImplementation
     public string Name => "COMBINA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -43,9 +43,9 @@ public sealed class CombinaFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -54,7 +54,7 @@ public sealed class CombinaFunction : IFunctionImplementation
         // Both arguments must be non-negative
         if (number < 0 || numberChosen < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Truncate to integers
@@ -64,7 +64,7 @@ public sealed class CombinaFunction : IFunctionImplementation
         // Special case: if n is 0, result is 1 only if k is 0
         if (n == 0)
         {
-            return CellValue.FromNumber(k == 0 ? 1 : 0);
+            return FormulaResult.FromNumber(k == 0 ? 1 : 0);
         }
 
         // COMBINA(n, k) = COMBIN(n + k - 1, k)
@@ -80,13 +80,13 @@ public sealed class CombinaFunction : IFunctionImplementation
         // C(n+k-1, k) = 0 if k > n+k-1 (should not happen with our formula)
         if (k > combinParam)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // C(n+k-1, 0) = 1
         if (k == 0)
         {
-            return CellValue.FromNumber(1);
+            return FormulaResult.FromNumber(1);
         }
 
         // Calculate iteratively to avoid large factorials
@@ -100,10 +100,10 @@ public sealed class CombinaFunction : IFunctionImplementation
             // Check for overflow
             if (double.IsInfinity(result))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
-        return CellValue.FromNumber(System.Math.Round(result, 0));
+        return FormulaResult.FromNumber(System.Math.Round(result, 0));
     }
 }

@@ -25,11 +25,11 @@ public sealed class CeilingFunction : IFunctionImplementation
     public string Name => "CEILING";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,9 +42,9 @@ public sealed class CeilingFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -52,17 +52,17 @@ public sealed class CeilingFunction : IFunctionImplementation
 
         if (significance == 0)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
         // Excel CEILING behavior: if number and significance have different signs, return #NUM!
         if ((number > 0 && significance < 0) || (number < 0 && significance > 0))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Round up to nearest multiple of significance
         var result = System.Math.Ceiling(number / significance) * significance;
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

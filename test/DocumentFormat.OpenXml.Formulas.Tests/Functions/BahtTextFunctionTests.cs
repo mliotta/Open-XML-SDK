@@ -19,12 +19,12 @@ public class BahtTextFunctionTests
         var func = BahtTextFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1234.56),
+            FormulaResult.FromNumber(1234.56),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Contains("1234.56", result.StringValue);
         Assert.Contains("บาท", result.StringValue); // Thai Baht symbol
     }
@@ -35,7 +35,7 @@ public class BahtTextFunctionTests
         var func = BahtTextFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -50,7 +50,7 @@ public class BahtTextFunctionTests
         var func = BahtTextFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-500.25),
+            FormulaResult.FromNumber(-500.25),
         };
 
         var result = func.Execute(null!, args);
@@ -65,7 +65,7 @@ public class BahtTextFunctionTests
         var func = BahtTextFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1000000),
+            FormulaResult.FromNumber(1000000),
         };
 
         var result = func.Execute(null!, args);
@@ -80,7 +80,7 @@ public class BahtTextFunctionTests
         var func = BahtTextFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc"),
+            FormulaResult.FromString("abc"),
         };
 
         var result = func.Execute(null!, args);
@@ -95,8 +95,8 @@ public class BahtTextFunctionTests
         var func = BahtTextFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(200),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(200),
         };
 
         var result = func.Execute(null!, args);
@@ -111,7 +111,7 @@ public class BahtTextFunctionTests
         var func = BahtTextFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
@@ -126,7 +126,7 @@ public class BahtTextFunctionTests
         var func = BahtTextFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(123.4),
+            FormulaResult.FromNumber(123.4),
         };
 
         var result = func.Execute(null!, args);

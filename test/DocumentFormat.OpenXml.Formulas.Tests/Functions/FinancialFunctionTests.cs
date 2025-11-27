@@ -22,14 +22,14 @@ public class FinancialFunctionTests
         var func = PmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05 / 12),  // rate
-            CellValue.FromNumber(360),         // nper
-            CellValue.FromNumber(200000),      // pv
+            FormulaResult.FromNumber(0.05 / 12),  // rate
+            FormulaResult.FromNumber(360),         // nper
+            FormulaResult.FromNumber(200000),      // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-1073.64, result.NumericValue, 2); // Expected: -1073.64
     }
 
@@ -40,16 +40,16 @@ public class FinancialFunctionTests
         var func = PmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.08 / 12),  // rate
-            CellValue.FromNumber(10),          // nper
-            CellValue.FromNumber(10000),       // pv
-            CellValue.FromNumber(0),           // fv
-            CellValue.FromNumber(1),           // type (beginning of period)
+            FormulaResult.FromNumber(0.08 / 12),  // rate
+            FormulaResult.FromNumber(10),          // nper
+            FormulaResult.FromNumber(10000),       // pv
+            FormulaResult.FromNumber(0),           // fv
+            FormulaResult.FromNumber(1),           // type (beginning of period)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-1030.16, result.NumericValue, 2);
     }
 
@@ -60,14 +60,14 @@ public class FinancialFunctionTests
         var func = PmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),       // rate
-            CellValue.FromNumber(12),      // nper
-            CellValue.FromNumber(12000),   // pv
+            FormulaResult.FromNumber(0),       // rate
+            FormulaResult.FromNumber(12),      // nper
+            FormulaResult.FromNumber(12000),   // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-1000.0, result.NumericValue, 2);
     }
 
@@ -77,8 +77,8 @@ public class FinancialFunctionTests
         var func = PmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -93,9 +93,9 @@ public class FinancialFunctionTests
         var func = PmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(-10),  // negative periods
-            CellValue.FromNumber(10000),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(-10),  // negative periods
+            FormulaResult.FromNumber(10000),
         };
 
         var result = func.Execute(null!, args);
@@ -110,9 +110,9 @@ public class FinancialFunctionTests
         var func = PmtFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(10000),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(10000),
         };
 
         var result = func.Execute(null!, args);
@@ -129,16 +129,16 @@ public class FinancialFunctionTests
         var func = FvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.06 / 12),  // rate
-            CellValue.FromNumber(10),          // nper
-            CellValue.FromNumber(-200),        // pmt (outflow)
-            CellValue.FromNumber(-500),        // pv (outflow)
-            CellValue.FromNumber(1),           // type
+            FormulaResult.FromNumber(0.06 / 12),  // rate
+            FormulaResult.FromNumber(10),          // nper
+            FormulaResult.FromNumber(-200),        // pmt (outflow)
+            FormulaResult.FromNumber(-500),        // pv (outflow)
+            FormulaResult.FromNumber(1),           // type
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2581.40, result.NumericValue, 2);
     }
 
@@ -149,15 +149,15 @@ public class FinancialFunctionTests
         var func = FvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),       // rate
-            CellValue.FromNumber(10),      // nper
-            CellValue.FromNumber(-100),    // pmt
-            CellValue.FromNumber(-1000),   // pv
+            FormulaResult.FromNumber(0),       // rate
+            FormulaResult.FromNumber(10),      // nper
+            FormulaResult.FromNumber(-100),    // pmt
+            FormulaResult.FromNumber(-1000),   // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2000.0, result.NumericValue, 2);
     }
 
@@ -168,14 +168,14 @@ public class FinancialFunctionTests
         var func = FvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05 / 12),  // rate
-            CellValue.FromNumber(60),          // nper
-            CellValue.FromNumber(-100),        // pmt
+            FormulaResult.FromNumber(0.05 / 12),  // rate
+            FormulaResult.FromNumber(60),          // nper
+            FormulaResult.FromNumber(-100),        // pmt
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 6000); // Approximate check
     }
 
@@ -185,11 +185,11 @@ public class FinancialFunctionTests
         var func = FvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(-100),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(2),  // invalid type (must be 0 or 1)
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(-100),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(2),  // invalid type (must be 0 or 1)
         };
 
         var result = func.Execute(null!, args);
@@ -206,14 +206,14 @@ public class FinancialFunctionTests
         var func = PvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.08 / 12),  // rate
-            CellValue.FromNumber(240),         // nper
-            CellValue.FromNumber(500),         // pmt
+            FormulaResult.FromNumber(0.08 / 12),  // rate
+            FormulaResult.FromNumber(240),         // nper
+            FormulaResult.FromNumber(500),         // pmt
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-59777.15, result.NumericValue, 2);
     }
 
@@ -224,16 +224,16 @@ public class FinancialFunctionTests
         var func = PvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05 / 12),  // rate
-            CellValue.FromNumber(60),          // nper
-            CellValue.FromNumber(-100),        // pmt
-            CellValue.FromNumber(10000),       // fv
-            CellValue.FromNumber(0),           // type
+            FormulaResult.FromNumber(0.05 / 12),  // rate
+            FormulaResult.FromNumber(60),          // nper
+            FormulaResult.FromNumber(-100),        // pmt
+            FormulaResult.FromNumber(10000),       // fv
+            FormulaResult.FromNumber(0),           // type
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Should be negative
     }
 
@@ -244,15 +244,15 @@ public class FinancialFunctionTests
         var func = PvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),      // rate
-            CellValue.FromNumber(12),     // nper
-            CellValue.FromNumber(-100),   // pmt
-            CellValue.FromNumber(5000),   // fv
+            FormulaResult.FromNumber(0),      // rate
+            FormulaResult.FromNumber(12),     // nper
+            FormulaResult.FromNumber(-100),   // pmt
+            FormulaResult.FromNumber(5000),   // fv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-6200.0, result.NumericValue, 2);
     }
 
@@ -262,9 +262,9 @@ public class FinancialFunctionTests
         var func = PvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.Error("#N/A"),
-            CellValue.FromNumber(-100),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromNumber(-100),
         };
 
         var result = func.Execute(null!, args);
@@ -281,15 +281,15 @@ public class FinancialFunctionTests
         var func = NperFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.12 / 12),  // rate
-            CellValue.FromNumber(-100),        // pmt
-            CellValue.FromNumber(-1000),       // pv
-            CellValue.FromNumber(10000),       // fv
+            FormulaResult.FromNumber(0.12 / 12),  // rate
+            FormulaResult.FromNumber(-100),        // pmt
+            FormulaResult.FromNumber(-1000),       // pv
+            FormulaResult.FromNumber(10000),       // fv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(59.67, result.NumericValue, 2);
     }
 
@@ -300,15 +300,15 @@ public class FinancialFunctionTests
         var func = NperFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),      // rate
-            CellValue.FromNumber(-100),   // pmt
-            CellValue.FromNumber(-1000),  // pv
-            CellValue.FromNumber(5000),   // fv
+            FormulaResult.FromNumber(0),      // rate
+            FormulaResult.FromNumber(-100),   // pmt
+            FormulaResult.FromNumber(-1000),  // pv
+            FormulaResult.FromNumber(5000),   // fv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(60.0, result.NumericValue, 2);
     }
 
@@ -319,14 +319,14 @@ public class FinancialFunctionTests
         var func = NperFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.06 / 12),  // rate
-            CellValue.FromNumber(-100),        // pmt
-            CellValue.FromNumber(5000),        // pv
+            FormulaResult.FromNumber(0.06 / 12),  // rate
+            FormulaResult.FromNumber(-100),        // pmt
+            FormulaResult.FromNumber(5000),        // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -337,10 +337,10 @@ public class FinancialFunctionTests
         var func = NperFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.12 / 12),  // rate
-            CellValue.FromNumber(100),         // pmt (wrong sign)
-            CellValue.FromNumber(-1000),       // pv
-            CellValue.FromNumber(10000),       // fv
+            FormulaResult.FromNumber(0.12 / 12),  // rate
+            FormulaResult.FromNumber(100),         // pmt (wrong sign)
+            FormulaResult.FromNumber(-1000),       // pv
+            FormulaResult.FromNumber(10000),       // fv
         };
 
         var result = func.Execute(null!, args);
@@ -355,10 +355,10 @@ public class FinancialFunctionTests
         var func = NperFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.12),
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10000),
-            CellValue.FromNumber(5000),  // FV less than PV with positive payment
+            FormulaResult.FromNumber(0.12),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10000),
+            FormulaResult.FromNumber(5000),  // FV less than PV with positive payment
         };
 
         var result = func.Execute(null!, args);
@@ -375,14 +375,14 @@ public class FinancialFunctionTests
         var func = RateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(48),      // nper
-            CellValue.FromNumber(-200),    // pmt
-            CellValue.FromNumber(8000),    // pv
+            FormulaResult.FromNumber(48),      // nper
+            FormulaResult.FromNumber(-200),    // pmt
+            FormulaResult.FromNumber(8000),    // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
         Assert.True(result.NumericValue < 0.02); // Reasonable monthly rate
     }
@@ -394,17 +394,17 @@ public class FinancialFunctionTests
         var func = RateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(12),      // nper
-            CellValue.FromNumber(-1000),   // pmt
-            CellValue.FromNumber(0),       // pv
-            CellValue.FromNumber(13000),   // fv
-            CellValue.FromNumber(1),       // type
-            CellValue.FromNumber(0.1),     // guess
+            FormulaResult.FromNumber(12),      // nper
+            FormulaResult.FromNumber(-1000),   // pmt
+            FormulaResult.FromNumber(0),       // pv
+            FormulaResult.FromNumber(13000),   // fv
+            FormulaResult.FromNumber(1),       // type
+            FormulaResult.FromNumber(0.1),     // guess
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -415,15 +415,15 @@ public class FinancialFunctionTests
         var func = RateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(12),      // nper
-            CellValue.FromNumber(-1000),   // pmt
-            CellValue.FromNumber(0),       // pv
-            CellValue.FromNumber(12000),   // fv
+            FormulaResult.FromNumber(12),      // nper
+            FormulaResult.FromNumber(-1000),   // pmt
+            FormulaResult.FromNumber(0),       // pv
+            FormulaResult.FromNumber(12000),   // fv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(System.Math.Abs(result.NumericValue) < 0.001); // Close to zero
     }
 
@@ -433,9 +433,9 @@ public class FinancialFunctionTests
         var func = RateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-12),     // negative nper
-            CellValue.FromNumber(-1000),
-            CellValue.FromNumber(8000),
+            FormulaResult.FromNumber(-12),     // negative nper
+            FormulaResult.FromNumber(-1000),
+            FormulaResult.FromNumber(8000),
         };
 
         var result = func.Execute(null!, args);
@@ -450,11 +450,11 @@ public class FinancialFunctionTests
         var func = RateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(48),
-            CellValue.FromNumber(-200),
-            CellValue.FromNumber(8000),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(5),  // invalid type
+            FormulaResult.FromNumber(48),
+            FormulaResult.FromNumber(-200),
+            FormulaResult.FromNumber(8000),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(5),  // invalid type
         };
 
         var result = func.Execute(null!, args);
@@ -469,9 +469,9 @@ public class FinancialFunctionTests
         var func = RateFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(48),
-            CellValue.Error("#REF!"),
-            CellValue.FromNumber(8000),
+            FormulaResult.FromNumber(48),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromNumber(8000),
         };
 
         var result = func.Execute(null!, args);
@@ -488,16 +488,16 @@ public class FinancialFunctionTests
         var func = NpvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10),      // rate
-            CellValue.FromNumber(-10000),    // value1
-            CellValue.FromNumber(3000),      // value2
-            CellValue.FromNumber(4200),      // value3
-            CellValue.FromNumber(6800),      // value4
+            FormulaResult.FromNumber(0.10),      // rate
+            FormulaResult.FromNumber(-10000),    // value1
+            FormulaResult.FromNumber(3000),      // value2
+            FormulaResult.FromNumber(4200),      // value3
+            FormulaResult.FromNumber(6800),      // value4
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1188.44, result.NumericValue, 2);
     }
 
@@ -508,13 +508,13 @@ public class FinancialFunctionTests
         var func = NpvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),   // rate
-            CellValue.FromNumber(1000),   // value1
+            FormulaResult.FromNumber(0.05),   // rate
+            FormulaResult.FromNumber(1000),   // value1
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(952.38, result.NumericValue, 2); // 1000 / 1.05
     }
 
@@ -525,15 +525,15 @@ public class FinancialFunctionTests
         var func = NpvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),      // rate
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(200),
-            CellValue.FromNumber(300),
+            FormulaResult.FromNumber(0),      // rate
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(200),
+            FormulaResult.FromNumber(300),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(600.0, result.NumericValue, 2);
     }
 
@@ -543,7 +543,7 @@ public class FinancialFunctionTests
         var func = NpvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10),
+            FormulaResult.FromNumber(0.10),
         };
 
         var result = func.Execute(null!, args);
@@ -558,9 +558,9 @@ public class FinancialFunctionTests
         var func = NpvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(0.10),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -577,15 +577,15 @@ public class FinancialFunctionTests
         var func = IrrFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-10000),
-            CellValue.FromNumber(3000),
-            CellValue.FromNumber(4200),
-            CellValue.FromNumber(6800),
+            FormulaResult.FromNumber(-10000),
+            FormulaResult.FromNumber(3000),
+            FormulaResult.FromNumber(4200),
+            FormulaResult.FromNumber(6800),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0.1); // Should be positive rate
         Assert.True(result.NumericValue < 0.3); // Reasonable range
     }
@@ -597,15 +597,15 @@ public class FinancialFunctionTests
         var func = IrrFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-1000),
-            CellValue.FromNumber(300),
-            CellValue.FromNumber(400),
-            CellValue.FromNumber(500),
+            FormulaResult.FromNumber(-1000),
+            FormulaResult.FromNumber(300),
+            FormulaResult.FromNumber(400),
+            FormulaResult.FromNumber(500),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0); // Positive return
     }
 
@@ -616,9 +616,9 @@ public class FinancialFunctionTests
         var func = IrrFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(200),
-            CellValue.FromNumber(300),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(200),
+            FormulaResult.FromNumber(300),
         };
 
         var result = func.Execute(null!, args);
@@ -633,9 +633,9 @@ public class FinancialFunctionTests
         var func = IrrFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-100),
-            CellValue.FromNumber(-200),
-            CellValue.FromNumber(-300),
+            FormulaResult.FromNumber(-100),
+            FormulaResult.FromNumber(-200),
+            FormulaResult.FromNumber(-300),
         };
 
         var result = func.Execute(null!, args);
@@ -650,9 +650,9 @@ public class FinancialFunctionTests
         var func = IrrFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-1000),
-            CellValue.Error("#N/A"),
-            CellValue.FromNumber(500),
+            FormulaResult.FromNumber(-1000),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromNumber(500),
         };
 
         var result = func.Execute(null!, args);
@@ -669,15 +669,15 @@ public class FinancialFunctionTests
         var func = IpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),  // rate
-            CellValue.FromNumber(1),          // per
-            CellValue.FromNumber(360),        // nper
-            CellValue.FromNumber(200000),     // pv
+            FormulaResult.FromNumber(0.10 / 12),  // rate
+            FormulaResult.FromNumber(1),          // per
+            FormulaResult.FromNumber(360),        // nper
+            FormulaResult.FromNumber(200000),     // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Interest is negative (outflow)
         Assert.True(System.Math.Abs(result.NumericValue) > 1600); // Approximate check
     }
@@ -689,15 +689,15 @@ public class FinancialFunctionTests
         var func = IpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),  // rate
-            CellValue.FromNumber(180),        // per
-            CellValue.FromNumber(360),        // nper
-            CellValue.FromNumber(200000),     // pv
+            FormulaResult.FromNumber(0.10 / 12),  // rate
+            FormulaResult.FromNumber(180),        // per
+            FormulaResult.FromNumber(360),        // nper
+            FormulaResult.FromNumber(200000),     // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Interest is negative
     }
 
@@ -708,17 +708,17 @@ public class FinancialFunctionTests
         var func = IpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.08 / 12),  // rate
-            CellValue.FromNumber(5),          // per
-            CellValue.FromNumber(60),         // nper
-            CellValue.FromNumber(10000),      // pv
-            CellValue.FromNumber(5000),       // fv
-            CellValue.FromNumber(0),          // type
+            FormulaResult.FromNumber(0.08 / 12),  // rate
+            FormulaResult.FromNumber(5),          // per
+            FormulaResult.FromNumber(60),         // nper
+            FormulaResult.FromNumber(10000),      // pv
+            FormulaResult.FromNumber(5000),       // fv
+            FormulaResult.FromNumber(0),          // type
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Interest is negative
     }
 
@@ -729,17 +729,17 @@ public class FinancialFunctionTests
         var func = IpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.08 / 12),  // rate
-            CellValue.FromNumber(1),          // per
-            CellValue.FromNumber(60),         // nper
-            CellValue.FromNumber(10000),      // pv
-            CellValue.FromNumber(0),          // fv
-            CellValue.FromNumber(1),          // type
+            FormulaResult.FromNumber(0.08 / 12),  // rate
+            FormulaResult.FromNumber(1),          // per
+            FormulaResult.FromNumber(60),         // nper
+            FormulaResult.FromNumber(10000),      // pv
+            FormulaResult.FromNumber(0),          // fv
+            FormulaResult.FromNumber(1),          // type
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // For beginning of period, first payment has no interest
         Assert.Equal(0.0, result.NumericValue, 2);
     }
@@ -750,10 +750,10 @@ public class FinancialFunctionTests
         var func = IpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),
-            CellValue.FromNumber(0),          // invalid period (< 1)
-            CellValue.FromNumber(360),
-            CellValue.FromNumber(200000),
+            FormulaResult.FromNumber(0.10 / 12),
+            FormulaResult.FromNumber(0),          // invalid period (< 1)
+            FormulaResult.FromNumber(360),
+            FormulaResult.FromNumber(200000),
         };
 
         var result = func.Execute(null!, args);
@@ -768,10 +768,10 @@ public class FinancialFunctionTests
         var func = IpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),
-            CellValue.FromNumber(361),        // period > nper
-            CellValue.FromNumber(360),
-            CellValue.FromNumber(200000),
+            FormulaResult.FromNumber(0.10 / 12),
+            FormulaResult.FromNumber(361),        // period > nper
+            FormulaResult.FromNumber(360),
+            FormulaResult.FromNumber(200000),
         };
 
         var result = func.Execute(null!, args);
@@ -786,10 +786,10 @@ public class FinancialFunctionTests
         var func = IpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(360),
-            CellValue.FromNumber(200000),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(360),
+            FormulaResult.FromNumber(200000),
         };
 
         var result = func.Execute(null!, args);
@@ -806,15 +806,15 @@ public class FinancialFunctionTests
         var func = PpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),  // rate
-            CellValue.FromNumber(1),          // per
-            CellValue.FromNumber(360),        // nper
-            CellValue.FromNumber(200000),     // pv
+            FormulaResult.FromNumber(0.10 / 12),  // rate
+            FormulaResult.FromNumber(1),          // per
+            FormulaResult.FromNumber(360),        // nper
+            FormulaResult.FromNumber(200000),     // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Principal is negative (outflow)
     }
 
@@ -825,15 +825,15 @@ public class FinancialFunctionTests
         var func = PpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),  // rate
-            CellValue.FromNumber(360),        // per
-            CellValue.FromNumber(360),        // nper
-            CellValue.FromNumber(200000),     // pv
+            FormulaResult.FromNumber(0.10 / 12),  // rate
+            FormulaResult.FromNumber(360),        // per
+            FormulaResult.FromNumber(360),        // nper
+            FormulaResult.FromNumber(200000),     // pv
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Principal is negative
     }
 
@@ -844,17 +844,17 @@ public class FinancialFunctionTests
         var func = PpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.08 / 12),  // rate
-            CellValue.FromNumber(5),          // per
-            CellValue.FromNumber(60),         // nper
-            CellValue.FromNumber(10000),      // pv
-            CellValue.FromNumber(5000),       // fv
-            CellValue.FromNumber(0),          // type
+            FormulaResult.FromNumber(0.08 / 12),  // rate
+            FormulaResult.FromNumber(5),          // per
+            FormulaResult.FromNumber(60),         // nper
+            FormulaResult.FromNumber(10000),      // pv
+            FormulaResult.FromNumber(5000),       // fv
+            FormulaResult.FromNumber(0),          // type
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Principal is negative
     }
 
@@ -865,17 +865,17 @@ public class FinancialFunctionTests
         var func = PpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.08 / 12),  // rate
-            CellValue.FromNumber(1),          // per
-            CellValue.FromNumber(60),         // nper
-            CellValue.FromNumber(10000),      // pv
-            CellValue.FromNumber(0),          // fv
-            CellValue.FromNumber(1),          // type
+            FormulaResult.FromNumber(0.08 / 12),  // rate
+            FormulaResult.FromNumber(1),          // per
+            FormulaResult.FromNumber(60),         // nper
+            FormulaResult.FromNumber(10000),      // pv
+            FormulaResult.FromNumber(0),          // fv
+            FormulaResult.FromNumber(1),          // type
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 0); // Principal is negative
     }
 
@@ -885,10 +885,10 @@ public class FinancialFunctionTests
         var func = PpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),
-            CellValue.FromNumber(0),          // invalid period (< 1)
-            CellValue.FromNumber(360),
-            CellValue.FromNumber(200000),
+            FormulaResult.FromNumber(0.10 / 12),
+            FormulaResult.FromNumber(0),          // invalid period (< 1)
+            FormulaResult.FromNumber(360),
+            FormulaResult.FromNumber(200000),
         };
 
         var result = func.Execute(null!, args);
@@ -903,10 +903,10 @@ public class FinancialFunctionTests
         var func = PpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),
-            CellValue.FromNumber(361),        // period > nper
-            CellValue.FromNumber(360),
-            CellValue.FromNumber(200000),
+            FormulaResult.FromNumber(0.10 / 12),
+            FormulaResult.FromNumber(361),        // period > nper
+            FormulaResult.FromNumber(360),
+            FormulaResult.FromNumber(200000),
         };
 
         var result = func.Execute(null!, args);
@@ -921,10 +921,10 @@ public class FinancialFunctionTests
         var func = PpmtFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.10 / 12),
-            CellValue.FromNumber(1),
-            CellValue.Error("#N/A"),
-            CellValue.FromNumber(200000),
+            FormulaResult.FromNumber(0.10 / 12),
+            FormulaResult.FromNumber(1),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromNumber(200000),
         };
 
         var result = func.Execute(null!, args);
@@ -945,24 +945,24 @@ public class FinancialFunctionTests
         var pmtFunc = PmtFunction.Instance;
         var pmtArgs = new[]
         {
-            CellValue.FromNumber(rate),
-            CellValue.FromNumber(nper),
-            CellValue.FromNumber(pv),
+            FormulaResult.FromNumber(rate),
+            FormulaResult.FromNumber(nper),
+            FormulaResult.FromNumber(pv),
         };
 
         var pmtResult = pmtFunc.Execute(null!, pmtArgs);
-        Assert.Equal(CellValueType.Number, pmtResult.Type);
+        Assert.Equal(FormulaResultType.Number, pmtResult.Type);
 
         var pvFunc = PvFunction.Instance;
         var pvArgs = new[]
         {
-            CellValue.FromNumber(rate),
-            CellValue.FromNumber(nper),
-            CellValue.FromNumber(pmtResult.NumericValue),
+            FormulaResult.FromNumber(rate),
+            FormulaResult.FromNumber(nper),
+            FormulaResult.FromNumber(pmtResult.NumericValue),
         };
 
         var pvResult = pvFunc.Execute(null!, pvArgs);
-        Assert.Equal(CellValueType.Number, pvResult.Type);
+        Assert.Equal(FormulaResultType.Number, pvResult.Type);
         Assert.Equal(-pv, pvResult.NumericValue, 1); // Signs are opposite
     }
 
@@ -977,26 +977,26 @@ public class FinancialFunctionTests
         var fvFunc = FvFunction.Instance;
         var fvArgs = new[]
         {
-            CellValue.FromNumber(rate),
-            CellValue.FromNumber(nper),
-            CellValue.FromNumber(pmt),
+            FormulaResult.FromNumber(rate),
+            FormulaResult.FromNumber(nper),
+            FormulaResult.FromNumber(pmt),
         };
 
         var fvResult = fvFunc.Execute(null!, fvArgs);
-        Assert.Equal(CellValueType.Number, fvResult.Type);
+        Assert.Equal(FormulaResultType.Number, fvResult.Type);
 
         // Now calculate PV using the FV we just calculated
         var pvFunc = PvFunction.Instance;
         var pvArgs = new[]
         {
-            CellValue.FromNumber(rate),
-            CellValue.FromNumber(nper),
-            CellValue.FromNumber(pmt),
-            CellValue.FromNumber(fvResult.NumericValue),
+            FormulaResult.FromNumber(rate),
+            FormulaResult.FromNumber(nper),
+            FormulaResult.FromNumber(pmt),
+            FormulaResult.FromNumber(fvResult.NumericValue),
         };
 
         var pvResult = pvFunc.Execute(null!, pvArgs);
-        Assert.Equal(CellValueType.Number, pvResult.Type);
+        Assert.Equal(FormulaResultType.Number, pvResult.Type);
         Assert.True(System.Math.Abs(pvResult.NumericValue) < 0.01); // Should be close to zero
     }
 
@@ -1012,37 +1012,37 @@ public class FinancialFunctionTests
         var pmtFunc = PmtFunction.Instance;
         var pmtArgs = new[]
         {
-            CellValue.FromNumber(rate),
-            CellValue.FromNumber(nper),
-            CellValue.FromNumber(pv),
+            FormulaResult.FromNumber(rate),
+            FormulaResult.FromNumber(nper),
+            FormulaResult.FromNumber(pv),
         };
 
         var pmtResult = pmtFunc.Execute(null!, pmtArgs);
-        Assert.Equal(CellValueType.Number, pmtResult.Type);
+        Assert.Equal(FormulaResultType.Number, pmtResult.Type);
 
         var ipmtFunc = IpmtFunction.Instance;
         var ipmtArgs = new[]
         {
-            CellValue.FromNumber(rate),
-            CellValue.FromNumber(per),
-            CellValue.FromNumber(nper),
-            CellValue.FromNumber(pv),
+            FormulaResult.FromNumber(rate),
+            FormulaResult.FromNumber(per),
+            FormulaResult.FromNumber(nper),
+            FormulaResult.FromNumber(pv),
         };
 
         var ipmtResult = ipmtFunc.Execute(null!, ipmtArgs);
-        Assert.Equal(CellValueType.Number, ipmtResult.Type);
+        Assert.Equal(FormulaResultType.Number, ipmtResult.Type);
 
         var ppmtFunc = PpmtFunction.Instance;
         var ppmtArgs = new[]
         {
-            CellValue.FromNumber(rate),
-            CellValue.FromNumber(per),
-            CellValue.FromNumber(nper),
-            CellValue.FromNumber(pv),
+            FormulaResult.FromNumber(rate),
+            FormulaResult.FromNumber(per),
+            FormulaResult.FromNumber(nper),
+            FormulaResult.FromNumber(pv),
         };
 
         var ppmtResult = ppmtFunc.Execute(null!, ppmtArgs);
-        Assert.Equal(CellValueType.Number, ppmtResult.Type);
+        Assert.Equal(FormulaResultType.Number, ppmtResult.Type);
 
         // IPMT + PPMT should equal PMT
         var sum = ipmtResult.NumericValue + ppmtResult.NumericValue;
@@ -1064,27 +1064,27 @@ public class FinancialFunctionTests
         var irrFunc = IrrFunction.Instance;
         var irrArgs = new[]
         {
-            CellValue.FromNumber(values[0]),
-            CellValue.FromNumber(values[1]),
-            CellValue.FromNumber(values[2]),
-            CellValue.FromNumber(values[3]),
+            FormulaResult.FromNumber(values[0]),
+            FormulaResult.FromNumber(values[1]),
+            FormulaResult.FromNumber(values[2]),
+            FormulaResult.FromNumber(values[3]),
         };
 
         var irrResult = irrFunc.Execute(null!, irrArgs);
-        Assert.Equal(CellValueType.Number, irrResult.Type);
+        Assert.Equal(FormulaResultType.Number, irrResult.Type);
 
         // Now calculate NPV at the IRR rate
         var npvFunc = NpvFunction.Instance;
         var npvArgs = new[]
         {
-            CellValue.FromNumber(irrResult.NumericValue),
-            CellValue.FromNumber(values[1]),
-            CellValue.FromNumber(values[2]),
-            CellValue.FromNumber(values[3]),
+            FormulaResult.FromNumber(irrResult.NumericValue),
+            FormulaResult.FromNumber(values[1]),
+            FormulaResult.FromNumber(values[2]),
+            FormulaResult.FromNumber(values[3]),
         };
 
         var npvResult = npvFunc.Execute(null!, npvArgs);
-        Assert.Equal(CellValueType.Number, npvResult.Type);
+        Assert.Equal(FormulaResultType.Number, npvResult.Type);
 
         // NPV at IRR plus the initial investment should be close to zero
         var totalNpv = npvResult.NumericValue + values[0];
@@ -1099,14 +1099,14 @@ public class FinancialFunctionTests
         var func = SlnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),  // cost
-            CellValue.FromNumber(7500),   // salvage
-            CellValue.FromNumber(10),     // life
+            FormulaResult.FromNumber(30000),  // cost
+            FormulaResult.FromNumber(7500),   // salvage
+            FormulaResult.FromNumber(10),     // life
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2250.0, result.NumericValue, 2);
     }
 
@@ -1117,14 +1117,14 @@ public class FinancialFunctionTests
         var func = SlnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10000),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(10000),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2000.0, result.NumericValue, 2);
     }
 
@@ -1134,9 +1134,9 @@ public class FinancialFunctionTests
         var func = SlnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),
-            CellValue.FromNumber(7500),
-            CellValue.FromNumber(0),  // invalid life
+            FormulaResult.FromNumber(30000),
+            FormulaResult.FromNumber(7500),
+            FormulaResult.FromNumber(0),  // invalid life
         };
 
         var result = func.Execute(null!, args);
@@ -1151,8 +1151,8 @@ public class FinancialFunctionTests
         var func = SlnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),
-            CellValue.FromNumber(7500),
+            FormulaResult.FromNumber(30000),
+            FormulaResult.FromNumber(7500),
         };
 
         var result = func.Execute(null!, args);
@@ -1167,9 +1167,9 @@ public class FinancialFunctionTests
         var func = SlnFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(7500),
-            CellValue.FromNumber(10),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(7500),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -1186,15 +1186,15 @@ public class FinancialFunctionTests
         var func = DbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1000000),  // cost
-            CellValue.FromNumber(100000),   // salvage
-            CellValue.FromNumber(6),        // life
-            CellValue.FromNumber(1),        // period
+            FormulaResult.FromNumber(1000000),  // cost
+            FormulaResult.FromNumber(100000),   // salvage
+            FormulaResult.FromNumber(6),        // life
+            FormulaResult.FromNumber(1),        // period
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
         Assert.True(result.NumericValue < 1000000);
     }
@@ -1206,16 +1206,16 @@ public class FinancialFunctionTests
         var func = DbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1000000),
-            CellValue.FromNumber(100000),
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(7),  // 7 months in first year
+            FormulaResult.FromNumber(1000000),
+            FormulaResult.FromNumber(100000),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(7),  // 7 months in first year
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -1226,15 +1226,15 @@ public class FinancialFunctionTests
         var func = DbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1000000),
-            CellValue.FromNumber(100000),
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(6),
+            FormulaResult.FromNumber(1000000),
+            FormulaResult.FromNumber(100000),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(6),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -1244,10 +1244,10 @@ public class FinancialFunctionTests
         var func = DbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1000000),
-            CellValue.FromNumber(100000),
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(0),  // invalid period
+            FormulaResult.FromNumber(1000000),
+            FormulaResult.FromNumber(100000),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(0),  // invalid period
         };
 
         var result = func.Execute(null!, args);
@@ -1262,10 +1262,10 @@ public class FinancialFunctionTests
         var func = DbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1000000),
-            CellValue.FromNumber(100000),
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(7),  // period > life
+            FormulaResult.FromNumber(1000000),
+            FormulaResult.FromNumber(100000),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(7),  // period > life
         };
 
         var result = func.Execute(null!, args);
@@ -1280,15 +1280,15 @@ public class FinancialFunctionTests
         var func = DbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(100000),
-            CellValue.FromNumber(200000),  // salvage > cost
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(100000),
+            FormulaResult.FromNumber(200000),  // salvage > cost
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue, 2);
     }
 
@@ -1298,10 +1298,10 @@ public class FinancialFunctionTests
         var func = DbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1000000),
-            CellValue.Error("#REF!"),
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1000000),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -1318,15 +1318,15 @@ public class FinancialFunctionTests
         var func = DdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2400),  // cost
-            CellValue.FromNumber(300),   // salvage
-            CellValue.FromNumber(10),    // life
-            CellValue.FromNumber(1),     // period
+            FormulaResult.FromNumber(2400),  // cost
+            FormulaResult.FromNumber(300),   // salvage
+            FormulaResult.FromNumber(10),    // life
+            FormulaResult.FromNumber(1),     // period
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(480.0, result.NumericValue, 2); // 2400 * 0.2
     }
 
@@ -1337,15 +1337,15 @@ public class FinancialFunctionTests
         var func = DdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2400),
-            CellValue.FromNumber(300),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(2400),
+            FormulaResult.FromNumber(300),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(384.0, result.NumericValue, 2); // (2400 - 480) * 0.2
     }
 
@@ -1356,16 +1356,16 @@ public class FinancialFunctionTests
         var func = DdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2400),
-            CellValue.FromNumber(300),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1.5),  // factor
+            FormulaResult.FromNumber(2400),
+            FormulaResult.FromNumber(300),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1.5),  // factor
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(360.0, result.NumericValue, 2); // 2400 * 0.15
     }
 
@@ -1376,15 +1376,15 @@ public class FinancialFunctionTests
         var func = DdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2400),
-            CellValue.FromNumber(300),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(2400),
+            FormulaResult.FromNumber(300),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 0);
     }
 
@@ -1394,10 +1394,10 @@ public class FinancialFunctionTests
         var func = DdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2400),
-            CellValue.FromNumber(300),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0),  // invalid period
+            FormulaResult.FromNumber(2400),
+            FormulaResult.FromNumber(300),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0),  // invalid period
         };
 
         var result = func.Execute(null!, args);
@@ -1412,11 +1412,11 @@ public class FinancialFunctionTests
         var func = DdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2400),
-            CellValue.FromNumber(300),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(-1),  // invalid factor
+            FormulaResult.FromNumber(2400),
+            FormulaResult.FromNumber(300),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(-1),  // invalid factor
         };
 
         var result = func.Execute(null!, args);
@@ -1431,15 +1431,15 @@ public class FinancialFunctionTests
         var func = DdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1000),
-            CellValue.FromNumber(2000),  // salvage > cost
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1000),
+            FormulaResult.FromNumber(2000),  // salvage > cost
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue, 2);
     }
 
@@ -1449,10 +1449,10 @@ public class FinancialFunctionTests
         var func = DdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2400),
-            CellValue.FromNumber(300),
-            CellValue.Error("#N/A"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(2400),
+            FormulaResult.FromNumber(300),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -1469,15 +1469,15 @@ public class FinancialFunctionTests
         var func = SydFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),  // cost
-            CellValue.FromNumber(7500),   // salvage
-            CellValue.FromNumber(10),     // life
-            CellValue.FromNumber(1),      // period
+            FormulaResult.FromNumber(30000),  // cost
+            FormulaResult.FromNumber(7500),   // salvage
+            FormulaResult.FromNumber(10),     // life
+            FormulaResult.FromNumber(1),      // period
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Formula: (30000 - 7500) * (10 - 1 + 1) * 2 / (10 * 11) = 22500 * 10 * 2 / 110 = 4090.91
         Assert.Equal(4090.91, result.NumericValue, 2);
     }
@@ -1489,15 +1489,15 @@ public class FinancialFunctionTests
         var func = SydFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),
-            CellValue.FromNumber(7500),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(30000),
+            FormulaResult.FromNumber(7500),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Formula: (30000 - 7500) * 9 * 2 / 110 = 3681.82
         Assert.Equal(3681.82, result.NumericValue, 2);
     }
@@ -1509,15 +1509,15 @@ public class FinancialFunctionTests
         var func = SydFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),
-            CellValue.FromNumber(7500),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(30000),
+            FormulaResult.FromNumber(7500),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Formula: (30000 - 7500) * 1 * 2 / 110 = 409.09
         Assert.Equal(409.09, result.NumericValue, 2);
     }
@@ -1529,15 +1529,15 @@ public class FinancialFunctionTests
         var func = SydFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10000),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(10000),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Formula: 10000 * 5 * 2 / 30 = 3333.33
         Assert.Equal(3333.33, result.NumericValue, 2);
     }
@@ -1548,10 +1548,10 @@ public class FinancialFunctionTests
         var func = SydFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),
-            CellValue.FromNumber(7500),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0),  // invalid period
+            FormulaResult.FromNumber(30000),
+            FormulaResult.FromNumber(7500),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0),  // invalid period
         };
 
         var result = func.Execute(null!, args);
@@ -1566,10 +1566,10 @@ public class FinancialFunctionTests
         var func = SydFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),
-            CellValue.FromNumber(7500),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(11),  // period > life
+            FormulaResult.FromNumber(30000),
+            FormulaResult.FromNumber(7500),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(11),  // period > life
         };
 
         var result = func.Execute(null!, args);
@@ -1584,10 +1584,10 @@ public class FinancialFunctionTests
         var func = SydFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),
-            CellValue.FromNumber(7500),
-            CellValue.FromNumber(0),  // invalid life
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(30000),
+            FormulaResult.FromNumber(7500),
+            FormulaResult.FromNumber(0),  // invalid life
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -1602,10 +1602,10 @@ public class FinancialFunctionTests
         var func = SydFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30000),
-            CellValue.FromNumber(7500),
-            CellValue.FromNumber(10),
-            CellValue.Error("#VALUE!"),
+            FormulaResult.FromNumber(30000),
+            FormulaResult.FromNumber(7500),
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#VALUE!"),
         };
 
         var result = func.Execute(null!, args);
@@ -1629,9 +1629,9 @@ public class FinancialFunctionTests
         {
             var args = new[]
             {
-                CellValue.FromNumber(cost),
-                CellValue.FromNumber(salvage),
-                CellValue.FromNumber(life),
+                FormulaResult.FromNumber(cost),
+                FormulaResult.FromNumber(salvage),
+                FormulaResult.FromNumber(life),
             };
 
             var result = func.Execute(null!, args);
@@ -1655,10 +1655,10 @@ public class FinancialFunctionTests
         {
             var args = new[]
             {
-                CellValue.FromNumber(cost),
-                CellValue.FromNumber(salvage),
-                CellValue.FromNumber(life),
-                CellValue.FromNumber(period),
+                FormulaResult.FromNumber(cost),
+                FormulaResult.FromNumber(salvage),
+                FormulaResult.FromNumber(life),
+                FormulaResult.FromNumber(period),
             };
 
             var result = func.Execute(null!, args);
@@ -1679,19 +1679,19 @@ public class FinancialFunctionTests
         var slnFunc = SlnFunction.Instance;
         var slnArgs = new[]
         {
-            CellValue.FromNumber(cost),
-            CellValue.FromNumber(salvage),
-            CellValue.FromNumber(life),
+            FormulaResult.FromNumber(cost),
+            FormulaResult.FromNumber(salvage),
+            FormulaResult.FromNumber(life),
         };
         var slnResult = slnFunc.Execute(null!, slnArgs);
 
         var sydFunc = SydFunction.Instance;
         var sydArgs = new[]
         {
-            CellValue.FromNumber(cost),
-            CellValue.FromNumber(salvage),
-            CellValue.FromNumber(life),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(cost),
+            FormulaResult.FromNumber(salvage),
+            FormulaResult.FromNumber(life),
+            FormulaResult.FromNumber(1),
         };
         var sydResult = sydFunc.Execute(null!, sydArgs);
 
@@ -1709,19 +1709,19 @@ public class FinancialFunctionTests
         var slnFunc = SlnFunction.Instance;
         var slnArgs = new[]
         {
-            CellValue.FromNumber(cost),
-            CellValue.FromNumber(salvage),
-            CellValue.FromNumber(life),
+            FormulaResult.FromNumber(cost),
+            FormulaResult.FromNumber(salvage),
+            FormulaResult.FromNumber(life),
         };
         var slnResult = slnFunc.Execute(null!, slnArgs);
 
         var ddbFunc = DdbFunction.Instance;
         var ddbArgs = new[]
         {
-            CellValue.FromNumber(cost),
-            CellValue.FromNumber(salvage),
-            CellValue.FromNumber(life),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(cost),
+            FormulaResult.FromNumber(salvage),
+            FormulaResult.FromNumber(life),
+            FormulaResult.FromNumber(1),
         };
         var ddbResult = ddbFunc.Execute(null!, ddbArgs);
 

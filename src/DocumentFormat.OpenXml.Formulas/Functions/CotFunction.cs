@@ -26,11 +26,11 @@ public sealed class CotFunction : IFunctionImplementation
     public string Name => "COT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -38,9 +38,9 @@ public sealed class CotFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var tanValue = System.Math.Tan(args[0].NumericValue);
@@ -48,16 +48,16 @@ public sealed class CotFunction : IFunctionImplementation
         // Check if tan is zero (would cause division by zero)
         if (System.Math.Abs(tanValue) < double.Epsilon)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         var result = 1.0 / tanValue;
 
         if (double.IsInfinity(result) || double.IsNaN(result))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

@@ -28,18 +28,18 @@ public sealed class RowFunction : IFunctionImplementation
     public string Name => "ROW";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
             // No reference provided - return current cell's row
             if (context?.CurrentCellReference == null)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             var row = ParseRowFromReference(context.CurrentCellReference);
-            return CellValue.FromNumber(row);
+            return FormulaResult.FromNumber(row);
         }
 
         if (args.Length == 1)
@@ -52,24 +52,24 @@ public sealed class RowFunction : IFunctionImplementation
                 return reference;
             }
 
-            if (reference.Type == CellValueType.Text)
+            if (reference.Type == FormulaResultType.Text)
             {
                 // Try to parse as cell reference
                 var row = ParseRowFromReference(reference.StringValue);
                 if (row > 0)
                 {
-                    return CellValue.FromNumber(row);
+                    return FormulaResult.FromNumber(row);
                 }
 
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             // For array references, we would need to return an array of row numbers
             // For now, return error
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        return CellValue.Error("#VALUE!");
+        return FormulaResult.Error("#VALUE!");
     }
 
     private static int ParseRowFromReference(string reference)

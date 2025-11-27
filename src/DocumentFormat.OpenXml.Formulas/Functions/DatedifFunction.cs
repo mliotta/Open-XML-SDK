@@ -25,11 +25,11 @@ public sealed class DatedifFunction : IFunctionImplementation
     public string Name => "DATEDIF";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -47,14 +47,14 @@ public sealed class DatedifFunction : IFunctionImplementation
             return args[2];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        if (args[2].Type != CellValueType.Text)
+        if (args[2].Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -65,7 +65,7 @@ public sealed class DatedifFunction : IFunctionImplementation
             // Validate start_date <= end_date
             if (startDate > endDate)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             var unit = args[2].StringValue.ToUpperInvariant();
@@ -81,11 +81,11 @@ public sealed class DatedifFunction : IFunctionImplementation
                 _ => throw new ArgumentException($"Invalid unit: {unit}"),
             };
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 

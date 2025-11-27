@@ -26,11 +26,11 @@ public sealed class TTestFunction : IFunctionImplementation
     public string Name => "T.TEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -45,43 +45,43 @@ public sealed class TTestFunction : IFunctionImplementation
         var array2Values = new List<double>();
 
         // Extract numeric values from arrays
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             array1Values.Add(args[0].NumericValue);
         }
 
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             array2Values.Add(args[1].NumericValue);
         }
 
         if (array1Values.Count == 0 || array2Values.Count == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Get tails parameter
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         int tails = (int)args[2].NumericValue;
 
         if (tails != 1 && tails != 2)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get type parameter
-        if (args[3].Type != CellValueType.Number)
+        if (args[3].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         int type = (int)args[3].NumericValue;
 
         if (type < 1 || type > 3)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
@@ -94,7 +94,7 @@ public sealed class TTestFunction : IFunctionImplementation
                 // Paired t-test
                 if (array1Values.Count != array2Values.Count)
                 {
-                    return CellValue.Error("#N/A");
+                    return FormulaResult.Error("#N/A");
                 }
 
                 var differences = new List<double>();
@@ -110,7 +110,7 @@ public sealed class TTestFunction : IFunctionImplementation
 
                 if (se == 0)
                 {
-                    return CellValue.Error("#DIV/0!");
+                    return FormulaResult.Error("#DIV/0!");
                 }
 
                 tStat = System.Math.Abs(meanDiff / se);
@@ -132,7 +132,7 @@ public sealed class TTestFunction : IFunctionImplementation
 
                 if (se == 0)
                 {
-                    return CellValue.Error("#DIV/0!");
+                    return FormulaResult.Error("#DIV/0!");
                 }
 
                 tStat = System.Math.Abs((mean1 - mean2) / se);
@@ -153,7 +153,7 @@ public sealed class TTestFunction : IFunctionImplementation
 
                 if (se == 0)
                 {
-                    return CellValue.Error("#DIV/0!");
+                    return FormulaResult.Error("#DIV/0!");
                 }
 
                 tStat = System.Math.Abs((mean1 - mean2) / se);
@@ -166,7 +166,7 @@ public sealed class TTestFunction : IFunctionImplementation
 
             if (df <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate p-value
@@ -182,11 +182,11 @@ public sealed class TTestFunction : IFunctionImplementation
                 pValue = 2.0 * (1.0 - StatisticalHelper.TDistCDF(tStat, df));
             }
 
-            return CellValue.FromNumber(pValue);
+            return FormulaResult.FromNumber(pValue);
         }
         catch (System.Exception)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

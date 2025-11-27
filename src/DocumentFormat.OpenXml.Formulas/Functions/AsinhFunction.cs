@@ -25,11 +25,11 @@ public sealed class AsinhFunction : IFunctionImplementation
     public string Name => "ASINH";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,15 +37,15 @@ public sealed class AsinhFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var value = args[0].NumericValue;
 
         // ASINH(x) = ln(x + sqrt(x^2 + 1))
         var result = System.Math.Log(value + System.Math.Sqrt(value * value + 1));
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

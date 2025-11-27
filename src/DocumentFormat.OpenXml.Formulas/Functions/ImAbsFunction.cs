@@ -24,11 +24,11 @@ public sealed class ImAbsFunction : IFunctionImplementation
     public string Name => "IMABS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -39,9 +39,9 @@ public sealed class ImAbsFunction : IFunctionImplementation
         var inumber = args[0].StringValue;
         if (!ComplexNumber.TryParse(inumber, out var complex))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(complex!.Abs());
+        return FormulaResult.FromNumber(complex!.Abs());
     }
 }

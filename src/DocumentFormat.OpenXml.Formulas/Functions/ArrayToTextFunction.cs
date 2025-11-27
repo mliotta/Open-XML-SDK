@@ -26,11 +26,11 @@ public sealed class ArrayToTextFunction : IFunctionImplementation
     public string Name => "ARRAYTOTEXT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors
@@ -49,12 +49,12 @@ public sealed class ArrayToTextFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type == CellValueType.Number)
+            if (args[1].Type == FormulaResultType.Number)
             {
                 format = (int)args[1].NumericValue;
                 if (format != 0 && format != 1)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
         }
@@ -63,28 +63,28 @@ public sealed class ArrayToTextFunction : IFunctionImplementation
 
         // For single values (not arrays), convert similar to VALUETOTEXT
         var result = FormatValue(value, format);
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 
-    private static string FormatValue(CellValue value, int format)
+    private static string FormatValue(FormulaResult value, int format)
     {
         switch (value.Type)
         {
-            case CellValueType.Text:
+            case FormulaResultType.Text:
                 return format == 1
                     ? $"\"{value.StringValue}\""
                     : value.StringValue;
 
-            case CellValueType.Number:
+            case FormulaResultType.Number:
                 return value.NumericValue.ToString(CultureInfo.InvariantCulture);
 
-            case CellValueType.Boolean:
+            case FormulaResultType.Boolean:
                 return value.BoolValue ? "TRUE" : "FALSE";
 
-            case CellValueType.Empty:
+            case FormulaResultType.Empty:
                 return string.Empty;
 
-            case CellValueType.Error:
+            case FormulaResultType.Error:
                 return value.ErrorValue ?? "#VALUE!";
 
             default:

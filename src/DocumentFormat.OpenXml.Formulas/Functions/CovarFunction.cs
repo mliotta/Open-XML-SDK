@@ -25,7 +25,7 @@ public sealed class CovarFunction : IFunctionImplementation
     public string Name => "COVAR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // COVAR is identical to COVARIANCE.P
         return CovariancePFunction.Instance.Execute(context, args);

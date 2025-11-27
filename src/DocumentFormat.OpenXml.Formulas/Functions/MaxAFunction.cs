@@ -26,7 +26,7 @@ public sealed class MaxAFunction : IFunctionImplementation
     public string Name => "MAXA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var max = double.MinValue;
         var hasValue = false;
@@ -38,17 +38,17 @@ public sealed class MaxAFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 max = System.Math.Max(max, arg.NumericValue);
                 hasValue = true;
             }
-            else if (arg.Type == CellValueType.Boolean)
+            else if (arg.Type == FormulaResultType.Boolean)
             {
                 max = System.Math.Max(max, arg.BoolValue ? 1.0 : 0.0);
                 hasValue = true;
             }
-            else if (arg.Type == CellValueType.Text)
+            else if (arg.Type == FormulaResultType.Text)
             {
                 // Text values count as 0
                 max = System.Math.Max(max, 0.0);
@@ -59,9 +59,9 @@ public sealed class MaxAFunction : IFunctionImplementation
 
         if (!hasValue)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
-        return CellValue.FromNumber(max);
+        return FormulaResult.FromNumber(max);
     }
 }

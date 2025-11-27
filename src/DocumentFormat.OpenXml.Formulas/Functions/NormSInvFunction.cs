@@ -24,11 +24,11 @@ public sealed class NormSInvFunction : IFunctionImplementation
     public string Name => "NORM.S.INV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var arg = args[0];
@@ -39,25 +39,25 @@ public sealed class NormSInvFunction : IFunctionImplementation
         }
 
         // Get probability
-        if (arg.Type != CellValueType.Number)
+        if (arg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double probability = arg.NumericValue;
 
         if (probability <= 0 || probability >= 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
         {
             double result = StatisticalHelper.NormSInv(probability);
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

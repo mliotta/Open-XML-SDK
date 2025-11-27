@@ -25,11 +25,11 @@ public sealed class GeomeanFunction : IFunctionImplementation
     public string Name => "GEOMEAN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var values = new List<double>();
@@ -41,11 +41,11 @@ public sealed class GeomeanFunction : IFunctionImplementation
                 return arg;
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 if (arg.NumericValue <= 0)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
                 values.Add(arg.NumericValue);
             }
@@ -53,7 +53,7 @@ public sealed class GeomeanFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate geometric mean using logarithms to avoid overflow
@@ -64,6 +64,6 @@ public sealed class GeomeanFunction : IFunctionImplementation
         }
 
         double result = System.Math.Exp(logSum / values.Count);
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

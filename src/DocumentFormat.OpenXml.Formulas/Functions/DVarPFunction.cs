@@ -28,12 +28,12 @@ public sealed class DVarPFunction : IFunctionImplementation
     public string Name => "DVARP";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // DVARP requires exactly 3 arguments: database, field, criteria
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -59,7 +59,7 @@ public sealed class DVarPFunction : IFunctionImplementation
         // Apply criteria matching logic
         if (MatchesCriteria(database, criteria))
         {
-            if (database.Type == CellValueType.Number)
+            if (database.Type == FormulaResultType.Number)
             {
                 values.Add(database.NumericValue);
             }
@@ -68,13 +68,13 @@ public sealed class DVarPFunction : IFunctionImplementation
         // DVARP requires at least 1 value
         if (values.Count == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // For a single value, population variance is 0
         if (values.Count == 1)
         {
-            return CellValue.FromNumber(0.0);
+            return FormulaResult.FromNumber(0.0);
         }
 
         // Calculate population variance
@@ -96,13 +96,13 @@ public sealed class DVarPFunction : IFunctionImplementation
         // Population variance (divide by n)
         var variance = sumSquaredDiff / values.Count;
 
-        return CellValue.FromNumber(variance);
+        return FormulaResult.FromNumber(variance);
     }
 
-    private static bool MatchesCriteria(CellValue value, CellValue criteria)
+    private static bool MatchesCriteria(FormulaResult value, FormulaResult criteria)
     {
         // Handle criteria as a comparison operator + value
-        if (criteria.Type == CellValueType.Text)
+        if (criteria.Type == FormulaResultType.Text)
         {
             var criteriaText = criteria.StringValue;
 
@@ -111,14 +111,14 @@ public sealed class DVarPFunction : IFunctionImplementation
             {
                 if (double.TryParse(criteriaText.Substring(2), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue >= threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue >= threshold;
                 }
             }
             else if (criteriaText.StartsWith("<="))
             {
                 if (double.TryParse(criteriaText.Substring(2), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue <= threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue <= threshold;
                 }
             }
             else if (criteriaText.StartsWith("<>"))
@@ -126,25 +126,25 @@ public sealed class DVarPFunction : IFunctionImplementation
                 var compareValue = criteriaText.Substring(2);
                 if (double.TryParse(compareValue, out var numValue))
                 {
-                    return value.Type != CellValueType.Number || value.NumericValue != numValue;
+                    return value.Type != FormulaResultType.Number || value.NumericValue != numValue;
                 }
                 else
                 {
-                    return value.Type != CellValueType.Text || !value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
+                    return value.Type != FormulaResultType.Text || !value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
                 }
             }
             else if (criteriaText.StartsWith(">"))
             {
                 if (double.TryParse(criteriaText.Substring(1), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue > threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue > threshold;
                 }
             }
             else if (criteriaText.StartsWith("<"))
             {
                 if (double.TryParse(criteriaText.Substring(1), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue < threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue < threshold;
                 }
             }
             else if (criteriaText.StartsWith("="))
@@ -152,28 +152,28 @@ public sealed class DVarPFunction : IFunctionImplementation
                 var compareValue = criteriaText.Substring(1);
                 if (double.TryParse(compareValue, out var numValue))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue == numValue;
+                    return value.Type == FormulaResultType.Number && value.NumericValue == numValue;
                 }
                 else
                 {
-                    return value.Type == CellValueType.Text && value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
+                    return value.Type == FormulaResultType.Text && value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
                 }
             }
             else
             {
                 // Direct text comparison (case-insensitive)
-                return value.Type == CellValueType.Text && value.StringValue.Equals(criteriaText, StringComparison.OrdinalIgnoreCase);
+                return value.Type == FormulaResultType.Text && value.StringValue.Equals(criteriaText, StringComparison.OrdinalIgnoreCase);
             }
         }
-        else if (criteria.Type == CellValueType.Number)
+        else if (criteria.Type == FormulaResultType.Number)
         {
             // Direct numeric comparison
-            return value.Type == CellValueType.Number && value.NumericValue == criteria.NumericValue;
+            return value.Type == FormulaResultType.Number && value.NumericValue == criteria.NumericValue;
         }
-        else if (criteria.Type == CellValueType.Boolean)
+        else if (criteria.Type == FormulaResultType.Boolean)
         {
             // Boolean comparison
-            return value.Type == CellValueType.Boolean && value.BoolValue == criteria.BoolValue;
+            return value.Type == FormulaResultType.Boolean && value.BoolValue == criteria.BoolValue;
         }
 
         return false;

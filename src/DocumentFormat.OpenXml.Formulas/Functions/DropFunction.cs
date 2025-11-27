@@ -27,11 +27,11 @@ public sealed class DropFunction : IFunctionImplementation
     public string Name => "DROP";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse rows parameter
@@ -40,9 +40,9 @@ public sealed class DropFunction : IFunctionImplementation
             return args[args.Length - 1];
         }
 
-        if (args[args.Length - 1].Type != CellValueType.Number)
+        if (args[args.Length - 1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rows = (int)args[args.Length - 1].NumericValue;
@@ -50,7 +50,7 @@ public sealed class DropFunction : IFunctionImplementation
         // Parse optional columns parameter
         var cols = 0;
         var hasColumns = false;
-        if (args.Length >= 3 && args[args.Length - 2].Type == CellValueType.Number)
+        if (args.Length >= 3 && args[args.Length - 2].Type == FormulaResultType.Number)
         {
             cols = (int)args[args.Length - 2].NumericValue;
             hasColumns = true;
@@ -61,7 +61,7 @@ public sealed class DropFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in array
@@ -85,7 +85,7 @@ public sealed class DropFunction : IFunctionImplementation
         // Validate dimensions
         if (System.Math.Abs(rows) >= numRows || (hasColumns && System.Math.Abs(cols) >= numCols))
         {
-            return CellValue.Error("#CALC!");
+            return FormulaResult.Error("#CALC!");
         }
 
         // Determine which elements to keep (opposite of TAKE)
@@ -132,6 +132,6 @@ public sealed class DropFunction : IFunctionImplementation
             return args[firstIndex];
         }
 
-        return CellValue.Error("#REF!");
+        return FormulaResult.Error("#REF!");
     }
 }

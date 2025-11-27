@@ -22,7 +22,7 @@ namespace DocumentFormat.OpenXml.Features.FormulaEvaluation;
 public class FormulaEvaluator : IFormulaEvaluator
 {
     private readonly SpreadsheetDocument _document;
-    private readonly Dictionary<string, Func<CellContext, CellValue>> _compiledFormulas = new();
+    private readonly Dictionary<string, Func<CellContext, FormulaResult>> _compiledFormulas = new();
     private readonly object _lock = new();
     private readonly FormulaParser _parser = new();
     private readonly FormulaCompiler _compiler = new();
@@ -38,7 +38,7 @@ public class FormulaEvaluator : IFormulaEvaluator
     }
 
     /// <inheritdoc/>
-    public Result<CellValue> TryEvaluate(Worksheet worksheet, Cell cell)
+    public Result<FormulaResult> TryEvaluate(Worksheet worksheet, Cell cell)
     {
         _statistics.TotalEvaluations++;
 
@@ -58,7 +58,7 @@ public class FormulaEvaluator : IFormulaEvaluator
             var cellFormula = cell.CellFormula?.Text;
             if (string.IsNullOrEmpty(cellFormula))
             {
-                return Result<CellValue>.Failure(new ParserException("Cell does not contain a formula"));
+                return Result<FormulaResult>.Failure(new ParserException("Cell does not contain a formula"));
             }
 
             // Get or compile the formula
@@ -72,27 +72,27 @@ public class FormulaEvaluator : IFormulaEvaluator
             var result = compiledFormula(context);
 
             _statistics.SuccessfulEvaluations++;
-            return Result<CellValue>.Success(result);
+            return Result<FormulaResult>.Success(result);
         }
         catch (ParserException ex)
         {
             _statistics.FailedEvaluations++;
-            return Result<CellValue>.Failure(ex);
+            return Result<FormulaResult>.Failure(ex);
         }
         catch (CompilationException ex)
         {
             _statistics.FailedEvaluations++;
-            return Result<CellValue>.Failure(ex);
+            return Result<FormulaResult>.Failure(ex);
         }
         catch (UnsupportedFunctionException ex)
         {
             _statistics.FailedEvaluations++;
-            return Result<CellValue>.Failure(ex);
+            return Result<FormulaResult>.Failure(ex);
         }
         catch (Exception ex)
         {
             _statistics.FailedEvaluations++;
-            return Result<CellValue>.Failure(new ParserException($"Evaluation failed: {ex.Message}"));
+            return Result<FormulaResult>.Failure(new ParserException($"Evaluation failed: {ex.Message}"));
         }
     }
 
@@ -115,7 +115,7 @@ public class FormulaEvaluator : IFormulaEvaluator
                 if (result.IsSuccess)
                 {
                     // Update cached value
-                    UpdateCellValue(cell, result.Value);
+                    UpdateFormulaResult(cell, result.Value);
                 }
             }
         }
@@ -180,7 +180,7 @@ public class FormulaEvaluator : IFormulaEvaluator
                 if (result.IsSuccess)
                 {
                     // Update cached value
-                    UpdateCellValue(cell, result.Value);
+                    UpdateFormulaResult(cell, result.Value);
                 }
             }
         }
@@ -218,7 +218,7 @@ public class FormulaEvaluator : IFormulaEvaluator
         _compiledFormulas.Clear();
     }
 
-    private Func<CellContext, CellValue> GetOrCompileFormula(string formula)
+    private Func<CellContext, FormulaResult> GetOrCompileFormula(string formula)
     {
         lock (_lock)
         {
@@ -421,23 +421,23 @@ public class FormulaEvaluator : IFormulaEvaluator
             .FirstOrDefault(c => string.Equals(c.CellReference?.Value, cellReference, StringComparison.OrdinalIgnoreCase));
     }
 
-    private static void UpdateCellValue(Cell cell, CellValue value)
+    private static void UpdateFormulaResult(Cell cell, FormulaResult value)
     {
         switch (value.Type)
         {
-            case CellValueType.Number:
+            case FormulaResultType.Number:
                 cell.DataType = null; // Number is the default
                 cell.CellValue = new Spreadsheet.CellValue(value.NumericValue.ToString(CultureInfo.InvariantCulture));
                 break;
-            case CellValueType.Text:
+            case FormulaResultType.Text:
                 cell.DataType = new EnumValue<CellValues>(CellValues.String);
                 cell.CellValue = new Spreadsheet.CellValue(value.StringValue);
                 break;
-            case CellValueType.Boolean:
+            case FormulaResultType.Boolean:
                 cell.DataType = new EnumValue<CellValues>(CellValues.Boolean);
                 cell.CellValue = new Spreadsheet.CellValue(value.BoolValue ? "1" : "0");
                 break;
-            case CellValueType.Error:
+            case FormulaResultType.Error:
                 cell.DataType = new EnumValue<CellValues>(CellValues.Error);
                 cell.CellValue = new Spreadsheet.CellValue(value.ErrorValue ?? "#ERROR!");
                 break;

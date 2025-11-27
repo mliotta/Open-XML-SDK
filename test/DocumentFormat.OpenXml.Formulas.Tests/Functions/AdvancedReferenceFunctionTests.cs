@@ -27,14 +27,14 @@ public class AdvancedReferenceFunctionTests
         // Reference A1 with offset (2, 3) should give us D3
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(2), // rows offset
-            CellValue.FromNumber(3), // cols offset
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(2), // rows offset
+            FormulaResult.FromNumber(3), // cols offset
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(43.0, result.NumericValue); // D3 = 43
     }
 
@@ -46,14 +46,14 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("B2"),
-            CellValue.FromNumber(0), // no row offset
-            CellValue.FromNumber(0), // no col offset
+            FormulaResult.FromString("B2"),
+            FormulaResult.FromNumber(0), // no row offset
+            FormulaResult.FromNumber(0), // no col offset
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(21.0, result.NumericValue); // B2 = 21
     }
 
@@ -66,14 +66,14 @@ public class AdvancedReferenceFunctionTests
         // Reference C3 with offset (-1, -1) should give us B2
         var args = new[]
         {
-            CellValue.FromString("C3"),
-            CellValue.FromNumber(-1), // rows offset
-            CellValue.FromNumber(-1), // cols offset
+            FormulaResult.FromString("C3"),
+            FormulaResult.FromNumber(-1), // rows offset
+            FormulaResult.FromNumber(-1), // cols offset
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(21.0, result.NumericValue); // B2 = 21
     }
 
@@ -85,15 +85,15 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(1), // rows offset
-            CellValue.FromNumber(1), // cols offset
-            CellValue.FromNumber(1), // height (single cell)
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(1), // rows offset
+            FormulaResult.FromNumber(1), // cols offset
+            FormulaResult.FromNumber(1), // height (single cell)
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(21.0, result.NumericValue); // B2 = 21
     }
 
@@ -105,16 +105,16 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(2), // rows offset
-            CellValue.FromNumber(1), // cols offset
-            CellValue.FromNumber(1), // height
-            CellValue.FromNumber(1), // width
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(2), // rows offset
+            FormulaResult.FromNumber(1), // cols offset
+            FormulaResult.FromNumber(1), // height
+            FormulaResult.FromNumber(1), // width
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(31.0, result.NumericValue); // B3 = 31
     }
 
@@ -127,9 +127,9 @@ public class AdvancedReferenceFunctionTests
         // Offset beyond valid Excel range
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(1048576), // beyond max row
-            CellValue.FromNumber(0),
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(1048576), // beyond max row
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(context, args);
@@ -147,9 +147,9 @@ public class AdvancedReferenceFunctionTests
         // Offset to negative row
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(-1), // would give row 0
-            CellValue.FromNumber(0),
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(-1), // would give row 0
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(context, args);
@@ -166,10 +166,10 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0), // invalid height (must be >= 1)
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0), // invalid height (must be >= 1)
         };
 
         var result = func.Execute(context, args);
@@ -186,11 +186,11 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(-1), // invalid width
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(-1), // invalid width
         };
 
         var result = func.Execute(context, args);
@@ -205,8 +205,8 @@ public class AdvancedReferenceFunctionTests
         var func = OffsetFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(1), // missing cols offset
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(1), // missing cols offset
         };
 
         var result = func.Execute(null!, args);
@@ -223,9 +223,9 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("INVALID"),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("INVALID"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(context, args);
@@ -242,9 +242,9 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("A1"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(context, args);
@@ -261,14 +261,14 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("$B$2"),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("$B$2"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(32.0, result.NumericValue); // C3 = 32
     }
 
@@ -284,12 +284,12 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("B2"),
+            FormulaResult.FromString("B2"),
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(21.0, result.NumericValue); // B2 = 21
     }
 
@@ -301,12 +301,12 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("$C$3"),
+            FormulaResult.FromString("$C$3"),
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(32.0, result.NumericValue); // C3 = 32
     }
 
@@ -319,13 +319,13 @@ public class AdvancedReferenceFunctionTests
         // R2C2 = B2
         var args = new[]
         {
-            CellValue.FromString("R2C2"),
-            CellValue.FromBool(false), // R1C1 notation
+            FormulaResult.FromString("R2C2"),
+            FormulaResult.FromBool(false), // R1C1 notation
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(21.0, result.NumericValue); // B2 = 21
     }
 
@@ -338,13 +338,13 @@ public class AdvancedReferenceFunctionTests
         // R[1]C[1] from B2 (row 2, col 2) = C3 (row 3, col 3)
         var args = new[]
         {
-            CellValue.FromString("R[1]C[1]"),
-            CellValue.FromBool(false), // R1C1 notation
+            FormulaResult.FromString("R[1]C[1]"),
+            FormulaResult.FromBool(false), // R1C1 notation
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(32.0, result.NumericValue); // C3 = 32
     }
 
@@ -357,13 +357,13 @@ public class AdvancedReferenceFunctionTests
         // R[-1]C[-1] from C3 (row 3, col 3) = B2 (row 2, col 2)
         var args = new[]
         {
-            CellValue.FromString("R[-1]C[-1]"),
-            CellValue.FromBool(false), // R1C1 notation
+            FormulaResult.FromString("R[-1]C[-1]"),
+            FormulaResult.FromBool(false), // R1C1 notation
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(21.0, result.NumericValue); // B2 = 21
     }
 
@@ -376,13 +376,13 @@ public class AdvancedReferenceFunctionTests
         // R[0]C[0] from B2 = B2
         var args = new[]
         {
-            CellValue.FromString("R[0]C[0]"),
-            CellValue.FromBool(false), // R1C1 notation
+            FormulaResult.FromString("R[0]C[0]"),
+            FormulaResult.FromBool(false), // R1C1 notation
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(21.0, result.NumericValue); // B2 = 21
     }
 
@@ -395,12 +395,12 @@ public class AdvancedReferenceFunctionTests
         // Default is A1 notation (TRUE)
         var args = new[]
         {
-            CellValue.FromString("D3"),
+            FormulaResult.FromString("D3"),
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(43.0, result.NumericValue); // D3 = 43
     }
 
@@ -412,13 +412,13 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromBool(true), // A1 notation
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromBool(true), // A1 notation
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue); // A1 = 10
     }
 
@@ -430,13 +430,13 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("B3"),
-            CellValue.FromNumber(1), // Non-zero = TRUE
+            FormulaResult.FromString("B3"),
+            FormulaResult.FromNumber(1), // Non-zero = TRUE
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(31.0, result.NumericValue); // B3 = 31
     }
 
@@ -448,13 +448,13 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("R1C1"),
-            CellValue.FromNumber(0), // Zero = FALSE
+            FormulaResult.FromString("R1C1"),
+            FormulaResult.FromNumber(0), // Zero = FALSE
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue); // R1C1 = A1 = 10
     }
 
@@ -466,7 +466,7 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromString("INVALID"),
+            FormulaResult.FromString("INVALID"),
         };
 
         var result = func.Execute(context, args);
@@ -484,8 +484,8 @@ public class AdvancedReferenceFunctionTests
         // Row 0 is invalid
         var args = new[]
         {
-            CellValue.FromString("R0C1"),
-            CellValue.FromBool(false),
+            FormulaResult.FromString("R0C1"),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(context, args);
@@ -498,7 +498,7 @@ public class AdvancedReferenceFunctionTests
     public void Indirect_NoArguments_ReturnsError()
     {
         var func = IndirectFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 
@@ -514,7 +514,7 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(123), // Not a text reference
+            FormulaResult.FromNumber(123), // Not a text reference
         };
 
         var result = func.Execute(context, args);
@@ -531,7 +531,7 @@ public class AdvancedReferenceFunctionTests
 
         var args = new[]
         {
-            CellValue.Error("#N/A"),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(context, args);
@@ -549,12 +549,12 @@ public class AdvancedReferenceFunctionTests
         // Sheet names are stripped, so Sheet1!A1 becomes A1
         var args = new[]
         {
-            CellValue.FromString("Sheet1!A1"),
+            FormulaResult.FromString("Sheet1!A1"),
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue); // A1 = 10
     }
 
@@ -567,12 +567,12 @@ public class AdvancedReferenceFunctionTests
         // Quoted sheet names with spaces
         var args = new[]
         {
-            CellValue.FromString("'My Sheet'!B2"),
+            FormulaResult.FromString("'My Sheet'!B2"),
         };
 
         var result = func.Execute(context, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(21.0, result.NumericValue); // B2 = 21
     }
 
@@ -590,7 +590,7 @@ public class AdvancedReferenceFunctionTests
         // First, use INDIRECT to get reference to "A1"
         var indirectArgs = new[]
         {
-            CellValue.FromString("A1"),
+            FormulaResult.FromString("A1"),
         };
 
         var indirectResult = indirectFunc.Execute(context, indirectArgs);
@@ -599,9 +599,9 @@ public class AdvancedReferenceFunctionTests
         // Then, use OFFSET from A1
         var offsetArgs = new[]
         {
-            CellValue.FromString("A1"),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("A1"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var offsetResult = offsetFunc.Execute(context, offsetArgs);

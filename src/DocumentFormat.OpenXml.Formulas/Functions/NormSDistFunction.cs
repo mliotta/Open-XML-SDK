@@ -24,11 +24,11 @@ public sealed class NormSDistFunction : IFunctionImplementation
     public string Name => "NORM.S.DIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,28 +41,28 @@ public sealed class NormSDistFunction : IFunctionImplementation
         }
 
         // Get z value
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double z = args[0].NumericValue;
 
         // Get cumulative flag
         bool cumulative;
-        if (args[1].Type == CellValueType.Boolean)
+        if (args[1].Type == FormulaResultType.Boolean)
         {
             cumulative = args[1].BoolValue;
         }
-        else if (args[1].Type == CellValueType.Number)
+        else if (args[1].Type == FormulaResultType.Number)
         {
             cumulative = args[1].NumericValue != 0;
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         double result = cumulative ? StatisticalHelper.NormSDist(z) : StatisticalHelper.NormSPdf(z);
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

@@ -24,22 +24,22 @@ public sealed class IsEvenFunction : IFunctionImplementation
     public string Name => "ISEVEN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Note: Errors are NOT propagated for IS* functions
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.FromBool(false);
+            return FormulaResult.FromBool(false);
         }
 
         var number = args[0].NumericValue;
         var truncated = System.Math.Truncate(number);
         var isEven = truncated % 2 == 0;
-        return CellValue.FromBool(isEven);
+        return FormulaResult.FromBool(isEven);
     }
 }

@@ -25,21 +25,21 @@ public sealed class BetaDistLegacyFunction : IFunctionImplementation
     public string Name => "BETADIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // BETADIST always uses cumulative=TRUE (the legacy function only returned CDF)
         // Create new args array with cumulative flag added
-        var newArgs = new CellValue[args.Length + 1];
+        var newArgs = new FormulaResult[args.Length + 1];
         for (int i = 0; i < args.Length; i++)
         {
             newArgs[i] = args[i];
         }
-        newArgs[args.Length] = CellValue.FromBool(true);
+        newArgs[args.Length] = FormulaResult.FromBool(true);
 
         // Delegate to BETA.DIST
         return BetaDistFunction.Instance.Execute(context, newArgs);

@@ -27,7 +27,7 @@ public sealed class KurtFunction : IFunctionImplementation
     public string Name => "KURT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var values = new List<double>();
 
@@ -38,7 +38,7 @@ public sealed class KurtFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
@@ -47,7 +47,7 @@ public sealed class KurtFunction : IFunctionImplementation
         // KURT requires at least 4 data points
         if (values.Count < 4)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate mean
@@ -62,7 +62,7 @@ public sealed class KurtFunction : IFunctionImplementation
         // If standard deviation is zero, kurtosis is undefined
         if (stdev == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate excess kurtosis using Excel's formula
@@ -73,6 +73,6 @@ public sealed class KurtFunction : IFunctionImplementation
         var term2 = (3.0 * System.Math.Pow(n - 1.0, 2)) / ((n - 2.0) * (n - 3.0));
         var kurtosis = term1 - term2;
 
-        return CellValue.FromNumber(kurtosis);
+        return FormulaResult.FromNumber(kurtosis);
     }
 }

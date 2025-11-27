@@ -18,13 +18,13 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(25),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.25, result.NumericValue);
     }
 
@@ -34,8 +34,8 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(50),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -49,8 +49,8 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(150),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(150),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -64,8 +64,8 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-25),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(-25),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -79,8 +79,8 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(25),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -95,7 +95,7 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25),
+            FormulaResult.FromNumber(25),
         };
 
         var result = func.Execute(null!, args);
@@ -110,8 +110,8 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc"),
-            CellValue.FromNumber(100),
+            FormulaResult.FromString("abc"),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -126,8 +126,8 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(100),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -142,13 +142,13 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(33.33),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(33.33),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.3333, result.NumericValue, 4);
     }
 
@@ -158,8 +158,8 @@ public class PercentOfFunctionTests
         var func = PercentOfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);

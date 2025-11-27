@@ -28,7 +28,7 @@ public sealed class VarPAFunction : IFunctionImplementation
     public string Name => "VARPA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var values = new List<double>();
 
@@ -39,15 +39,15 @@ public sealed class VarPAFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
-            else if (arg.Type == CellValueType.Boolean)
+            else if (arg.Type == FormulaResultType.Boolean)
             {
                 values.Add(arg.BoolValue ? 1.0 : 0.0);
             }
-            else if (arg.Type == CellValueType.Text)
+            else if (arg.Type == FormulaResultType.Text)
             {
                 // Text values count as 0
                 values.Add(0.0);
@@ -57,7 +57,7 @@ public sealed class VarPAFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate mean
@@ -67,6 +67,6 @@ public sealed class VarPAFunction : IFunctionImplementation
         var sumSquaredDiffs = values.Sum(v => System.Math.Pow(v - mean, 2));
         var variance = sumSquaredDiffs / values.Count;
 
-        return CellValue.FromNumber(variance);
+        return FormulaResult.FromNumber(variance);
     }
 }

@@ -19,11 +19,11 @@ public class InformationFunctionTests
     public void IsEven_EvenInteger_ReturnsTrue()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromNumber(4) };
+        var args = new[] { FormulaResult.FromNumber(4) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -31,11 +31,11 @@ public class InformationFunctionTests
     public void IsEven_OddInteger_ReturnsFalse()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromNumber(3) };
+        var args = new[] { FormulaResult.FromNumber(3) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -43,11 +43,11 @@ public class InformationFunctionTests
     public void IsEven_Zero_ReturnsTrue()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromNumber(0) };
+        var args = new[] { FormulaResult.FromNumber(0) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -55,11 +55,11 @@ public class InformationFunctionTests
     public void IsEven_NegativeEven_ReturnsTrue()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromNumber(-6) };
+        var args = new[] { FormulaResult.FromNumber(-6) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -67,11 +67,11 @@ public class InformationFunctionTests
     public void IsEven_NegativeOdd_ReturnsFalse()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromNumber(-5) };
+        var args = new[] { FormulaResult.FromNumber(-5) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -79,11 +79,11 @@ public class InformationFunctionTests
     public void IsEven_DecimalEven_ReturnsTrue()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromNumber(4.7) };
+        var args = new[] { FormulaResult.FromNumber(4.7) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -91,11 +91,11 @@ public class InformationFunctionTests
     public void IsEven_DecimalOdd_ReturnsFalse()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromNumber(3.2) };
+        var args = new[] { FormulaResult.FromNumber(3.2) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -103,11 +103,11 @@ public class InformationFunctionTests
     public void IsEven_Text_ReturnsFalse()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromString("text") };
+        var args = new[] { FormulaResult.FromString("text") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -115,11 +115,11 @@ public class InformationFunctionTests
     public void IsEven_Error_ReturnsFalse()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.Error("#DIV/0!") };
+        var args = new[] { FormulaResult.Error("#DIV/0!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -127,7 +127,7 @@ public class InformationFunctionTests
     public void IsEven_WrongArgumentCount_ReturnsError()
     {
         var func = IsEvenFunction.Instance;
-        var args = new[] { CellValue.FromNumber(1), CellValue.FromNumber(2) };
+        var args = new[] { FormulaResult.FromNumber(1), FormulaResult.FromNumber(2) };
 
         var result = func.Execute(null!, args);
 
@@ -143,11 +143,11 @@ public class InformationFunctionTests
     public void IsOdd_OddInteger_ReturnsTrue()
     {
         var func = IsOddFunction.Instance;
-        var args = new[] { CellValue.FromNumber(3) };
+        var args = new[] { FormulaResult.FromNumber(3) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -155,11 +155,11 @@ public class InformationFunctionTests
     public void IsOdd_EvenInteger_ReturnsFalse()
     {
         var func = IsOddFunction.Instance;
-        var args = new[] { CellValue.FromNumber(4) };
+        var args = new[] { FormulaResult.FromNumber(4) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -167,11 +167,11 @@ public class InformationFunctionTests
     public void IsOdd_Zero_ReturnsFalse()
     {
         var func = IsOddFunction.Instance;
-        var args = new[] { CellValue.FromNumber(0) };
+        var args = new[] { FormulaResult.FromNumber(0) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -179,11 +179,11 @@ public class InformationFunctionTests
     public void IsOdd_NegativeOdd_ReturnsTrue()
     {
         var func = IsOddFunction.Instance;
-        var args = new[] { CellValue.FromNumber(-5) };
+        var args = new[] { FormulaResult.FromNumber(-5) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -191,11 +191,11 @@ public class InformationFunctionTests
     public void IsOdd_NegativeEven_ReturnsFalse()
     {
         var func = IsOddFunction.Instance;
-        var args = new[] { CellValue.FromNumber(-6) };
+        var args = new[] { FormulaResult.FromNumber(-6) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -203,11 +203,11 @@ public class InformationFunctionTests
     public void IsOdd_DecimalOdd_ReturnsTrue()
     {
         var func = IsOddFunction.Instance;
-        var args = new[] { CellValue.FromNumber(3.9) };
+        var args = new[] { FormulaResult.FromNumber(3.9) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -215,11 +215,11 @@ public class InformationFunctionTests
     public void IsOdd_Text_ReturnsFalse()
     {
         var func = IsOddFunction.Instance;
-        var args = new[] { CellValue.FromString("text") };
+        var args = new[] { FormulaResult.FromString("text") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -227,7 +227,7 @@ public class InformationFunctionTests
     public void IsOdd_WrongArgumentCount_ReturnsError()
     {
         var func = IsOddFunction.Instance;
-        var args = new CellValue[] { };
+        var args = new FormulaResult[] { };
 
         var result = func.Execute(null!, args);
 
@@ -243,11 +243,11 @@ public class InformationFunctionTests
     public void IsLogical_True_ReturnsTrue()
     {
         var func = IsLogicalFunction.Instance;
-        var args = new[] { CellValue.FromBool(true) };
+        var args = new[] { FormulaResult.FromBool(true) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -255,11 +255,11 @@ public class InformationFunctionTests
     public void IsLogical_False_ReturnsTrue()
     {
         var func = IsLogicalFunction.Instance;
-        var args = new[] { CellValue.FromBool(false) };
+        var args = new[] { FormulaResult.FromBool(false) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -267,11 +267,11 @@ public class InformationFunctionTests
     public void IsLogical_Number_ReturnsFalse()
     {
         var func = IsLogicalFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -279,11 +279,11 @@ public class InformationFunctionTests
     public void IsLogical_Text_ReturnsFalse()
     {
         var func = IsLogicalFunction.Instance;
-        var args = new[] { CellValue.FromString("TRUE") };
+        var args = new[] { FormulaResult.FromString("TRUE") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -291,11 +291,11 @@ public class InformationFunctionTests
     public void IsLogical_Empty_ReturnsFalse()
     {
         var func = IsLogicalFunction.Instance;
-        var args = new[] { CellValue.Empty };
+        var args = new[] { FormulaResult.Empty };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -303,11 +303,11 @@ public class InformationFunctionTests
     public void IsLogical_Error_ReturnsFalse()
     {
         var func = IsLogicalFunction.Instance;
-        var args = new[] { CellValue.Error("#VALUE!") };
+        var args = new[] { FormulaResult.Error("#VALUE!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -315,7 +315,7 @@ public class InformationFunctionTests
     public void IsLogical_WrongArgumentCount_ReturnsError()
     {
         var func = IsLogicalFunction.Instance;
-        var args = new[] { CellValue.FromBool(true), CellValue.FromBool(false) };
+        var args = new[] { FormulaResult.FromBool(true), FormulaResult.FromBool(false) };
 
         var result = func.Execute(null!, args);
 
@@ -331,11 +331,11 @@ public class InformationFunctionTests
     public void IsNonText_Number_ReturnsTrue()
     {
         var func = IsNonTextFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -343,11 +343,11 @@ public class InformationFunctionTests
     public void IsNonText_Boolean_ReturnsTrue()
     {
         var func = IsNonTextFunction.Instance;
-        var args = new[] { CellValue.FromBool(true) };
+        var args = new[] { FormulaResult.FromBool(true) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -355,11 +355,11 @@ public class InformationFunctionTests
     public void IsNonText_Empty_ReturnsTrue()
     {
         var func = IsNonTextFunction.Instance;
-        var args = new[] { CellValue.Empty };
+        var args = new[] { FormulaResult.Empty };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -367,11 +367,11 @@ public class InformationFunctionTests
     public void IsNonText_Error_ReturnsTrue()
     {
         var func = IsNonTextFunction.Instance;
-        var args = new[] { CellValue.Error("#DIV/0!") };
+        var args = new[] { FormulaResult.Error("#DIV/0!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -379,11 +379,11 @@ public class InformationFunctionTests
     public void IsNonText_Text_ReturnsFalse()
     {
         var func = IsNonTextFunction.Instance;
-        var args = new[] { CellValue.FromString("text") };
+        var args = new[] { FormulaResult.FromString("text") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -391,11 +391,11 @@ public class InformationFunctionTests
     public void IsNonText_EmptyString_ReturnsFalse()
     {
         var func = IsNonTextFunction.Instance;
-        var args = new[] { CellValue.FromString("") };
+        var args = new[] { FormulaResult.FromString("") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -403,7 +403,7 @@ public class InformationFunctionTests
     public void IsNonText_WrongArgumentCount_ReturnsError()
     {
         var func = IsNonTextFunction.Instance;
-        var args = new CellValue[] { };
+        var args = new FormulaResult[] { };
 
         var result = func.Execute(null!, args);
 
@@ -419,11 +419,11 @@ public class InformationFunctionTests
     public void Type_Number_Returns1()
     {
         var func = TypeFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -431,11 +431,11 @@ public class InformationFunctionTests
     public void Type_Text_Returns2()
     {
         var func = TypeFunction.Instance;
-        var args = new[] { CellValue.FromString("text") };
+        var args = new[] { FormulaResult.FromString("text") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue);
     }
 
@@ -443,11 +443,11 @@ public class InformationFunctionTests
     public void Type_Boolean_Returns4()
     {
         var func = TypeFunction.Instance;
-        var args = new[] { CellValue.FromBool(true) };
+        var args = new[] { FormulaResult.FromBool(true) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(4.0, result.NumericValue);
     }
 
@@ -455,11 +455,11 @@ public class InformationFunctionTests
     public void Type_Error_Returns16()
     {
         var func = TypeFunction.Instance;
-        var args = new[] { CellValue.Error("#VALUE!") };
+        var args = new[] { FormulaResult.Error("#VALUE!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(16.0, result.NumericValue);
     }
 
@@ -467,11 +467,11 @@ public class InformationFunctionTests
     public void Type_Empty_Returns1()
     {
         var func = TypeFunction.Instance;
-        var args = new[] { CellValue.Empty };
+        var args = new[] { FormulaResult.Empty };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -479,7 +479,7 @@ public class InformationFunctionTests
     public void Type_WrongArgumentCount_ReturnsError()
     {
         var func = TypeFunction.Instance;
-        var args = new[] { CellValue.FromNumber(1), CellValue.FromNumber(2) };
+        var args = new[] { FormulaResult.FromNumber(1), FormulaResult.FromNumber(2) };
 
         var result = func.Execute(null!, args);
 
@@ -495,11 +495,11 @@ public class InformationFunctionTests
     public void N_Number_ReturnsNumber()
     {
         var func = NFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123.45) };
+        var args = new[] { FormulaResult.FromNumber(123.45) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(123.45, result.NumericValue);
     }
 
@@ -507,11 +507,11 @@ public class InformationFunctionTests
     public void N_True_Returns1()
     {
         var func = NFunction.Instance;
-        var args = new[] { CellValue.FromBool(true) };
+        var args = new[] { FormulaResult.FromBool(true) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -519,11 +519,11 @@ public class InformationFunctionTests
     public void N_False_Returns0()
     {
         var func = NFunction.Instance;
-        var args = new[] { CellValue.FromBool(false) };
+        var args = new[] { FormulaResult.FromBool(false) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -531,11 +531,11 @@ public class InformationFunctionTests
     public void N_Text_Returns0()
     {
         var func = NFunction.Instance;
-        var args = new[] { CellValue.FromString("text") };
+        var args = new[] { FormulaResult.FromString("text") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -543,11 +543,11 @@ public class InformationFunctionTests
     public void N_EmptyString_Returns0()
     {
         var func = NFunction.Instance;
-        var args = new[] { CellValue.FromString("") };
+        var args = new[] { FormulaResult.FromString("") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -555,11 +555,11 @@ public class InformationFunctionTests
     public void N_Empty_Returns0()
     {
         var func = NFunction.Instance;
-        var args = new[] { CellValue.Empty };
+        var args = new[] { FormulaResult.Empty };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -567,7 +567,7 @@ public class InformationFunctionTests
     public void N_Error_PropagatesError()
     {
         var func = NFunction.Instance;
-        var args = new[] { CellValue.Error("#DIV/0!") };
+        var args = new[] { FormulaResult.Error("#DIV/0!") };
 
         var result = func.Execute(null!, args);
 
@@ -579,7 +579,7 @@ public class InformationFunctionTests
     public void N_WrongArgumentCount_ReturnsError()
     {
         var func = NFunction.Instance;
-        var args = new CellValue[] { };
+        var args = new FormulaResult[] { };
 
         var result = func.Execute(null!, args);
 
@@ -595,11 +595,11 @@ public class InformationFunctionTests
     public void IsRef_Number_ReturnsFalse()
     {
         var func = IsRefFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -607,11 +607,11 @@ public class InformationFunctionTests
     public void IsRef_Text_ReturnsFalse()
     {
         var func = IsRefFunction.Instance;
-        var args = new[] { CellValue.FromString("A1") };
+        var args = new[] { FormulaResult.FromString("A1") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -619,11 +619,11 @@ public class InformationFunctionTests
     public void IsRef_Empty_ReturnsFalse()
     {
         var func = IsRefFunction.Instance;
-        var args = new[] { CellValue.Empty };
+        var args = new[] { FormulaResult.Empty };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -631,11 +631,11 @@ public class InformationFunctionTests
     public void IsRef_Error_ReturnsFalse()
     {
         var func = IsRefFunction.Instance;
-        var args = new[] { CellValue.Error("#REF!") };
+        var args = new[] { FormulaResult.Error("#REF!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -643,7 +643,7 @@ public class InformationFunctionTests
     public void IsRef_WrongArgumentCount_ReturnsError()
     {
         var func = IsRefFunction.Instance;
-        var args = new[] { CellValue.FromNumber(1), CellValue.FromNumber(2) };
+        var args = new[] { FormulaResult.FromNumber(1), FormulaResult.FromNumber(2) };
 
         var result = func.Execute(null!, args);
 
@@ -659,11 +659,11 @@ public class InformationFunctionTests
     public void IsOmitted_Empty_ReturnsTrue()
     {
         var func = IsOmittedFunction.Instance;
-        var args = new[] { CellValue.Empty };
+        var args = new[] { FormulaResult.Empty };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -671,11 +671,11 @@ public class InformationFunctionTests
     public void IsOmitted_Number_ReturnsFalse()
     {
         var func = IsOmittedFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -683,11 +683,11 @@ public class InformationFunctionTests
     public void IsOmitted_Text_ReturnsFalse()
     {
         var func = IsOmittedFunction.Instance;
-        var args = new[] { CellValue.FromString("test") };
+        var args = new[] { FormulaResult.FromString("test") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -695,11 +695,11 @@ public class InformationFunctionTests
     public void IsOmitted_EmptyString_ReturnsFalse()
     {
         var func = IsOmittedFunction.Instance;
-        var args = new[] { CellValue.FromString("") };
+        var args = new[] { FormulaResult.FromString("") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -707,11 +707,11 @@ public class InformationFunctionTests
     public void IsOmitted_Error_ReturnsFalse()
     {
         var func = IsOmittedFunction.Instance;
-        var args = new[] { CellValue.Error("#VALUE!") };
+        var args = new[] { FormulaResult.Error("#VALUE!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -719,7 +719,7 @@ public class InformationFunctionTests
     public void IsOmitted_WrongArgumentCount_ReturnsError()
     {
         var func = IsOmittedFunction.Instance;
-        var args = new CellValue[] { };
+        var args = new FormulaResult[] { };
 
         var result = func.Execute(null!, args);
 
@@ -735,11 +735,11 @@ public class InformationFunctionTests
     public void ErrorType_Null_Returns1()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.Error("#NULL!") };
+        var args = new[] { FormulaResult.Error("#NULL!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -747,11 +747,11 @@ public class InformationFunctionTests
     public void ErrorType_Div0_Returns2()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.Error("#DIV/0!") };
+        var args = new[] { FormulaResult.Error("#DIV/0!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue);
     }
 
@@ -759,11 +759,11 @@ public class InformationFunctionTests
     public void ErrorType_Value_Returns3()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.Error("#VALUE!") };
+        var args = new[] { FormulaResult.Error("#VALUE!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -771,11 +771,11 @@ public class InformationFunctionTests
     public void ErrorType_Ref_Returns4()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.Error("#REF!") };
+        var args = new[] { FormulaResult.Error("#REF!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(4.0, result.NumericValue);
     }
 
@@ -783,11 +783,11 @@ public class InformationFunctionTests
     public void ErrorType_Name_Returns5()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.Error("#NAME?") };
+        var args = new[] { FormulaResult.Error("#NAME?") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -795,11 +795,11 @@ public class InformationFunctionTests
     public void ErrorType_Num_Returns6()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.Error("#NUM!") };
+        var args = new[] { FormulaResult.Error("#NUM!") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(6.0, result.NumericValue);
     }
 
@@ -807,11 +807,11 @@ public class InformationFunctionTests
     public void ErrorType_NA_Returns7()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.Error("#N/A") };
+        var args = new[] { FormulaResult.Error("#N/A") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(7.0, result.NumericValue);
     }
 
@@ -819,11 +819,11 @@ public class InformationFunctionTests
     public void ErrorType_GettingData_Returns8()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.Error("#GETTING_DATA") };
+        var args = new[] { FormulaResult.Error("#GETTING_DATA") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(8.0, result.NumericValue);
     }
 
@@ -831,7 +831,7 @@ public class InformationFunctionTests
     public void ErrorType_NonErrorValue_ReturnsNA()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
@@ -843,7 +843,7 @@ public class InformationFunctionTests
     public void ErrorType_WrongArgumentCount_ReturnsError()
     {
         var func = ErrorTypeFunction.Instance;
-        var args = new CellValue[] { };
+        var args = new FormulaResult[] { };
 
         var result = func.Execute(null!, args);
 
@@ -859,11 +859,11 @@ public class InformationFunctionTests
     public void Cell_Address_ReturnsAddress()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromString("address") };
+        var args = new[] { FormulaResult.FromString("address") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("$A$1", result.StringValue);
     }
 
@@ -871,11 +871,11 @@ public class InformationFunctionTests
     public void Cell_Col_ReturnsColumn()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromString("col") };
+        var args = new[] { FormulaResult.FromString("col") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -883,11 +883,11 @@ public class InformationFunctionTests
     public void Cell_Row_ReturnsRow()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromString("row") };
+        var args = new[] { FormulaResult.FromString("row") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -895,11 +895,11 @@ public class InformationFunctionTests
     public void Cell_Type_Empty_ReturnsB()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromString("type"), CellValue.Empty };
+        var args = new[] { FormulaResult.FromString("type"), FormulaResult.Empty };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("b", result.StringValue);
     }
 
@@ -907,11 +907,11 @@ public class InformationFunctionTests
     public void Cell_Type_Text_ReturnsL()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromString("type"), CellValue.FromString("hello") };
+        var args = new[] { FormulaResult.FromString("type"), FormulaResult.FromString("hello") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("l", result.StringValue);
     }
 
@@ -919,11 +919,11 @@ public class InformationFunctionTests
     public void Cell_Type_Number_ReturnsV()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromString("type"), CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromString("type"), FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("v", result.StringValue);
     }
 
@@ -931,11 +931,11 @@ public class InformationFunctionTests
     public void Cell_Contents_ReturnsValue()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromString("contents"), CellValue.FromNumber(42) };
+        var args = new[] { FormulaResult.FromString("contents"), FormulaResult.FromNumber(42) };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(42.0, result.NumericValue);
     }
 
@@ -943,7 +943,7 @@ public class InformationFunctionTests
     public void Cell_InvalidInfoType_ReturnsError()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromString("invalid") };
+        var args = new[] { FormulaResult.FromString("invalid") };
 
         var result = func.Execute(null!, args);
 
@@ -955,7 +955,7 @@ public class InformationFunctionTests
     public void Cell_NonTextInfoType_ReturnsError()
     {
         var func = CellFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
@@ -967,7 +967,7 @@ public class InformationFunctionTests
     public void Cell_WrongArgumentCount_ReturnsError()
     {
         var func = CellFunction.Instance;
-        var args = new CellValue[] { };
+        var args = new FormulaResult[] { };
 
         var result = func.Execute(null!, args);
 
@@ -983,11 +983,11 @@ public class InformationFunctionTests
     public void Info_Directory_ReturnsDirectory()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("directory") };
+        var args = new[] { FormulaResult.FromString("directory") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.NotEmpty(result.StringValue);
     }
 
@@ -995,11 +995,11 @@ public class InformationFunctionTests
     public void Info_NumFile_ReturnsNumber()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("numfile") };
+        var args = new[] { FormulaResult.FromString("numfile") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -1007,11 +1007,11 @@ public class InformationFunctionTests
     public void Info_Origin_ReturnsReference()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("origin") };
+        var args = new[] { FormulaResult.FromString("origin") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("$A$1", result.StringValue);
     }
 
@@ -1019,11 +1019,11 @@ public class InformationFunctionTests
     public void Info_OsVersion_ReturnsVersion()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("osversion") };
+        var args = new[] { FormulaResult.FromString("osversion") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.NotEmpty(result.StringValue);
     }
 
@@ -1031,11 +1031,11 @@ public class InformationFunctionTests
     public void Info_Recalc_ReturnsMode()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("recalc") };
+        var args = new[] { FormulaResult.FromString("recalc") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Automatic", result.StringValue);
     }
 
@@ -1043,11 +1043,11 @@ public class InformationFunctionTests
     public void Info_Release_ReturnsVersion()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("release") };
+        var args = new[] { FormulaResult.FromString("release") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("16.0", result.StringValue);
     }
 
@@ -1055,11 +1055,11 @@ public class InformationFunctionTests
     public void Info_System_ReturnsSystemType()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("system") };
+        var args = new[] { FormulaResult.FromString("system") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Contains(result.StringValue, new[] { "mac", "pcdos", "unix" });
     }
 
@@ -1067,11 +1067,11 @@ public class InformationFunctionTests
     public void Info_MemAvail_ReturnsNumber()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("memavail") };
+        var args = new[] { FormulaResult.FromString("memavail") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -1079,11 +1079,11 @@ public class InformationFunctionTests
     public void Info_MemUsed_ReturnsNumber()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("memused") };
+        var args = new[] { FormulaResult.FromString("memused") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -1091,11 +1091,11 @@ public class InformationFunctionTests
     public void Info_TotMem_ReturnsNumber()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("totmem") };
+        var args = new[] { FormulaResult.FromString("totmem") };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -1103,7 +1103,7 @@ public class InformationFunctionTests
     public void Info_InvalidType_ReturnsError()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromString("invalid") };
+        var args = new[] { FormulaResult.FromString("invalid") };
 
         var result = func.Execute(null!, args);
 
@@ -1115,7 +1115,7 @@ public class InformationFunctionTests
     public void Info_NonTextType_ReturnsError()
     {
         var func = InfoFunction.Instance;
-        var args = new[] { CellValue.FromNumber(123) };
+        var args = new[] { FormulaResult.FromNumber(123) };
 
         var result = func.Execute(null!, args);
 
@@ -1127,7 +1127,7 @@ public class InformationFunctionTests
     public void Info_WrongArgumentCount_ReturnsError()
     {
         var func = InfoFunction.Instance;
-        var args = new CellValue[] { };
+        var args = new FormulaResult[] { };
 
         var result = func.Execute(null!, args);
 

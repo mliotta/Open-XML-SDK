@@ -29,11 +29,11 @@ public sealed class RateFunction : IFunctionImplementation
     public string Name => "RATE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -53,9 +53,9 @@ public sealed class RateFunction : IFunctionImplementation
         }
 
         // Validate required arguments are numbers
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var nper = args[0].NumericValue;
@@ -73,9 +73,9 @@ public sealed class RateFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type != CellValueType.Number)
+            if (args[3].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             fv = args[3].NumericValue;
@@ -89,9 +89,9 @@ public sealed class RateFunction : IFunctionImplementation
                 return args[4];
             }
 
-            if (args[4].Type != CellValueType.Number)
+            if (args[4].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             type = args[4].NumericValue;
@@ -105,9 +105,9 @@ public sealed class RateFunction : IFunctionImplementation
                 return args[5];
             }
 
-            if (args[5].Type != CellValueType.Number)
+            if (args[5].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             guess = args[5].NumericValue;
@@ -116,13 +116,13 @@ public sealed class RateFunction : IFunctionImplementation
         // Validate type is 0 or 1
         if (type != 0.0 && type != 1.0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate nper is positive
         if (nper <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Use Newton-Raphson method to find the rate
@@ -143,7 +143,7 @@ public sealed class RateFunction : IFunctionImplementation
                 // If f is close to zero, we found the solution
                 if (System.Math.Abs(f) < Tolerance)
                 {
-                    return CellValue.FromNumber(0.0);
+                    return FormulaResult.FromNumber(0.0);
                 }
 
                 // Otherwise, start with a small non-zero rate
@@ -167,17 +167,17 @@ public sealed class RateFunction : IFunctionImplementation
             {
                 if (double.IsNaN(rate) || double.IsInfinity(rate))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
-                return CellValue.FromNumber(rate);
+                return FormulaResult.FromNumber(rate);
             }
 
             // Newton-Raphson iteration
             if (System.Math.Abs(df) < 1e-10)
             {
                 // Derivative too small, can't continue
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             var newRate = rate - f / df;
@@ -205,7 +205,7 @@ public sealed class RateFunction : IFunctionImplementation
         // Check if we found a valid solution
         if (double.IsNaN(rate) || double.IsInfinity(rate))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Final verification
@@ -217,9 +217,9 @@ public sealed class RateFunction : IFunctionImplementation
         if (System.Math.Abs(finalCheck) > 0.01)
         {
             // Solution didn't converge well enough
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(rate);
+        return FormulaResult.FromNumber(rate);
     }
 }

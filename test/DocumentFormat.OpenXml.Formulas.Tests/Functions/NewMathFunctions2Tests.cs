@@ -20,10 +20,10 @@ public class NewMathFunctions2Tests
     public void CeilingMath_PositiveNumber_RoundsUp()
     {
         var func = CeilingMathFunction.Instance;
-        var args = new[] { CellValue.FromNumber(4.3) };
+        var args = new[] { FormulaResult.FromNumber(4.3) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -33,13 +33,13 @@ public class NewMathFunctions2Tests
         var func = CeilingMathFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-4.3),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0)
+            FormulaResult.FromNumber(-4.3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0)
         };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-4.0, result.NumericValue);
     }
 
@@ -49,13 +49,13 @@ public class NewMathFunctions2Tests
         var func = CeilingMathFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-4.3),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1)
+            FormulaResult.FromNumber(-4.3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1)
         };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-5.0, result.NumericValue);
     }
 
@@ -65,12 +65,12 @@ public class NewMathFunctions2Tests
         var func = CeilingMathFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(6.7),
-            CellValue.FromNumber(3)
+            FormulaResult.FromNumber(6.7),
+            FormulaResult.FromNumber(3)
         };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(9.0, result.NumericValue);
     }
 
@@ -79,10 +79,10 @@ public class NewMathFunctions2Tests
     public void CeilingPrecise_PositiveNumber_RoundsUp()
     {
         var func = CeilingPreciseFunction.Instance;
-        var args = new[] { CellValue.FromNumber(4.3) };
+        var args = new[] { FormulaResult.FromNumber(4.3) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -90,10 +90,10 @@ public class NewMathFunctions2Tests
     public void CeilingPrecise_NegativeNumber_RoundsTowardZero()
     {
         var func = CeilingPreciseFunction.Instance;
-        var args = new[] { CellValue.FromNumber(-4.3) };
+        var args = new[] { FormulaResult.FromNumber(-4.3) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-4.0, result.NumericValue);
     }
 
@@ -102,10 +102,10 @@ public class NewMathFunctions2Tests
     public void FloorMath_PositiveNumber_RoundsDown()
     {
         var func = FloorMathFunction.Instance;
-        var args = new[] { CellValue.FromNumber(4.8) };
+        var args = new[] { FormulaResult.FromNumber(4.8) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(4.0, result.NumericValue);
     }
 
@@ -115,13 +115,13 @@ public class NewMathFunctions2Tests
         var func = FloorMathFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-4.3),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0)
+            FormulaResult.FromNumber(-4.3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0)
         };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-5.0, result.NumericValue);
     }
 
@@ -131,13 +131,13 @@ public class NewMathFunctions2Tests
         var func = FloorMathFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-4.8),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1)
+            FormulaResult.FromNumber(-4.8),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1)
         };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-4.0, result.NumericValue);
     }
 
@@ -146,10 +146,10 @@ public class NewMathFunctions2Tests
     public void FloorPrecise_PositiveNumber_RoundsDown()
     {
         var func = FloorPreciseFunction.Instance;
-        var args = new[] { CellValue.FromNumber(4.8) };
+        var args = new[] { FormulaResult.FromNumber(4.8) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(4.0, result.NumericValue);
     }
 
@@ -157,10 +157,10 @@ public class NewMathFunctions2Tests
     public void FloorPrecise_NegativeNumber_RoundsDown()
     {
         var func = FloorPreciseFunction.Instance;
-        var args = new[] { CellValue.FromNumber(-4.3) };
+        var args = new[] { FormulaResult.FromNumber(-4.3) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-5.0, result.NumericValue);
     }
 
@@ -169,10 +169,10 @@ public class NewMathFunctions2Tests
     public void IsoCeiling_PositiveNumber_RoundsUp()
     {
         var func = IsoCeilingFunction.Instance;
-        var args = new[] { CellValue.FromNumber(4.3) };
+        var args = new[] { FormulaResult.FromNumber(4.3) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -180,10 +180,10 @@ public class NewMathFunctions2Tests
     public void IsoCeiling_NegativeNumber_RoundsTowardZero()
     {
         var func = IsoCeilingFunction.Instance;
-        var args = new[] { CellValue.FromNumber(-4.3) };
+        var args = new[] { FormulaResult.FromNumber(-4.3) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-4.0, result.NumericValue);
     }
 
@@ -194,12 +194,12 @@ public class NewMathFunctions2Tests
         var func = CombinaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(4),
-            CellValue.FromNumber(3)
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromNumber(3)
         };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // COMBINA(4,3) = COMBIN(4+3-1, 3) = COMBIN(6,3) = 20
         Assert.Equal(20.0, result.NumericValue);
     }
@@ -210,12 +210,12 @@ public class NewMathFunctions2Tests
         var func = CombinaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0)
         };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -225,8 +225,8 @@ public class NewMathFunctions2Tests
         var func = CombinaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-4),
-            CellValue.FromNumber(2)
+            FormulaResult.FromNumber(-4),
+            FormulaResult.FromNumber(2)
         };
         var result = func.Execute(null!, args);
 
@@ -239,10 +239,10 @@ public class NewMathFunctions2Tests
     public void FactDouble_EvenNumber_ReturnsCorrectValue()
     {
         var func = FactDoubleFunction.Instance;
-        var args = new[] { CellValue.FromNumber(6) };
+        var args = new[] { FormulaResult.FromNumber(6) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // 6!! = 6 * 4 * 2 = 48
         Assert.Equal(48.0, result.NumericValue);
     }
@@ -251,10 +251,10 @@ public class NewMathFunctions2Tests
     public void FactDouble_OddNumber_ReturnsCorrectValue()
     {
         var func = FactDoubleFunction.Instance;
-        var args = new[] { CellValue.FromNumber(7) };
+        var args = new[] { FormulaResult.FromNumber(7) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // 7!! = 7 * 5 * 3 * 1 = 105
         Assert.Equal(105.0, result.NumericValue);
     }
@@ -263,16 +263,16 @@ public class NewMathFunctions2Tests
     public void FactDouble_ZeroOrOne_ReturnsOne()
     {
         var func = FactDoubleFunction.Instance;
-        var args = new[] { CellValue.FromNumber(0) };
+        var args = new[] { FormulaResult.FromNumber(0) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
 
-        args = new[] { CellValue.FromNumber(1) };
+        args = new[] { FormulaResult.FromNumber(1) };
         result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -280,7 +280,7 @@ public class NewMathFunctions2Tests
     public void FactDouble_NegativeNumber_ReturnsNumError()
     {
         var func = FactDoubleFunction.Instance;
-        var args = new[] { CellValue.FromNumber(-5) };
+        var args = new[] { FormulaResult.FromNumber(-5) };
         var result = func.Execute(null!, args);
 
         Assert.True(result.IsError);
@@ -292,7 +292,7 @@ public class NewMathFunctions2Tests
     public void MDeterm_NonArray_ReturnsValueError()
     {
         var func = MDetermFunction.Instance;
-        var args = new[] { CellValue.FromNumber(5) };
+        var args = new[] { FormulaResult.FromNumber(5) };
         var result = func.Execute(null!, args);
 
         Assert.True(result.IsError);
@@ -304,7 +304,7 @@ public class NewMathFunctions2Tests
     public void MInverse_NonArray_ReturnsValueError()
     {
         var func = MInverseFunction.Instance;
-        var args = new[] { CellValue.FromNumber(5) };
+        var args = new[] { FormulaResult.FromNumber(5) };
         var result = func.Execute(null!, args);
 
         Assert.True(result.IsError);
@@ -318,12 +318,12 @@ public class NewMathFunctions2Tests
         var func = MMultFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4)
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4)
         };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(12.0, result.NumericValue);
     }
 
@@ -332,10 +332,10 @@ public class NewMathFunctions2Tests
     public void MUnit_PositiveDimension_ReturnsOne()
     {
         var func = MUnitFunction.Instance;
-        var args = new[] { CellValue.FromNumber(3) };
+        var args = new[] { FormulaResult.FromNumber(3) };
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -343,7 +343,7 @@ public class NewMathFunctions2Tests
     public void MUnit_ZeroOrNegativeDimension_ReturnsValueError()
     {
         var func = MUnitFunction.Instance;
-        var args = new[] { CellValue.FromNumber(0) };
+        var args = new[] { FormulaResult.FromNumber(0) };
         var result = func.Execute(null!, args);
 
         Assert.True(result.IsError);
@@ -355,7 +355,7 @@ public class NewMathFunctions2Tests
     public void Lookup_WrongArgCount_ReturnsValueError()
     {
         var func = LookupFunction.Instance;
-        var args = new[] { CellValue.FromNumber(5) };
+        var args = new[] { FormulaResult.FromNumber(5) };
         var result = func.Execute(null!, args);
 
         Assert.True(result.IsError);
@@ -368,8 +368,8 @@ public class NewMathFunctions2Tests
         var func = LookupFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(1)
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(1)
         };
         var result = func.Execute(null!, args);
 

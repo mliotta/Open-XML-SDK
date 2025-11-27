@@ -25,11 +25,11 @@ public sealed class RriFunction : IFunctionImplementation
     public string Name => "RRI";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in all arguments
@@ -40,9 +40,9 @@ public sealed class RriFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -53,12 +53,12 @@ public sealed class RriFunction : IFunctionImplementation
         // Validate arguments
         if (nper <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (pv == 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Formula: (fv/pv)^(1/nper) - 1
@@ -67,16 +67,16 @@ public sealed class RriFunction : IFunctionImplementation
         // Check for invalid ratio (can't take root of negative number with non-integer exponent)
         if (ratio < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         var rri = System.Math.Pow(ratio, 1.0 / nper) - 1;
 
         if (double.IsNaN(rri) || double.IsInfinity(rri))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(rri);
+        return FormulaResult.FromNumber(rri);
     }
 }

@@ -24,11 +24,11 @@ public sealed class SubstituteFunction : IFunctionImplementation
     public string Name => "SUBSTITUTE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -57,16 +57,16 @@ public sealed class SubstituteFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type != CellValueType.Number)
+            if (args[3].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             var instanceNum = (int)args[3].NumericValue;
 
             if (instanceNum < 1)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             // Replace only the specified instance
@@ -85,11 +85,11 @@ public sealed class SubstituteFunction : IFunctionImplementation
                 index += oldText.Length;
             }
 
-            return CellValue.FromString(text);
+            return FormulaResult.FromString(text);
         }
 
         // Replace all instances
         var result = text.Replace(oldText, newText);
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 }

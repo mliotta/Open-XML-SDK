@@ -24,7 +24,7 @@ public sealed class CountFunction : IFunctionImplementation
     public string Name => "COUNT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var count = 0;
 
@@ -35,12 +35,12 @@ public sealed class CountFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 count++;
             }
         }
 
-        return CellValue.FromNumber(count);
+        return FormulaResult.FromNumber(count);
     }
 }

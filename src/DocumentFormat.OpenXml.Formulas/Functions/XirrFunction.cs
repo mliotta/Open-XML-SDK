@@ -30,7 +30,7 @@ public sealed class XirrFunction : IFunctionImplementation
     public string Name => "XIRR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // XIRR can be called with:
         // 1. Three arguments: values_range, dates_range, guess
@@ -39,7 +39,7 @@ public sealed class XirrFunction : IFunctionImplementation
 
         if (args.Length < 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var guess = DefaultGuess;
@@ -57,7 +57,7 @@ public sealed class XirrFunction : IFunctionImplementation
                 return args[args.Length - 1];
             }
 
-            if (args[args.Length - 1].Type == CellValueType.Number)
+            if (args[args.Length - 1].Type == FormulaResultType.Number)
             {
                 guess = args[args.Length - 1].NumericValue;
                 effectiveArgCount = args.Length - 1;
@@ -67,7 +67,7 @@ public sealed class XirrFunction : IFunctionImplementation
         // Extract value-date pairs
         if (effectiveArgCount % 2 != 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var pairCount = effectiveArgCount / 2;
@@ -89,9 +89,9 @@ public sealed class XirrFunction : IFunctionImplementation
                 return args[dateIdx];
             }
 
-            if (args[valueIdx].Type != CellValueType.Number || args[dateIdx].Type != CellValueType.Number)
+            if (args[valueIdx].Type != FormulaResultType.Number || args[dateIdx].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             values[i] = args[valueIdx].NumericValue;
@@ -100,7 +100,7 @@ public sealed class XirrFunction : IFunctionImplementation
 
         if (pairCount < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // XIRR requires at least one positive and one negative cash flow
@@ -126,7 +126,7 @@ public sealed class XirrFunction : IFunctionImplementation
 
         if (!hasPositive || !hasNegative)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         var firstDate = dates[0];
@@ -147,7 +147,7 @@ public sealed class XirrFunction : IFunctionImplementation
 
                 if (double.IsInfinity(discountFactor) || double.IsNaN(discountFactor) || discountFactor == 0)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
                 // XNPV += value / (1 + rate)^yearFraction
@@ -162,17 +162,17 @@ public sealed class XirrFunction : IFunctionImplementation
             {
                 if (double.IsNaN(rate) || double.IsInfinity(rate))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
-                return CellValue.FromNumber(rate);
+                return FormulaResult.FromNumber(rate);
             }
 
             // Newton-Raphson iteration: rate_new = rate_old - f(rate) / f'(rate)
             if (System.Math.Abs(dxnpv) < 1e-10)
             {
                 // Derivative too small, can't continue
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             var newRate = rate - xnpv / dxnpv;
@@ -209,14 +209,14 @@ public sealed class XirrFunction : IFunctionImplementation
         if (System.Math.Abs(finalXnpv) > 0.01)
         {
             // Solution didn't converge well enough
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (double.IsNaN(rate) || double.IsInfinity(rate))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(rate);
+        return FormulaResult.FromNumber(rate);
     }
 }

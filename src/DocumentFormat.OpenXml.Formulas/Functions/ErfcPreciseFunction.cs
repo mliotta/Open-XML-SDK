@@ -25,11 +25,11 @@ public sealed class ErfcPreciseFunction : IFunctionImplementation
     public string Name => "ERFC.PRECISE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,15 +37,15 @@ public sealed class ErfcPreciseFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var x = args[0].NumericValue;
 
         // ERFC.PRECISE(x) = 1 - ERF.PRECISE(x)
-        return CellValue.FromNumber(1.0 - ErrorFunction(x));
+        return FormulaResult.FromNumber(1.0 - ErrorFunction(x));
     }
 
     /// <summary>

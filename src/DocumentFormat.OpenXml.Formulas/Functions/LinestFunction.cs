@@ -31,11 +31,11 @@ public sealed class LinestFunction : IFunctionImplementation
     public string Name => "LINEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors in known_y's
@@ -48,7 +48,7 @@ public sealed class LinestFunction : IFunctionImplementation
         var xValues = new List<double>();
 
         // Extract numeric values from known_y's
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             yValues.Add(args[0].NumericValue);
         }
@@ -61,7 +61,7 @@ public sealed class LinestFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type == CellValueType.Number)
+            if (args[1].Type == FormulaResultType.Number)
             {
                 xValues.Add(args[1].NumericValue);
             }
@@ -78,13 +78,13 @@ public sealed class LinestFunction : IFunctionImplementation
         // Arrays must have same length
         if (yValues.Count != xValues.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Need at least 2 data points for regression
         if (yValues.Count < 2)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Handle const parameter (args[2])
@@ -96,11 +96,11 @@ public sealed class LinestFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Boolean)
+            if (args[2].Type == FormulaResultType.Boolean)
             {
                 useIntercept = args[2].BoolValue;
             }
-            else if (args[2].Type == CellValueType.Number)
+            else if (args[2].Type == FormulaResultType.Number)
             {
                 useIntercept = args[2].NumericValue != 0;
             }
@@ -132,7 +132,7 @@ public sealed class LinestFunction : IFunctionImplementation
 
             if (sumSquaresX == 0.0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             slope = sumProduct / sumSquaresX;
@@ -151,7 +151,7 @@ public sealed class LinestFunction : IFunctionImplementation
 
             if (sumXX == 0.0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             slope = sumXY / sumXX;
@@ -159,6 +159,6 @@ public sealed class LinestFunction : IFunctionImplementation
 
         // Phase 0: Return only the slope
         // Full implementation would return an array with slope, intercept, and optionally more stats
-        return CellValue.FromNumber(slope);
+        return FormulaResult.FromNumber(slope);
     }
 }

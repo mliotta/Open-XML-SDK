@@ -25,11 +25,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date1),
-            CellValue.FromNumber(date2),
+            FormulaResult.FromNumber(date1),
+            FormulaResult.FromNumber(date2),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(30.0, result.NumericValue);
     }
 
@@ -43,8 +43,8 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date1),
-            CellValue.FromNumber(date2),
+            FormulaResult.FromNumber(date1),
+            FormulaResult.FromNumber(date2),
         });
 
         Assert.Equal(-30.0, result.NumericValue);
@@ -59,8 +59,8 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -74,7 +74,7 @@ public class DateTimeFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result1.IsError);
@@ -83,8 +83,8 @@ public class DateTimeFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(44927),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result2.IsError);
@@ -99,12 +99,12 @@ public class DateTimeFunctionTests
         // TIME(12, 30, 0) = 0.520833... (12:30 PM)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(12),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(12),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(0),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.520833333, result.NumericValue, 6);
     }
 
@@ -116,9 +116,9 @@ public class DateTimeFunctionTests
         // TIME(0, 0, 0) = 0
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -132,12 +132,12 @@ public class DateTimeFunctionTests
         // TIME(23, 59, 59)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(23),
-            CellValue.FromNumber(59),
-            CellValue.FromNumber(59),
+            FormulaResult.FromNumber(23),
+            FormulaResult.FromNumber(59),
+            FormulaResult.FromNumber(59),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 1.0);
         Assert.True(result.NumericValue > 0.999);
     }
@@ -149,9 +149,9 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -166,8 +166,8 @@ public class DateTimeFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(12),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(12),
+            FormulaResult.FromNumber(30),
         });
 
         Assert.True(result1.IsError);
@@ -176,9 +176,9 @@ public class DateTimeFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(0),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result2.IsError);
@@ -193,10 +193,10 @@ public class DateTimeFunctionTests
         // TIMEVALUE("12:30:00") = 0.520833...
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("12:30:00"),
+            FormulaResult.FromString("12:30:00"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.520833333, result.NumericValue, 6);
     }
 
@@ -208,10 +208,10 @@ public class DateTimeFunctionTests
         // TIMEVALUE("3:30 PM")
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("3:30 PM"),
+            FormulaResult.FromString("3:30 PM"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0.6 && result.NumericValue < 0.7);
     }
 
@@ -222,7 +222,7 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("invalid"),
+            FormulaResult.FromString("invalid"),
         });
 
         Assert.True(result.IsError);
@@ -236,7 +236,7 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(123),
+            FormulaResult.FromNumber(123),
         });
 
         Assert.True(result.IsError);
@@ -251,10 +251,10 @@ public class DateTimeFunctionTests
         // DATEVALUE("2024-01-01")
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("2024-01-01"),
+            FormulaResult.FromString("2024-01-01"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 1, 1).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -267,10 +267,10 @@ public class DateTimeFunctionTests
         // DATEVALUE("1/15/2024")
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("1/15/2024"),
+            FormulaResult.FromString("1/15/2024"),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 1, 15).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -282,7 +282,7 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("invalid"),
+            FormulaResult.FromString("invalid"),
         });
 
         Assert.True(result.IsError);
@@ -296,7 +296,7 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(123),
+            FormulaResult.FromNumber(123),
         });
 
         Assert.True(result.IsError);
@@ -314,11 +314,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(360.0, result.NumericValue);
     }
 
@@ -333,12 +333,12 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromBool(true),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(360.0, result.NumericValue);
     }
 
@@ -353,8 +353,8 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
         });
 
         Assert.Equal(30.0, result.NumericValue);
@@ -368,7 +368,7 @@ public class DateTimeFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result1.IsError);
@@ -377,8 +377,8 @@ public class DateTimeFunctionTests
         // Non-numeric date argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(44927),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result2.IsError);
@@ -395,11 +395,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(0),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 1, 31).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -414,11 +414,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 2, 29).ToOADate(); // 2024 is leap year
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -433,11 +433,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(-1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 2, 29).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -450,7 +450,7 @@ public class DateTimeFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result1.IsError);
@@ -459,8 +459,8 @@ public class DateTimeFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(0),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result2.IsError);
@@ -477,11 +477,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(0),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(startDate, result.NumericValue);
     }
 
@@ -495,11 +495,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 2, 15).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -514,11 +514,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(-1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 2, 15).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -533,11 +533,11 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(12),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(12),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2025, 1, 15).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -550,7 +550,7 @@ public class DateTimeFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result1.IsError);
@@ -559,8 +559,8 @@ public class DateTimeFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result2.IsError);
@@ -574,8 +574,8 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(44927),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result.IsError);
@@ -589,9 +589,9 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(12),
-            CellValue.Error("#REF!"),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(12),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -605,9 +605,9 @@ public class DateTimeFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
-            CellValue.FromNumber(44957),
-            CellValue.Error("#N/A"),
+            FormulaResult.FromNumber(44927),
+            FormulaResult.FromNumber(44957),
+            FormulaResult.Error("#N/A"),
         });
 
         Assert.True(result.IsError);

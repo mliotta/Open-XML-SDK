@@ -25,11 +25,11 @@ public sealed class PermutationaFunction : IFunctionImplementation
     public string Name => "PERMUTATIONA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -40,9 +40,9 @@ public sealed class PermutationaFunction : IFunctionImplementation
             }
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         int number = (int)args[0].NumericValue;
@@ -50,18 +50,18 @@ public sealed class PermutationaFunction : IFunctionImplementation
 
         if (number < 0 || numberChosen < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Special cases
         if (number == 0 && numberChosen > 0)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
         if (numberChosen == 0)
         {
-            return CellValue.FromNumber(1);
+            return FormulaResult.FromNumber(1);
         }
 
         // PERMUTATIONA = number^number_chosen
@@ -70,9 +70,9 @@ public sealed class PermutationaFunction : IFunctionImplementation
         // Check for overflow
         if (double.IsInfinity(result))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

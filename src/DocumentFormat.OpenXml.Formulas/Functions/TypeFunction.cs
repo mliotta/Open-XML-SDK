@@ -24,24 +24,24 @@ public sealed class TypeFunction : IFunctionImplementation
     public string Name => "TYPE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // TYPE does not propagate errors, it returns 16 for error values
         var typeCode = args[0].Type switch
         {
-            CellValueType.Number => 1,
-            CellValueType.Text => 2,
-            CellValueType.Boolean => 4,
-            CellValueType.Error => 16,
-            CellValueType.Empty => 1, // Empty cells are treated as numeric 0
+            FormulaResultType.Number => 1,
+            FormulaResultType.Text => 2,
+            FormulaResultType.Boolean => 4,
+            FormulaResultType.Error => 16,
+            FormulaResultType.Empty => 1, // Empty cells are treated as numeric 0
             _ => 1, // Default to number
         };
 
-        return CellValue.FromNumber(typeCode);
+        return FormulaResult.FromNumber(typeCode);
     }
 }

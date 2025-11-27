@@ -26,11 +26,11 @@ public sealed class FixedFunction : IFunctionImplementation
     public string Name => "FIXED";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -39,9 +39,9 @@ public sealed class FixedFunction : IFunctionImplementation
         }
 
         // Get number
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -55,9 +55,9 @@ public sealed class FixedFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             decimals = (int)args[1].NumericValue;
@@ -76,17 +76,17 @@ public sealed class FixedFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Boolean)
+            if (args[2].Type == FormulaResultType.Boolean)
             {
                 noCommas = args[2].BoolValue;
             }
-            else if (args[2].Type == CellValueType.Number)
+            else if (args[2].Type == FormulaResultType.Number)
             {
                 noCommas = args[2].NumericValue != 0;
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -106,6 +106,6 @@ public sealed class FixedFunction : IFunctionImplementation
             result = rounded.ToString($"N{decimals}", CultureInfo.InvariantCulture);
         }
 
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 }

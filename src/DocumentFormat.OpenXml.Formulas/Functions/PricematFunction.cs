@@ -25,11 +25,11 @@ public sealed class PricematFunction : IFunctionImplementation
     public string Name => "PRICEMAT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 5 || args.Length > 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,9 +40,9 @@ public sealed class PricematFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -54,17 +54,17 @@ public sealed class PricematFunction : IFunctionImplementation
                 return args[5];
             }
 
-            if (args[5].Type == CellValueType.Number)
+            if (args[5].Type == FormulaResultType.Number)
             {
                 basis = (int)args[5].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -79,7 +79,7 @@ public sealed class PricematFunction : IFunctionImplementation
             // Validate inputs
             if (settlement >= maturity || issue >= settlement || rate < 0 || yld < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate year fractions
@@ -96,14 +96,14 @@ public sealed class PricematFunction : IFunctionImplementation
 
             if (double.IsNaN(price) || double.IsInfinity(price))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(price);
+            return FormulaResult.FromNumber(price);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

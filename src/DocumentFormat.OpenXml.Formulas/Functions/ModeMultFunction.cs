@@ -27,7 +27,7 @@ public sealed class ModeMultFunction : IFunctionImplementation
     public string Name => "MODE.MULT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var values = new List<double>();
 
@@ -38,7 +38,7 @@ public sealed class ModeMultFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
@@ -46,7 +46,7 @@ public sealed class ModeMultFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Group by value and find the most frequent
@@ -61,7 +61,7 @@ public sealed class ModeMultFunction : IFunctionImplementation
         if (maxFrequency < 2)
         {
             // MODE requires at least one value to appear more than once
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Get all values with the maximum frequency
@@ -74,6 +74,6 @@ public sealed class ModeMultFunction : IFunctionImplementation
         // For simplicity, return the first (smallest) mode
         // In Excel, this would return a vertical array
         // Full array support would require returning multiple values
-        return CellValue.FromNumber(modes.First());
+        return FormulaResult.FromNumber(modes.First());
     }
 }

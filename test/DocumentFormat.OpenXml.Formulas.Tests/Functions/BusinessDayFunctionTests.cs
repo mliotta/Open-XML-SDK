@@ -29,11 +29,11 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(23.0, result.NumericValue);
     }
 
@@ -48,8 +48,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(monday),
-            CellValue.FromNumber(friday),
+            FormulaResult.FromNumber(monday),
+            FormulaResult.FromNumber(friday),
         });
 
         Assert.Equal(5.0, result.NumericValue);
@@ -66,8 +66,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(monday1),
-            CellValue.FromNumber(monday2),
+            FormulaResult.FromNumber(monday1),
+            FormulaResult.FromNumber(monday2),
         });
 
         Assert.Equal(6.0, result.NumericValue);
@@ -83,11 +83,11 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(laterDate),
-            CellValue.FromNumber(earlierDate),
+            FormulaResult.FromNumber(laterDate),
+            FormulaResult.FromNumber(earlierDate),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(-23.0, result.NumericValue);
     }
 
@@ -100,8 +100,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -116,8 +116,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(saturday),
-            CellValue.FromNumber(saturday),
+            FormulaResult.FromNumber(saturday),
+            FormulaResult.FromNumber(saturday),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -135,9 +135,9 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(monday),
-            CellValue.FromNumber(friday),
-            CellValue.FromNumber(holiday),
+            FormulaResult.FromNumber(monday),
+            FormulaResult.FromNumber(friday),
+            FormulaResult.FromNumber(holiday),
         });
 
         Assert.Equal(4.0, result.NumericValue); // 5 days - 1 holiday
@@ -151,7 +151,7 @@ public class BusinessDayFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result1.IsError);
@@ -160,8 +160,8 @@ public class BusinessDayFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(44927),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result2.IsError);
@@ -175,8 +175,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(44927),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result.IsError);
@@ -199,11 +199,11 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(10),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 1, 15).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -217,8 +217,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(startDate, result.NumericValue);
@@ -236,11 +236,11 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(-10),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(-10),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var expectedDate = new DateTime(2024, 1, 1).ToOADate();
         Assert.Equal(expectedDate, result.NumericValue);
     }
@@ -255,8 +255,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(friday),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(friday),
+            FormulaResult.FromNumber(1),
         });
 
         var expectedMonday = new DateTime(2024, 1, 8).ToOADate();
@@ -275,9 +275,9 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(holiday),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(holiday),
         });
 
         var expectedDate = new DateTime(2024, 1, 8).ToOADate();
@@ -292,7 +292,7 @@ public class BusinessDayFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
+            FormulaResult.FromNumber(44927),
         });
 
         Assert.True(result1.IsError);
@@ -301,8 +301,8 @@ public class BusinessDayFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(10),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result2.IsError);
@@ -316,8 +316,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
-            CellValue.Error("#REF!"),
+            FormulaResult.FromNumber(44927),
+            FormulaResult.Error("#REF!"),
         });
 
         Assert.True(result.IsError);
@@ -338,10 +338,10 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -355,10 +355,10 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 26 && result.NumericValue <= 28);
     }
 
@@ -372,11 +372,11 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 2 && result.NumericValue <= 4);
     }
 
@@ -390,11 +390,11 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(2),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 2 && result.NumericValue <= 4);
     }
 
@@ -408,11 +408,11 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(11),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(11),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 2 && result.NumericValue <= 4);
     }
 
@@ -426,11 +426,11 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(21),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(21),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 2 && result.NumericValue <= 4);
     }
 
@@ -444,8 +444,8 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(25),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(25),
         });
 
         Assert.True(result.IsError);
@@ -458,7 +458,7 @@ public class BusinessDayFunctionTests
         var func = WeeknumFunction.Instance;
 
         // Wrong number of arguments
-        var result1 = func.Execute(null!, new CellValue[] { });
+        var result1 = func.Execute(null!, new FormulaResult[] { });
 
         Assert.True(result1.IsError);
         Assert.Equal("#VALUE!", result1.ErrorValue);
@@ -466,7 +466,7 @@ public class BusinessDayFunctionTests
         // Non-numeric date argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -480,7 +480,7 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#N/A"),
+            FormulaResult.Error("#N/A"),
         });
 
         Assert.True(result.IsError);
@@ -497,10 +497,10 @@ public class BusinessDayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 52 && result.NumericValue <= 54);
     }
 

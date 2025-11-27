@@ -25,11 +25,11 @@ public sealed class VdbFunction : IFunctionImplementation
     public string Name => "VDB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 5 || args.Length > 7)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,49 +40,49 @@ public sealed class VdbFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var factor = 2.0;
-        if (args.Length >= 6 && args[5].Type != CellValueType.Empty)
+        if (args.Length >= 6 && args[5].Type != FormulaResultType.Empty)
         {
             if (args[5].IsError)
             {
                 return args[5];
             }
 
-            if (args[5].Type == CellValueType.Number)
+            if (args[5].Type == FormulaResultType.Number)
             {
                 factor = args[5].NumericValue;
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var noSwitch = false;
-        if (args.Length == 7 && args[6].Type != CellValueType.Empty)
+        if (args.Length == 7 && args[6].Type != FormulaResultType.Empty)
         {
             if (args[6].IsError)
             {
                 return args[6];
             }
 
-            if (args[6].Type == CellValueType.Boolean)
+            if (args[6].Type == FormulaResultType.Boolean)
             {
                 noSwitch = args[6].BoolValue;
             }
-            else if (args[6].Type == CellValueType.Number)
+            else if (args[6].Type == FormulaResultType.Number)
             {
                 noSwitch = args[6].NumericValue != 0;
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -97,17 +97,17 @@ public sealed class VdbFunction : IFunctionImplementation
             // Validate inputs
             if (cost < 0 || salvage < 0 || life <= 0 || factor <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (startPeriod < 0 || endPeriod < startPeriod || endPeriod > life)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (salvage >= cost)
             {
-                return CellValue.FromNumber(0);
+                return FormulaResult.FromNumber(0);
             }
 
             // Calculate depreciation
@@ -147,14 +147,14 @@ public sealed class VdbFunction : IFunctionImplementation
 
             if (double.IsNaN(totalDepreciation) || double.IsInfinity(totalDepreciation))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(totalDepreciation);
+            return FormulaResult.FromNumber(totalDepreciation);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 

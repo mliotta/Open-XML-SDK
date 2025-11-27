@@ -27,7 +27,7 @@ public sealed class SkewFunction : IFunctionImplementation
     public string Name => "SKEW";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var values = new List<double>();
 
@@ -38,7 +38,7 @@ public sealed class SkewFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
@@ -47,7 +47,7 @@ public sealed class SkewFunction : IFunctionImplementation
         // SKEW requires at least 3 data points
         if (values.Count < 3)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate mean
@@ -62,7 +62,7 @@ public sealed class SkewFunction : IFunctionImplementation
         // If standard deviation is zero, skewness is undefined
         if (stdev == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate skewness using the sample skewness formula
@@ -70,6 +70,6 @@ public sealed class SkewFunction : IFunctionImplementation
         var sumCubedZScores = values.Sum(v => System.Math.Pow((v - mean) / stdev, 3));
         var skewness = (n / ((n - 1.0) * (n - 2.0))) * sumCubedZScores;
 
-        return CellValue.FromNumber(skewness);
+        return FormulaResult.FromNumber(skewness);
     }
 }

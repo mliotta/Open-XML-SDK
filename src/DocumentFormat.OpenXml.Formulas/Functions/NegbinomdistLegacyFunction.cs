@@ -25,19 +25,19 @@ public sealed class NegbinomdistLegacyFunction : IFunctionImplementation
     public string Name => "NEGBINOMDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Legacy NEGBINOMDIST always returns PMF (cumulative=FALSE)
-        var argsWithCumulative = new CellValue[4];
+        var argsWithCumulative = new FormulaResult[4];
         argsWithCumulative[0] = args[0];
         argsWithCumulative[1] = args[1];
         argsWithCumulative[2] = args[2];
-        argsWithCumulative[3] = CellValue.FromBool(false);
+        argsWithCumulative[3] = FormulaResult.FromBool(false);
 
         return NegBinomDistFunction.Instance.Execute(context, argsWithCumulative);
     }

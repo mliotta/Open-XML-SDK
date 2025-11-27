@@ -21,10 +21,10 @@ public class ExtendedTrigonometricFunctionTests
         // SEC(PI/3) = 1/COS(PI/3) = 1/0.5 = 2
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI / 3),
+            FormulaResult.FromNumber(System.Math.PI / 3),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue, 10);
     }
 
@@ -35,7 +35,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(1.0, result.NumericValue, 10);
@@ -49,7 +49,7 @@ public class ExtendedTrigonometricFunctionTests
         // SEC(PI/2) is undefined (COS(PI/2) = 0)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI / 2),
+            FormulaResult.FromNumber(System.Math.PI / 2),
         });
 
         Assert.True(result.IsError);
@@ -63,7 +63,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result.IsError);
@@ -78,10 +78,10 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0 / System.Math.Cosh(1), result.NumericValue, 10);
     }
 
@@ -92,7 +92,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -107,10 +107,10 @@ public class ExtendedTrigonometricFunctionTests
         // CSC(PI/6) = 1/SIN(PI/6) = 1/0.5 = 2
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI / 6),
+            FormulaResult.FromNumber(System.Math.PI / 6),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue, 10);
     }
 
@@ -122,7 +122,7 @@ public class ExtendedTrigonometricFunctionTests
         // CSC(0) is undefined (SIN(0) = 0)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -137,10 +137,10 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0 / System.Math.Sinh(1), result.NumericValue, 10);
     }
 
@@ -151,7 +151,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -167,10 +167,10 @@ public class ExtendedTrigonometricFunctionTests
         // COT(PI/4) = 1/TAN(PI/4) = 1/1 = 1
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI / 4),
+            FormulaResult.FromNumber(System.Math.PI / 4),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue, 10);
     }
 
@@ -182,7 +182,7 @@ public class ExtendedTrigonometricFunctionTests
         // COT(0) is undefined (TAN(0) = 0)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -197,10 +197,10 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0 / System.Math.Tanh(1), result.NumericValue, 10);
     }
 
@@ -211,7 +211,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -227,10 +227,10 @@ public class ExtendedTrigonometricFunctionTests
         // ACOT(1) = PI/4
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(System.Math.PI / 4, result.NumericValue, 10);
     }
 
@@ -241,7 +241,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(System.Math.PI / 2, result.NumericValue, 10);
@@ -254,7 +254,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         // ACOT(-1) = 3*PI/4
@@ -269,10 +269,10 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(2),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // ACOTH(2) = 0.5 * ln(3)
         var expected = 0.5 * System.Math.Log(3.0);
         Assert.Equal(expected, result.NumericValue, 10);
@@ -286,7 +286,7 @@ public class ExtendedTrigonometricFunctionTests
         // |x| must be > 1
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         });
 
         Assert.True(result1.IsError);
@@ -294,7 +294,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result2.IsError);
@@ -302,7 +302,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result3 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-0.5),
+            FormulaResult.FromNumber(-0.5),
         });
 
         Assert.True(result3.IsError);
@@ -316,7 +316,7 @@ public class ExtendedTrigonometricFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result.IsError);

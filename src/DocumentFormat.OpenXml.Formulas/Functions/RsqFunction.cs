@@ -25,11 +25,11 @@ public sealed class RsqFunction : IFunctionImplementation
     public string Name => "RSQ";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First half are y values, second half are x values
@@ -45,7 +45,7 @@ public sealed class RsqFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 yValues.Add(args[i].NumericValue);
             }
@@ -59,7 +59,7 @@ public sealed class RsqFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 xValues.Add(args[i].NumericValue);
             }
@@ -67,7 +67,7 @@ public sealed class RsqFunction : IFunctionImplementation
 
         if (xValues.Count == 0 || yValues.Count == 0 || xValues.Count != yValues.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         int n = xValues.Count;
@@ -95,12 +95,12 @@ public sealed class RsqFunction : IFunctionImplementation
 
         if (xDenom == 0 || yDenom == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         double r = numerator / System.Math.Sqrt(xDenom * yDenom);
         double rSquared = r * r;
 
-        return CellValue.FromNumber(rSquared);
+        return FormulaResult.FromNumber(rSquared);
     }
 }

@@ -26,11 +26,11 @@ public sealed class IsPmtFunction : IFunctionImplementation
     public string Name => "ISPMT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in all arguments
@@ -41,9 +41,9 @@ public sealed class IsPmtFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -55,7 +55,7 @@ public sealed class IsPmtFunction : IFunctionImplementation
         // Validate nper is not zero
         if (nper == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Formula: -pv * rate * (per/nper - 1)
@@ -64,9 +64,9 @@ public sealed class IsPmtFunction : IFunctionImplementation
 
         if (double.IsNaN(ispmt) || double.IsInfinity(ispmt))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(ispmt);
+        return FormulaResult.FromNumber(ispmt);
     }
 }

@@ -21,15 +21,15 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Excel"),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
-            CellValue.FromString("pert"),
+            FormulaResult.FromString("Excel"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("pert"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Expert", result.StringValue);
     }
 
@@ -39,10 +39,10 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abcdef"),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(3),
-            CellValue.FromString("XYZ"),
+            FormulaResult.FromString("abcdef"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString("XYZ"),
         };
 
         var result = func.Execute(null!, args);
@@ -56,10 +56,10 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abcdef"),
-            CellValue.FromNumber(4),
-            CellValue.FromNumber(3),
-            CellValue.FromString("XYZ"),
+            FormulaResult.FromString("abcdef"),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString("XYZ"),
         };
 
         var result = func.Execute(null!, args);
@@ -73,10 +73,10 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc"),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(0),
-            CellValue.FromString("XYZ"),
+            FormulaResult.FromString("abc"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromString("XYZ"),
         };
 
         var result = func.Execute(null!, args);
@@ -90,10 +90,10 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("abc"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromString("XYZ"),
+            FormulaResult.FromString("abc"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("XYZ"),
         };
 
         var result = func.Execute(null!, args);
@@ -107,10 +107,10 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
-            CellValue.FromString("X"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("X"),
         };
 
         var result = func.Execute(null!, args);
@@ -125,10 +125,10 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(-1),
-            CellValue.FromString("X"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromString("X"),
         };
 
         var result = func.Execute(null!, args);
@@ -143,10 +143,10 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
-            CellValue.FromString("X"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("X"),
         };
 
         var result = func.Execute(null!, args);
@@ -161,8 +161,8 @@ public class TextFunctionTests
         var func = ReplaceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -181,13 +181,13 @@ public class TextFunctionTests
         var func = ReptFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("*"),
-            CellValue.FromNumber(5),
+            FormulaResult.FromString("*"),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("*****", result.StringValue);
     }
 
@@ -197,8 +197,8 @@ public class TextFunctionTests
         var func = ReptFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("ab"),
-            CellValue.FromNumber(3),
+            FormulaResult.FromString("ab"),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -212,8 +212,8 @@ public class TextFunctionTests
         var func = ReptFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromNumber(0),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -227,8 +227,8 @@ public class TextFunctionTests
         var func = ReptFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -242,8 +242,8 @@ public class TextFunctionTests
         var func = ReptFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromNumber(-1),
         };
 
         var result = func.Execute(null!, args);
@@ -258,8 +258,8 @@ public class TextFunctionTests
         var func = ReptFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.Error("#REF!"),
+            FormulaResult.FromString("test"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -274,7 +274,7 @@ public class TextFunctionTests
         var func = ReptFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
+            FormulaResult.FromString("test"),
         };
 
         var result = func.Execute(null!, args);
@@ -293,13 +293,13 @@ public class TextFunctionTests
         var func = ExactFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Excel"),
-            CellValue.FromString("Excel"),
+            FormulaResult.FromString("Excel"),
+            FormulaResult.FromString("Excel"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -309,13 +309,13 @@ public class TextFunctionTests
         var func = ExactFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Excel"),
-            CellValue.FromString("excel"),
+            FormulaResult.FromString("Excel"),
+            FormulaResult.FromString("excel"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -325,8 +325,8 @@ public class TextFunctionTests
         var func = ExactFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Excel"),
-            CellValue.FromString("Word"),
+            FormulaResult.FromString("Excel"),
+            FormulaResult.FromString("Word"),
         };
 
         var result = func.Execute(null!, args);
@@ -340,8 +340,8 @@ public class TextFunctionTests
         var func = ExactFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -355,8 +355,8 @@ public class TextFunctionTests
         var func = ExactFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test "),
-            CellValue.FromString("test"),
+            FormulaResult.FromString("test "),
+            FormulaResult.FromString("test"),
         };
 
         var result = func.Execute(null!, args);
@@ -370,8 +370,8 @@ public class TextFunctionTests
         var func = ExactFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
-            CellValue.FromString("test"),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromString("test"),
         };
 
         var result = func.Execute(null!, args);
@@ -386,7 +386,7 @@ public class TextFunctionTests
         var func = ExactFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
+            FormulaResult.FromString("test"),
         };
 
         var result = func.Execute(null!, args);
@@ -405,12 +405,12 @@ public class TextFunctionTests
         var func = CharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(65),
+            FormulaResult.FromNumber(65),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("A", result.StringValue);
     }
 
@@ -420,7 +420,7 @@ public class TextFunctionTests
         var func = CharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(90),
+            FormulaResult.FromNumber(90),
         };
 
         var result = func.Execute(null!, args);
@@ -434,7 +434,7 @@ public class TextFunctionTests
         var func = CharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(32),
+            FormulaResult.FromNumber(32),
         };
 
         var result = func.Execute(null!, args);
@@ -448,7 +448,7 @@ public class TextFunctionTests
         var func = CharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(48),
+            FormulaResult.FromNumber(48),
         };
 
         var result = func.Execute(null!, args);
@@ -462,7 +462,7 @@ public class TextFunctionTests
         var func = CharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -477,7 +477,7 @@ public class TextFunctionTests
         var func = CharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(256),
+            FormulaResult.FromNumber(256),
         };
 
         var result = func.Execute(null!, args);
@@ -492,7 +492,7 @@ public class TextFunctionTests
         var func = CharFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#NAME?"),
+            FormulaResult.Error("#NAME?"),
         };
 
         var result = func.Execute(null!, args);
@@ -507,8 +507,8 @@ public class TextFunctionTests
         var func = CharFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(65),
-            CellValue.FromNumber(66),
+            FormulaResult.FromNumber(65),
+            FormulaResult.FromNumber(66),
         };
 
         var result = func.Execute(null!, args);
@@ -527,12 +527,12 @@ public class TextFunctionTests
         var func = CodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
+            FormulaResult.FromString("A"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(65.0, result.NumericValue);
     }
 
@@ -542,7 +542,7 @@ public class TextFunctionTests
         var func = CodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Z"),
+            FormulaResult.FromString("Z"),
         };
 
         var result = func.Execute(null!, args);
@@ -556,7 +556,7 @@ public class TextFunctionTests
         var func = CodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("a"),
+            FormulaResult.FromString("a"),
         };
 
         var result = func.Execute(null!, args);
@@ -570,7 +570,7 @@ public class TextFunctionTests
         var func = CodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("ABC"),
+            FormulaResult.FromString("ABC"),
         };
 
         var result = func.Execute(null!, args);
@@ -584,7 +584,7 @@ public class TextFunctionTests
         var func = CodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(" "),
+            FormulaResult.FromString(" "),
         };
 
         var result = func.Execute(null!, args);
@@ -598,7 +598,7 @@ public class TextFunctionTests
         var func = CodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -613,7 +613,7 @@ public class TextFunctionTests
         var func = CodeFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#NULL!"),
+            FormulaResult.Error("#NULL!"),
         };
 
         var result = func.Execute(null!, args);
@@ -628,8 +628,8 @@ public class TextFunctionTests
         var func = CodeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -648,12 +648,12 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text\n\r"),
+            FormulaResult.FromString("text\n\r"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("text", result.StringValue);
     }
 
@@ -663,7 +663,7 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("hello\tworld"),
+            FormulaResult.FromString("hello\tworld"),
         };
 
         var result = func.Execute(null!, args);
@@ -677,7 +677,7 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("a\x01b\x02c\x03d"),
+            FormulaResult.FromString("a\x01b\x02c\x03d"),
         };
 
         var result = func.Execute(null!, args);
@@ -691,7 +691,7 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello World"),
+            FormulaResult.FromString("Hello World"),
         };
 
         var result = func.Execute(null!, args);
@@ -705,7 +705,7 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -719,7 +719,7 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("\x01\x02\x03"),
+            FormulaResult.FromString("\x01\x02\x03"),
         };
 
         var result = func.Execute(null!, args);
@@ -733,7 +733,7 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#VALUE!"),
+            FormulaResult.Error("#VALUE!"),
         };
 
         var result = func.Execute(null!, args);
@@ -748,8 +748,8 @@ public class TextFunctionTests
         var func = CleanFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("extra"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("extra"),
         };
 
         var result = func.Execute(null!, args);
@@ -768,12 +768,12 @@ public class TextFunctionTests
         var func = TFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("hello"),
+            FormulaResult.FromString("hello"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("hello", result.StringValue);
     }
 
@@ -783,12 +783,12 @@ public class TextFunctionTests
         var func = TFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(123),
+            FormulaResult.FromNumber(123),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal(string.Empty, result.StringValue);
     }
 
@@ -798,7 +798,7 @@ public class TextFunctionTests
         var func = TFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -812,7 +812,7 @@ public class TextFunctionTests
         var func = TFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -826,7 +826,7 @@ public class TextFunctionTests
         var func = TFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
@@ -841,8 +841,8 @@ public class TextFunctionTests
         var func = TFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("extra"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("extra"),
         };
 
         var result = func.Execute(null!, args);
@@ -861,13 +861,13 @@ public class TextFunctionTests
         var func = ConcatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.FromString(" World"),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString(" World"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Hello World", result.StringValue);
     }
 
@@ -877,9 +877,9 @@ public class TextFunctionTests
         var func = ConcatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.FromString(" "),
-            CellValue.FromString("World"),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString(" "),
+            FormulaResult.FromString("World"),
         };
 
         var result = func.Execute(null!, args);
@@ -893,11 +893,11 @@ public class TextFunctionTests
         var func = ConcatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2024),
-            CellValue.FromString("-"),
-            CellValue.FromNumber(11),
-            CellValue.FromString("-"),
-            CellValue.FromNumber(11),
+            FormulaResult.FromNumber(2024),
+            FormulaResult.FromString("-"),
+            FormulaResult.FromNumber(11),
+            FormulaResult.FromString("-"),
+            FormulaResult.FromNumber(11),
         };
 
         var result = func.Execute(null!, args);
@@ -911,8 +911,8 @@ public class TextFunctionTests
         var func = ConcatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -926,7 +926,7 @@ public class TextFunctionTests
         var func = ConcatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Test"),
+            FormulaResult.FromString("Test"),
         };
 
         var result = func.Execute(null!, args);
@@ -940,9 +940,9 @@ public class TextFunctionTests
         var func = ConcatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromString("World"),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromString("World"),
         };
 
         var result = func.Execute(null!, args);
@@ -961,16 +961,16 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromBool(true),
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
-            CellValue.FromString("C"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
+            FormulaResult.FromString("C"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("A, B, C", result.StringValue);
     }
 
@@ -980,12 +980,12 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromBool(true),
-            CellValue.FromString("A"),
-            CellValue.FromString(string.Empty),
-            CellValue.FromString("B"),
-            CellValue.FromString("C"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString(string.Empty),
+            FormulaResult.FromString("B"),
+            FormulaResult.FromString("C"),
         };
 
         var result = func.Execute(null!, args);
@@ -999,12 +999,12 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromBool(false),
-            CellValue.FromString("A"),
-            CellValue.FromString(string.Empty),
-            CellValue.FromString("B"),
-            CellValue.FromString("C"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString(string.Empty),
+            FormulaResult.FromString("B"),
+            FormulaResult.FromString("C"),
         };
 
         var result = func.Execute(null!, args);
@@ -1018,11 +1018,11 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("-"),
-            CellValue.FromBool(false),
-            CellValue.FromString("2024"),
-            CellValue.FromString("01"),
-            CellValue.FromString("15"),
+            FormulaResult.FromString("-"),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromString("2024"),
+            FormulaResult.FromString("01"),
+            FormulaResult.FromString("15"),
         };
 
         var result = func.Execute(null!, args);
@@ -1036,11 +1036,11 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
-            CellValue.FromBool(true),
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
-            CellValue.FromString("C"),
+            FormulaResult.FromString(string.Empty),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
+            FormulaResult.FromString("C"),
         };
 
         var result = func.Execute(null!, args);
@@ -1054,10 +1054,10 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromNumber(1),
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -1071,11 +1071,11 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromNumber(0),
-            CellValue.FromString("A"),
-            CellValue.FromString(string.Empty),
-            CellValue.FromString("B"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString(string.Empty),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -1089,10 +1089,10 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromString("TRUE"),
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromString("TRUE"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -1106,10 +1106,10 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromString("FALSE"),
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromString("FALSE"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -1123,10 +1123,10 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromString("invalid"),
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromString("invalid"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -1141,10 +1141,10 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
-            CellValue.FromBool(true),
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -1159,11 +1159,11 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromBool(true),
-            CellValue.FromString("A"),
-            CellValue.Error("#N/A"),
-            CellValue.FromString("B"),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("A"),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -1178,8 +1178,8 @@ public class TextFunctionTests
         var func = TextJoinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(", "),
-            CellValue.FromBool(true),
+            FormulaResult.FromString(", "),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -1198,12 +1198,12 @@ public class TextFunctionTests
         var func = ReverseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Excel"),
+            FormulaResult.FromString("Excel"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("lecxE", result.StringValue);
     }
 
@@ -1213,7 +1213,7 @@ public class TextFunctionTests
         var func = ReverseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("racecar"),
+            FormulaResult.FromString("racecar"),
         };
 
         var result = func.Execute(null!, args);
@@ -1227,7 +1227,7 @@ public class TextFunctionTests
         var func = ReverseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
+            FormulaResult.FromString(string.Empty),
         };
 
         var result = func.Execute(null!, args);
@@ -1241,7 +1241,7 @@ public class TextFunctionTests
         var func = ReverseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
+            FormulaResult.FromString("A"),
         };
 
         var result = func.Execute(null!, args);
@@ -1255,7 +1255,7 @@ public class TextFunctionTests
         var func = ReverseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(12345),
+            FormulaResult.FromNumber(12345),
         };
 
         var result = func.Execute(null!, args);
@@ -1269,7 +1269,7 @@ public class TextFunctionTests
         var func = ReverseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello World"),
+            FormulaResult.FromString("Hello World"),
         };
 
         var result = func.Execute(null!, args);
@@ -1283,7 +1283,7 @@ public class TextFunctionTests
         var func = ReverseFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#NAME?"),
+            FormulaResult.Error("#NAME?"),
         };
 
         var result = func.Execute(null!, args);
@@ -1298,8 +1298,8 @@ public class TextFunctionTests
         var func = ReverseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("test"),
-            CellValue.FromString("extra"),
+            FormulaResult.FromString("test"),
+            FormulaResult.FromString("extra"),
         };
 
         var result = func.Execute(null!, args);
@@ -1312,7 +1312,7 @@ public class TextFunctionTests
     public void Reverse_NoArguments_ReturnsError()
     {
         var func = ReverseFunction.Instance;
-        var args = Array.Empty<CellValue>();
+        var args = Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 

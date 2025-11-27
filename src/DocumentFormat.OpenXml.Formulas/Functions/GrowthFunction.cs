@@ -31,11 +31,11 @@ public sealed class GrowthFunction : IFunctionImplementation
     public string Name => "GROWTH";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors in known_y's
@@ -48,12 +48,12 @@ public sealed class GrowthFunction : IFunctionImplementation
         var xValues = new List<double>();
 
         // Extract numeric values from known_y's
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             // All y values must be positive for exponential regression
             if (args[0].NumericValue <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             yValues.Add(args[0].NumericValue);
@@ -67,7 +67,7 @@ public sealed class GrowthFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type == CellValueType.Number)
+            if (args[1].Type == FormulaResultType.Number)
             {
                 xValues.Add(args[1].NumericValue);
             }
@@ -84,13 +84,13 @@ public sealed class GrowthFunction : IFunctionImplementation
         // Arrays must have same length
         if (yValues.Count != xValues.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Need at least 1 data point
         if (yValues.Count < 1)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Handle new_x's (args[2])
@@ -102,7 +102,7 @@ public sealed class GrowthFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Number)
+            if (args[2].Type == FormulaResultType.Number)
             {
                 newX = args[2].NumericValue;
             }
@@ -117,11 +117,11 @@ public sealed class GrowthFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type == CellValueType.Boolean)
+            if (args[3].Type == FormulaResultType.Boolean)
             {
                 useConstant = args[3].BoolValue;
             }
-            else if (args[3].Type == CellValueType.Number)
+            else if (args[3].Type == FormulaResultType.Number)
             {
                 useConstant = args[3].NumericValue != 0;
             }
@@ -132,19 +132,19 @@ public sealed class GrowthFunction : IFunctionImplementation
         {
             if (useConstant)
             {
-                return CellValue.FromNumber(yValues[0]);
+                return FormulaResult.FromNumber(yValues[0]);
             }
             else
             {
                 // Force b=1: y = m^x, so m = y^(1/x)
                 if (xValues[0] == 0.0)
                 {
-                    return CellValue.Error("#DIV/0!");
+                    return FormulaResult.Error("#DIV/0!");
                 }
 
                 var m = System.Math.Pow(yValues[0], 1.0 / xValues[0]);
                 var result = System.Math.Pow(m, newX);
-                return CellValue.FromNumber(result);
+                return FormulaResult.FromNumber(result);
             }
         }
 
@@ -176,7 +176,7 @@ public sealed class GrowthFunction : IFunctionImplementation
 
             if (sumSquaresX == 0.0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             slope = sumProduct / sumSquaresX;
@@ -197,7 +197,7 @@ public sealed class GrowthFunction : IFunctionImplementation
 
             if (sumXX == 0.0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             slope = sumXLnY / sumXX;
@@ -208,6 +208,6 @@ public sealed class GrowthFunction : IFunctionImplementation
         var lnResult = intercept + (slope * newX);
         var growth = System.Math.Exp(lnResult);
 
-        return CellValue.FromNumber(growth);
+        return FormulaResult.FromNumber(growth);
     }
 }

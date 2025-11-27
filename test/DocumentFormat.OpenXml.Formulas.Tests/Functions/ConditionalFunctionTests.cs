@@ -21,13 +21,13 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Apple"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Apple"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -37,13 +37,13 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Orange"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Orange"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -53,8 +53,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("APPLE"),
-            CellValue.FromString("apple"),
+            FormulaResult.FromString("APPLE"),
+            FormulaResult.FromString("apple"),
         };
 
         var result = func.Execute(null!, args);
@@ -68,8 +68,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -83,8 +83,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -98,8 +98,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -113,8 +113,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromString("<5"),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString("<5"),
         };
 
         var result = func.Execute(null!, args);
@@ -128,8 +128,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString(">=5"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString(">=5"),
         };
 
         var result = func.Execute(null!, args);
@@ -143,8 +143,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString("<=5"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("<=5"),
         };
 
         var result = func.Execute(null!, args);
@@ -158,8 +158,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString("<>5"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("<>5"),
         };
 
         var result = func.Execute(null!, args);
@@ -173,8 +173,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString("<>5"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("<>5"),
         };
 
         var result = func.Execute(null!, args);
@@ -188,8 +188,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString("=5"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("=5"),
         };
 
         var result = func.Execute(null!, args);
@@ -203,8 +203,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("=Apple"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("=Apple"),
         };
 
         var result = func.Execute(null!, args);
@@ -218,8 +218,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -233,7 +233,7 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -248,8 +248,8 @@ public class ConditionalFunctionTests
         var func = CountIfFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromString(">5"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -268,13 +268,13 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -284,8 +284,8 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -299,9 +299,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -315,9 +315,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromString(">5"),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -331,9 +331,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromString("<5"),
-            CellValue.FromNumber(50),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString("<5"),
+            FormulaResult.FromNumber(50),
         };
 
         var result = func.Execute(null!, args);
@@ -347,9 +347,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString(">=5"),
-            CellValue.FromNumber(75),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString(">=5"),
+            FormulaResult.FromNumber(75),
         };
 
         var result = func.Execute(null!, args);
@@ -363,9 +363,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString("<=5"),
-            CellValue.FromNumber(25),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("<=5"),
+            FormulaResult.FromNumber(25),
         };
 
         var result = func.Execute(null!, args);
@@ -379,9 +379,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString("<>5"),
-            CellValue.FromNumber(200),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("<>5"),
+            FormulaResult.FromNumber(200),
         };
 
         var result = func.Execute(null!, args);
@@ -395,9 +395,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString("=5"),
-            CellValue.FromNumber(150),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("=5"),
+            FormulaResult.FromNumber(150),
         };
 
         var result = func.Execute(null!, args);
@@ -411,9 +411,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Apple"),
-            CellValue.FromNumber(50),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromNumber(50),
         };
 
         var result = func.Execute(null!, args);
@@ -427,9 +427,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Orange"),
-            CellValue.FromNumber(50),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Orange"),
+            FormulaResult.FromNumber(50),
         };
 
         var result = func.Execute(null!, args);
@@ -443,8 +443,8 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -458,9 +458,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromString("text"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromString("text"),
         };
 
         var result = func.Execute(null!, args);
@@ -474,7 +474,7 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -489,10 +489,10 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString(">3"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString(">3"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
         };
 
         var result = func.Execute(null!, args);
@@ -507,8 +507,8 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromString(">5"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -523,8 +523,8 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.Error("#REF!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -539,9 +539,9 @@ public class ConditionalFunctionTests
         var func = SumIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.Error("#N/A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(null!, args);

@@ -25,21 +25,21 @@ public sealed class HypGeomDistLegacyFunction : IFunctionImplementation
     public string Name => "HYPGEOMDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // HYPGEOMDIST always uses cumulative=FALSE (the legacy function only returned PMF)
         // Create new args array with cumulative flag added
-        var newArgs = new CellValue[5];
+        var newArgs = new FormulaResult[5];
         newArgs[0] = args[0];
         newArgs[1] = args[1];
         newArgs[2] = args[2];
         newArgs[3] = args[3];
-        newArgs[4] = CellValue.FromBool(false);
+        newArgs[4] = FormulaResult.FromBool(false);
 
         // Delegate to HYPGEOM.DIST
         return HypGeomDistFunction.Instance.Execute(context, newArgs);

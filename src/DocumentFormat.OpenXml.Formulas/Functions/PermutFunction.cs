@@ -26,11 +26,11 @@ public sealed class PermutFunction : IFunctionImplementation
     public string Name => "PERMUT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -43,9 +43,9 @@ public sealed class PermutFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -54,7 +54,7 @@ public sealed class PermutFunction : IFunctionImplementation
         // Both arguments must be non-negative
         if (number < 0 || numberChosen < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Truncate to integers
@@ -64,13 +64,13 @@ public sealed class PermutFunction : IFunctionImplementation
         // k must be <= n
         if (k > n)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // P(n, 0) = 1
         if (k == 0)
         {
-            return CellValue.FromNumber(1);
+            return FormulaResult.FromNumber(1);
         }
 
         // Calculate permutation iteratively
@@ -83,10 +83,10 @@ public sealed class PermutFunction : IFunctionImplementation
             // Check for overflow
             if (double.IsInfinity(result))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

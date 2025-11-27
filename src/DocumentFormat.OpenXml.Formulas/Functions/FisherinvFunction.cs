@@ -24,11 +24,11 @@ public sealed class FisherinvFunction : IFunctionImplementation
     public string Name => "FISHERINV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -36,9 +36,9 @@ public sealed class FisherinvFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         double y = args[0].NumericValue;
@@ -47,6 +47,6 @@ public sealed class FisherinvFunction : IFunctionImplementation
         double e2y = System.Math.Exp(2 * y);
         double result = (e2y - 1) / (e2y + 1);
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

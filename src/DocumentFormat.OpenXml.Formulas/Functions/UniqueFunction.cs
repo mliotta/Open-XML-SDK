@@ -29,11 +29,11 @@ public sealed class UniqueFunction : IFunctionImplementation
     public string Name => "UNIQUE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse optional parameters from the end
@@ -42,14 +42,14 @@ public sealed class UniqueFunction : IFunctionImplementation
         var arrayLength = args.Length;
 
         // Check if last argument is occurs_once (boolean)
-        if (args.Length >= 2 && args[args.Length - 1].Type == CellValueType.Boolean)
+        if (args.Length >= 2 && args[args.Length - 1].Type == FormulaResultType.Boolean)
         {
             occursOnce = args[args.Length - 1].BoolValue;
             arrayLength--;
         }
 
         // Check if second-to-last (or last if no occurs_once) is by_col
-        if (arrayLength >= 2 && args[arrayLength - 1].Type == CellValueType.Boolean)
+        if (arrayLength >= 2 && args[arrayLength - 1].Type == FormulaResultType.Boolean)
         {
             byCol = args[arrayLength - 1].BoolValue;
             arrayLength--;
@@ -92,7 +92,7 @@ public sealed class UniqueFunction : IFunctionImplementation
 
         if (numCols == 0 || numRows == 0)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         if (!byCol)
@@ -102,7 +102,7 @@ public sealed class UniqueFunction : IFunctionImplementation
 
             for (var row = 0; row < numRows; row++)
             {
-                var rowValues = new CellValue[numCols];
+                var rowValues = new FormulaResult[numCols];
                 for (var col = 0; col < numCols; col++)
                 {
                     rowValues[col] = args[row * numCols + col];
@@ -123,7 +123,7 @@ public sealed class UniqueFunction : IFunctionImplementation
             }
 
             // Filter based on occursOnce
-            var uniqueRows = new List<CellValue[]>();
+            var uniqueRows = new List<FormulaResult[]>();
             foreach (var entry in rowMap.Values)
             {
                 if (!occursOnce || entry.Count == 1)
@@ -135,12 +135,12 @@ public sealed class UniqueFunction : IFunctionImplementation
             // If no unique values found
             if (uniqueRows.Count == 0)
             {
-                return CellValue.Error("#CALC!");
+                return FormulaResult.Error("#CALC!");
             }
 
             // Flatten to array
             var resultLength = uniqueRows.Count * numCols;
-            var result = new CellValue[resultLength];
+            var result = new FormulaResult[resultLength];
             for (var i = 0; i < uniqueRows.Count; i++)
             {
                 for (var col = 0; col < numCols; col++)
@@ -158,7 +158,7 @@ public sealed class UniqueFunction : IFunctionImplementation
 
             for (var col = 0; col < numCols; col++)
             {
-                var colValues = new CellValue[numRows];
+                var colValues = new FormulaResult[numRows];
                 for (var row = 0; row < numRows; row++)
                 {
                     colValues[row] = args[row * numCols + col];
@@ -179,7 +179,7 @@ public sealed class UniqueFunction : IFunctionImplementation
             }
 
             // Filter based on occursOnce
-            var uniqueCols = new List<CellValue[]>();
+            var uniqueCols = new List<FormulaResult[]>();
             foreach (var entry in colMap.Values)
             {
                 if (!occursOnce || entry.Count == 1)
@@ -191,12 +191,12 @@ public sealed class UniqueFunction : IFunctionImplementation
             // If no unique values found
             if (uniqueCols.Count == 0)
             {
-                return CellValue.Error("#CALC!");
+                return FormulaResult.Error("#CALC!");
             }
 
             // Flatten to array (reorganize as row-major)
             var resultLength = numRows * uniqueCols.Count;
-            var result = new CellValue[resultLength];
+            var result = new FormulaResult[resultLength];
             for (var row = 0; row < numRows; row++)
             {
                 for (var i = 0; i < uniqueCols.Count; i++)
@@ -209,7 +209,7 @@ public sealed class UniqueFunction : IFunctionImplementation
         }
     }
 
-    private static string CreateRowKey(CellValue[] values)
+    private static string CreateRowKey(FormulaResult[] values)
     {
         // Create a unique string key from cell values
         var parts = new string[values.Length];
@@ -218,19 +218,19 @@ public sealed class UniqueFunction : IFunctionImplementation
             var val = values[i];
             switch (val.Type)
             {
-                case CellValueType.Number:
+                case FormulaResultType.Number:
                     parts[i] = "N:" + val.NumericValue.ToString();
                     break;
-                case CellValueType.Text:
+                case FormulaResultType.Text:
                     parts[i] = "T:" + val.StringValue;
                     break;
-                case CellValueType.Boolean:
+                case FormulaResultType.Boolean:
                     parts[i] = "B:" + val.BoolValue.ToString();
                     break;
-                case CellValueType.Empty:
+                case FormulaResultType.Empty:
                     parts[i] = "E:";
                     break;
-                case CellValueType.Error:
+                case FormulaResultType.Error:
                     parts[i] = "ERR:" + val.ErrorValue;
                     break;
                 default:
@@ -243,7 +243,7 @@ public sealed class UniqueFunction : IFunctionImplementation
 
     private sealed class RowInfo
     {
-        public CellValue[] Values { get; set; } = null!;
+        public FormulaResult[] Values { get; set; } = null!;
         public int Count { get; set; }
     }
 }

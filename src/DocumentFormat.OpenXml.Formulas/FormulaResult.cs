@@ -6,14 +6,19 @@ using System;
 namespace DocumentFormat.OpenXml.Features.FormulaEvaluation;
 
 /// <summary>
-/// Represents a cell value with its type.
+/// Represents an evaluated formula result.
 /// </summary>
-public readonly struct CellValue : IEquatable<CellValue>
+/// <remarks>
+/// This is intentionally a separate type from <see cref="DocumentFormat.OpenXml.Spreadsheet.CellValue"/>.
+/// The SDK's CellValue is a class representing the XML element for serialization,
+/// while FormulaResult is a value type optimized for formula evaluation results.
+/// </remarks>
+public readonly struct FormulaResult : IEquatable<FormulaResult>
 {
     /// <summary>
     /// Gets the type of the cell value.
     /// </summary>
-    public CellValueType Type { get; }
+    public FormulaResultType Type { get; }
 
     /// <summary>
     /// Gets the raw value object.
@@ -23,7 +28,7 @@ public readonly struct CellValue : IEquatable<CellValue>
     /// <summary>
     /// Gets the numeric value. Returns 0 if not a number.
     /// </summary>
-    public double NumericValue => Type == CellValueType.Number ? (double)Value! : 0;
+    public double NumericValue => Type == FormulaResultType.Number ? (double)Value! : 0;
 
     /// <summary>
     /// Gets the string value.
@@ -33,19 +38,19 @@ public readonly struct CellValue : IEquatable<CellValue>
     /// <summary>
     /// Gets the boolean value. Returns false if not a boolean.
     /// </summary>
-    public bool BoolValue => Type == CellValueType.Boolean && (bool)Value!;
+    public bool BoolValue => Type == FormulaResultType.Boolean && (bool)Value!;
 
     /// <summary>
     /// Gets a value indicating whether this is an error value.
     /// </summary>
-    public bool IsError => Type == CellValueType.Error;
+    public bool IsError => Type == FormulaResultType.Error;
 
     /// <summary>
     /// Gets the error value string. Returns null if not an error.
     /// </summary>
     public string? ErrorValue => IsError ? (string?)Value : null;
 
-    private CellValue(CellValueType type, object? value)
+    private FormulaResult(FormulaResultType type, object? value)
     {
         Type = type;
         Value = value;
@@ -55,40 +60,40 @@ public readonly struct CellValue : IEquatable<CellValue>
     /// Creates a numeric cell value.
     /// </summary>
     /// <param name="value">The numeric value.</param>
-    /// <returns>A CellValue representing a number.</returns>
-    public static CellValue FromNumber(double value) => new(CellValueType.Number, value);
+    /// <returns>A FormulaResult representing a number.</returns>
+    public static FormulaResult FromNumber(double value) => new(FormulaResultType.Number, value);
 
     /// <summary>
     /// Creates a string cell value.
     /// </summary>
     /// <param name="value">The string value.</param>
-    /// <returns>A CellValue representing a string.</returns>
-    public static CellValue FromString(string value) => new(CellValueType.Text, value);
+    /// <returns>A FormulaResult representing a string.</returns>
+    public static FormulaResult FromString(string value) => new(FormulaResultType.Text, value);
 
     /// <summary>
     /// Creates a boolean cell value.
     /// </summary>
     /// <param name="value">The boolean value.</param>
-    /// <returns>A CellValue representing a boolean.</returns>
-    public static CellValue FromBool(bool value) => new(CellValueType.Boolean, value);
+    /// <returns>A FormulaResult representing a boolean.</returns>
+    public static FormulaResult FromBool(bool value) => new(FormulaResultType.Boolean, value);
 
     /// <summary>
     /// Creates an error cell value.
     /// </summary>
     /// <param name="error">The error string.</param>
-    /// <returns>A CellValue representing an error.</returns>
-    public static CellValue Error(string error) => new(CellValueType.Error, error);
+    /// <returns>A FormulaResult representing an error.</returns>
+    public static FormulaResult Error(string error) => new(FormulaResultType.Error, error);
 
     /// <summary>
     /// Gets an empty cell value.
     /// </summary>
-    public static CellValue Empty => new(CellValueType.Empty, null);
+    public static FormulaResult Empty => new(FormulaResultType.Empty, null);
 
     /// <inheritdoc/>
-    public bool Equals(CellValue other) => Type == other.Type && Equals(Value, other.Value);
+    public bool Equals(FormulaResult other) => Type == other.Type && Equals(Value, other.Value);
 
     /// <inheritdoc/>
-    public override bool Equals(object? obj) => obj is CellValue other && Equals(other);
+    public override bool Equals(object? obj) => obj is FormulaResult other && Equals(other);
 
     /// <inheritdoc/>
     public override int GetHashCode()
@@ -105,18 +110,18 @@ public readonly struct CellValue : IEquatable<CellValue>
     /// <summary>
     /// Equality operator.
     /// </summary>
-    public static bool operator ==(CellValue left, CellValue right) => left.Equals(right);
+    public static bool operator ==(FormulaResult left, FormulaResult right) => left.Equals(right);
 
     /// <summary>
     /// Inequality operator.
     /// </summary>
-    public static bool operator !=(CellValue left, CellValue right) => !left.Equals(right);
+    public static bool operator !=(FormulaResult left, FormulaResult right) => !left.Equals(right);
 }
 
 /// <summary>
-/// Specifies the type of a cell value.
+/// Specifies the type of a formula evaluation result.
 /// </summary>
-public enum CellValueType
+public enum FormulaResultType
 {
     /// <summary>
     /// Empty cell.

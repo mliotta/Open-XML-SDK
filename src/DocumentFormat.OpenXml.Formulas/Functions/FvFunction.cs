@@ -25,11 +25,11 @@ public sealed class FvFunction : IFunctionImplementation
     public string Name => "FV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -49,9 +49,9 @@ public sealed class FvFunction : IFunctionImplementation
         }
 
         // Validate required arguments are numbers
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rate = args[0].NumericValue;
@@ -68,9 +68,9 @@ public sealed class FvFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type != CellValueType.Number)
+            if (args[3].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             pv = args[3].NumericValue;
@@ -84,9 +84,9 @@ public sealed class FvFunction : IFunctionImplementation
                 return args[4];
             }
 
-            if (args[4].Type != CellValueType.Number)
+            if (args[4].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             type = args[4].NumericValue;
@@ -95,13 +95,13 @@ public sealed class FvFunction : IFunctionImplementation
         // Validate type is 0 or 1
         if (type != 0.0 && type != 1.0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate nper is positive
         if (nper <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         double fv;
@@ -120,9 +120,9 @@ public sealed class FvFunction : IFunctionImplementation
 
         if (double.IsNaN(fv) || double.IsInfinity(fv))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(fv);
+        return FormulaResult.FromNumber(fv);
     }
 }

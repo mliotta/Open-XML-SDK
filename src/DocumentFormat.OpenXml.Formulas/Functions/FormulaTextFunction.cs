@@ -26,11 +26,11 @@ public sealed class FormulaTextFunction : IFunctionImplementation
     public string Name => "FORMULATEXT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var reference = args[0];
@@ -42,9 +42,9 @@ public sealed class FormulaTextFunction : IFunctionImplementation
         }
 
         // Reference must be text (cell reference like "A1")
-        if (reference.Type != CellValueType.Text)
+        if (reference.Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var cellReference = reference.StringValue;
@@ -52,6 +52,6 @@ public sealed class FormulaTextFunction : IFunctionImplementation
         // Get the cell from the context
         // Note: This is a limitation - we need access to the actual Cell object, not just its value
         // For now, we'll return #N/A as this requires deeper integration with the worksheet
-        return CellValue.Error("#N/A");
+        return FormulaResult.Error("#N/A");
     }
 }

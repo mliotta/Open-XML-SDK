@@ -25,7 +25,7 @@ public sealed class PoissonDistLegacyFunction : IFunctionImplementation
     public string Name => "POISSON";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // POISSON has the same signature as POISSON.DIST
         // Delegate directly to POISSON.DIST

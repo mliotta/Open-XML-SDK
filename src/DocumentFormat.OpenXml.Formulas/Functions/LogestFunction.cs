@@ -32,11 +32,11 @@ public sealed class LogestFunction : IFunctionImplementation
     public string Name => "LOGEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors in known_y's
@@ -49,12 +49,12 @@ public sealed class LogestFunction : IFunctionImplementation
         var xValues = new List<double>();
 
         // Extract numeric values from known_y's
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             // All y values must be positive for exponential regression
             if (args[0].NumericValue <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             yValues.Add(args[0].NumericValue);
@@ -68,7 +68,7 @@ public sealed class LogestFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type == CellValueType.Number)
+            if (args[1].Type == FormulaResultType.Number)
             {
                 xValues.Add(args[1].NumericValue);
             }
@@ -85,13 +85,13 @@ public sealed class LogestFunction : IFunctionImplementation
         // Arrays must have same length
         if (yValues.Count != xValues.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Need at least 2 data points for regression
         if (yValues.Count < 2)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Handle const parameter (args[2])
@@ -103,11 +103,11 @@ public sealed class LogestFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Boolean)
+            if (args[2].Type == FormulaResultType.Boolean)
             {
                 useConstant = args[2].BoolValue;
             }
-            else if (args[2].Type == CellValueType.Number)
+            else if (args[2].Type == FormulaResultType.Number)
             {
                 useConstant = args[2].NumericValue != 0;
             }
@@ -142,7 +142,7 @@ public sealed class LogestFunction : IFunctionImplementation
 
             if (sumSquaresX == 0.0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             slope = sumProduct / sumSquaresX;
@@ -162,7 +162,7 @@ public sealed class LogestFunction : IFunctionImplementation
 
             if (sumXX == 0.0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             slope = sumXLnY / sumXX;
@@ -173,6 +173,6 @@ public sealed class LogestFunction : IFunctionImplementation
 
         // Phase 0: Return only m (the exponential base)
         // Full implementation would return an array with m, b, and optionally more stats
-        return CellValue.FromNumber(m);
+        return FormulaResult.FromNumber(m);
     }
 }

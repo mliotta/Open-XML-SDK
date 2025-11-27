@@ -81,7 +81,7 @@ public interface IFormulaEvaluator : IDisposable
     /// <summary>
     /// Evaluates a single cell formula.
     /// </summary>
-    Result<CellValue> TryEvaluate(Worksheet worksheet, Cell cell);
+    Result<FormulaResult> TryEvaluate(Worksheet worksheet, Cell cell);
 
     /// <summary>
     /// Recalculates all formulas in the worksheet in dependency order.
@@ -120,28 +120,33 @@ public interface IFormulaEvaluator : IDisposable
 
 ```csharp
 /// <summary>
-/// Represents a cell value with its type.
+/// Represents an evaluated formula result.
 /// </summary>
-public readonly struct CellValue : IEquatable<CellValue>
+/// <remarks>
+/// This is intentionally a separate type from DocumentFormat.OpenXml.Spreadsheet.CellValue.
+/// The SDK's CellValue is a class representing the XML element for serialization,
+/// while FormulaResult is a value type optimized for formula evaluation results.
+/// </remarks>
+public readonly struct FormulaResult : IEquatable<FormulaResult>
 {
-    public CellValueType Type { get; }
+    public FormulaResultType Type { get; }
     public double NumericValue { get; }
     public string StringValue { get; }
     public bool BoolValue { get; }
     public bool IsError { get; }
     public string? ErrorValue { get; }
 
-    public static CellValue FromNumber(double value);
-    public static CellValue FromString(string value);
-    public static CellValue FromBool(bool value);
-    public static CellValue Error(string error);
-    public static CellValue Empty { get; }
+    public static FormulaResult FromNumber(double value);
+    public static FormulaResult FromString(string value);
+    public static FormulaResult FromBool(bool value);
+    public static FormulaResult Error(string error);
+    public static FormulaResult Empty { get; }
 }
 
 /// <summary>
-/// Cell value type enumeration.
+/// Specifies the type of a formula evaluation result.
 /// </summary>
-public enum CellValueType
+public enum FormulaResultType
 {
     Number,
     Text,
@@ -293,7 +298,7 @@ Missing functions (14): Mostly obscure legacy functions or complex specialized f
 1. **Generate test workbook** - Create an .xlsx file with 650+ formulas covering all supported function categories, including nested formulas, edge cases, and error conditions
 2. **Let Excel compute everything** - Open the workbook in Excel and let it recalculate all formulas. Excel writes the evaluated results back into the file as cached values (the `v` element alongside the `f` formula element). This "blesses" the workbook.
 3. **Save the blessed file** - The workbook now contains Excel's computed values as the oracle reference
-4. **Compare evaluator vs Excel** - The formula engine loads the same workbook, evaluates each formula, and compares its computed `CellValue` to the value Excel stored. Any mismatch is a failing test.
+4. **Compare evaluator vs Excel** - The formula engine loads the same workbook, evaluates each formula, and compares its computed `FormulaResult` to the value Excel stored. Any mismatch is a failing test.
 
 In short:
 - **Oracle** = Excel's own calculation engine
@@ -334,7 +339,7 @@ Supports all current SDK target frameworks:
 
 1. **API Design**
    - Is the `IFormulaEvaluator` feature interface approach correct for SDK features?
-   - Should `CellValue` be in the main SDK namespace or formula-specific namespace?
+   - Should `FormulaResult` be in the main SDK namespace or formula-specific namespace?
    - Is the `Result<T>` pattern appropriate, or should we use exceptions for evaluation failures?
 
 2. **Performance**

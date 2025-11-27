@@ -21,5 +21,5 @@ public interface IFunctionImplementation
     /// <param name="context">The cell context.</param>
     /// <param name="args">The function arguments.</param>
     /// <returns>The function result.</returns>
-    CellValue Execute(CellContext context, CellValue[] args);
+    FormulaResult Execute(CellContext context, FormulaResult[] args);
 }

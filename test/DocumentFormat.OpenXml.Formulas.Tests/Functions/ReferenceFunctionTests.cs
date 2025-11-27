@@ -24,12 +24,12 @@ public class ReferenceFunctionTests
         var func = ColumnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A1"),
+            FormulaResult.FromString("A1"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -39,7 +39,7 @@ public class ReferenceFunctionTests
         var func = ColumnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("B10"),
+            FormulaResult.FromString("B10"),
         };
 
         var result = func.Execute(null!, args);
@@ -53,7 +53,7 @@ public class ReferenceFunctionTests
         var func = ColumnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Z1"),
+            FormulaResult.FromString("Z1"),
         };
 
         var result = func.Execute(null!, args);
@@ -67,7 +67,7 @@ public class ReferenceFunctionTests
         var func = ColumnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("AA1"),
+            FormulaResult.FromString("AA1"),
         };
 
         var result = func.Execute(null!, args);
@@ -81,7 +81,7 @@ public class ReferenceFunctionTests
         var func = ColumnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("$C$5"),
+            FormulaResult.FromString("$C$5"),
         };
 
         var result = func.Execute(null!, args);
@@ -94,7 +94,7 @@ public class ReferenceFunctionTests
     {
         var func = ColumnFunction.Instance;
         var context = CreateMockContext("D10");
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(context, args);
 
@@ -105,7 +105,7 @@ public class ReferenceFunctionTests
     public void Column_WithoutReferenceNoContext_ReturnsError()
     {
         var func = ColumnFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 
@@ -119,7 +119,7 @@ public class ReferenceFunctionTests
         var func = ColumnFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("INVALID"),
+            FormulaResult.FromString("INVALID"),
         };
 
         var result = func.Execute(null!, args);
@@ -134,7 +134,7 @@ public class ReferenceFunctionTests
         var func = ColumnFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -153,12 +153,12 @@ public class ReferenceFunctionTests
         var func = RowFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A1"),
+            FormulaResult.FromString("A1"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -168,7 +168,7 @@ public class ReferenceFunctionTests
         var func = RowFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("B10"),
+            FormulaResult.FromString("B10"),
         };
 
         var result = func.Execute(null!, args);
@@ -182,7 +182,7 @@ public class ReferenceFunctionTests
         var func = RowFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Z100"),
+            FormulaResult.FromString("Z100"),
         };
 
         var result = func.Execute(null!, args);
@@ -196,7 +196,7 @@ public class ReferenceFunctionTests
         var func = RowFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("$C$5"),
+            FormulaResult.FromString("$C$5"),
         };
 
         var result = func.Execute(null!, args);
@@ -209,7 +209,7 @@ public class ReferenceFunctionTests
     {
         var func = RowFunction.Instance;
         var context = CreateMockContext("D10");
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(context, args);
 
@@ -220,7 +220,7 @@ public class ReferenceFunctionTests
     public void Row_WithoutReferenceNoContext_ReturnsError()
     {
         var func = RowFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 
@@ -234,7 +234,7 @@ public class ReferenceFunctionTests
         var func = RowFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("INVALID"),
+            FormulaResult.FromString("INVALID"),
         };
 
         var result = func.Execute(null!, args);
@@ -249,7 +249,7 @@ public class ReferenceFunctionTests
         var func = RowFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
@@ -268,7 +268,7 @@ public class ReferenceFunctionTests
         var func = ColumnsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -283,10 +283,10 @@ public class ReferenceFunctionTests
         // 2x2 array
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
         };
 
         var result = func.Execute(null!, args);
@@ -301,12 +301,12 @@ public class ReferenceFunctionTests
         // 3x2 array (3 rows, 2 columns)
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(50),
-            CellValue.FromNumber(60),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromNumber(60),
         };
 
         var result = func.Execute(null!, args);
@@ -321,11 +321,11 @@ public class ReferenceFunctionTests
         // 1x5 array (1 row, 5 columns)
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(50),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(50),
         };
 
         var result = func.Execute(null!, args);
@@ -339,9 +339,9 @@ public class ReferenceFunctionTests
         var func = ColumnsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.Error("#N/A"),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -354,7 +354,7 @@ public class ReferenceFunctionTests
     public void Columns_NoArguments_ReturnsError()
     {
         var func = ColumnsFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 
@@ -372,7 +372,7 @@ public class ReferenceFunctionTests
         var func = RowsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -387,10 +387,10 @@ public class ReferenceFunctionTests
         // 2x2 array
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
         };
 
         var result = func.Execute(null!, args);
@@ -405,12 +405,12 @@ public class ReferenceFunctionTests
         // 3x2 array (3 rows, 2 columns)
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(50),
-            CellValue.FromNumber(60),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromNumber(60),
         };
 
         var result = func.Execute(null!, args);
@@ -425,11 +425,11 @@ public class ReferenceFunctionTests
         // 5x1 array (5 rows, 1 column)
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(50),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(50),
         };
 
         var result = func.Execute(null!, args);
@@ -443,9 +443,9 @@ public class ReferenceFunctionTests
         var func = RowsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.Error("#REF!"),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -458,7 +458,7 @@ public class ReferenceFunctionTests
     public void Rows_NoArguments_ReturnsError()
     {
         var func = RowsFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 
@@ -476,13 +476,13 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("$A$1", result.StringValue);
     }
 
@@ -492,8 +492,8 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -507,9 +507,9 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1), // Absolute
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1), // Absolute
         };
 
         var result = func.Execute(null!, args);
@@ -523,9 +523,9 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(2), // Absolute column, relative row
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(2), // Absolute column, relative row
         };
 
         var result = func.Execute(null!, args);
@@ -539,9 +539,9 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3), // Relative column, absolute row
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3), // Relative column, absolute row
         };
 
         var result = func.Execute(null!, args);
@@ -555,9 +555,9 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(4), // Relative
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(4), // Relative
         };
 
         var result = func.Execute(null!, args);
@@ -571,10 +571,10 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1), // Absolute
-            CellValue.FromBool(false), // R1C1 notation
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1), // Absolute
+            FormulaResult.FromBool(false), // R1C1 notation
         };
 
         var result = func.Execute(null!, args);
@@ -588,11 +588,11 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(1), // Absolute
-            CellValue.FromBool(true), // A1 notation
-            CellValue.FromString("Sheet1"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(1), // Absolute
+            FormulaResult.FromBool(true), // A1 notation
+            FormulaResult.FromString("Sheet1"),
         };
 
         var result = func.Execute(null!, args);
@@ -606,11 +606,11 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(1), // Absolute
-            CellValue.FromBool(true), // A1 notation
-            CellValue.FromString("My Sheet"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(1), // Absolute
+            FormulaResult.FromBool(true), // A1 notation
+            FormulaResult.FromString("My Sheet"),
         };
 
         var result = func.Execute(null!, args);
@@ -624,8 +624,8 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(26),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(26),
         };
 
         var result = func.Execute(null!, args);
@@ -639,8 +639,8 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(27),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(27),
         };
 
         var result = func.Execute(null!, args);
@@ -654,8 +654,8 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0), // Invalid row
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(0), // Invalid row
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -670,8 +670,8 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0), // Invalid column
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0), // Invalid column
         };
 
         var result = func.Execute(null!, args);
@@ -686,9 +686,9 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(5), // Invalid abs_num (must be 1-4)
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(5), // Invalid abs_num (must be 1-4)
         };
 
         var result = func.Execute(null!, args);
@@ -703,7 +703,7 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1), // Missing column
+            FormulaResult.FromNumber(1), // Missing column
         };
 
         var result = func.Execute(null!, args);
@@ -718,8 +718,8 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(1),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -734,8 +734,8 @@ public class ReferenceFunctionTests
         var func = AddressFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.Error("#REF!"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);

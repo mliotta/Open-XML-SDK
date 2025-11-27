@@ -25,11 +25,11 @@ public sealed class ZTestFunction : IFunctionImplementation
     public string Name => "Z.TEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Get x value (the hypothesized population mean)
@@ -41,12 +41,12 @@ public sealed class ZTestFunction : IFunctionImplementation
         int sigmaIndex = args.Length >= 3 ? args.Length - 1 : -1;
 
         // Check if last argument could be sigma
-        if (sigmaIndex >= 0 && args[sigmaIndex].Type == CellValueType.Number)
+        if (sigmaIndex >= 0 && args[sigmaIndex].Type == FormulaResultType.Number)
         {
             sigma = args[sigmaIndex].NumericValue;
             if (sigma <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
         else
@@ -60,9 +60,9 @@ public sealed class ZTestFunction : IFunctionImplementation
             return args[xIndex];
         }
 
-        if (args[xIndex].Type != CellValueType.Number)
+        if (args[xIndex].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         x = args[xIndex].NumericValue;
@@ -78,7 +78,7 @@ public sealed class ZTestFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 values.Add(args[i].NumericValue);
             }
@@ -86,7 +86,7 @@ public sealed class ZTestFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Calculate sample mean
@@ -119,7 +119,7 @@ public sealed class ZTestFunction : IFunctionImplementation
 
         if (stdDev == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate z-score
@@ -128,6 +128,6 @@ public sealed class ZTestFunction : IFunctionImplementation
         // Return one-tailed P-value (upper tail)
         double pValue = 1.0 - StatisticalHelper.NormSDist(z);
 
-        return CellValue.FromNumber(pValue);
+        return FormulaResult.FromNumber(pValue);
     }
 }

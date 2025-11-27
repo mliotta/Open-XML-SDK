@@ -25,7 +25,7 @@ public sealed class ChiDistLegacyFunction : IFunctionImplementation
     public string Name => "CHIDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // CHIDIST is equivalent to CHISQ.DIST.RT
         return ChiSqDistRTFunction.Instance.Execute(context, args);

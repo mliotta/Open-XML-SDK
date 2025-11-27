@@ -25,11 +25,11 @@ public sealed class TrimFunction : IFunctionImplementation
     public string Name => "TRIM";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -43,6 +43,6 @@ public sealed class TrimFunction : IFunctionImplementation
         text = text.Trim();
         text = Regex.Replace(text, @"\s+", " ");
 
-        return CellValue.FromString(text);
+        return FormulaResult.FromString(text);
     }
 }

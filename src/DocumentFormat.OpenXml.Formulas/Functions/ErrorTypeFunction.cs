@@ -35,17 +35,17 @@ public sealed class ErrorTypeFunction : IFunctionImplementation
     public string Name => "ERROR.TYPE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // ERROR.TYPE returns #N/A if the value is not an error
         if (!args[0].IsError)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         var errorValue = args[0].ErrorValue;
@@ -62,6 +62,6 @@ public sealed class ErrorTypeFunction : IFunctionImplementation
             _ => 7, // Default to #N/A if unknown error type
         };
 
-        return CellValue.FromNumber(errorType);
+        return FormulaResult.FromNumber(errorType);
     }
 }

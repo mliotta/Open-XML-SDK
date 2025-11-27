@@ -29,11 +29,11 @@ public sealed class SortByFunction : IFunctionImplementation
     public string Name => "SORTBY";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First argument is the array to sort
@@ -43,7 +43,7 @@ public sealed class SortByFunction : IFunctionImplementation
         // Find where the array ends (first argument)
         for (var i = 0; i < args.Length; i++)
         {
-            if (i == 0 || args[i].IsError || args[i].Type != CellValueType.Empty)
+            if (i == 0 || args[i].IsError || args[i].Type != FormulaResultType.Empty)
             {
                 arrayLength++;
             }
@@ -55,7 +55,7 @@ public sealed class SortByFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in array
@@ -79,7 +79,7 @@ public sealed class SortByFunction : IFunctionImplementation
                 break;
             }
 
-            var byArray = new CellValue[arrayLength];
+            var byArray = new FormulaResult[arrayLength];
             for (var i = 0; i < arrayLength && idx < args.Length; i++, idx++)
             {
                 byArray[i] = args[idx];
@@ -91,7 +91,7 @@ public sealed class SortByFunction : IFunctionImplementation
 
             // Get optional sort_order
             var sortOrder = 1;
-            if (idx < args.Length && args[idx].Type == CellValueType.Number)
+            if (idx < args.Length && args[idx].Type == FormulaResultType.Number)
             {
                 var orderValue = args[idx].NumericValue;
                 if (orderValue == 1 || orderValue == -1)
@@ -106,7 +106,7 @@ public sealed class SortByFunction : IFunctionImplementation
 
         if (sortCriteria.Count == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Create indexed list
@@ -134,18 +134,18 @@ public sealed class SortByFunction : IFunctionImplementation
         return indexed[0].Value;
     }
 
-    private static int CompareValues(CellValue a, CellValue b)
+    private static int CompareValues(FormulaResult a, FormulaResult b)
     {
         // Empty values sort last
-        if (a.Type == CellValueType.Empty && b.Type == CellValueType.Empty)
+        if (a.Type == FormulaResultType.Empty && b.Type == FormulaResultType.Empty)
         {
             return 0;
         }
-        if (a.Type == CellValueType.Empty)
+        if (a.Type == FormulaResultType.Empty)
         {
             return 1;
         }
-        if (b.Type == CellValueType.Empty)
+        if (b.Type == FormulaResultType.Empty)
         {
             return -1;
         }
@@ -169,11 +169,11 @@ public sealed class SortByFunction : IFunctionImplementation
         {
             switch (a.Type)
             {
-                case CellValueType.Number:
+                case FormulaResultType.Number:
                     return a.NumericValue.CompareTo(b.NumericValue);
-                case CellValueType.Text:
+                case FormulaResultType.Text:
                     return string.Compare(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase);
-                case CellValueType.Boolean:
+                case FormulaResultType.Boolean:
                     return a.BoolValue.CompareTo(b.BoolValue);
                 default:
                     return 0;
@@ -186,13 +186,13 @@ public sealed class SortByFunction : IFunctionImplementation
 
     private sealed class SortCriterion
     {
-        public CellValue[] ByArray { get; set; } = new CellValue[0];
+        public FormulaResult[] ByArray { get; set; } = new FormulaResult[0];
         public int SortOrder { get; set; }
     }
 
     private sealed class IndexedValue
     {
         public int Index { get; set; }
-        public CellValue Value { get; set; }
+        public FormulaResult Value { get; set; }
     }
 }

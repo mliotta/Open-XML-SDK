@@ -28,11 +28,11 @@ public sealed class FilterXmlFunction : IFunctionImplementation
     public string Name => "FILTERXML";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -50,7 +50,7 @@ public sealed class FilterXmlFunction : IFunctionImplementation
 
         if (string.IsNullOrEmpty(xml) || string.IsNullOrEmpty(xpath))
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -64,7 +64,7 @@ public sealed class FilterXmlFunction : IFunctionImplementation
             if (result == null)
             {
                 // No matching node found
-                return CellValue.Error("#N/A");
+                return FormulaResult.Error("#N/A");
             }
 
             var value = result.Value;
@@ -72,23 +72,23 @@ public sealed class FilterXmlFunction : IFunctionImplementation
             // Try to parse as number
             if (double.TryParse(value, out var numValue))
             {
-                return CellValue.FromNumber(numValue);
+                return FormulaResult.FromNumber(numValue);
             }
 
             // Return as text
-            return CellValue.FromString(value);
+            return FormulaResult.FromString(value);
         }
         catch (XmlException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         catch (XPathException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         catch (Exception)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
     }
 }

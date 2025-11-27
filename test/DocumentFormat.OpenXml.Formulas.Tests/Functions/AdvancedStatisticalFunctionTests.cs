@@ -21,13 +21,13 @@ public class AdvancedStatisticalFunctionTests
         var func = PercentileIncFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(0.5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -37,8 +37,8 @@ public class AdvancedStatisticalFunctionTests
         var func = PercentileIncFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(0.0),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(0.0),
         };
 
         var result = func.Execute(null!, args);
@@ -52,8 +52,8 @@ public class AdvancedStatisticalFunctionTests
         var func = PercentileIncFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(1.0),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(1.0),
         };
 
         var result = func.Execute(null!, args);
@@ -67,8 +67,8 @@ public class AdvancedStatisticalFunctionTests
         var func = PercentileIncFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(1.5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(1.5),
         };
 
         var result = func.Execute(null!, args);
@@ -84,13 +84,13 @@ public class AdvancedStatisticalFunctionTests
         var func = PercentileExcFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(0.5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -100,8 +100,8 @@ public class AdvancedStatisticalFunctionTests
         var func = PercentileExcFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(0.0),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(0.0),
         };
 
         var result = func.Execute(null!, args);
@@ -109,7 +109,7 @@ public class AdvancedStatisticalFunctionTests
         Assert.True(result.IsError);
         Assert.Equal("#NUM!", result.ErrorValue);
 
-        args[1] = CellValue.FromNumber(1.0);
+        args[1] = FormulaResult.FromNumber(1.0);
         result = func.Execute(null!, args);
 
         Assert.True(result.IsError);
@@ -122,13 +122,13 @@ public class AdvancedStatisticalFunctionTests
         var func = PercentileExcFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(0.5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
     }
 
     // QUARTILE.INC Tests
@@ -138,13 +138,13 @@ public class AdvancedStatisticalFunctionTests
         var func = QuartileIncFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -154,8 +154,8 @@ public class AdvancedStatisticalFunctionTests
         var func = QuartileIncFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -169,8 +169,8 @@ public class AdvancedStatisticalFunctionTests
         var func = QuartileIncFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(4),
         };
 
         var result = func.Execute(null!, args);
@@ -184,8 +184,8 @@ public class AdvancedStatisticalFunctionTests
         var func = QuartileIncFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -203,21 +203,21 @@ public class AdvancedStatisticalFunctionTests
         // Test quart 1
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(1),
         };
         var result = func.Execute(null!, args);
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
 
         // Test quart 2
-        args[1] = CellValue.FromNumber(2);
+        args[1] = FormulaResult.FromNumber(2);
         result = func.Execute(null!, args);
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
 
         // Test quart 3
-        args[1] = CellValue.FromNumber(3);
+        args[1] = FormulaResult.FromNumber(3);
         result = func.Execute(null!, args);
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
     }
 
     [Fact]
@@ -228,15 +228,15 @@ public class AdvancedStatisticalFunctionTests
         // Test quart 0
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(0),
         };
         var result = func.Execute(null!, args);
         Assert.True(result.IsError);
         Assert.Equal("#NUM!", result.ErrorValue);
 
         // Test quart 4
-        args[1] = CellValue.FromNumber(4);
+        args[1] = FormulaResult.FromNumber(4);
         result = func.Execute(null!, args);
         Assert.True(result.IsError);
         Assert.Equal("#NUM!", result.ErrorValue);
@@ -249,14 +249,14 @@ public class AdvancedStatisticalFunctionTests
         var func = ForecastFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5), // x for prediction
-            CellValue.FromNumber(10), // known_y
-            CellValue.FromNumber(2), // known_x
+            FormulaResult.FromNumber(5), // x for prediction
+            FormulaResult.FromNumber(10), // known_y
+            FormulaResult.FromNumber(2), // known_x
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -268,14 +268,14 @@ public class AdvancedStatisticalFunctionTests
         var func = ForecastFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3), // x for prediction
-            CellValue.FromNumber(2), // known_y
-            CellValue.FromNumber(1), // known_x
+            FormulaResult.FromNumber(3), // x for prediction
+            FormulaResult.FromNumber(2), // known_y
+            FormulaResult.FromNumber(1), // known_x
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
     }
 
     [Fact]
@@ -284,8 +284,8 @@ public class AdvancedStatisticalFunctionTests
         var func = ForecastFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -300,9 +300,9 @@ public class AdvancedStatisticalFunctionTests
         var func = ForecastFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(1),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -320,9 +320,9 @@ public class AdvancedStatisticalFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(1),
         };
 
         var result1 = forecastFunc.Execute(null!, args);
@@ -338,12 +338,12 @@ public class AdvancedStatisticalFunctionTests
         var func = TrendFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // known_y
+            FormulaResult.FromNumber(10), // known_y
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -353,13 +353,13 @@ public class AdvancedStatisticalFunctionTests
         var func = TrendFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // known_y
-            CellValue.FromNumber(2), // known_x
+            FormulaResult.FromNumber(10), // known_y
+            FormulaResult.FromNumber(2), // known_x
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
     }
 
     [Fact]
@@ -368,14 +368,14 @@ public class AdvancedStatisticalFunctionTests
         var func = TrendFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // known_y
-            CellValue.FromNumber(2), // known_x
-            CellValue.FromNumber(3), // new_x
+            FormulaResult.FromNumber(10), // known_y
+            FormulaResult.FromNumber(2), // known_x
+            FormulaResult.FromNumber(3), // new_x
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
     }
 
     [Fact]
@@ -384,15 +384,15 @@ public class AdvancedStatisticalFunctionTests
         var func = TrendFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // known_y
-            CellValue.FromNumber(2), // known_x
-            CellValue.FromNumber(4), // new_x
-            CellValue.FromBool(false), // const = FALSE
+            FormulaResult.FromNumber(10), // known_y
+            FormulaResult.FromNumber(2), // known_x
+            FormulaResult.FromNumber(4), // new_x
+            FormulaResult.FromBool(false), // const = FALSE
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // With const=FALSE and y=10, x=2: slope = 10/2 = 5
         // Trend at x=4: 5 * 4 = 20
         Assert.Equal(20.0, result.NumericValue);
@@ -405,12 +405,12 @@ public class AdvancedStatisticalFunctionTests
         var func = GrowthFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // known_y
+            FormulaResult.FromNumber(10), // known_y
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -420,7 +420,7 @@ public class AdvancedStatisticalFunctionTests
         var func = GrowthFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-10), // negative known_y
+            FormulaResult.FromNumber(-10), // negative known_y
         };
 
         var result = func.Execute(null!, args);
@@ -435,13 +435,13 @@ public class AdvancedStatisticalFunctionTests
         var func = GrowthFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // known_y
-            CellValue.FromNumber(2), // known_x
+            FormulaResult.FromNumber(10), // known_y
+            FormulaResult.FromNumber(2), // known_x
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
     }
 
     [Fact]
@@ -450,14 +450,14 @@ public class AdvancedStatisticalFunctionTests
         var func = GrowthFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(8), // known_y
-            CellValue.FromNumber(3), // known_x
-            CellValue.FromNumber(6), // new_x
+            FormulaResult.FromNumber(8), // known_y
+            FormulaResult.FromNumber(3), // known_x
+            FormulaResult.FromNumber(6), // new_x
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // With const=FALSE and y=8, x=3: m = 8^(1/3) = 2
         // Growth at x=6: 2^6 = 64
     }
@@ -469,13 +469,13 @@ public class AdvancedStatisticalFunctionTests
         var func = LinestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(4), // known_y
-            CellValue.FromNumber(2), // known_x
+            FormulaResult.FromNumber(4), // known_y
+            FormulaResult.FromNumber(2), // known_x
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Phase 0 returns slope only
     }
 
@@ -485,7 +485,7 @@ public class AdvancedStatisticalFunctionTests
         var func = LinestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(4), // known_y
+            FormulaResult.FromNumber(4), // known_y
         };
 
         var result = func.Execute(null!, args);
@@ -500,14 +500,14 @@ public class AdvancedStatisticalFunctionTests
         var func = LinestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // known_y
-            CellValue.FromNumber(2), // known_x
-            CellValue.FromBool(false), // const = FALSE
+            FormulaResult.FromNumber(10), // known_y
+            FormulaResult.FromNumber(2), // known_x
+            FormulaResult.FromBool(false), // const = FALSE
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // With const=FALSE: slope = (2*10) / (2*2) = 20/4 = 5
         Assert.Equal(5.0, result.NumericValue);
     }
@@ -519,13 +519,13 @@ public class AdvancedStatisticalFunctionTests
         var func = LogestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(4), // known_y
-            CellValue.FromNumber(2), // known_x
+            FormulaResult.FromNumber(4), // known_y
+            FormulaResult.FromNumber(2), // known_x
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Phase 0 returns m (base) only
     }
 
@@ -535,8 +535,8 @@ public class AdvancedStatisticalFunctionTests
         var func = LogestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-4), // negative known_y
-            CellValue.FromNumber(2), // known_x
+            FormulaResult.FromNumber(-4), // negative known_y
+            FormulaResult.FromNumber(2), // known_x
         };
 
         var result = func.Execute(null!, args);
@@ -551,8 +551,8 @@ public class AdvancedStatisticalFunctionTests
         var func = LogestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0), // zero known_y
-            CellValue.FromNumber(2), // known_x
+            FormulaResult.FromNumber(0), // zero known_y
+            FormulaResult.FromNumber(2), // known_x
         };
 
         var result = func.Execute(null!, args);
@@ -567,7 +567,7 @@ public class AdvancedStatisticalFunctionTests
         var func = LogestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(4), // known_y
+            FormulaResult.FromNumber(4), // known_y
         };
 
         var result = func.Execute(null!, args);
@@ -582,14 +582,14 @@ public class AdvancedStatisticalFunctionTests
         var func = LogestFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(8), // known_y
-            CellValue.FromNumber(3), // known_x
-            CellValue.FromBool(false), // const = FALSE
+            FormulaResult.FromNumber(8), // known_y
+            FormulaResult.FromNumber(3), // known_x
+            FormulaResult.FromBool(false), // const = FALSE
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // With const=FALSE: m = exp((3*ln(8)) / (3*3)) = exp(ln(8)/3) = 8^(1/3) = 2
         Assert.Equal(2.0, result.NumericValue, 10);
     }

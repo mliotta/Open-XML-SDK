@@ -1626,7 +1626,7 @@ public static class OracleTestFileGenerator
         {
             CellReference = $"C{rowIndex}",
             CellFormula = new CellFormula(formula),
-            // No CellValue - Excel will calculate
+            // No FormulaResult - Excel will calculate
         });
 
         // Column D: Description

@@ -24,11 +24,11 @@ public sealed class CodeFunction : IFunctionImplementation
     public string Name => "CODE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -40,12 +40,12 @@ public sealed class CodeFunction : IFunctionImplementation
 
         if (string.IsNullOrEmpty(text))
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Get the code of the first character
         var code = (int)text[0];
 
-        return CellValue.FromNumber(code);
+        return FormulaResult.FromNumber(code);
     }
 }

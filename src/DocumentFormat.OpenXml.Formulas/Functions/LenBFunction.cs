@@ -25,11 +25,11 @@ public sealed class LenBFunction : IFunctionImplementation
     public string Name => "LENB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -40,6 +40,6 @@ public sealed class LenBFunction : IFunctionImplementation
         var text = args[0].StringValue;
         var byteCount = Encoding.UTF8.GetByteCount(text);
 
-        return CellValue.FromNumber(byteCount);
+        return FormulaResult.FromNumber(byteCount);
     }
 }

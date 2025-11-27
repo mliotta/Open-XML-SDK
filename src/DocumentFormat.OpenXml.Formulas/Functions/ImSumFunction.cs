@@ -24,11 +24,11 @@ public sealed class ImSumFunction : IFunctionImplementation
     public string Name => "IMSUM";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var result = new ComplexNumber(0, 0);
@@ -44,7 +44,7 @@ public sealed class ImSumFunction : IFunctionImplementation
             var inumber = arg.StringValue;
             if (!ComplexNumber.TryParse(inumber, out var complex))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             result = ComplexNumber.Add(result, complex!);
@@ -55,6 +55,6 @@ public sealed class ImSumFunction : IFunctionImplementation
             }
         }
 
-        return CellValue.FromString(result.ToString(suffix ?? "i"));
+        return FormulaResult.FromString(result.ToString(suffix ?? "i"));
     }
 }

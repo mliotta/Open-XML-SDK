@@ -25,7 +25,7 @@ public sealed class VarPFunction2 : IFunctionImplementation
     public string Name => "VAR.P";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Delegate to VARP implementation
         return VarPFunction.Instance.Execute(context, args);

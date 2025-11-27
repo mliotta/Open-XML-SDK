@@ -21,11 +21,11 @@ public sealed class RegexReplaceFunction : IFunctionImplementation
 
     public string Name => "REGEXREPLACE";
 
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -36,9 +36,9 @@ public sealed class RegexReplaceFunction : IFunctionImplementation
             }
         }
 
-        if (args[0].Type != CellValueType.Text || args[1].Type != CellValueType.Text || args[2].Type != CellValueType.Text)
+        if (args[0].Type != FormulaResultType.Text || args[1].Type != FormulaResultType.Text || args[2].Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var text = args[0].StringValue;
@@ -47,17 +47,17 @@ public sealed class RegexReplaceFunction : IFunctionImplementation
         var mode = 0;
         var occurrence = 0;
 
-        if (args.Length >= 4 && args[3].Type == CellValueType.Number)
+        if (args.Length >= 4 && args[3].Type == FormulaResultType.Number)
         {
             mode = (int)args[3].NumericValue;
         }
 
-        if (args.Length >= 5 && args[4].Type == CellValueType.Number)
+        if (args.Length >= 5 && args[4].Type == FormulaResultType.Number)
         {
             occurrence = (int)args[4].NumericValue;
             if (occurrence < 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -86,11 +86,11 @@ public sealed class RegexReplaceFunction : IFunctionImplementation
                 });
             }
 
-            return CellValue.FromString(result);
+            return FormulaResult.FromString(result);
         }
         catch (ArgumentException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
     }
 }

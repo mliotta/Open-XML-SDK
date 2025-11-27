@@ -26,11 +26,11 @@ public sealed class MDetermFunction : IFunctionImplementation
     public string Name => "MDETERM";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Phase 0: Simplified implementation
         // Return #VALUE! as full matrix support requires array handling
         // Full implementation will be added in a future phase
-        return CellValue.Error("#VALUE!");
+        return FormulaResult.Error("#VALUE!");
     }
 }

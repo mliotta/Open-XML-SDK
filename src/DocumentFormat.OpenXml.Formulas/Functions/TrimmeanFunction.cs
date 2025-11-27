@@ -26,11 +26,11 @@ public sealed class TrimmeanFunction : IFunctionImplementation
     public string Name => "TRIMMEAN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -46,27 +46,27 @@ public sealed class TrimmeanFunction : IFunctionImplementation
         var values = new List<double>();
 
         // Extract numeric values from array
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             values.Add(args[0].NumericValue);
         }
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get percent parameter
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         double percent = args[1].NumericValue;
 
         if (percent < 0 || percent >= 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Sort the values
@@ -79,7 +79,7 @@ public sealed class TrimmeanFunction : IFunctionImplementation
         // If we would trim all values, return error
         if (trimCount * 2 >= n)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate mean of remaining values
@@ -93,10 +93,10 @@ public sealed class TrimmeanFunction : IFunctionImplementation
 
         if (count == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         double mean = sum / count;
-        return CellValue.FromNumber(mean);
+        return FormulaResult.FromNumber(mean);
     }
 }

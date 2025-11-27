@@ -17,9 +17,9 @@ public class RandArrayFunctionTests
     {
         var func = RandArrayFunction.Instance;
 
-        var result = func.Execute(null!, System.Array.Empty<CellValue>());
+        var result = func.Execute(null!, System.Array.Empty<FormulaResult>());
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var value = result.NumericValue;
         Assert.True(value >= 0.0 && value < 1.0);
     }
@@ -31,12 +31,12 @@ public class RandArrayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
         });
 
         // Currently returns single value (full array support requires engine changes)
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var value = result.NumericValue;
         Assert.True(value >= 0.0 && value < 1.0);
     }
@@ -48,13 +48,13 @@ public class RandArrayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var value = result.NumericValue;
         Assert.True(value >= 10.0 && value < 20.0);
     }
@@ -66,14 +66,14 @@ public class RandArrayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(10),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromBool(true),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var value = result.NumericValue;
         Assert.True(value >= 1.0 && value < 10.0);
         Assert.Equal(System.Math.Floor(value), value);
@@ -87,8 +87,8 @@ public class RandArrayFunctionTests
         // Negative rows
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -97,8 +97,8 @@ public class RandArrayFunctionTests
         // Zero columns
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result2.IsError);
@@ -112,10 +112,10 @@ public class RandArrayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result.IsError);
@@ -129,10 +129,10 @@ public class RandArrayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result.IsError);
@@ -146,8 +146,8 @@ public class RandArrayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result.IsError);
@@ -161,8 +161,8 @@ public class RandArrayFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(1),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result.IsError);

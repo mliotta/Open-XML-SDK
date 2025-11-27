@@ -25,11 +25,11 @@ public sealed class ErfFunction : IFunctionImplementation
     public string Name => "ERF";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,9 +37,9 @@ public sealed class ErfFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var lowerLimit = args[0].NumericValue;
@@ -47,7 +47,7 @@ public sealed class ErfFunction : IFunctionImplementation
         if (args.Length == 1)
         {
             // ERF(x) = erf(x) - erf(0) = erf(x)
-            return CellValue.FromNumber(ErrorFunction(lowerLimit));
+            return FormulaResult.FromNumber(ErrorFunction(lowerLimit));
         }
 
         if (args[1].IsError)
@@ -55,15 +55,15 @@ public sealed class ErfFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var upperLimit = args[1].NumericValue;
 
         // ERF(x, y) = erf(y) - erf(x)
-        return CellValue.FromNumber(ErrorFunction(upperLimit) - ErrorFunction(lowerLimit));
+        return FormulaResult.FromNumber(ErrorFunction(upperLimit) - ErrorFunction(lowerLimit));
     }
 
     /// <summary>

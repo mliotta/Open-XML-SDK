@@ -26,11 +26,11 @@ public sealed class IfFunction : IFunctionImplementation
     // TODO: Phase 0 limitation - eagerly evaluates both branches.
     // Excel's IF is lazy (only evaluates the taken branch).
     // Phase 1 should make IF a special form with conditional compilation.
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var condition = args[0];
@@ -43,9 +43,9 @@ public sealed class IfFunction : IFunctionImplementation
         // Evaluate condition
         var isTrue = condition.Type switch
         {
-            CellValueType.Boolean => condition.BoolValue,
-            CellValueType.Number => condition.NumericValue != 0,
-            CellValueType.Text => !string.IsNullOrEmpty(condition.StringValue),
+            FormulaResultType.Boolean => condition.BoolValue,
+            FormulaResultType.Number => condition.NumericValue != 0,
+            FormulaResultType.Text => !string.IsNullOrEmpty(condition.StringValue),
             _ => false,
         };
 

@@ -25,11 +25,11 @@ public sealed class CumipmtFunction : IFunctionImplementation
     public string Name => "CUMIPMT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 6)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -40,9 +40,9 @@ public sealed class CumipmtFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -56,22 +56,22 @@ public sealed class CumipmtFunction : IFunctionImplementation
         // Validate inputs
         if (rate <= 0 || nper <= 0 || pv <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (startPeriod < 1 || endPeriod < 1 || startPeriod > endPeriod)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (type != 0.0 && type != 1.0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (startPeriod < 1 || endPeriod > nper)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate the payment amount using PMT formula
@@ -81,7 +81,7 @@ public sealed class CumipmtFunction : IFunctionImplementation
 
         if (double.IsNaN(pmt) || double.IsInfinity(pmt))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate cumulative interest by summing IPMT for each period
@@ -127,9 +127,9 @@ public sealed class CumipmtFunction : IFunctionImplementation
 
         if (double.IsNaN(cumulativeInterest) || double.IsInfinity(cumulativeInterest))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(cumulativeInterest);
+        return FormulaResult.FromNumber(cumulativeInterest);
     }
 }

@@ -26,18 +26,18 @@ public sealed class ChooseColsFunction : IFunctionImplementation
     public string Name => "CHOOSECOLS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse column numbers from the end
         var colCount = 0;
         for (var i = args.Length - 1; i >= 1; i--)
         {
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 colCount++;
             }
@@ -49,7 +49,7 @@ public sealed class ChooseColsFunction : IFunctionImplementation
 
         if (colCount == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var arrayLength = args.Length - colCount;
@@ -68,7 +68,7 @@ public sealed class ChooseColsFunction : IFunctionImplementation
 
         if (firstColNum == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Calculate array dimensions (assume square-ish array)
@@ -93,7 +93,7 @@ public sealed class ChooseColsFunction : IFunctionImplementation
         var actualColNum = firstColNum > 0 ? firstColNum : numCols + firstColNum + 1;
         if (actualColNum < 1 || actualColNum > numCols)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Return first element of the first chosen column
@@ -103,6 +103,6 @@ public sealed class ChooseColsFunction : IFunctionImplementation
             return args[firstIndex];
         }
 
-        return CellValue.Error("#REF!");
+        return FormulaResult.Error("#REF!");
     }
 }

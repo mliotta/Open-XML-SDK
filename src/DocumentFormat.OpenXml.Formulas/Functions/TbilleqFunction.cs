@@ -25,11 +25,11 @@ public sealed class TbilleqFunction : IFunctionImplementation
     public string Name => "TBILLEQ";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -40,9 +40,9 @@ public sealed class TbilleqFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -55,19 +55,19 @@ public sealed class TbilleqFunction : IFunctionImplementation
             // Validate inputs
             if (discount <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (settlement >= maturity)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // T-bills must mature within one year
             var daysToMaturity = (maturity - settlement).TotalDays;
             if (daysToMaturity > 366)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate bond-equivalent yield
@@ -90,14 +90,14 @@ public sealed class TbilleqFunction : IFunctionImplementation
 
             if (double.IsNaN(bondEquivalentYield) || double.IsInfinity(bondEquivalentYield))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(bondEquivalentYield);
+            return FormulaResult.FromNumber(bondEquivalentYield);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

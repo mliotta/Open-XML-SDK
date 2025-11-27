@@ -33,26 +33,26 @@ public sealed class PivotByFunction : IFunctionImplementation
     public string Name => "PIVOTBY";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Minimum args: row_fields, col_fields, values, function
         if (args.Length < 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse function parameter (should be a number representing aggregation type)
         // For Phase 0, we expect: 1=SUM, 2=AVERAGE, 3=COUNT, 4=MAX, 5=MIN
         var functionArg = args[args.Length - 1];
-        if (functionArg.Type != CellValueType.Number)
+        if (functionArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var functionType = (int)functionArg.NumericValue;
         if (functionType < 1 || functionType > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Calculate how many cells are in row_fields, col_fields, and values
@@ -62,7 +62,7 @@ public sealed class PivotByFunction : IFunctionImplementation
 
         if (sectionSize == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rowFieldCount = sectionSize;
@@ -79,7 +79,7 @@ public sealed class PivotByFunction : IFunctionImplementation
         }
 
         // Build pivot table structure: row key -> col key -> values
-        var pivot = new Dictionary<string, Dictionary<string, List<CellValue>>>();
+        var pivot = new Dictionary<string, Dictionary<string, List<FormulaResult>>>();
 
         // Simplified: assume each position represents one data point
         var numDataPoints = System.Math.Min(System.Math.Min(rowFieldCount, colFieldCount), valueCount);
@@ -92,12 +92,12 @@ public sealed class PivotByFunction : IFunctionImplementation
 
             if (!pivot.ContainsKey(rowKey))
             {
-                pivot[rowKey] = new Dictionary<string, List<CellValue>>();
+                pivot[rowKey] = new Dictionary<string, List<FormulaResult>>();
             }
 
             if (!pivot[rowKey].ContainsKey(colKey))
             {
-                pivot[rowKey][colKey] = new List<CellValue>();
+                pivot[rowKey][colKey] = new List<FormulaResult>();
             }
 
             pivot[rowKey][colKey].Add(value);
@@ -105,11 +105,11 @@ public sealed class PivotByFunction : IFunctionImplementation
 
         if (pivot.Count == 0)
         {
-            return CellValue.Error("#CALC!");
+            return FormulaResult.Error("#CALC!");
         }
 
         // Get first row and first column
-        Dictionary<string, List<CellValue>>? firstRow = null;
+        Dictionary<string, List<FormulaResult>>? firstRow = null;
         foreach (var row in pivot.Values)
         {
             firstRow = row;
@@ -118,10 +118,10 @@ public sealed class PivotByFunction : IFunctionImplementation
 
         if (firstRow == null || firstRow.Count == 0)
         {
-            return CellValue.Error("#CALC!");
+            return FormulaResult.Error("#CALC!");
         }
 
-        List<CellValue>? firstCell = null;
+        List<FormulaResult>? firstCell = null;
         foreach (var cell in firstRow.Values)
         {
             firstCell = cell;
@@ -130,7 +130,7 @@ public sealed class PivotByFunction : IFunctionImplementation
 
         if (firstCell == null)
         {
-            return CellValue.Error("#CALC!");
+            return FormulaResult.Error("#CALC!");
         }
 
         // Apply aggregation to first cell
@@ -139,37 +139,37 @@ public sealed class PivotByFunction : IFunctionImplementation
         return result;
     }
 
-    private static string CreateKey(CellValue value)
+    private static string CreateKey(FormulaResult value)
     {
         switch (value.Type)
         {
-            case CellValueType.Number:
+            case FormulaResultType.Number:
                 return "N:" + value.NumericValue.ToString();
-            case CellValueType.Text:
+            case FormulaResultType.Text:
                 return "T:" + value.StringValue;
-            case CellValueType.Boolean:
+            case FormulaResultType.Boolean:
                 return "B:" + value.BoolValue.ToString();
-            case CellValueType.Empty:
+            case FormulaResultType.Empty:
                 return "E:";
-            case CellValueType.Error:
+            case FormulaResultType.Error:
                 return "ERR:" + value.ErrorValue;
             default:
                 return "?";
         }
     }
 
-    private static CellValue ApplyAggregation(List<CellValue> values, int functionType)
+    private static FormulaResult ApplyAggregation(List<FormulaResult> values, int functionType)
     {
         if (values.Count == 0)
         {
-            return CellValue.Error("#CALC!");
+            return FormulaResult.Error("#CALC!");
         }
 
         // Extract numeric values
         var numbers = new List<double>();
         foreach (var val in values)
         {
-            if (val.Type == CellValueType.Number)
+            if (val.Type == FormulaResultType.Number)
             {
                 numbers.Add(val.NumericValue);
             }
@@ -181,7 +181,7 @@ public sealed class PivotByFunction : IFunctionImplementation
 
         if (numbers.Count == 0 && functionType != 3) // COUNT can work with non-numeric
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         switch (functionType)
@@ -193,7 +193,7 @@ public sealed class PivotByFunction : IFunctionImplementation
                     {
                         sum += num;
                     }
-                    return CellValue.FromNumber(sum);
+                    return FormulaResult.FromNumber(sum);
                 }
             case 2: // AVERAGE
                 {
@@ -202,10 +202,10 @@ public sealed class PivotByFunction : IFunctionImplementation
                     {
                         sum += num;
                     }
-                    return CellValue.FromNumber(sum / numbers.Count);
+                    return FormulaResult.FromNumber(sum / numbers.Count);
                 }
             case 3: // COUNT
-                return CellValue.FromNumber(values.Count);
+                return FormulaResult.FromNumber(values.Count);
             case 4: // MAX
                 {
                     var max = double.MinValue;
@@ -216,7 +216,7 @@ public sealed class PivotByFunction : IFunctionImplementation
                             max = num;
                         }
                     }
-                    return CellValue.FromNumber(max);
+                    return FormulaResult.FromNumber(max);
                 }
             case 5: // MIN
                 {
@@ -228,10 +228,10 @@ public sealed class PivotByFunction : IFunctionImplementation
                             min = num;
                         }
                     }
-                    return CellValue.FromNumber(min);
+                    return FormulaResult.FromNumber(min);
                 }
             default:
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
         }
     }
 }

@@ -25,11 +25,11 @@ public sealed class FactFunction : IFunctionImplementation
     public string Name => "FACT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,9 +37,9 @@ public sealed class FactFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -47,7 +47,7 @@ public sealed class FactFunction : IFunctionImplementation
         // Factorial is only defined for non-negative integers
         if (number < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Truncate to integer
@@ -56,7 +56,7 @@ public sealed class FactFunction : IFunctionImplementation
         // 0! = 1
         if (n == 0)
         {
-            return CellValue.FromNumber(1);
+            return FormulaResult.FromNumber(1);
         }
 
         // Calculate factorial iteratively
@@ -68,10 +68,10 @@ public sealed class FactFunction : IFunctionImplementation
             // Check for overflow
             if (double.IsInfinity(result))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

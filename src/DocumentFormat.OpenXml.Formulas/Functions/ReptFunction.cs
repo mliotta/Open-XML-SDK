@@ -25,11 +25,11 @@ public sealed class ReptFunction : IFunctionImplementation
     public string Name => "REPT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -44,21 +44,21 @@ public sealed class ReptFunction : IFunctionImplementation
 
         var text = args[0].StringValue;
 
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var numberTimes = (int)args[1].NumericValue;
 
         if (numberTimes < 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (numberTimes == 0)
         {
-            return CellValue.FromString(string.Empty);
+            return FormulaResult.FromString(string.Empty);
         }
 
         // Use StringBuilder for efficient string concatenation
@@ -68,6 +68,6 @@ public sealed class ReptFunction : IFunctionImplementation
             sb.Append(text);
         }
 
-        return CellValue.FromString(sb.ToString());
+        return FormulaResult.FromString(sb.ToString());
     }
 }

@@ -24,13 +24,13 @@ public sealed class TrueFunction : IFunctionImplementation
     public string Name => "TRUE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        return CellValue.FromBool(true);
+        return FormulaResult.FromBool(true);
     }
 }

@@ -30,11 +30,11 @@ public sealed class SubtotalFunction : IFunctionImplementation
     public string Name => "SUBTOTAL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First argument is the function number
@@ -44,9 +44,9 @@ public sealed class SubtotalFunction : IFunctionImplementation
             return firstArg;
         }
 
-        if (firstArg.Type != CellValueType.Number)
+        if (firstArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var functionNum = (int)firstArg.NumericValue;
@@ -73,7 +73,7 @@ public sealed class SubtotalFunction : IFunctionImplementation
             9 => SumFunction.Instance.Execute(context, dataArgs),
             10 => VarFunction.Instance.Execute(context, dataArgs),
             11 => VarPFunction.Instance.Execute(context, dataArgs),
-            _ => CellValue.Error("#VALUE!")
+            _ => FormulaResult.Error("#VALUE!")
         };
     }
 }

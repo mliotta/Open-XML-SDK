@@ -21,12 +21,12 @@ public class ArrayFunctionTests
         var func = TransposeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(42.0, result.NumericValue);
     }
 
@@ -40,15 +40,15 @@ public class ArrayFunctionTests
         //             [20, 40]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue); // First element unchanged
     }
 
@@ -58,13 +58,13 @@ public class ArrayFunctionTests
         var func = TransposeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("A", result.StringValue);
     }
 
@@ -74,8 +74,8 @@ public class ArrayFunctionTests
         var func = TransposeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
@@ -88,7 +88,7 @@ public class ArrayFunctionTests
     public void Transpose_EmptyArray_ReturnsError()
     {
         var func = TransposeFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 
@@ -106,7 +106,7 @@ public class ArrayFunctionTests
         var func = SortFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
@@ -122,9 +122,9 @@ public class ArrayFunctionTests
         // Sorted: [10, 20, 30]
         var args = new[]
         {
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
         };
 
         var result = func.Execute(null!, args);
@@ -141,10 +141,10 @@ public class ArrayFunctionTests
         // Sorted: [30, 20, 10]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(-1), // sort_order
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(-1), // sort_order
         };
 
         var result = func.Execute(null!, args);
@@ -158,9 +158,9 @@ public class ArrayFunctionTests
         var func = SortFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Zebra"),
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
+            FormulaResult.FromString("Zebra"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
         };
 
         var result = func.Execute(null!, args);
@@ -179,10 +179,10 @@ public class ArrayFunctionTests
         //         [30, "X"]
         var args = new[]
         {
-            CellValue.FromNumber(30),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
-            CellValue.FromString("Y"),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("Y"),
         };
 
         var result = func.Execute(null!, args);
@@ -196,8 +196,8 @@ public class ArrayFunctionTests
         var func = SortFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.Error("#REF!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -210,7 +210,7 @@ public class ArrayFunctionTests
     public void Sort_EmptyArray_ReturnsError()
     {
         var func = SortFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 
@@ -230,8 +230,8 @@ public class ArrayFunctionTests
         // Include: [TRUE]
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(42),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -247,8 +247,8 @@ public class ArrayFunctionTests
         // Include: [FALSE]
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(42),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
@@ -266,9 +266,9 @@ public class ArrayFunctionTests
         // If_empty: "No matches"
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.FromBool(false),
-            CellValue.FromString("No matches"),
+            FormulaResult.FromNumber(42),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromString("No matches"),
         };
 
         var result = func.Execute(null!, args);
@@ -288,15 +288,15 @@ public class ArrayFunctionTests
         //         [30, "C"]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString("A"),
-            CellValue.FromNumber(20),
-            CellValue.FromString("B"),
-            CellValue.FromNumber(30),
-            CellValue.FromString("C"),
-            CellValue.FromBool(true),
-            CellValue.FromBool(false),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromString("B"),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromString("C"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -312,8 +312,8 @@ public class ArrayFunctionTests
         // Include: [1] (treated as TRUE)
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(42),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -327,8 +327,8 @@ public class ArrayFunctionTests
         var func = FilterFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
-            CellValue.FromBool(true),
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -343,7 +343,7 @@ public class ArrayFunctionTests
         var func = FilterFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
@@ -362,7 +362,7 @@ public class ArrayFunctionTests
         var func = UniqueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
@@ -378,10 +378,10 @@ public class ArrayFunctionTests
         // Unique: [10, 20, 30]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -395,9 +395,9 @@ public class ArrayFunctionTests
         var func = UniqueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Apple"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Apple"),
         };
 
         var result = func.Execute(null!, args);
@@ -414,11 +414,11 @@ public class ArrayFunctionTests
         // Result: [20, 30] (values that appear exactly once)
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(30),
-            CellValue.FromBool(true), // occurs_once
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromBool(true), // occurs_once
         };
 
         var result = func.Execute(null!, args);
@@ -435,9 +435,9 @@ public class ArrayFunctionTests
         // Result: Error (no values occur exactly once)
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(10),
-            CellValue.FromBool(true), // occurs_once
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromBool(true), // occurs_once
         };
 
         var result = func.Execute(null!, args);
@@ -457,12 +457,12 @@ public class ArrayFunctionTests
         //              [20, "B"]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString("A"),
-            CellValue.FromNumber(20),
-            CellValue.FromString("B"),
-            CellValue.FromNumber(10),
-            CellValue.FromString("A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromString("B"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("A"),
         };
 
         var result = func.Execute(null!, args);
@@ -476,8 +476,8 @@ public class ArrayFunctionTests
         var func = UniqueFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.Error("#VALUE!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#VALUE!"),
         };
 
         var result = func.Execute(null!, args);
@@ -490,7 +490,7 @@ public class ArrayFunctionTests
     public void Unique_EmptyArray_ReturnsError()
     {
         var func = UniqueFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 
@@ -509,7 +509,7 @@ public class ArrayFunctionTests
         // SEQUENCE(5) -> [1, 2, 3, 4, 5]
         var args = new[]
         {
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -524,9 +524,9 @@ public class ArrayFunctionTests
         // SEQUENCE(3, 1, 10) -> [10, 11, 12]
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(1), // columns
-            CellValue.FromNumber(10), // start
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(1), // columns
+            FormulaResult.FromNumber(10), // start
         };
 
         var result = func.Execute(null!, args);
@@ -541,10 +541,10 @@ public class ArrayFunctionTests
         // SEQUENCE(3, 1, 1, 2) -> [1, 3, 5]
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(1), // columns
-            CellValue.FromNumber(1), // start
-            CellValue.FromNumber(2), // step
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(1), // columns
+            FormulaResult.FromNumber(1), // start
+            FormulaResult.FromNumber(2), // step
         };
 
         var result = func.Execute(null!, args);
@@ -559,10 +559,10 @@ public class ArrayFunctionTests
         // SEQUENCE(3, 1, 10, -1) -> [10, 9, 8]
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(1), // columns
-            CellValue.FromNumber(10), // start
-            CellValue.FromNumber(-1), // step
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(1), // columns
+            FormulaResult.FromNumber(10), // start
+            FormulaResult.FromNumber(-1), // step
         };
 
         var result = func.Execute(null!, args);
@@ -578,8 +578,8 @@ public class ArrayFunctionTests
         //                   [3, 4]
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2), // columns
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2), // columns
         };
 
         var result = func.Execute(null!, args);
@@ -593,7 +593,7 @@ public class ArrayFunctionTests
         var func = SequenceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -608,7 +608,7 @@ public class ArrayFunctionTests
         var func = SequenceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-5),
+            FormulaResult.FromNumber(-5),
         };
 
         var result = func.Execute(null!, args);
@@ -623,7 +623,7 @@ public class ArrayFunctionTests
         var func = SequenceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("invalid"),
+            FormulaResult.FromString("invalid"),
         };
 
         var result = func.Execute(null!, args);
@@ -638,7 +638,7 @@ public class ArrayFunctionTests
         var func = SequenceFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
@@ -651,7 +651,7 @@ public class ArrayFunctionTests
     public void Sequence_NoArguments_ReturnsError()
     {
         var func = SequenceFunction.Instance;
-        var args = new CellValue[0];
+        var args = new FormulaResult[0];
 
         var result = func.Execute(null!, args);
 

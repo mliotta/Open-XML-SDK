@@ -24,11 +24,11 @@ public sealed class NFunction : IFunctionImplementation
     public string Name => "N";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors
@@ -40,14 +40,14 @@ public sealed class NFunction : IFunctionImplementation
         // Convert to number based on type
         var result = args[0].Type switch
         {
-            CellValueType.Number => args[0].NumericValue,
-            CellValueType.Boolean => args[0].BoolValue ? 1.0 : 0.0,
-            CellValueType.Text => 0.0, // Text converts to 0
-            CellValueType.Empty => 0.0, // Empty converts to 0
-            CellValueType.Error => 0.0, // Should not reach here due to error propagation
+            FormulaResultType.Number => args[0].NumericValue,
+            FormulaResultType.Boolean => args[0].BoolValue ? 1.0 : 0.0,
+            FormulaResultType.Text => 0.0, // Text converts to 0
+            FormulaResultType.Empty => 0.0, // Empty converts to 0
+            FormulaResultType.Error => 0.0, // Should not reach here due to error propagation
             _ => 0.0,
         };
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

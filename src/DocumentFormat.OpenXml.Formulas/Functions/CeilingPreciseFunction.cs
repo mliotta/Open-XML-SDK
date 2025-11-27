@@ -25,11 +25,11 @@ public sealed class CeilingPreciseFunction : IFunctionImplementation
     public string Name => "CEILING.PRECISE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,9 +37,9 @@ public sealed class CeilingPreciseFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = args[0].NumericValue;
@@ -53,9 +53,9 @@ public sealed class CeilingPreciseFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             significance = args[1].NumericValue;
@@ -63,7 +63,7 @@ public sealed class CeilingPreciseFunction : IFunctionImplementation
 
         if (significance == 0)
         {
-            return CellValue.FromNumber(0);
+            return FormulaResult.FromNumber(0);
         }
 
         // Use absolute value of significance
@@ -81,6 +81,6 @@ public sealed class CeilingPreciseFunction : IFunctionImplementation
             result = System.Math.Ceiling(System.Math.Abs(number) / significance) * significance * -1;
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

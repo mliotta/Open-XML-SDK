@@ -21,17 +21,17 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(50),
-            CellValue.FromNumber(3), // row_num
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromNumber(3), // row_num
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(30.0, result.NumericValue);
     }
 
@@ -44,19 +44,19 @@ public class LookupFunctionTests
         //            [50, 60]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(50),
-            CellValue.FromNumber(60),
-            CellValue.FromNumber(2), // col_num
-            CellValue.FromNumber(2), // row_num
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromNumber(60),
+            FormulaResult.FromNumber(2), // col_num
+            FormulaResult.FromNumber(2), // row_num
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(40.0, result.NumericValue);
     }
 
@@ -68,12 +68,12 @@ public class LookupFunctionTests
         //            [30, 40]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(1), // col_num
-            CellValue.FromNumber(1), // row_num
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(1), // col_num
+            FormulaResult.FromNumber(1), // row_num
         };
 
         var result = func.Execute(null!, args);
@@ -89,12 +89,12 @@ public class LookupFunctionTests
         //            [30, 40]
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(2), // col_num
-            CellValue.FromNumber(2), // row_num
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(2), // col_num
+            FormulaResult.FromNumber(2), // row_num
         };
 
         var result = func.Execute(null!, args);
@@ -108,8 +108,8 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.FromNumber(1), // row_num
+            FormulaResult.FromNumber(42),
+            FormulaResult.FromNumber(1), // row_num
         };
 
         var result = func.Execute(null!, args);
@@ -123,8 +123,8 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.FromNumber(2), // row_num (out of bounds)
+            FormulaResult.FromNumber(42),
+            FormulaResult.FromNumber(2), // row_num (out of bounds)
         };
 
         var result = func.Execute(null!, args);
@@ -139,10 +139,10 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(5), // row_num (out of bounds)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(5), // row_num (out of bounds)
         };
 
         var result = func.Execute(null!, args);
@@ -157,12 +157,12 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(5), // col_num (out of bounds)
-            CellValue.FromNumber(1), // row_num
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(5), // col_num (out of bounds)
+            FormulaResult.FromNumber(1), // row_num
         };
 
         var result = func.Execute(null!, args);
@@ -177,9 +177,9 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromString("invalid"), // row_num
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromString("invalid"), // row_num
         };
 
         var result = func.Execute(null!, args);
@@ -194,9 +194,9 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(-1), // row_num
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(-1), // row_num
         };
 
         var result = func.Execute(null!, args);
@@ -211,10 +211,10 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(1), // row_num
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(1), // row_num
         };
 
         var result = func.Execute(null!, args);
@@ -229,15 +229,15 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(2), // row_num
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(2), // row_num
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Banana", result.StringValue);
     }
 
@@ -247,7 +247,7 @@ public class LookupFunctionTests
         var func = IndexFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -266,16 +266,16 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"), // lookup_value
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(0), // match_type (exact)
+            FormulaResult.FromString("Apple"), // lookup_value
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(0), // match_type (exact)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue); // Second position
     }
 
@@ -285,11 +285,11 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Orange"), // lookup_value
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(0), // match_type (exact)
+            FormulaResult.FromString("Orange"), // lookup_value
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(0), // match_type (exact)
         };
 
         var result = func.Execute(null!, args);
@@ -304,13 +304,13 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(50),
-            CellValue.FromNumber(1), // match_type (largest <= lookup_value)
+            FormulaResult.FromNumber(25), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromNumber(1), // match_type (largest <= lookup_value)
         };
 
         var result = func.Execute(null!, args);
@@ -324,13 +324,13 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25), // lookup_value
-            CellValue.FromNumber(50),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(-1), // match_type (smallest >= lookup_value)
+            FormulaResult.FromNumber(25), // lookup_value
+            FormulaResult.FromNumber(50),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(-1), // match_type (smallest >= lookup_value)
         };
 
         var result = func.Execute(null!, args);
@@ -344,11 +344,11 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(25), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
+            FormulaResult.FromNumber(25), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
             // No match_type specified (defaults to 1)
         };
 
@@ -363,12 +363,12 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(0), // match_type (exact)
+            FormulaResult.FromNumber(30), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(0), // match_type (exact)
         };
 
         var result = func.Execute(null!, args);
@@ -382,11 +382,11 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"), // lookup_value
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(0), // match_type (exact)
+            FormulaResult.FromString("Apple"), // lookup_value
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(0), // match_type (exact)
         };
 
         var result = func.Execute(null!, args);
@@ -400,11 +400,11 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Cherry"), // lookup_value
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(0), // match_type (exact)
+            FormulaResult.FromString("Cherry"), // lookup_value
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(0), // match_type (exact)
         };
 
         var result = func.Execute(null!, args);
@@ -418,10 +418,10 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(0),
+            FormulaResult.Error("#DIV/0!"), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -436,11 +436,11 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.Error("#REF!"),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(10), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -455,10 +455,10 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(2), // invalid match_type
+            FormulaResult.FromNumber(10), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(2), // invalid match_type
         };
 
         var result = func.Execute(null!, args);
@@ -473,8 +473,8 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // lookup_value
-            CellValue.FromNumber(0), // match_type
+            FormulaResult.FromNumber(10), // lookup_value
+            FormulaResult.FromNumber(0), // match_type
         };
 
         var result = func.Execute(null!, args);
@@ -489,7 +489,7 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10), // lookup_value only
+            FormulaResult.FromNumber(10), // lookup_value only
         };
 
         var result = func.Execute(null!, args);
@@ -504,10 +504,10 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("APPLE"), // lookup_value
-            CellValue.FromString("apple"),
-            CellValue.FromString("banana"),
-            CellValue.FromNumber(0), // match_type (exact)
+            FormulaResult.FromString("APPLE"), // lookup_value
+            FormulaResult.FromString("apple"),
+            FormulaResult.FromString("banana"),
+            FormulaResult.FromNumber(0), // match_type (exact)
         };
 
         var result = func.Execute(null!, args);
@@ -521,12 +521,12 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(30), // lookup_value
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(40),
-            CellValue.FromNumber(1), // match_type (approximate)
+            FormulaResult.FromNumber(30), // lookup_value
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(40),
+            FormulaResult.FromNumber(1), // match_type (approximate)
         };
 
         var result = func.Execute(null!, args);
@@ -540,11 +540,11 @@ public class LookupFunctionTests
         var func = MatchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5), // lookup_value (smaller than all)
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(1), // match_type
+            FormulaResult.FromNumber(5), // lookup_value (smaller than all)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(1), // match_type
         };
 
         var result = func.Execute(null!, args);
@@ -567,11 +567,11 @@ public class LookupFunctionTests
         // First, execute MATCH
         var matchArgs = new[]
         {
-            CellValue.FromString("Banana"), // lookup_value
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Banana"),
-            CellValue.FromString("Cherry"),
-            CellValue.FromNumber(0), // match_type
+            FormulaResult.FromString("Banana"), // lookup_value
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Banana"),
+            FormulaResult.FromString("Cherry"),
+            FormulaResult.FromNumber(0), // match_type
         };
 
         var matchResult = matchFunc.Execute(null!, matchArgs);
@@ -580,9 +580,9 @@ public class LookupFunctionTests
         // Then, use MATCH result in INDEX
         var indexArgs = new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(200),
-            CellValue.FromNumber(300),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(200),
+            FormulaResult.FromNumber(300),
             matchResult, // row_num from MATCH
         };
 

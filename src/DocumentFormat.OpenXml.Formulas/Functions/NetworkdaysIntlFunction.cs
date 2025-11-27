@@ -28,11 +28,11 @@ public sealed class NetworkdaysIntlFunction : IFunctionImplementation
     public string Name => "NETWORKDAYS.INTL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -45,9 +45,9 @@ public sealed class NetworkdaysIntlFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse weekend parameter (default is 1 = Saturday/Sunday)
@@ -56,23 +56,23 @@ public sealed class NetworkdaysIntlFunction : IFunctionImplementation
 
         if (args.Length >= 3 && !args[2].IsError)
         {
-            if (args[2].Type == CellValueType.Number)
+            if (args[2].Type == FormulaResultType.Number)
             {
                 weekendType = (int)args[2].NumericValue;
                 if (weekendType < 1 || weekendType > 17)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
                 weekendMask = GetWeekendMaskFromType(weekendType);
             }
-            else if (args[2].Type == CellValueType.Text)
+            else if (args[2].Type == FormulaResultType.Text)
             {
                 // Custom weekend string: 7 characters, 0=workday, 1=weekend
                 var weekendString = args[2].StringValue;
                 if (weekendString.Length != 7)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
 
                 for (int i = 0; i < 7; i++)
@@ -83,13 +83,13 @@ public sealed class NetworkdaysIntlFunction : IFunctionImplementation
                     }
                     else if (weekendString[i] != '0')
                     {
-                        return CellValue.Error("#VALUE!");
+                        return FormulaResult.Error("#VALUE!");
                     }
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
         else
@@ -107,7 +107,7 @@ public sealed class NetworkdaysIntlFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type == CellValueType.Number)
+            if (args[3].Type == FormulaResultType.Number)
             {
                 // Single holiday date
                 holidays.Add((int)System.Math.Floor(args[3].NumericValue));
@@ -152,11 +152,11 @@ public sealed class NetworkdaysIntlFunction : IFunctionImplementation
                 workingDays = -workingDays;
             }
 
-            return CellValue.FromNumber(workingDays);
+            return FormulaResult.FromNumber(workingDays);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 

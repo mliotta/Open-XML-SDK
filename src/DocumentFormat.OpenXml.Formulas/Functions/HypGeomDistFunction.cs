@@ -24,11 +24,11 @@ public sealed class HypGeomDistFunction : IFunctionImplementation
     public string Name => "HYPGEOM.DIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,62 +41,62 @@ public sealed class HypGeomDistFunction : IFunctionImplementation
         }
 
         // Get sample_s (number of successes in sample)
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         int x = (int)System.Math.Floor(args[0].NumericValue);
 
         // Get number_sample (size of sample)
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         int n = (int)System.Math.Floor(args[1].NumericValue);
 
         // Get population_s (number of successes in population)
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         int K = (int)System.Math.Floor(args[2].NumericValue);
 
         // Get number_pop (population size)
-        if (args[3].Type != CellValueType.Number)
+        if (args[3].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         int N = (int)System.Math.Floor(args[3].NumericValue);
 
         // Validate parameters
         if (x < 0 || n < 0 || K < 0 || N < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (x > n || x > K || n > N || K > N)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (x < System.Math.Max(0, n + K - N))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get cumulative flag
         bool cumulative;
-        if (args[4].Type == CellValueType.Boolean)
+        if (args[4].Type == FormulaResultType.Boolean)
         {
             cumulative = args[4].BoolValue;
         }
-        else if (args[4].Type == CellValueType.Number)
+        else if (args[4].Type == FormulaResultType.Number)
         {
             cumulative = args[4].NumericValue != 0;
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -118,11 +118,11 @@ public sealed class HypGeomDistFunction : IFunctionImplementation
                 result = HypergeometricPMF(x, n, K, N);
             }
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.Exception)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 

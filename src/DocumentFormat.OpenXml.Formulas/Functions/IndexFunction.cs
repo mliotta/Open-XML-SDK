@@ -25,11 +25,11 @@ public sealed class IndexFunction : IFunctionImplementation
     public string Name => "INDEX";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract row_num (always present)
@@ -37,7 +37,7 @@ public sealed class IndexFunction : IFunctionImplementation
 
         // Check if we have column_num (3 arguments total)
         var hasColumnNum = args.Length >= 3;
-        CellValue colNumArg = hasColumnNum ? args[args.Length - 2] : CellValue.Empty;
+        FormulaResult colNumArg = hasColumnNum ? args[args.Length - 2] : FormulaResult.Empty;
 
         // Check for errors in row_num
         if (rowNumArg.IsError)
@@ -45,16 +45,16 @@ public sealed class IndexFunction : IFunctionImplementation
             return rowNumArg;
         }
 
-        if (rowNumArg.Type != CellValueType.Number)
+        if (rowNumArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rowNum = (int)rowNumArg.NumericValue;
 
         if (rowNum < 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in column_num if present
@@ -66,16 +66,16 @@ public sealed class IndexFunction : IFunctionImplementation
                 return colNumArg;
             }
 
-            if (colNumArg.Type != CellValueType.Number)
+            if (colNumArg.Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             colNum = (int)colNumArg.NumericValue;
 
             if (colNum < 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -85,7 +85,7 @@ public sealed class IndexFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // Check for errors in array
@@ -106,7 +106,7 @@ public sealed class IndexFunction : IFunctionImplementation
             }
             else
             {
-                return CellValue.Error("#REF!");
+                return FormulaResult.Error("#REF!");
             }
         }
 
@@ -144,25 +144,25 @@ public sealed class IndexFunction : IFunctionImplementation
 
         if (numCols == 0 || numRows == 0)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // Special case: if row_num is 0, return entire column (not supported - return error)
         if (rowNum == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Special case: if col_num is 0, return entire row (not supported - return error)
         if (colNum == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Validate indices are within bounds
         if (rowNum < 1 || rowNum > numRows || colNum < 1 || colNum > numCols)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // Calculate the index in the flattened array

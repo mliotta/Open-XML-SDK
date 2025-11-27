@@ -25,7 +25,7 @@ public sealed class ForecastLinearFunction : IFunctionImplementation
     public string Name => "FORECAST.LINEAR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // FORECAST.LINEAR is identical to FORECAST
         return ForecastFunction.Instance.Execute(context, args);

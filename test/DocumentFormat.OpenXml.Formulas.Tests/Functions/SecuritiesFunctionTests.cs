@@ -22,13 +22,13 @@ public class SecuritiesFunctionTests
         var func = DollardeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.02),
-            CellValue.FromNumber(16),
+            FormulaResult.FromNumber(1.02),
+            FormulaResult.FromNumber(16),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.125, result.NumericValue, 3); // 1 + 2/16 = 1.125
     }
 
@@ -39,13 +39,13 @@ public class SecuritiesFunctionTests
         var func = DollardeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.1),
-            CellValue.FromNumber(32),
+            FormulaResult.FromNumber(1.1),
+            FormulaResult.FromNumber(32),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.03125, result.NumericValue, 5);
     }
 
@@ -55,8 +55,8 @@ public class SecuritiesFunctionTests
         var func = DollardeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.02),
-            CellValue.FromNumber(0),  // invalid
+            FormulaResult.FromNumber(1.02),
+            FormulaResult.FromNumber(0),  // invalid
         };
 
         var result = func.Execute(null!, args);
@@ -73,13 +73,13 @@ public class SecuritiesFunctionTests
         var func = DollarfrFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.125),
-            CellValue.FromNumber(16),
+            FormulaResult.FromNumber(1.125),
+            FormulaResult.FromNumber(16),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.02, result.NumericValue, 2);
     }
 
@@ -90,13 +90,13 @@ public class SecuritiesFunctionTests
         var func = DollarfrFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.03125),
-            CellValue.FromNumber(32),
+            FormulaResult.FromNumber(1.03125),
+            FormulaResult.FromNumber(32),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.01, result.NumericValue, 2);
     }
 
@@ -111,14 +111,14 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(2),  // Semi-annual
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(2),  // Semi-annual
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var nextCoupon = DateTime.FromOADate(result.NumericValue);
         Assert.Equal(5, nextCoupon.Month); // May 15
         Assert.Equal(15, nextCoupon.Day);
@@ -130,9 +130,9 @@ public class SecuritiesFunctionTests
         var func = CoupncdFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(new DateTime(2023, 1, 25).ToOADate()),
-            CellValue.FromNumber(new DateTime(2030, 11, 15).ToOADate()),
-            CellValue.FromNumber(3),  // Invalid frequency
+            FormulaResult.FromNumber(new DateTime(2023, 1, 25).ToOADate()),
+            FormulaResult.FromNumber(new DateTime(2030, 11, 15).ToOADate()),
+            FormulaResult.FromNumber(3),  // Invalid frequency
         };
 
         var result = func.Execute(null!, args);
@@ -151,14 +151,14 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(2),  // Semi-annual
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(2),  // Semi-annual
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         var prevCoupon = DateTime.FromOADate(result.NumericValue);
         Assert.Equal(11, prevCoupon.Month); // November 15
         Assert.Equal(15, prevCoupon.Day);
@@ -175,14 +175,14 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(2),  // Semi-annual
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(2),  // Semi-annual
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(16, result.NumericValue); // ~7.8 years * 2 = 16 coupons
     }
 
@@ -195,14 +195,14 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(4),  // Quarterly
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(4),  // Quarterly
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 7 && result.NumericValue <= 8);
     }
 
@@ -216,15 +216,15 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(2),  // Semi-annual
-            CellValue.FromNumber(0),  // 30/360 US
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(2),  // Semi-annual
+            FormulaResult.FromNumber(0),  // 30/360 US
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -238,15 +238,15 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(2),  // Semi-annual
-            CellValue.FromNumber(0),  // 30/360 US
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(2),  // Semi-annual
+            FormulaResult.FromNumber(0),  // 30/360 US
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(180, result.NumericValue, 0); // 360/2 = 180
     }
 
@@ -260,15 +260,15 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(2),  // Semi-annual
-            CellValue.FromNumber(0),  // 30/360 US
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(2),  // Semi-annual
+            FormulaResult.FromNumber(0),  // 30/360 US
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -282,18 +282,18 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(0.0575),  // 5.75% coupon
-            CellValue.FromNumber(0.065),   // 6.5% yield
-            CellValue.FromNumber(100),     // Redemption value
-            CellValue.FromNumber(2),       // Semi-annual
-            CellValue.FromNumber(0),       // 30/360 basis
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(0.0575),  // 5.75% coupon
+            FormulaResult.FromNumber(0.065),   // 6.5% yield
+            FormulaResult.FromNumber(100),     // Redemption value
+            FormulaResult.FromNumber(2),       // Semi-annual
+            FormulaResult.FromNumber(0),       // 30/360 basis
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 90 && result.NumericValue < 100); // Discount bond
     }
 
@@ -303,12 +303,12 @@ public class SecuritiesFunctionTests
         var func = PriceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(new DateTime(2023, 1, 1).ToOADate()),
-            CellValue.FromNumber(new DateTime(2022, 1, 1).ToOADate()), // maturity < settlement
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(0.06),
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(new DateTime(2023, 1, 1).ToOADate()),
+            FormulaResult.FromNumber(new DateTime(2022, 1, 1).ToOADate()), // maturity < settlement
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(0.06),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -327,16 +327,16 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(0.0525),  // 5.25% discount rate
-            CellValue.FromNumber(100),     // Redemption value
-            CellValue.FromNumber(2),       // Actual/360
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(0.0525),  // 5.25% discount rate
+            FormulaResult.FromNumber(100),     // Redemption value
+            FormulaResult.FromNumber(2),       // Actual/360
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 99 && result.NumericValue < 100);
     }
 
@@ -351,17 +351,17 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(issue),
-            CellValue.FromNumber(0.061),   // 6.1% interest rate
-            CellValue.FromNumber(0.061),   // 6.1% yield
-            CellValue.FromNumber(0),       // 30/360 basis
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(issue),
+            FormulaResult.FromNumber(0.061),   // 6.1% interest rate
+            FormulaResult.FromNumber(0.061),   // 6.1% yield
+            FormulaResult.FromNumber(0),       // 30/360 basis
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 95 && result.NumericValue < 105);
     }
 
@@ -375,16 +375,16 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(99.795),  // Price
-            CellValue.FromNumber(100),     // Redemption
-            CellValue.FromNumber(2),       // Actual/360
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(99.795),  // Price
+            FormulaResult.FromNumber(100),     // Redemption
+            FormulaResult.FromNumber(2),       // Actual/360
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -399,17 +399,17 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(issue),
-            CellValue.FromNumber(0.0625),  // 6.25% interest rate
-            CellValue.FromNumber(100.0123),// Price
-            CellValue.FromNumber(0),       // 30/360 basis
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(issue),
+            FormulaResult.FromNumber(0.0625),  // 6.25% interest rate
+            FormulaResult.FromNumber(100.0123),// Price
+            FormulaResult.FromNumber(0),       // 30/360 basis
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -423,17 +423,17 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(0.08),    // 8% coupon
-            CellValue.FromNumber(0.09),    // 9% yield
-            CellValue.FromNumber(2),       // Semi-annual
-            CellValue.FromNumber(1),       // Actual/actual
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(0.08),    // 8% coupon
+            FormulaResult.FromNumber(0.09),    // 9% yield
+            FormulaResult.FromNumber(2),       // Semi-annual
+            FormulaResult.FromNumber(1),       // Actual/actual
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 5 && result.NumericValue < 8); // Reasonable duration range
     }
 
@@ -443,11 +443,11 @@ public class SecuritiesFunctionTests
         var func = DurationFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(new DateTime(2023, 1, 1).ToOADate()),
-            CellValue.FromNumber(new DateTime(2022, 1, 1).ToOADate()), // maturity < settlement
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(0.06),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(new DateTime(2023, 1, 1).ToOADate()),
+            FormulaResult.FromNumber(new DateTime(2022, 1, 1).ToOADate()), // maturity < settlement
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(0.06),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -466,17 +466,17 @@ public class SecuritiesFunctionTests
 
         var args = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(0.08),    // 8% coupon
-            CellValue.FromNumber(0.09),    // 9% yield
-            CellValue.FromNumber(2),       // Semi-annual
-            CellValue.FromNumber(1),       // Actual/actual
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(0.08),    // 8% coupon
+            FormulaResult.FromNumber(0.09),    // 9% yield
+            FormulaResult.FromNumber(2),       // Semi-annual
+            FormulaResult.FromNumber(1),       // Actual/actual
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 5 && result.NumericValue < 8);
     }
 
@@ -489,19 +489,19 @@ public class SecuritiesFunctionTests
 
         var durationArgs = new[]
         {
-            CellValue.FromNumber(settlement),
-            CellValue.FromNumber(maturity),
-            CellValue.FromNumber(0.08),
-            CellValue.FromNumber(0.09),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(settlement),
+            FormulaResult.FromNumber(maturity),
+            FormulaResult.FromNumber(0.08),
+            FormulaResult.FromNumber(0.09),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(1),
         };
 
         var macaulay = DurationFunction.Instance.Execute(null!, durationArgs);
         var modified = MdurationFunction.Instance.Execute(null!, durationArgs);
 
-        Assert.Equal(CellValueType.Number, macaulay.Type);
-        Assert.Equal(CellValueType.Number, modified.Type);
+        Assert.Equal(FormulaResultType.Number, macaulay.Type);
+        Assert.Equal(FormulaResultType.Number, modified.Type);
         Assert.True(modified.NumericValue < macaulay.NumericValue);
     }
 
@@ -523,7 +523,7 @@ public class SecuritiesFunctionTests
 
         foreach (var func in functions)
         {
-            var args = new[] { CellValue.Error("#DIV/0!"), CellValue.FromNumber(1) };
+            var args = new[] { FormulaResult.Error("#DIV/0!"), FormulaResult.FromNumber(1) };
             var result = func.Execute(null!, args);
 
             Assert.True(result.IsError);

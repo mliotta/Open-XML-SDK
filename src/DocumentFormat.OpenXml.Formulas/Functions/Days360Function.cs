@@ -25,11 +25,11 @@ public sealed class Days360Function : IFunctionImplementation
     public string Name => "DAYS360";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,9 +42,9 @@ public sealed class Days360Function : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Default to US/NASD method (FALSE)
@@ -57,17 +57,17 @@ public sealed class Days360Function : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type == CellValueType.Boolean)
+            if (args[2].Type == FormulaResultType.Boolean)
             {
                 useEuropeanMethod = args[2].BoolValue;
             }
-            else if (args[2].Type == CellValueType.Number)
+            else if (args[2].Type == FormulaResultType.Number)
             {
                 useEuropeanMethod = args[2].NumericValue != 0;
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -123,11 +123,11 @@ public sealed class Days360Function : IFunctionImplementation
 
             // Calculate days using 360-day year formula
             var days = ((endYear - startYear) * 360) + ((endMonth - startMonth) * 30) + (endDay - startDay);
-            return CellValue.FromNumber(days);
+            return FormulaResult.FromNumber(days);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 

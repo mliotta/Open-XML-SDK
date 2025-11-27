@@ -20,14 +20,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(6),  // target_date (next time point)
-            CellValue.FromNumber(10), // values (simplified: single value representing array [10, 20, 30, 40, 50])
-            CellValue.FromNumber(1),  // timeline (simplified: single value representing [1, 2, 3, 4, 5])
+            FormulaResult.FromNumber(6),  // target_date (next time point)
+            FormulaResult.FromNumber(10), // values (simplified: single value representing array [10, 20, 30, 40, 50])
+            FormulaResult.FromNumber(1),  // timeline (simplified: single value representing [1, 2, 3, 4, 5])
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // With linear trend, should forecast a positive value
         Assert.True(result.NumericValue > 0);
     }
@@ -38,9 +38,9 @@ public class ForecastingFunctionTests
         var func = ForecastEtsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         // With only 1 data point, should return #N/A
@@ -56,9 +56,9 @@ public class ForecastingFunctionTests
         var func = ForecastEtsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),  // target before timeline start
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(0.5),  // target before timeline start
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -74,10 +74,10 @@ public class ForecastingFunctionTests
         var func = ForecastEtsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(-1),  // Invalid negative seasonality
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(-1),  // Invalid negative seasonality
         };
 
         var result = func.Execute(null!, args);
@@ -94,9 +94,9 @@ public class ForecastingFunctionTests
         // For now, we test the error handling path
         var args = new[]
         {
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -111,9 +111,9 @@ public class ForecastingFunctionTests
         var func = ForecastEtsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -129,14 +129,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsConfintFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Confidence interval should be positive
         Assert.True(result.NumericValue > 0);
     }
@@ -147,15 +147,15 @@ public class ForecastingFunctionTests
         var func = ForecastEtsConfintFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0.90),  // 90% confidence
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0.90),  // 90% confidence
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -165,10 +165,10 @@ public class ForecastingFunctionTests
         var func = ForecastEtsConfintFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1.5),  // Invalid: > 1
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1.5),  // Invalid: > 1
         };
 
         var result = func.Execute(null!, args);
@@ -183,9 +183,9 @@ public class ForecastingFunctionTests
         var func = ForecastEtsConfintFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -201,13 +201,13 @@ public class ForecastingFunctionTests
         var func = ForecastEtsSeasonalityFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),  // values
-            CellValue.FromNumber(1),   // timeline
+            FormulaResult.FromNumber(10),  // values
+            FormulaResult.FromNumber(1),   // timeline
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // With insufficient data, should return 1 (no seasonality)
         Assert.Equal(1, result.NumericValue);
     }
@@ -218,13 +218,13 @@ public class ForecastingFunctionTests
         var func = ForecastEtsSeasonalityFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Should return a non-negative integer
         Assert.True(result.NumericValue >= 0);
     }
@@ -235,8 +235,8 @@ public class ForecastingFunctionTests
         var func = ForecastEtsSeasonalityFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -251,8 +251,8 @@ public class ForecastingFunctionTests
         var func = ForecastEtsSeasonalityFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#VALUE!"),
-            CellValue.FromNumber(1),
+            FormulaResult.Error("#VALUE!"),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -268,14 +268,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),  // statistic_type = 1 (Alpha)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),  // statistic_type = 1 (Alpha)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Alpha should be between 0 and 1
         Assert.True(result.NumericValue >= 0 && result.NumericValue <= 1);
     }
@@ -286,14 +286,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),  // statistic_type = 2 (Beta)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),  // statistic_type = 2 (Beta)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Beta should be between 0 and 1
         Assert.True(result.NumericValue >= 0 && result.NumericValue <= 1);
     }
@@ -304,14 +304,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(3),  // statistic_type = 3 (Gamma)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(3),  // statistic_type = 3 (Gamma)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Gamma should be between 0 and 1
         Assert.True(result.NumericValue >= 0 && result.NumericValue <= 1);
     }
@@ -322,14 +322,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(4),  // statistic_type = 4 (MASE)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(4),  // statistic_type = 4 (MASE)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // MASE should be non-negative
         Assert.True(result.NumericValue >= 0);
     }
@@ -340,14 +340,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(5),  // statistic_type = 5 (SMAPE)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(5),  // statistic_type = 5 (SMAPE)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // SMAPE should be between 0 and 200
         Assert.True(result.NumericValue >= 0 && result.NumericValue <= 200);
     }
@@ -358,14 +358,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(6),  // statistic_type = 6 (MAE)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(6),  // statistic_type = 6 (MAE)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // MAE should be non-negative
         Assert.True(result.NumericValue >= 0);
     }
@@ -376,14 +376,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(7),  // statistic_type = 7 (RMSE)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(7),  // statistic_type = 7 (RMSE)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // RMSE should be non-negative
         Assert.True(result.NumericValue >= 0);
     }
@@ -394,14 +394,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(8),  // statistic_type = 8 (Step size)
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(8),  // statistic_type = 8 (Step size)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Step size should be positive
         Assert.True(result.NumericValue > 0);
     }
@@ -412,9 +412,9 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(9),  // Invalid: must be 1-8
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(9),  // Invalid: must be 1-8
         };
 
         var result = func.Execute(null!, args);
@@ -429,9 +429,9 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -446,9 +446,9 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -464,8 +464,8 @@ public class ForecastingFunctionTests
         var func = ForecastEtsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -480,14 +480,14 @@ public class ForecastingFunctionTests
         var func = ForecastEtsConfintFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(6),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0.95),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(999),  // Too many
+            FormulaResult.FromNumber(6),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0.95),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(999),  // Too many
         };
 
         var result = func.Execute(null!, args);
@@ -502,7 +502,7 @@ public class ForecastingFunctionTests
         var func = ForecastEtsSeasonalityFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -517,8 +517,8 @@ public class ForecastingFunctionTests
         var func = ForecastEtsStatFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);

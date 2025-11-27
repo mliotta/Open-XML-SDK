@@ -15,9 +15,9 @@ namespace DocumentFormat.OpenXml.Features.FormulaEvaluation.Tests.Functions;
 public class NewFinancialFunctionTests
 {
     // Helper to create date values
-    private static CellValue DateValue(int year, int month, int day)
+    private static FormulaResult DateValue(int year, int month, int day)
     {
-        return CellValue.FromNumber(new DateTime(year, month, day).ToOADate());
+        return FormulaResult.FromNumber(new DateTime(year, month, day).ToOADate());
     }
 
     [Fact]
@@ -29,14 +29,14 @@ public class NewFinancialFunctionTests
             DateValue(2023, 1, 1),  // issue
             DateValue(2023, 7, 1),  // first_interest
             DateValue(2023, 3, 1),  // settlement
-            CellValue.FromNumber(0.05),  // rate
-            CellValue.FromNumber(1000),  // par
-            CellValue.FromNumber(2),  // frequency (semi-annual)
+            FormulaResult.FromNumber(0.05),  // rate
+            FormulaResult.FromNumber(1000),  // par
+            FormulaResult.FromNumber(2),  // frequency (semi-annual)
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -48,13 +48,13 @@ public class NewFinancialFunctionTests
         {
             DateValue(2023, 1, 1),  // issue
             DateValue(2023, 12, 31),  // settlement
-            CellValue.FromNumber(0.05),  // rate
-            CellValue.FromNumber(1000),  // par
+            FormulaResult.FromNumber(0.05),  // rate
+            FormulaResult.FromNumber(1000),  // par
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -66,13 +66,13 @@ public class NewFinancialFunctionTests
         {
             DateValue(2023, 1, 1),  // settlement
             DateValue(2023, 12, 31),  // maturity
-            CellValue.FromNumber(95),  // pr
-            CellValue.FromNumber(100),  // redemption
+            FormulaResult.FromNumber(95),  // pr
+            FormulaResult.FromNumber(100),  // redemption
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -84,13 +84,13 @@ public class NewFinancialFunctionTests
         {
             DateValue(2023, 1, 1),  // settlement
             DateValue(2023, 12, 31),  // maturity
-            CellValue.FromNumber(1000),  // investment
-            CellValue.FromNumber(1050),  // redemption
+            FormulaResult.FromNumber(1000),  // investment
+            FormulaResult.FromNumber(1050),  // redemption
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -102,13 +102,13 @@ public class NewFinancialFunctionTests
         {
             DateValue(2023, 1, 1),  // settlement
             DateValue(2023, 12, 31),  // maturity
-            CellValue.FromNumber(1000),  // investment
-            CellValue.FromNumber(0.05),  // discount
+            FormulaResult.FromNumber(1000),  // investment
+            FormulaResult.FromNumber(0.05),  // discount
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 1000);
     }
 
@@ -120,12 +120,12 @@ public class NewFinancialFunctionTests
         {
             DateValue(2023, 1, 1),  // settlement
             DateValue(2023, 3, 31),  // maturity (90 days)
-            CellValue.FromNumber(0.05),  // discount
+            FormulaResult.FromNumber(0.05),  // discount
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue < 100 && result.NumericValue > 0);
     }
 
@@ -137,12 +137,12 @@ public class NewFinancialFunctionTests
         {
             DateValue(2023, 1, 1),  // settlement
             DateValue(2023, 3, 31),  // maturity (90 days)
-            CellValue.FromNumber(98.75),  // pr
+            FormulaResult.FromNumber(98.75),  // pr
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -152,16 +152,16 @@ public class NewFinancialFunctionTests
         var func = VdbFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10000),  // cost
-            CellValue.FromNumber(1000),  // salvage
-            CellValue.FromNumber(10),  // life
-            CellValue.FromNumber(0),  // start_period
-            CellValue.FromNumber(1),  // end_period
+            FormulaResult.FromNumber(10000),  // cost
+            FormulaResult.FromNumber(1000),  // salvage
+            FormulaResult.FromNumber(10),  // life
+            FormulaResult.FromNumber(0),  // start_period
+            FormulaResult.FromNumber(1),  // end_period
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue > 0);
     }
 
@@ -174,9 +174,9 @@ public class NewFinancialFunctionTests
             DateValue(2023, 3, 1),  // issue (after settlement)
             DateValue(2023, 7, 1),  // first_interest
             DateValue(2023, 1, 1),  // settlement
-            CellValue.FromNumber(0.05),  // rate
-            CellValue.FromNumber(1000),  // par
-            CellValue.FromNumber(2),  // frequency
+            FormulaResult.FromNumber(0.05),  // rate
+            FormulaResult.FromNumber(1000),  // par
+            FormulaResult.FromNumber(2),  // frequency
         };
 
         var result = func.Execute(null!, args);

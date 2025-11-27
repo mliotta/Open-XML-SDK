@@ -26,11 +26,11 @@ public sealed class LargeFunction : IFunctionImplementation
     public string Name => "LARGE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors
@@ -45,40 +45,40 @@ public sealed class LargeFunction : IFunctionImplementation
         }
 
         // Get k value
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var k = (int)args[1].NumericValue;
 
         if (k < 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Collect all numeric values
         var values = new List<double>();
 
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             values.Add(args[0].NumericValue);
         }
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (k > values.Count)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Sort in descending order to get largest values first
         values.Sort((a, b) => b.CompareTo(a));
 
         // Return k-th largest (1-based indexing)
-        return CellValue.FromNumber(values[k - 1]);
+        return FormulaResult.FromNumber(values[k - 1]);
     }
 }

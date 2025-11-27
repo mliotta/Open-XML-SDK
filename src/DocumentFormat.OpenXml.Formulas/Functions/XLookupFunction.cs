@@ -28,11 +28,11 @@ public sealed class XLookupFunction : IFunctionImplementation
     public string Name => "XLOOKUP";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse arguments
@@ -45,8 +45,8 @@ public sealed class XLookupFunction : IFunctionImplementation
         // Determine argument structure - need to find where lookup_array ends and return_array begins
         // Strategy: Look from the end backwards for optional parameters
         var argsLength = args.Length;
-        var hasSearchMode = argsLength >= 6 && args[argsLength - 1].Type == CellValueType.Number;
-        var hasMatchMode = argsLength >= 5 && args[argsLength - (hasSearchMode ? 2 : 1)].Type == CellValueType.Number;
+        var hasSearchMode = argsLength >= 6 && args[argsLength - 1].Type == FormulaResultType.Number;
+        var hasMatchMode = argsLength >= 5 && args[argsLength - (hasSearchMode ? 2 : 1)].Type == FormulaResultType.Number;
         var hasIfNotFound = argsLength >= 4;
 
         // Calculate where arrays start/end
@@ -57,7 +57,7 @@ public sealed class XLookupFunction : IFunctionImplementation
         var remainingAfterLookupValue = argsLength - 1 - optionalParamsCount;
         if (remainingAfterLookupValue < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var arrayLength = remainingAfterLookupValue / 2;
@@ -66,7 +66,7 @@ public sealed class XLookupFunction : IFunctionImplementation
         var returnArrayEnd = returnArrayStart + arrayLength;
 
         // Extract optional parameters
-        CellValue ifNotFound = CellValue.Error("#N/A");
+        FormulaResult ifNotFound = FormulaResult.Error("#N/A");
         var matchMode = 0;
         var searchMode = 1;
 
@@ -85,12 +85,12 @@ public sealed class XLookupFunction : IFunctionImplementation
                 return matchModeArg;
             }
 
-            if (matchModeArg.Type == CellValueType.Number)
+            if (matchModeArg.Type == FormulaResultType.Number)
             {
                 matchMode = (int)matchModeArg.NumericValue;
                 if (matchMode < -1 || matchMode > 2)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
 
@@ -105,12 +105,12 @@ public sealed class XLookupFunction : IFunctionImplementation
                 return searchModeArg;
             }
 
-            if (searchModeArg.Type == CellValueType.Number)
+            if (searchModeArg.Type == FormulaResultType.Number)
             {
                 searchMode = (int)searchModeArg.NumericValue;
                 if (searchMode < -2 || searchMode > 2 || searchMode == 0)
                 {
-                    return CellValue.Error("#VALUE!");
+                    return FormulaResult.Error("#VALUE!");
                 }
             }
         }
@@ -154,7 +154,7 @@ public sealed class XLookupFunction : IFunctionImplementation
         return ifNotFound;
     }
 
-    private static int FindExactMatch(CellValue[] args, int startIndex, int length, CellValue lookupValue, int searchMode)
+    private static int FindExactMatch(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, int searchMode)
     {
         if (searchMode == 1) // First to last
         {
@@ -188,7 +188,7 @@ public sealed class XLookupFunction : IFunctionImplementation
         return -1;
     }
 
-    private static int FindExactOrNextSmaller(CellValue[] args, int startIndex, int length, CellValue lookupValue, int searchMode)
+    private static int FindExactOrNextSmaller(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, int searchMode)
     {
         var lastMatch = -1;
 
@@ -234,7 +234,7 @@ public sealed class XLookupFunction : IFunctionImplementation
         return lastMatch;
     }
 
-    private static int FindExactOrNextLarger(CellValue[] args, int startIndex, int length, CellValue lookupValue, int searchMode)
+    private static int FindExactOrNextLarger(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, int searchMode)
     {
         if (searchMode == 1 || searchMode == 2) // Forward search
         {
@@ -270,9 +270,9 @@ public sealed class XLookupFunction : IFunctionImplementation
         return -1;
     }
 
-    private static int FindWildcardMatch(CellValue[] args, int startIndex, int length, CellValue lookupValue, int searchMode)
+    private static int FindWildcardMatch(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, int searchMode)
     {
-        if (lookupValue.Type != CellValueType.Text)
+        if (lookupValue.Type != FormulaResultType.Text)
         {
             return -1; // Wildcard matching only works with text
         }
@@ -284,7 +284,7 @@ public sealed class XLookupFunction : IFunctionImplementation
             for (var i = 0; i < length; i++)
             {
                 var arrayValue = args[startIndex + i];
-                if (arrayValue.Type == CellValueType.Text && System.Text.RegularExpressions.Regex.IsMatch(arrayValue.StringValue, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                if (arrayValue.Type == FormulaResultType.Text && System.Text.RegularExpressions.Regex.IsMatch(arrayValue.StringValue, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                 {
                     return i;
                 }
@@ -295,7 +295,7 @@ public sealed class XLookupFunction : IFunctionImplementation
             for (var i = length - 1; i >= 0; i--)
             {
                 var arrayValue = args[startIndex + i];
-                if (arrayValue.Type == CellValueType.Text && System.Text.RegularExpressions.Regex.IsMatch(arrayValue.StringValue, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                if (arrayValue.Type == FormulaResultType.Text && System.Text.RegularExpressions.Regex.IsMatch(arrayValue.StringValue, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                 {
                     return i;
                 }
@@ -316,7 +316,7 @@ public sealed class XLookupFunction : IFunctionImplementation
         return "^" + escaped + "$";
     }
 
-    private static int BinarySearch(CellValue[] args, int startIndex, int length, CellValue lookupValue, bool ascending)
+    private static int BinarySearch(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, bool ascending)
     {
         var left = 0;
         var right = length - 1;
@@ -348,7 +348,7 @@ public sealed class XLookupFunction : IFunctionImplementation
         return -1;
     }
 
-    private static bool ValuesEqual(CellValue a, CellValue b)
+    private static bool ValuesEqual(FormulaResult a, FormulaResult b)
     {
         if (a.Type != b.Type)
         {
@@ -357,15 +357,15 @@ public sealed class XLookupFunction : IFunctionImplementation
 
         return a.Type switch
         {
-            CellValueType.Number => System.Math.Abs(a.NumericValue - b.NumericValue) < 1e-10,
-            CellValueType.Text => string.Equals(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
-            CellValueType.Boolean => a.BoolValue == b.BoolValue,
-            CellValueType.Empty => true,
+            FormulaResultType.Number => System.Math.Abs(a.NumericValue - b.NumericValue) < 1e-10,
+            FormulaResultType.Text => string.Equals(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
+            FormulaResultType.Boolean => a.BoolValue == b.BoolValue,
+            FormulaResultType.Empty => true,
             _ => false,
         };
     }
 
-    private static int CompareValues(CellValue a, CellValue b)
+    private static int CompareValues(FormulaResult a, FormulaResult b)
     {
         // Compare two values for ordering
         if (a.Type != b.Type)
@@ -376,10 +376,10 @@ public sealed class XLookupFunction : IFunctionImplementation
 
         return a.Type switch
         {
-            CellValueType.Number => a.NumericValue.CompareTo(b.NumericValue),
-            CellValueType.Text => string.Compare(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
-            CellValueType.Boolean => a.BoolValue.CompareTo(b.BoolValue),
-            CellValueType.Empty => 0,
+            FormulaResultType.Number => a.NumericValue.CompareTo(b.NumericValue),
+            FormulaResultType.Text => string.Compare(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
+            FormulaResultType.Boolean => a.BoolValue.CompareTo(b.BoolValue),
+            FormulaResultType.Empty => 0,
             _ => 0,
         };
     }

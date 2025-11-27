@@ -25,11 +25,11 @@ public sealed class Atan2Function : IFunctionImplementation
     public string Name => "ATAN2";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,9 +42,9 @@ public sealed class Atan2Function : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var xNum = args[0].NumericValue;
@@ -52,10 +52,10 @@ public sealed class Atan2Function : IFunctionImplementation
 
         if (xNum == 0 && yNum == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         var result = System.Math.Atan2(yNum, xNum);
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

@@ -25,11 +25,11 @@ public sealed class OddfpriceFunction : IFunctionImplementation
     public string Name => "ODDFPRICE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 8 || args.Length > 9)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,31 +40,31 @@ public sealed class OddfpriceFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var basis = 0;
-        if (args.Length == 9 && args[8].Type != CellValueType.Empty)
+        if (args.Length == 9 && args[8].Type != FormulaResultType.Empty)
         {
             if (args[8].IsError)
             {
                 return args[8];
             }
 
-            if (args[8].Type == CellValueType.Number)
+            if (args[8].Type == FormulaResultType.Number)
             {
                 basis = (int)args[8].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -82,17 +82,17 @@ public sealed class OddfpriceFunction : IFunctionImplementation
             // Validate inputs
             if (!DayCountHelper.IsValidFrequency(frequency))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (rate < 0 || yld < 0 || redemption <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (issue >= settlement || settlement >= firstCoupon || firstCoupon >= maturity)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Calculate number of coupons from first coupon to maturity (excluding the odd first period)
@@ -134,14 +134,14 @@ public sealed class OddfpriceFunction : IFunctionImplementation
 
             if (double.IsNaN(price) || double.IsInfinity(price))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(price);
+            return FormulaResult.FromNumber(price);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

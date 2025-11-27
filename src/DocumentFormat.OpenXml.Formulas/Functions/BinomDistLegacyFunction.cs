@@ -25,7 +25,7 @@ public sealed class BinomDistLegacyFunction : IFunctionImplementation
     public string Name => "BINOMDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // BINOMDIST has the same signature as BINOM.DIST
         // Delegate directly to BINOM.DIST

@@ -28,11 +28,11 @@ public sealed class XMatchFunction : IFunctionImplementation
     public string Name => "XMATCH";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract lookup_value (first argument)
@@ -46,10 +46,10 @@ public sealed class XMatchFunction : IFunctionImplementation
 
         // Determine if we have optional parameters (match_mode and search_mode)
         var lastArg = args[args.Length - 1];
-        var secondToLastArg = args.Length >= 3 ? args[args.Length - 2] : CellValue.Empty;
+        var secondToLastArg = args.Length >= 3 ? args[args.Length - 2] : FormulaResult.Empty;
 
-        var hasSearchMode = args.Length >= 4 && lastArg.Type == CellValueType.Number;
-        var hasMatchMode = args.Length >= 3 && secondToLastArg.Type == CellValueType.Number;
+        var hasSearchMode = args.Length >= 4 && lastArg.Type == FormulaResultType.Number;
+        var hasMatchMode = args.Length >= 3 && secondToLastArg.Type == FormulaResultType.Number;
 
         // Default values
         var matchMode = 0;
@@ -66,7 +66,7 @@ public sealed class XMatchFunction : IFunctionImplementation
             searchMode = (int)lastArg.NumericValue;
             if (searchMode < -2 || searchMode > 2 || searchMode == 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -80,7 +80,7 @@ public sealed class XMatchFunction : IFunctionImplementation
             matchMode = (int)secondToLastArg.NumericValue;
             if (matchMode < -1 || matchMode > 2)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -91,7 +91,7 @@ public sealed class XMatchFunction : IFunctionImplementation
 
         if (arrayLength == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Check for errors in array
@@ -126,14 +126,14 @@ public sealed class XMatchFunction : IFunctionImplementation
         if (matchIndex >= 0)
         {
             // Return 1-based position
-            return CellValue.FromNumber(matchIndex + 1);
+            return FormulaResult.FromNumber(matchIndex + 1);
         }
 
         // No match found
-        return CellValue.Error("#N/A");
+        return FormulaResult.Error("#N/A");
     }
 
-    private static int FindExactMatch(CellValue[] args, int startIndex, int length, CellValue lookupValue, int searchMode)
+    private static int FindExactMatch(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, int searchMode)
     {
         if (searchMode == 1) // First to last
         {
@@ -167,7 +167,7 @@ public sealed class XMatchFunction : IFunctionImplementation
         return -1;
     }
 
-    private static int FindExactOrNextSmaller(CellValue[] args, int startIndex, int length, CellValue lookupValue, int searchMode)
+    private static int FindExactOrNextSmaller(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, int searchMode)
     {
         var lastMatch = -1;
 
@@ -213,7 +213,7 @@ public sealed class XMatchFunction : IFunctionImplementation
         return lastMatch;
     }
 
-    private static int FindExactOrNextLarger(CellValue[] args, int startIndex, int length, CellValue lookupValue, int searchMode)
+    private static int FindExactOrNextLarger(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, int searchMode)
     {
         if (searchMode == 1 || searchMode == 2) // Forward search
         {
@@ -249,9 +249,9 @@ public sealed class XMatchFunction : IFunctionImplementation
         return -1;
     }
 
-    private static int FindWildcardMatch(CellValue[] args, int startIndex, int length, CellValue lookupValue, int searchMode)
+    private static int FindWildcardMatch(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, int searchMode)
     {
-        if (lookupValue.Type != CellValueType.Text)
+        if (lookupValue.Type != FormulaResultType.Text)
         {
             return -1; // Wildcard matching only works with text
         }
@@ -263,7 +263,7 @@ public sealed class XMatchFunction : IFunctionImplementation
             for (var i = 0; i < length; i++)
             {
                 var arrayValue = args[startIndex + i];
-                if (arrayValue.Type == CellValueType.Text && System.Text.RegularExpressions.Regex.IsMatch(arrayValue.StringValue, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                if (arrayValue.Type == FormulaResultType.Text && System.Text.RegularExpressions.Regex.IsMatch(arrayValue.StringValue, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                 {
                     return i;
                 }
@@ -274,7 +274,7 @@ public sealed class XMatchFunction : IFunctionImplementation
             for (var i = length - 1; i >= 0; i--)
             {
                 var arrayValue = args[startIndex + i];
-                if (arrayValue.Type == CellValueType.Text && System.Text.RegularExpressions.Regex.IsMatch(arrayValue.StringValue, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                if (arrayValue.Type == FormulaResultType.Text && System.Text.RegularExpressions.Regex.IsMatch(arrayValue.StringValue, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                 {
                     return i;
                 }
@@ -295,7 +295,7 @@ public sealed class XMatchFunction : IFunctionImplementation
         return "^" + escaped + "$";
     }
 
-    private static int BinarySearch(CellValue[] args, int startIndex, int length, CellValue lookupValue, bool ascending)
+    private static int BinarySearch(FormulaResult[] args, int startIndex, int length, FormulaResult lookupValue, bool ascending)
     {
         var left = 0;
         var right = length - 1;
@@ -327,7 +327,7 @@ public sealed class XMatchFunction : IFunctionImplementation
         return -1;
     }
 
-    private static bool ValuesEqual(CellValue a, CellValue b)
+    private static bool ValuesEqual(FormulaResult a, FormulaResult b)
     {
         if (a.Type != b.Type)
         {
@@ -336,15 +336,15 @@ public sealed class XMatchFunction : IFunctionImplementation
 
         return a.Type switch
         {
-            CellValueType.Number => System.Math.Abs(a.NumericValue - b.NumericValue) < 1e-10,
-            CellValueType.Text => string.Equals(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
-            CellValueType.Boolean => a.BoolValue == b.BoolValue,
-            CellValueType.Empty => true,
+            FormulaResultType.Number => System.Math.Abs(a.NumericValue - b.NumericValue) < 1e-10,
+            FormulaResultType.Text => string.Equals(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
+            FormulaResultType.Boolean => a.BoolValue == b.BoolValue,
+            FormulaResultType.Empty => true,
             _ => false,
         };
     }
 
-    private static int CompareValues(CellValue a, CellValue b)
+    private static int CompareValues(FormulaResult a, FormulaResult b)
     {
         // Compare two values for ordering
         if (a.Type != b.Type)
@@ -355,10 +355,10 @@ public sealed class XMatchFunction : IFunctionImplementation
 
         return a.Type switch
         {
-            CellValueType.Number => a.NumericValue.CompareTo(b.NumericValue),
-            CellValueType.Text => string.Compare(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
-            CellValueType.Boolean => a.BoolValue.CompareTo(b.BoolValue),
-            CellValueType.Empty => 0,
+            FormulaResultType.Number => a.NumericValue.CompareTo(b.NumericValue),
+            FormulaResultType.Text => string.Compare(a.StringValue, b.StringValue, StringComparison.OrdinalIgnoreCase),
+            FormulaResultType.Boolean => a.BoolValue.CompareTo(b.BoolValue),
+            FormulaResultType.Empty => 0,
             _ => 0,
         };
     }

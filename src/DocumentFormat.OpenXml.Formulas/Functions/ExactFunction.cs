@@ -25,11 +25,11 @@ public sealed class ExactFunction : IFunctionImplementation
     public string Name => "EXACT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -48,6 +48,6 @@ public sealed class ExactFunction : IFunctionImplementation
         // Case-sensitive comparison
         var isEqual = string.Equals(text1, text2, StringComparison.Ordinal);
 
-        return CellValue.FromBool(isEqual);
+        return FormulaResult.FromBool(isEqual);
     }
 }

@@ -20,11 +20,11 @@ public sealed class PercentOfFunction : IFunctionImplementation
 
     public string Name => "PERCENTOF";
 
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         foreach (var arg in args)
@@ -35,9 +35,9 @@ public sealed class PercentOfFunction : IFunctionImplementation
             }
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var subset = args[0].NumericValue;
@@ -45,9 +45,9 @@ public sealed class PercentOfFunction : IFunctionImplementation
 
         if (total == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
-        return CellValue.FromNumber(subset / total);
+        return FormulaResult.FromNumber(subset / total);
     }
 }

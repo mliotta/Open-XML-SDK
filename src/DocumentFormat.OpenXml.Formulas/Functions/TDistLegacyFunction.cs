@@ -24,11 +24,11 @@ public sealed class TDistLegacyFunction : IFunctionImplementation
     public string Name => "TDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,40 +41,40 @@ public sealed class TDistLegacyFunction : IFunctionImplementation
         }
 
         // Get x value
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double x = args[0].NumericValue;
 
         // TDIST requires x >= 0
         if (x < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get degrees of freedom
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double df = args[1].NumericValue;
 
         if (df < 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get tails (1 or 2)
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         int tails = (int)args[2].NumericValue;
 
         if (tails != 1 && tails != 2)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
@@ -83,11 +83,11 @@ public sealed class TDistLegacyFunction : IFunctionImplementation
             double rightTail = 1.0 - StatisticalHelper.TDistCDF(x, df);
 
             double result = tails == 1 ? rightTail : 2.0 * rightTail;
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

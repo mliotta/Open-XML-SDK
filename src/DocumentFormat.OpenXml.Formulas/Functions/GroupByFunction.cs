@@ -33,26 +33,26 @@ public sealed class GroupByFunction : IFunctionImplementation
     public string Name => "GROUPBY";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Minimum args: row_fields, values, function
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse function parameter (should be a number representing aggregation type)
         // For Phase 0, we expect: 1=SUM, 2=AVERAGE, 3=COUNT, 4=MAX, 5=MIN
         var functionArg = args[args.Length - 1];
-        if (functionArg.Type != CellValueType.Number)
+        if (functionArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var functionType = (int)functionArg.NumericValue;
         if (functionType < 1 || functionType > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Calculate how many cells are in row_fields and values
@@ -63,7 +63,7 @@ public sealed class GroupByFunction : IFunctionImplementation
 
         if (fieldCount == 0 || valueCount == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in input arrays
@@ -76,7 +76,7 @@ public sealed class GroupByFunction : IFunctionImplementation
         }
 
         // Group by first value in row_fields
-        var groups = new Dictionary<string, List<CellValue>>();
+        var groups = new Dictionary<string, List<FormulaResult>>();
 
         // Determine dimensions - assume row_fields and values are 1D arrays
         var numRows = fieldCount; // Simplified: one row per field value
@@ -100,7 +100,7 @@ public sealed class GroupByFunction : IFunctionImplementation
 
             if (!groups.ContainsKey(key))
             {
-                groups[key] = new List<CellValue>();
+                groups[key] = new List<FormulaResult>();
             }
 
             groups[key].Add(value);
@@ -108,11 +108,11 @@ public sealed class GroupByFunction : IFunctionImplementation
 
         if (groups.Count == 0)
         {
-            return CellValue.Error("#CALC!");
+            return FormulaResult.Error("#CALC!");
         }
 
         // Apply aggregation function to first group
-        List<CellValue>? firstGroup = null;
+        List<FormulaResult>? firstGroup = null;
         foreach (var group in groups.Values)
         {
             firstGroup = group;
@@ -121,7 +121,7 @@ public sealed class GroupByFunction : IFunctionImplementation
 
         if (firstGroup == null)
         {
-            return CellValue.Error("#CALC!");
+            return FormulaResult.Error("#CALC!");
         }
 
         var result = ApplyAggregation(firstGroup, functionType);
@@ -129,37 +129,37 @@ public sealed class GroupByFunction : IFunctionImplementation
         return result;
     }
 
-    private static string CreateKey(CellValue value)
+    private static string CreateKey(FormulaResult value)
     {
         switch (value.Type)
         {
-            case CellValueType.Number:
+            case FormulaResultType.Number:
                 return "N:" + value.NumericValue.ToString();
-            case CellValueType.Text:
+            case FormulaResultType.Text:
                 return "T:" + value.StringValue;
-            case CellValueType.Boolean:
+            case FormulaResultType.Boolean:
                 return "B:" + value.BoolValue.ToString();
-            case CellValueType.Empty:
+            case FormulaResultType.Empty:
                 return "E:";
-            case CellValueType.Error:
+            case FormulaResultType.Error:
                 return "ERR:" + value.ErrorValue;
             default:
                 return "?";
         }
     }
 
-    private static CellValue ApplyAggregation(List<CellValue> values, int functionType)
+    private static FormulaResult ApplyAggregation(List<FormulaResult> values, int functionType)
     {
         if (values.Count == 0)
         {
-            return CellValue.Error("#CALC!");
+            return FormulaResult.Error("#CALC!");
         }
 
         // Extract numeric values
         var numbers = new List<double>();
         foreach (var val in values)
         {
-            if (val.Type == CellValueType.Number)
+            if (val.Type == FormulaResultType.Number)
             {
                 numbers.Add(val.NumericValue);
             }
@@ -171,7 +171,7 @@ public sealed class GroupByFunction : IFunctionImplementation
 
         if (numbers.Count == 0 && functionType != 3) // COUNT can work with non-numeric
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         switch (functionType)
@@ -183,7 +183,7 @@ public sealed class GroupByFunction : IFunctionImplementation
                     {
                         sum += num;
                     }
-                    return CellValue.FromNumber(sum);
+                    return FormulaResult.FromNumber(sum);
                 }
             case 2: // AVERAGE
                 {
@@ -192,10 +192,10 @@ public sealed class GroupByFunction : IFunctionImplementation
                     {
                         sum += num;
                     }
-                    return CellValue.FromNumber(sum / numbers.Count);
+                    return FormulaResult.FromNumber(sum / numbers.Count);
                 }
             case 3: // COUNT
-                return CellValue.FromNumber(values.Count);
+                return FormulaResult.FromNumber(values.Count);
             case 4: // MAX
                 {
                     var max = double.MinValue;
@@ -206,7 +206,7 @@ public sealed class GroupByFunction : IFunctionImplementation
                             max = num;
                         }
                     }
-                    return CellValue.FromNumber(max);
+                    return FormulaResult.FromNumber(max);
                 }
             case 5: // MIN
                 {
@@ -218,10 +218,10 @@ public sealed class GroupByFunction : IFunctionImplementation
                             min = num;
                         }
                     }
-                    return CellValue.FromNumber(min);
+                    return FormulaResult.FromNumber(min);
                 }
             default:
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
         }
     }
 }

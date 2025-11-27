@@ -28,11 +28,11 @@ public sealed class OffsetFunction : IFunctionImplementation
     public string Name => "OFFSET";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract reference (required)
@@ -44,7 +44,7 @@ public sealed class OffsetFunction : IFunctionImplementation
 
         // Get reference as string
         string reference;
-        if (referenceArg.Type == CellValueType.Text)
+        if (referenceArg.Type == FormulaResultType.Text)
         {
             reference = referenceArg.StringValue;
         }
@@ -53,7 +53,7 @@ public sealed class OffsetFunction : IFunctionImplementation
             // If no explicit reference text, use current cell reference from context
             if (context?.CurrentCellReference == null)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             reference = context.CurrentCellReference;
@@ -62,7 +62,7 @@ public sealed class OffsetFunction : IFunctionImplementation
         // Parse the reference to get base row and column
         if (!TryParseCellReference(reference, out var baseCol, out var baseRow))
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // Extract rows offset (required)
@@ -72,9 +72,9 @@ public sealed class OffsetFunction : IFunctionImplementation
             return rowsArg;
         }
 
-        if (rowsArg.Type != CellValueType.Number)
+        if (rowsArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rowsOffset = (int)rowsArg.NumericValue;
@@ -86,9 +86,9 @@ public sealed class OffsetFunction : IFunctionImplementation
             return colsArg;
         }
 
-        if (colsArg.Type != CellValueType.Number)
+        if (colsArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var colsOffset = (int)colsArg.NumericValue;
@@ -103,12 +103,12 @@ public sealed class OffsetFunction : IFunctionImplementation
                 return heightArg;
             }
 
-            if (heightArg.Type == CellValueType.Number)
+            if (heightArg.Type == FormulaResultType.Number)
             {
                 height = (int)heightArg.NumericValue;
                 if (height < 1)
                 {
-                    return CellValue.Error("#REF!");
+                    return FormulaResult.Error("#REF!");
                 }
             }
         }
@@ -123,12 +123,12 @@ public sealed class OffsetFunction : IFunctionImplementation
                 return widthArg;
             }
 
-            if (widthArg.Type == CellValueType.Number)
+            if (widthArg.Type == FormulaResultType.Number)
             {
                 width = (int)widthArg.NumericValue;
                 if (width < 1)
                 {
-                    return CellValue.Error("#REF!");
+                    return FormulaResult.Error("#REF!");
                 }
             }
         }
@@ -141,20 +141,20 @@ public sealed class OffsetFunction : IFunctionImplementation
         // Excel has max 16384 columns (XFD) and 1048576 rows
         if (targetRow < 1 || targetRow > 1048576 || targetCol < 1 || targetCol > 16384)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // Validate that the entire range (if height/width > 1) is within bounds
         if (targetRow + height - 1 > 1048576 || targetCol + width - 1 > 16384)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // For Phase 0: Return the value of the single cell at the offset position
         // In a full implementation, this would return a range reference when height/width > 1
         if (context == null)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var targetReference = GetColumnLetter(targetCol) + targetRow.ToString(CultureInfo.InvariantCulture);

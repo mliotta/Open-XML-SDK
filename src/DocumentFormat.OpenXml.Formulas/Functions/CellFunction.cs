@@ -45,23 +45,23 @@ public sealed class CellFunction : IFunctionImplementation
     public string Name => "CELL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        if (args[0].Type != CellValueType.Text)
+        if (args[0].Type != FormulaResultType.Text)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var infoType = args[0].StringValue.ToLowerInvariant();
 
         // If no reference is provided, use the current cell (context)
         // For this simplified implementation, we'll return default values
-        var reference = args.Length == 2 ? args[1] : CellValue.Empty;
+        var reference = args.Length == 2 ? args[1] : FormulaResult.Empty;
 
         // Check for errors in reference
         if (reference.IsError)
@@ -71,34 +71,34 @@ public sealed class CellFunction : IFunctionImplementation
 
         return infoType switch
         {
-            "address" => CellValue.FromString("$A$1"),
-            "col" => CellValue.FromNumber(1),
-            "color" => CellValue.FromNumber(0),
-            "contents" => reference.Type == CellValueType.Empty ? CellValue.FromString("") : reference,
-            "filename" => CellValue.FromString(""),
-            "format" => CellValue.FromString("G"),
-            "parentheses" => CellValue.FromNumber(0),
-            "prefix" => CellValue.FromString(""),
-            "protect" => CellValue.FromNumber(1),
-            "row" => CellValue.FromNumber(1),
+            "address" => FormulaResult.FromString("$A$1"),
+            "col" => FormulaResult.FromNumber(1),
+            "color" => FormulaResult.FromNumber(0),
+            "contents" => reference.Type == FormulaResultType.Empty ? FormulaResult.FromString("") : reference,
+            "filename" => FormulaResult.FromString(""),
+            "format" => FormulaResult.FromString("G"),
+            "parentheses" => FormulaResult.FromNumber(0),
+            "prefix" => FormulaResult.FromString(""),
+            "protect" => FormulaResult.FromNumber(1),
+            "row" => FormulaResult.FromNumber(1),
             "type" => GetCellType(reference),
-            "width" => CellValue.FromNumber(10),
-            _ => CellValue.Error("#VALUE!"),
+            "width" => FormulaResult.FromNumber(10),
+            _ => FormulaResult.Error("#VALUE!"),
         };
     }
 
-    private static CellValue GetCellType(CellValue value)
+    private static FormulaResult GetCellType(FormulaResult value)
     {
         var typeChar = value.Type switch
         {
-            CellValueType.Empty => "b",
-            CellValueType.Text => "l",
-            CellValueType.Number => "v",
-            CellValueType.Boolean => "v",
-            CellValueType.Error => "v",
+            FormulaResultType.Empty => "b",
+            FormulaResultType.Text => "l",
+            FormulaResultType.Number => "v",
+            FormulaResultType.Boolean => "v",
+            FormulaResultType.Error => "v",
             _ => "b",
         };
 
-        return CellValue.FromString(typeChar);
+        return FormulaResult.FromString(typeChar);
     }
 }

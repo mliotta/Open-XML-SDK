@@ -25,7 +25,7 @@ public sealed class AverageAFunction : IFunctionImplementation
     public string Name => "AVERAGEA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var sum = 0.0;
         var count = 0;
@@ -37,17 +37,17 @@ public sealed class AverageAFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 sum += arg.NumericValue;
                 count++;
             }
-            else if (arg.Type == CellValueType.Boolean)
+            else if (arg.Type == FormulaResultType.Boolean)
             {
                 sum += arg.BoolValue ? 1.0 : 0.0;
                 count++;
             }
-            else if (arg.Type == CellValueType.Text)
+            else if (arg.Type == FormulaResultType.Text)
             {
                 // Text values count as 0
                 sum += 0.0;
@@ -58,9 +58,9 @@ public sealed class AverageAFunction : IFunctionImplementation
 
         if (count == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
-        return CellValue.FromNumber(sum / count);
+        return FormulaResult.FromNumber(sum / count);
     }
 }

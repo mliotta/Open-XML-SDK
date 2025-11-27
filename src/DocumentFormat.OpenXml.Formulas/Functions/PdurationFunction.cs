@@ -25,11 +25,11 @@ public sealed class PdurationFunction : IFunctionImplementation
     public string Name => "PDURATION";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in all arguments
@@ -40,9 +40,9 @@ public sealed class PdurationFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -53,17 +53,17 @@ public sealed class PdurationFunction : IFunctionImplementation
         // Validate arguments
         if (rate <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (pv <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (fv <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Formula: LOG(fv/pv) / LOG(1+rate)
@@ -71,9 +71,9 @@ public sealed class PdurationFunction : IFunctionImplementation
 
         if (double.IsNaN(pduration) || double.IsInfinity(pduration))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(pduration);
+        return FormulaResult.FromNumber(pduration);
     }
 }

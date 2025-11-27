@@ -25,7 +25,7 @@ public sealed class TtestLegacyFunction : IFunctionImplementation
     public string Name => "TTEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // TTEST is identical to T.TEST
         return TTestFunction.Instance.Execute(context, args);

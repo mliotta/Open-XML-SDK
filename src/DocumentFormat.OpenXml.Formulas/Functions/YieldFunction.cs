@@ -25,11 +25,11 @@ public sealed class YieldFunction : IFunctionImplementation
     public string Name => "YIELD";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 6 || args.Length > 7)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,9 +40,9 @@ public sealed class YieldFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -54,17 +54,17 @@ public sealed class YieldFunction : IFunctionImplementation
                 return args[6];
             }
 
-            if (args[6].Type == CellValueType.Number)
+            if (args[6].Type == FormulaResultType.Number)
             {
                 basis = (int)args[6].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -80,12 +80,12 @@ public sealed class YieldFunction : IFunctionImplementation
             // Validate inputs
             if (!DayCountHelper.IsValidFrequency(frequency))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (settlement >= maturity || rate < 0 || pr <= 0 || redemption <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             // Use Newton-Raphson method to solve for yield
@@ -98,13 +98,13 @@ public sealed class YieldFunction : IFunctionImplementation
                 // Calculate price at current yield guess
                 var priceArgs = new[]
                 {
-                    CellValue.FromNumber(settlement.ToOADate()),
-                    CellValue.FromNumber(maturity.ToOADate()),
-                    CellValue.FromNumber(rate),
-                    CellValue.FromNumber(guess),
-                    CellValue.FromNumber(redemption),
-                    CellValue.FromNumber(frequency),
-                    CellValue.FromNumber(basis),
+                    FormulaResult.FromNumber(settlement.ToOADate()),
+                    FormulaResult.FromNumber(maturity.ToOADate()),
+                    FormulaResult.FromNumber(rate),
+                    FormulaResult.FromNumber(guess),
+                    FormulaResult.FromNumber(redemption),
+                    FormulaResult.FromNumber(frequency),
+                    FormulaResult.FromNumber(basis),
                 };
 
                 var priceResult = PriceFunction.Instance.Execute(context, priceArgs);
@@ -119,20 +119,20 @@ public sealed class YieldFunction : IFunctionImplementation
                 // Check for convergence
                 if (System.Math.Abs(priceDiff) < tolerance)
                 {
-                    return CellValue.FromNumber(guess);
+                    return FormulaResult.FromNumber(guess);
                 }
 
                 // Calculate derivative (price change for small yield change)
                 var delta = 0.0001;
                 var priceArgsPlus = new[]
                 {
-                    CellValue.FromNumber(settlement.ToOADate()),
-                    CellValue.FromNumber(maturity.ToOADate()),
-                    CellValue.FromNumber(rate),
-                    CellValue.FromNumber(guess + delta),
-                    CellValue.FromNumber(redemption),
-                    CellValue.FromNumber(frequency),
-                    CellValue.FromNumber(basis),
+                    FormulaResult.FromNumber(settlement.ToOADate()),
+                    FormulaResult.FromNumber(maturity.ToOADate()),
+                    FormulaResult.FromNumber(rate),
+                    FormulaResult.FromNumber(guess + delta),
+                    FormulaResult.FromNumber(redemption),
+                    FormulaResult.FromNumber(frequency),
+                    FormulaResult.FromNumber(basis),
                 };
 
                 var pricePlusResult = PriceFunction.Instance.Execute(context, priceArgsPlus);
@@ -154,16 +154,16 @@ public sealed class YieldFunction : IFunctionImplementation
                 // Keep yield reasonable
                 if (guess < -1 || guess > 10)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
 
             // If we didn't converge, return error
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

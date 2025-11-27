@@ -26,11 +26,11 @@ public sealed class Hex2OctFunction : IFunctionImplementation
     public string Name => "HEX2OCT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 1 || args.Length > 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -43,7 +43,7 @@ public sealed class Hex2OctFunction : IFunctionImplementation
         // Validate hex string length (max 10 characters for 40-bit)
         if (hexString.Length > 10)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Validate hex string contains only valid hex characters
@@ -51,7 +51,7 @@ public sealed class Hex2OctFunction : IFunctionImplementation
         {
             if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f')))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -63,21 +63,21 @@ public sealed class Hex2OctFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             places = (int)System.Math.Floor(args[1].NumericValue);
 
             if (places < 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (places > 10)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
         }
 
@@ -112,17 +112,17 @@ public sealed class Hex2OctFunction : IFunctionImplementation
             {
                 if (octalString.Length > places)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
 
                 octalString = octalString.PadLeft(places, '0');
             }
 
-            return CellValue.FromString(octalString);
+            return FormulaResult.FromString(octalString);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

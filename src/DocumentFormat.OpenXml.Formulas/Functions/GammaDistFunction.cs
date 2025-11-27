@@ -24,11 +24,11 @@ public sealed class GammaDistFunction : IFunctionImplementation
     public string Name => "GAMMA.DIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,54 +41,54 @@ public sealed class GammaDistFunction : IFunctionImplementation
         }
 
         // Get x value
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double x = args[0].NumericValue;
 
         if (x < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get alpha (shape parameter)
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double alpha = args[1].NumericValue;
 
         if (alpha <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get beta (scale parameter)
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double beta = args[2].NumericValue;
 
         if (beta <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get cumulative flag
         bool cumulative;
-        if (args[3].Type == CellValueType.Boolean)
+        if (args[3].Type == FormulaResultType.Boolean)
         {
             cumulative = args[3].BoolValue;
         }
-        else if (args[3].Type == CellValueType.Number)
+        else if (args[3].Type == FormulaResultType.Number)
         {
             cumulative = args[3].NumericValue != 0;
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -105,11 +105,11 @@ public sealed class GammaDistFunction : IFunctionImplementation
                 if (x == 0.0)
                 {
                     if (alpha < 1.0)
-                        return CellValue.FromNumber(double.PositiveInfinity);
+                        return FormulaResult.FromNumber(double.PositiveInfinity);
                     else if (alpha == 1.0)
-                        return CellValue.FromNumber(1.0 / beta);
+                        return FormulaResult.FromNumber(1.0 / beta);
                     else
-                        return CellValue.FromNumber(0.0);
+                        return FormulaResult.FromNumber(0.0);
                 }
 
                 double logPdf = (alpha - 1.0) * System.Math.Log(x) - x / beta -
@@ -117,11 +117,11 @@ public sealed class GammaDistFunction : IFunctionImplementation
                 result = System.Math.Exp(logPdf);
             }
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

@@ -21,15 +21,15 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromString("A"),
-            CellValue.FromBool(false),
-            CellValue.FromString("B"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("A", result.StringValue);
     }
 
@@ -39,15 +39,15 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(false),
-            CellValue.FromString("A"),
-            CellValue.FromBool(true),
-            CellValue.FromString("B"),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("B", result.StringValue);
     }
 
@@ -57,19 +57,19 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(95),
-            CellValue.FromString("A"),
-            CellValue.FromNumber(85),
-            CellValue.FromString("B"),
-            CellValue.FromNumber(75),
-            CellValue.FromString("C"),
-            CellValue.FromBool(true),
-            CellValue.FromString("F"),
+            FormulaResult.FromNumber(95),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(85),
+            FormulaResult.FromString("B"),
+            FormulaResult.FromNumber(75),
+            FormulaResult.FromString("C"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("F"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("A", result.StringValue);
     }
 
@@ -79,10 +79,10 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(false),
-            CellValue.FromString("A"),
-            CellValue.FromBool(false),
-            CellValue.FromString("B"),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -97,15 +97,15 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromString("Zero"),
-            CellValue.FromBool(true),
-            CellValue.FromString("True"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromString("Zero"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("True"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("True", result.StringValue);
     }
 
@@ -115,15 +115,15 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString("NonZero"),
-            CellValue.FromBool(true),
-            CellValue.FromString("True"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("NonZero"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("True"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("NonZero", result.StringValue);
     }
 
@@ -133,15 +133,15 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.FromString("Text Found"),
-            CellValue.FromBool(true),
-            CellValue.FromString("Default"),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString("Text Found"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("Default"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Text Found", result.StringValue);
     }
 
@@ -151,15 +151,15 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
-            CellValue.FromString("Empty"),
-            CellValue.FromBool(true),
-            CellValue.FromString("Default"),
+            FormulaResult.FromString(string.Empty),
+            FormulaResult.FromString("Empty"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("Default"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Default", result.StringValue);
     }
 
@@ -169,10 +169,10 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromString("A"),
-            CellValue.FromBool(true),
-            CellValue.FromString("B"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -187,10 +187,10 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.Error("#REF!"),
-            CellValue.FromBool(true),
-            CellValue.FromString("B"),
+            FormulaResult.FromBool(true),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("B"),
         };
 
         var result = func.Execute(null!, args);
@@ -205,9 +205,9 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromString("A"),
-            CellValue.FromBool(false),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
@@ -222,7 +222,7 @@ public class LogicalFlowFunctionTests
         var func = IfsFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -235,7 +235,7 @@ public class LogicalFlowFunctionTests
     public void Ifs_NoArguments_ReturnsError()
     {
         var func = IfsFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -253,16 +253,16 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
-            CellValue.FromString("One"),
-            CellValue.FromNumber(2),
-            CellValue.FromString("Two"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("One"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("Two"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("One", result.StringValue);
     }
 
@@ -272,16 +272,16 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(1),
-            CellValue.FromString("One"),
-            CellValue.FromNumber(2),
-            CellValue.FromString("Two"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("One"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("Two"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Two", result.StringValue);
     }
 
@@ -291,16 +291,16 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Fruit"),
-            CellValue.FromString("Carrot"),
-            CellValue.FromString("Vegetable"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Fruit"),
+            FormulaResult.FromString("Carrot"),
+            FormulaResult.FromString("Vegetable"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Fruit", result.StringValue);
     }
 
@@ -310,16 +310,16 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("APPLE"),
-            CellValue.FromString("apple"),
-            CellValue.FromString("Fruit"),
-            CellValue.FromString("Carrot"),
-            CellValue.FromString("Vegetable"),
+            FormulaResult.FromString("APPLE"),
+            FormulaResult.FromString("apple"),
+            FormulaResult.FromString("Fruit"),
+            FormulaResult.FromString("Carrot"),
+            FormulaResult.FromString("Vegetable"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Fruit", result.StringValue);
     }
 
@@ -329,17 +329,17 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(1),
-            CellValue.FromString("One"),
-            CellValue.FromNumber(2),
-            CellValue.FromString("Two"),
-            CellValue.FromString("Other"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("One"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("Two"),
+            FormulaResult.FromString("Other"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Other", result.StringValue);
     }
 
@@ -349,11 +349,11 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(1),
-            CellValue.FromString("One"),
-            CellValue.FromNumber(2),
-            CellValue.FromString("Two"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("One"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("Two"),
         };
 
         var result = func.Execute(null!, args);
@@ -368,16 +368,16 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
-            CellValue.FromString("Yes"),
-            CellValue.FromBool(false),
-            CellValue.FromString("No"),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromString("Yes"),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromString("No"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Yes", result.StringValue);
     }
 
@@ -387,15 +387,15 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromString("1"),
-            CellValue.FromString("Text One"),
-            CellValue.FromString("Default"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("1"),
+            FormulaResult.FromString("Text One"),
+            FormulaResult.FromString("Default"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Default", result.StringValue);
     }
 
@@ -405,9 +405,9 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(1),
-            CellValue.FromString("One"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("One"),
         };
 
         var result = func.Execute(null!, args);
@@ -422,9 +422,9 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.Error("#REF!"),
-            CellValue.FromString("One"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromString("One"),
         };
 
         var result = func.Execute(null!, args);
@@ -439,9 +439,9 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
-            CellValue.Error("#N/A"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(null!, args);
@@ -456,10 +456,10 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(1),
-            CellValue.FromString("One"),
-            CellValue.Error("#VALUE!"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("One"),
+            FormulaResult.Error("#VALUE!"),
         };
 
         var result = func.Execute(null!, args);
@@ -474,8 +474,8 @@ public class LogicalFlowFunctionTests
         var func = SwitchFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -488,7 +488,7 @@ public class LogicalFlowFunctionTests
     public void Switch_NoArguments_ReturnsError()
     {
         var func = SwitchFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -504,11 +504,11 @@ public class LogicalFlowFunctionTests
     public void True_NoArguments_ReturnsTrue()
     {
         var func = TrueFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -516,7 +516,7 @@ public class LogicalFlowFunctionTests
     public void True_WithArguments_ReturnsError()
     {
         var func = TrueFunction.Instance;
-        var args = new[] { CellValue.FromNumber(1) };
+        var args = new[] { FormulaResult.FromNumber(1) };
 
         var result = func.Execute(null!, args);
 
@@ -532,11 +532,11 @@ public class LogicalFlowFunctionTests
     public void False_NoArguments_ReturnsFalse()
     {
         var func = FalseFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -544,7 +544,7 @@ public class LogicalFlowFunctionTests
     public void False_WithArguments_ReturnsError()
     {
         var func = FalseFunction.Instance;
-        var args = new[] { CellValue.FromNumber(1) };
+        var args = new[] { FormulaResult.FromNumber(1) };
 
         var result = func.Execute(null!, args);
 
@@ -562,13 +562,13 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromBool(false),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -578,13 +578,13 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -594,14 +594,14 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -611,15 +611,15 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -629,14 +629,14 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(false),
-            CellValue.FromBool(false),
-            CellValue.FromBool(false),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromBool(false),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -646,13 +646,13 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -662,13 +662,13 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -678,13 +678,13 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.FromBool(false),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -694,13 +694,13 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(string.Empty),
-            CellValue.FromBool(false),
+            FormulaResult.FromString(string.Empty),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -710,16 +710,16 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromNumber(5),
-            CellValue.FromString("Text"),
-            CellValue.FromBool(false),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("Text"),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
         // 3 true values (odd), should return TRUE
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -729,9 +729,9 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromBool(false),
+            FormulaResult.FromBool(true),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
@@ -744,7 +744,7 @@ public class LogicalFlowFunctionTests
     public void Xor_NoArguments_ReturnsError()
     {
         var func = XorFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -758,12 +758,12 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -773,12 +773,12 @@ public class LogicalFlowFunctionTests
         var func = XorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(false),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 

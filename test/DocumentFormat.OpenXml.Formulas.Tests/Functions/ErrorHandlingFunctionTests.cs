@@ -19,13 +19,13 @@ public class ErrorHandlingFunctionTests
         var func = IFErrorFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(0),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -35,13 +35,13 @@ public class ErrorHandlingFunctionTests
         var func = IFErrorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(42),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(42.0, result.NumericValue);
     }
 
@@ -51,13 +51,13 @@ public class ErrorHandlingFunctionTests
         var func = IFErrorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
-            CellValue.FromString("Error"),
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString("Error"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Hello", result.StringValue);
     }
 
@@ -67,7 +67,7 @@ public class ErrorHandlingFunctionTests
         var func = IFErrorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
@@ -82,12 +82,12 @@ public class ErrorHandlingFunctionTests
         var func = IsErrorFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -97,12 +97,12 @@ public class ErrorHandlingFunctionTests
         var func = IsErrorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -112,12 +112,12 @@ public class ErrorHandlingFunctionTests
         var func = IsErrorFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -127,12 +127,12 @@ public class ErrorHandlingFunctionTests
         var func = IsNaFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -142,12 +142,12 @@ public class ErrorHandlingFunctionTests
         var func = IsNaFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -157,12 +157,12 @@ public class ErrorHandlingFunctionTests
         var func = IsNaFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -172,12 +172,12 @@ public class ErrorHandlingFunctionTests
         var func = IsErrFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -187,12 +187,12 @@ public class ErrorHandlingFunctionTests
         var func = IsErrFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#N/A"),
+            FormulaResult.Error("#N/A"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -202,12 +202,12 @@ public class ErrorHandlingFunctionTests
         var func = IsErrFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -217,12 +217,12 @@ public class ErrorHandlingFunctionTests
         var func = IsErrFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#VALUE!"),
+            FormulaResult.Error("#VALUE!"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -232,12 +232,12 @@ public class ErrorHandlingFunctionTests
         var func = IsBlankFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
+            FormulaResult.Empty,
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -247,12 +247,12 @@ public class ErrorHandlingFunctionTests
         var func = IsBlankFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -262,12 +262,12 @@ public class ErrorHandlingFunctionTests
         var func = IsBlankFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString(""),
+            FormulaResult.FromString(""),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -277,12 +277,12 @@ public class ErrorHandlingFunctionTests
         var func = IsBlankFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Hello"),
+            FormulaResult.FromString("Hello"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.False(result.BoolValue);
     }
 
@@ -292,8 +292,8 @@ public class ErrorHandlingFunctionTests
         var func = IsBlankFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
-            CellValue.Empty,
+            FormulaResult.Empty,
+            FormulaResult.Empty,
         };
 
         var result = func.Execute(null!, args);
@@ -308,8 +308,8 @@ public class ErrorHandlingFunctionTests
         var func = IsErrorFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);

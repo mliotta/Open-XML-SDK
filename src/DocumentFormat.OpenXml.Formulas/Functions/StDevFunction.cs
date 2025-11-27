@@ -27,7 +27,7 @@ public sealed class StDevFunction : IFunctionImplementation
     public string Name => "STDEV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var values = new List<double>();
 
@@ -38,7 +38,7 @@ public sealed class StDevFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
@@ -46,7 +46,7 @@ public sealed class StDevFunction : IFunctionImplementation
 
         if (values.Count < 2)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate mean
@@ -59,6 +59,6 @@ public sealed class StDevFunction : IFunctionImplementation
         // Standard deviation is square root of variance
         var stdev = System.Math.Sqrt(variance);
 
-        return CellValue.FromNumber(stdev);
+        return FormulaResult.FromNumber(stdev);
     }
 }

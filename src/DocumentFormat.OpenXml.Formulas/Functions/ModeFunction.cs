@@ -26,7 +26,7 @@ public sealed class ModeFunction : IFunctionImplementation
     public string Name => "MODE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var values = new List<double>();
 
@@ -37,7 +37,7 @@ public sealed class ModeFunction : IFunctionImplementation
                 return arg; // Propagate errors
             }
 
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 values.Add(arg.NumericValue);
             }
@@ -45,7 +45,7 @@ public sealed class ModeFunction : IFunctionImplementation
 
         if (values.Count == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Group by value and find the most frequent
@@ -58,9 +58,9 @@ public sealed class ModeFunction : IFunctionImplementation
         if (mostFrequent == null || mostFrequent.Count() < 2)
         {
             // MODE requires at least one value to appear more than once
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
-        return CellValue.FromNumber(mostFrequent.Key);
+        return FormulaResult.FromNumber(mostFrequent.Key);
     }
 }

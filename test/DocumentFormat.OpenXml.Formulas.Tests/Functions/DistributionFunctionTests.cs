@@ -20,14 +20,14 @@ public class DistributionFunctionTests
         var func = TDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(10),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.5, result.NumericValue, 5);
     }
 
@@ -37,14 +37,14 @@ public class DistributionFunctionTests
         var func = TDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(10),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // PDF at 0 with df=10 should be approximately 0.3891
         Assert.InRange(result.NumericValue, 0.38, 0.40);
     }
@@ -55,13 +55,13 @@ public class DistributionFunctionTests
         var func = TDistRTFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.812),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1.812),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Right tail for t=1.812, df=10 should be approximately 0.05
         Assert.InRange(result.NumericValue, 0.04, 0.06);
     }
@@ -72,13 +72,13 @@ public class DistributionFunctionTests
         var func = TDist2TFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.812),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1.812),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Two-tailed for t=1.812, df=10 should be approximately 0.10
         Assert.InRange(result.NumericValue, 0.08, 0.12);
     }
@@ -89,13 +89,13 @@ public class DistributionFunctionTests
         var func = TInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue, 5);
     }
 
@@ -105,13 +105,13 @@ public class DistributionFunctionTests
         var func = TInv2TFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Two-tailed critical value for alpha=0.05, df=10 is approximately 2.228
         Assert.InRange(result.NumericValue, 2.1, 2.3);
     }
@@ -123,14 +123,14 @@ public class DistributionFunctionTests
         var func = TDistLegacyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1.5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.InRange(result.NumericValue, 0.05, 0.10);
     }
 
@@ -140,13 +140,13 @@ public class DistributionFunctionTests
         var func = TInvLegacyFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.InRange(result.NumericValue, 2.1, 2.3);
     }
 
@@ -157,14 +157,14 @@ public class DistributionFunctionTests
         var func = ChiSqDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(5),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // CDF at x=5, df=5 should be approximately 0.584
         Assert.InRange(result.NumericValue, 0.55, 0.62);
     }
@@ -175,13 +175,13 @@ public class DistributionFunctionTests
         var func = ChiSqDistRTFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(11.07),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(11.07),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Right tail for chi-square=11.07, df=5 should be approximately 0.05
         Assert.InRange(result.NumericValue, 0.04, 0.06);
     }
@@ -192,13 +192,13 @@ public class DistributionFunctionTests
         var func = ChiSqInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Median of chi-square with df=5 is approximately 4.35
         Assert.InRange(result.NumericValue, 4.0, 4.7);
     }
@@ -209,13 +209,13 @@ public class DistributionFunctionTests
         var func = ChiSqInvRTFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Critical value for right-tail 0.05, df=5 is approximately 11.07
         Assert.InRange(result.NumericValue, 10.5, 11.5);
     }
@@ -227,15 +227,15 @@ public class DistributionFunctionTests
         var func = FDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // CDF should be between 0 and 1
         Assert.InRange(result.NumericValue, 0.7, 0.9);
     }
@@ -246,14 +246,14 @@ public class DistributionFunctionTests
         var func = FDistRTFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3.33),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(3.33),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Right tail should be approximately 0.05 for critical value
         Assert.InRange(result.NumericValue, 0.04, 0.07);
     }
@@ -264,14 +264,14 @@ public class DistributionFunctionTests
         var func = FInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Median should be close to 1
         Assert.InRange(result.NumericValue, 0.8, 1.2);
     }
@@ -282,14 +282,14 @@ public class DistributionFunctionTests
         var func = FInvRTFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Critical value for alpha=0.05, df1=5, df2=10 is approximately 3.33
         Assert.InRange(result.NumericValue, 3.0, 3.6);
     }
@@ -301,15 +301,15 @@ public class DistributionFunctionTests
         var func = BetaDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // For symmetric beta(2,2), CDF at 0.5 should be 0.5
         Assert.Equal(0.5, result.NumericValue, 2);
     }
@@ -320,15 +320,15 @@ public class DistributionFunctionTests
         var func = BetaDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // PDF for beta(2,2) at 0.5 is 1.5
         Assert.Equal(1.5, result.NumericValue, 2);
     }
@@ -339,17 +339,17 @@ public class DistributionFunctionTests
         var func = BetaDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
-            CellValue.FromBool(true),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // x=5 in [0,10] maps to 0.5 in [0,1]
         Assert.Equal(0.5, result.NumericValue, 2);
     }
@@ -360,14 +360,14 @@ public class DistributionFunctionTests
         var func = BetaInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // For symmetric beta(2,2), inverse at 0.5 should be 0.5
         Assert.Equal(0.5, result.NumericValue, 2);
     }
@@ -379,15 +379,15 @@ public class DistributionFunctionTests
         var func = LogNormDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Lognormal CDF at x=1, mean=0, sd=1 should be 0.5
         Assert.Equal(0.5, result.NumericValue, 5);
     }
@@ -398,15 +398,15 @@ public class DistributionFunctionTests
         var func = LogNormDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // PDF at x=1, mean=0, sd=1 is 1/sqrt(2*pi) ≈ 0.3989
         Assert.InRange(result.NumericValue, 0.35, 0.42);
     }
@@ -417,14 +417,14 @@ public class DistributionFunctionTests
         var func = LogNormInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(0.5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // At median probability, should return exp(mean) = exp(2) ≈ 7.389
         Assert.InRange(result.NumericValue, 7.0, 7.8);
     }
@@ -436,9 +436,9 @@ public class DistributionFunctionTests
         var func = TDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(-1),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -453,8 +453,8 @@ public class DistributionFunctionTests
         var func = ChiSqInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.5),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(1.5),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
@@ -469,12 +469,12 @@ public class DistributionFunctionTests
         var func = BetaDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
-            CellValue.FromBool(true),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -489,10 +489,10 @@ public class DistributionFunctionTests
         var func = LogNormDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-1),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);

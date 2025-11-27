@@ -34,11 +34,11 @@ public sealed class AggregateFunction : IFunctionImplementation
     public string Name => "AGGREGATE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First argument is the function number
@@ -48,9 +48,9 @@ public sealed class AggregateFunction : IFunctionImplementation
             return functionNumArg;
         }
 
-        if (functionNumArg.Type != CellValueType.Number)
+        if (functionNumArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var functionNum = (int)functionNumArg.NumericValue;
@@ -62,15 +62,15 @@ public sealed class AggregateFunction : IFunctionImplementation
             return optionsArg;
         }
 
-        if (optionsArg.Type != CellValueType.Number)
+        if (optionsArg.Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var options = (int)optionsArg.NumericValue;
         if (options < 0 || options > 7)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Get the data arguments (skip function number and options)
@@ -93,14 +93,14 @@ public sealed class AggregateFunction : IFunctionImplementation
         // For functions that require additional arguments (LARGE, SMALL, PERCENTILE, QUARTILE),
         // the last argument is the k value
         var requiresK = functionNum >= 14 && functionNum <= 19;
-        CellValue[]? valueArgs = null;
-        CellValue? kArg = null;
+        FormulaResult[]? valueArgs = null;
+        FormulaResult? kArg = null;
 
         if (requiresK)
         {
             if (dataArgs.Length < 2)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
             kArg = dataArgs[dataArgs.Length - 1];
             valueArgs = dataArgs.Take(dataArgs.Length - 1).ToArray();
@@ -132,7 +132,7 @@ public sealed class AggregateFunction : IFunctionImplementation
             17 => QuartileFunction.Instance.Execute(context, new[] { valueArgs[0], kArg!.Value }),
             18 => PercentileFunction.Instance.Execute(context, new[] { valueArgs[0], kArg!.Value }), // EXC variant not implemented, using INC
             19 => QuartileFunction.Instance.Execute(context, new[] { valueArgs[0], kArg!.Value }), // EXC variant not implemented, using INC
-            _ => CellValue.Error("#VALUE!")
+            _ => FormulaResult.Error("#VALUE!")
         };
     }
 }

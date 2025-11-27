@@ -29,11 +29,11 @@ public sealed class SequenceFunction : IFunctionImplementation
     public string Name => "SEQUENCE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in first argument
@@ -42,15 +42,15 @@ public sealed class SequenceFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rows = (int)args[0].NumericValue;
         if (rows <= 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse optional columns parameter
@@ -62,15 +62,15 @@ public sealed class SequenceFunction : IFunctionImplementation
                 return args[1];
             }
 
-            if (args[1].Type != CellValueType.Number)
+            if (args[1].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             columns = (int)args[1].NumericValue;
             if (columns <= 0)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -83,9 +83,9 @@ public sealed class SequenceFunction : IFunctionImplementation
                 return args[2];
             }
 
-            if (args[2].Type != CellValueType.Number)
+            if (args[2].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             start = args[2].NumericValue;
@@ -100,9 +100,9 @@ public sealed class SequenceFunction : IFunctionImplementation
                 return args[3];
             }
 
-            if (args[3].Type != CellValueType.Number)
+            if (args[3].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             step = args[3].NumericValue;
@@ -112,18 +112,18 @@ public sealed class SequenceFunction : IFunctionImplementation
         var totalCells = rows * columns;
         if (totalCells > 1000000) // 1 million cell limit
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Generate sequence
-        var sequence = new CellValue[totalCells];
+        var sequence = new FormulaResult[totalCells];
         var currentValue = start;
 
         for (var row = 0; row < rows; row++)
         {
             for (var col = 0; col < columns; col++)
             {
-                sequence[row * columns + col] = CellValue.FromNumber(currentValue);
+                sequence[row * columns + col] = FormulaResult.FromNumber(currentValue);
                 currentValue += step;
             }
         }

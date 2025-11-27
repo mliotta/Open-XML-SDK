@@ -26,10 +26,10 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -43,10 +43,10 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(52.0, result.NumericValue);
     }
 
@@ -60,10 +60,10 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.True(result.NumericValue >= 28 && result.NumericValue <= 30);
     }
 
@@ -73,14 +73,14 @@ public class DateTimeIntlFunctionTests
         var func = IsoweeknumFunction.Instance;
 
         // Wrong number of arguments
-        var result1 = func.Execute(null!, Array.Empty<CellValue>());
+        var result1 = func.Execute(null!, Array.Empty<FormulaResult>());
         Assert.True(result1.IsError);
         Assert.Equal("#VALUE!", result1.ErrorValue);
 
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
         Assert.True(result2.IsError);
         Assert.Equal("#VALUE!", result2.ErrorValue);
@@ -93,7 +93,7 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.Error("#DIV/0!"),
+            FormulaResult.Error("#DIV/0!"),
         });
 
         Assert.True(result.IsError);
@@ -115,11 +115,11 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(expectedDate, result.NumericValue);
     }
 
@@ -134,12 +134,12 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2), // Weekend type 2 = Sunday-Monday
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2), // Weekend type 2 = Sunday-Monday
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(expectedDate, result.NumericValue);
     }
 
@@ -154,12 +154,12 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(11), // Weekend type 11 = Sunday only
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(11), // Weekend type 11 = Sunday only
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(expectedDate, result.NumericValue);
     }
 
@@ -174,12 +174,12 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
-            CellValue.FromString("1000000"), // Sunday only
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("1000000"), // Sunday only
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(expectedDate, result.NumericValue);
     }
 
@@ -194,11 +194,11 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(-1),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(expectedDate, result.NumericValue);
     }
 
@@ -214,13 +214,13 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1), // Default weekend
-            CellValue.FromNumber(holiday),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1), // Default weekend
+            FormulaResult.FromNumber(holiday),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(expectedDate, result.NumericValue);
     }
 
@@ -233,9 +233,9 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(18), // Invalid weekend type
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(18), // Invalid weekend type
         });
 
         Assert.True(result.IsError);
@@ -252,9 +252,9 @@ public class DateTimeIntlFunctionTests
         // Wrong length
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
-            CellValue.FromString("10000"), // Too short
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("10000"), // Too short
         });
         Assert.True(result1.IsError);
         Assert.Equal("#VALUE!", result1.ErrorValue);
@@ -262,9 +262,9 @@ public class DateTimeIntlFunctionTests
         // Invalid characters
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(1),
-            CellValue.FromString("1234567"), // Invalid chars
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("1234567"), // Invalid chars
         });
         Assert.True(result2.IsError);
         Assert.Equal("#VALUE!", result2.ErrorValue);
@@ -285,11 +285,11 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
         });
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -305,8 +305,8 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
         });
 
         Assert.Equal(5.0, result.NumericValue);
@@ -324,9 +324,9 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(11), // Weekend type 11 = Sunday only
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(11), // Weekend type 11 = Sunday only
         });
 
         Assert.Equal(6.0, result.NumericValue);
@@ -344,9 +344,9 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromString("0000011"), // Friday-Saturday weekend
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromString("0000011"), // Friday-Saturday weekend
         });
 
         Assert.Equal(4.0, result.NumericValue);
@@ -363,8 +363,8 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
         });
 
         Assert.Equal(-5.0, result.NumericValue);
@@ -382,10 +382,10 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(1), // Default weekend
-            CellValue.FromNumber(holiday),
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(1), // Default weekend
+            FormulaResult.FromNumber(holiday),
         });
 
         Assert.Equal(4.0, result.NumericValue);
@@ -401,8 +401,8 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -418,8 +418,8 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(date),
-            CellValue.FromNumber(date),
+            FormulaResult.FromNumber(date),
+            FormulaResult.FromNumber(date),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -435,9 +435,9 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(startDate),
-            CellValue.FromNumber(endDate),
-            CellValue.FromNumber(0), // Invalid weekend type
+            FormulaResult.FromNumber(startDate),
+            FormulaResult.FromNumber(endDate),
+            FormulaResult.FromNumber(0), // Invalid weekend type
         });
 
         Assert.True(result.IsError);
@@ -452,7 +452,7 @@ public class DateTimeIntlFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
+            FormulaResult.FromNumber(44927),
         });
         Assert.True(result1.IsError);
         Assert.Equal("#VALUE!", result1.ErrorValue);
@@ -460,8 +460,8 @@ public class DateTimeIntlFunctionTests
         // Non-numeric date argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(44927),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(44927),
         });
         Assert.True(result2.IsError);
         Assert.Equal("#VALUE!", result2.ErrorValue);
@@ -474,8 +474,8 @@ public class DateTimeIntlFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(44927),
-            CellValue.Error("#REF!"),
+            FormulaResult.FromNumber(44927),
+            FormulaResult.Error("#REF!"),
         });
 
         Assert.True(result.IsError);

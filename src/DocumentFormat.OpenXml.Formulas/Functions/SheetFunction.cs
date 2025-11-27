@@ -25,14 +25,14 @@ public sealed class SheetFunction : IFunctionImplementation
     public string Name => "SHEET";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
             // Return the current sheet number (1-indexed)
             // Note: This requires context to know which sheet we're on
             // For now, we'll return 1 as the default
-            return CellValue.FromNumber(1);
+            return FormulaResult.FromNumber(1);
         }
 
         var reference = args[0];
@@ -45,6 +45,6 @@ public sealed class SheetFunction : IFunctionImplementation
 
         // If a reference is provided, we would need to parse it and determine the sheet
         // For now, return 1 as a default
-        return CellValue.FromNumber(1);
+        return FormulaResult.FromNumber(1);
     }
 }

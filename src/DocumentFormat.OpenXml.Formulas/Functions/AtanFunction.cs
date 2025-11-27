@@ -25,11 +25,11 @@ public sealed class AtanFunction : IFunctionImplementation
     public string Name => "ATAN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,12 +37,12 @@ public sealed class AtanFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var result = System.Math.Atan(args[0].NumericValue);
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

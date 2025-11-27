@@ -28,11 +28,11 @@ public sealed class ForecastFunction : IFunctionImplementation
     public string Name => "FORECAST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Propagate errors
@@ -52,9 +52,9 @@ public sealed class ForecastFunction : IFunctionImplementation
         }
 
         // Get x value for prediction
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var x = args[0].NumericValue;
@@ -63,13 +63,13 @@ public sealed class ForecastFunction : IFunctionImplementation
         var xValues = new List<double>();
 
         // Extract numeric values from known_y's
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             yValues.Add(args[1].NumericValue);
         }
 
         // Extract numeric values from known_x's
-        if (args[2].Type == CellValueType.Number)
+        if (args[2].Type == FormulaResultType.Number)
         {
             xValues.Add(args[2].NumericValue);
         }
@@ -77,19 +77,19 @@ public sealed class ForecastFunction : IFunctionImplementation
         // Arrays must have same length
         if (yValues.Count != xValues.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Need at least 1 data point (Excel allows single point forecasting)
         if (yValues.Count < 1)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // If only one data point, return its y value
         if (yValues.Count == 1)
         {
-            return CellValue.FromNumber(yValues[0]);
+            return FormulaResult.FromNumber(yValues[0]);
         }
 
         // Calculate means
@@ -113,7 +113,7 @@ public sealed class ForecastFunction : IFunctionImplementation
         // Check for division by zero (no variance in x)
         if (sumSquaresX == 0.0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         var slope = sumProduct / sumSquaresX;
@@ -122,6 +122,6 @@ public sealed class ForecastFunction : IFunctionImplementation
         // Calculate forecast: y = a + bx
         var forecast = intercept + (slope * x);
 
-        return CellValue.FromNumber(forecast);
+        return FormulaResult.FromNumber(forecast);
     }
 }

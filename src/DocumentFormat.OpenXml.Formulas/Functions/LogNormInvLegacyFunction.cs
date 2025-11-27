@@ -25,7 +25,7 @@ public sealed class LogNormInvLegacyFunction : IFunctionImplementation
     public string Name => "LOGINV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // LOGINV has the same signature as LOGNORM.INV
         // Delegate directly to LOGNORM.INV

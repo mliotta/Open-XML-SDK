@@ -24,11 +24,11 @@ public sealed class ExponDistFunction : IFunctionImplementation
     public string Name => "EXPON.DIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,42 +41,42 @@ public sealed class ExponDistFunction : IFunctionImplementation
         }
 
         // Get x value
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double x = args[0].NumericValue;
 
         if (x < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get lambda (rate parameter)
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double lambda = args[1].NumericValue;
 
         if (lambda <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get cumulative flag
         bool cumulative;
-        if (args[2].Type == CellValueType.Boolean)
+        if (args[2].Type == FormulaResultType.Boolean)
         {
             cumulative = args[2].BoolValue;
         }
-        else if (args[2].Type == CellValueType.Number)
+        else if (args[2].Type == FormulaResultType.Number)
         {
             cumulative = args[2].NumericValue != 0;
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         double result;
@@ -91,6 +91,6 @@ public sealed class ExponDistFunction : IFunctionImplementation
             result = lambda * System.Math.Exp(-lambda * x);
         }
 
-        return CellValue.FromNumber(result);
+        return FormulaResult.FromNumber(result);
     }
 }

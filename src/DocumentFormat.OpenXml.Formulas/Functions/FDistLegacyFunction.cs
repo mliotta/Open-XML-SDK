@@ -25,7 +25,7 @@ public sealed class FDistLegacyFunction : IFunctionImplementation
     public string Name => "FDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // FDIST is equivalent to F.DIST.RT
         return FDistRTFunction.Instance.Execute(context, args);

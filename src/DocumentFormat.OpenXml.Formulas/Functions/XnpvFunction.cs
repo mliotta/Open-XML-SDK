@@ -25,7 +25,7 @@ public sealed class XnpvFunction : IFunctionImplementation
     public string Name => "XNPV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // XNPV can be called with:
         // 1. Three arguments: rate, values_range, dates_range (proper Excel usage)
@@ -34,7 +34,7 @@ public sealed class XnpvFunction : IFunctionImplementation
 
         if (args.Length < 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in rate argument
@@ -44,9 +44,9 @@ public sealed class XnpvFunction : IFunctionImplementation
         }
 
         // Validate rate argument is a number
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var rate = args[0].NumericValue;
@@ -58,7 +58,7 @@ public sealed class XnpvFunction : IFunctionImplementation
         // Otherwise, expect pairs of (value, date)
         if (remainingArgs % 2 != 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var pairCount = remainingArgs / 2;
@@ -81,9 +81,9 @@ public sealed class XnpvFunction : IFunctionImplementation
                 return args[dateIdx];
             }
 
-            if (args[valueIdx].Type != CellValueType.Number || args[dateIdx].Type != CellValueType.Number)
+            if (args[valueIdx].Type != FormulaResultType.Number || args[dateIdx].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             values[i] = args[valueIdx].NumericValue;
@@ -92,7 +92,7 @@ public sealed class XnpvFunction : IFunctionImplementation
 
         if (pairCount == 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // XNPV formula: Σ(value[i] / (1 + rate)^((date[i] - date[0]) / 365))
@@ -107,7 +107,7 @@ public sealed class XnpvFunction : IFunctionImplementation
 
             if (double.IsInfinity(discountFactor) || double.IsNaN(discountFactor) || discountFactor == 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             xnpv += values[i] / discountFactor;
@@ -115,9 +115,9 @@ public sealed class XnpvFunction : IFunctionImplementation
 
         if (double.IsNaN(xnpv) || double.IsInfinity(xnpv))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(xnpv);
+        return FormulaResult.FromNumber(xnpv);
     }
 }

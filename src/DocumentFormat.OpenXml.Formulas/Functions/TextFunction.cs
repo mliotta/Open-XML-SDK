@@ -26,11 +26,11 @@ public sealed class TextFunction : IFunctionImplementation
     public string Name => "TEXT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -48,17 +48,17 @@ public sealed class TextFunction : IFunctionImplementation
 
         // Convert value to number if possible
         double number;
-        if (value.Type == CellValueType.Number)
+        if (value.Type == FormulaResultType.Number)
         {
             number = value.NumericValue;
         }
-        else if (value.Type == CellValueType.Text && double.TryParse(value.StringValue, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsed))
+        else if (value.Type == FormulaResultType.Text && double.TryParse(value.StringValue, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsed))
         {
             number = parsed;
         }
         else
         {
-            return CellValue.FromString(value.StringValue);
+            return FormulaResult.FromString(value.StringValue);
         }
 
         // Basic format handling
@@ -99,12 +99,12 @@ public sealed class TextFunction : IFunctionImplementation
                 result += "%";
             }
 
-            return CellValue.FromString(result);
+            return FormulaResult.FromString(result);
         }
         catch
         {
             // If format fails, return plain number
-            return CellValue.FromString(number.ToString(CultureInfo.InvariantCulture));
+            return FormulaResult.FromString(number.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

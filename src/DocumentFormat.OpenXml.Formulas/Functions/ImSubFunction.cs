@@ -24,11 +24,11 @@ public sealed class ImSubFunction : IFunctionImplementation
     public string Name => "IMSUB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -46,16 +46,16 @@ public sealed class ImSubFunction : IFunctionImplementation
 
         if (!ComplexNumber.TryParse(inumber1, out var complex1))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         if (!ComplexNumber.TryParse(inumber2, out var complex2))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         var result = ComplexNumber.Subtract(complex1!, complex2!);
         var suffix = inumber1.EndsWith("j") ? "j" : "i";
-        return CellValue.FromString(result.ToString(suffix));
+        return FormulaResult.FromString(result.ToString(suffix));
     }
 }

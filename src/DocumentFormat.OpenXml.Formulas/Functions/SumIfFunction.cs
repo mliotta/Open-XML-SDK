@@ -26,12 +26,12 @@ public sealed class SumIfFunction : IFunctionImplementation
     public string Name => "SUMIF";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // SUMIF requires 2 or 3 arguments
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -48,13 +48,13 @@ public sealed class SumIfFunction : IFunctionImplementation
         var sumRange = args.Length == 3 ? args[2] : criteriaRange;
 
         // For flattened arrays, criteria range and sum range should have equal length
-        // Note: In the actual implementation, ranges come as CellValue[] where each element
+        // Note: In the actual implementation, ranges come as FormulaResult[] where each element
         // represents a cell in the range. Since we receive already flattened arrays,
         // we'll process them element by element.
 
         var sum = 0.0;
 
-        // Since ranges are passed as individual CellValue arguments when flattened,
+        // Since ranges are passed as individual FormulaResult arguments when flattened,
         // and we only receive the first element here, we need to handle this differently.
         // Based on the user's note about flattened arrays, we'll assume args[0] represents
         // the entire criteria range as a single array if it's structured that way.
@@ -66,19 +66,19 @@ public sealed class SumIfFunction : IFunctionImplementation
         // Simple implementation for single cell case:
         if (MatchesCriteria(criteriaRange, criteria))
         {
-            if (sumRange.Type == CellValueType.Number)
+            if (sumRange.Type == FormulaResultType.Number)
             {
                 sum += sumRange.NumericValue;
             }
         }
 
-        return CellValue.FromNumber(sum);
+        return FormulaResult.FromNumber(sum);
     }
 
-    private static bool MatchesCriteria(CellValue value, CellValue criteria)
+    private static bool MatchesCriteria(FormulaResult value, FormulaResult criteria)
     {
         // Handle criteria as a comparison operator + value
-        if (criteria.Type == CellValueType.Text)
+        if (criteria.Type == FormulaResultType.Text)
         {
             var criteriaText = criteria.StringValue;
 
@@ -87,14 +87,14 @@ public sealed class SumIfFunction : IFunctionImplementation
             {
                 if (double.TryParse(criteriaText.Substring(2), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue >= threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue >= threshold;
                 }
             }
             else if (criteriaText.StartsWith("<="))
             {
                 if (double.TryParse(criteriaText.Substring(2), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue <= threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue <= threshold;
                 }
             }
             else if (criteriaText.StartsWith("<>"))
@@ -102,25 +102,25 @@ public sealed class SumIfFunction : IFunctionImplementation
                 var compareValue = criteriaText.Substring(2);
                 if (double.TryParse(compareValue, out var numValue))
                 {
-                    return value.Type != CellValueType.Number || value.NumericValue != numValue;
+                    return value.Type != FormulaResultType.Number || value.NumericValue != numValue;
                 }
                 else
                 {
-                    return value.Type != CellValueType.Text || !value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
+                    return value.Type != FormulaResultType.Text || !value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
                 }
             }
             else if (criteriaText.StartsWith(">"))
             {
                 if (double.TryParse(criteriaText.Substring(1), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue > threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue > threshold;
                 }
             }
             else if (criteriaText.StartsWith("<"))
             {
                 if (double.TryParse(criteriaText.Substring(1), out var threshold))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue < threshold;
+                    return value.Type == FormulaResultType.Number && value.NumericValue < threshold;
                 }
             }
             else if (criteriaText.StartsWith("="))
@@ -128,28 +128,28 @@ public sealed class SumIfFunction : IFunctionImplementation
                 var compareValue = criteriaText.Substring(1);
                 if (double.TryParse(compareValue, out var numValue))
                 {
-                    return value.Type == CellValueType.Number && value.NumericValue == numValue;
+                    return value.Type == FormulaResultType.Number && value.NumericValue == numValue;
                 }
                 else
                 {
-                    return value.Type == CellValueType.Text && value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
+                    return value.Type == FormulaResultType.Text && value.StringValue.Equals(compareValue, StringComparison.OrdinalIgnoreCase);
                 }
             }
             else
             {
                 // Direct text comparison (case-insensitive)
-                return value.Type == CellValueType.Text && value.StringValue.Equals(criteriaText, StringComparison.OrdinalIgnoreCase);
+                return value.Type == FormulaResultType.Text && value.StringValue.Equals(criteriaText, StringComparison.OrdinalIgnoreCase);
             }
         }
-        else if (criteria.Type == CellValueType.Number)
+        else if (criteria.Type == FormulaResultType.Number)
         {
             // Direct numeric comparison
-            return value.Type == CellValueType.Number && value.NumericValue == criteria.NumericValue;
+            return value.Type == FormulaResultType.Number && value.NumericValue == criteria.NumericValue;
         }
-        else if (criteria.Type == CellValueType.Boolean)
+        else if (criteria.Type == FormulaResultType.Boolean)
         {
             // Boolean comparison
-            return value.Type == CellValueType.Boolean && value.BoolValue == criteria.BoolValue;
+            return value.Type == FormulaResultType.Boolean && value.BoolValue == criteria.BoolValue;
         }
 
         return false;

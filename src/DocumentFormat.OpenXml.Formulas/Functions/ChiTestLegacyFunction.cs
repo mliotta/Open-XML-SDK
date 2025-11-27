@@ -25,7 +25,7 @@ public sealed class ChiTestLegacyFunction : IFunctionImplementation
     public string Name => "CHITEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // CHITEST is equivalent to CHISQ.TEST
         return ChiSqTestFunction.Instance.Execute(context, args);

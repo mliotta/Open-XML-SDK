@@ -24,11 +24,11 @@ public sealed class FDistFunction : IFunctionImplementation
     public string Name => "F.DIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,54 +41,54 @@ public sealed class FDistFunction : IFunctionImplementation
         }
 
         // Get x value
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double x = args[0].NumericValue;
 
         if (x < 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get degrees of freedom 1
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double df1 = args[1].NumericValue;
 
         if (df1 < 1 || df1 > 10000000000)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get degrees of freedom 2
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double df2 = args[2].NumericValue;
 
         if (df2 < 1 || df2 > 10000000000)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get cumulative flag
         bool cumulative;
-        if (args[3].Type == CellValueType.Boolean)
+        if (args[3].Type == FormulaResultType.Boolean)
         {
             cumulative = args[3].BoolValue;
         }
-        else if (args[3].Type == CellValueType.Number)
+        else if (args[3].Type == FormulaResultType.Number)
         {
             cumulative = args[3].NumericValue != 0;
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         try
@@ -103,11 +103,11 @@ public sealed class FDistFunction : IFunctionImplementation
                 result = StatisticalHelper.FDistPDF(x, df1, df2);
             }
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

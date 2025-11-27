@@ -25,11 +25,11 @@ public sealed class AreasFunction : IFunctionImplementation
     public string Name => "AREAS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var arg = args[0];
@@ -44,6 +44,6 @@ public sealed class AreasFunction : IFunctionImplementation
         // Since we receive a single argument, we count it as 1 area
         // Full implementation would require parsing range references with commas
 
-        return CellValue.FromNumber(1);
+        return FormulaResult.FromNumber(1);
     }
 }

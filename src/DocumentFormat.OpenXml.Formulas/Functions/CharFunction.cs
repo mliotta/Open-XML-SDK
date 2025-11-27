@@ -24,11 +24,11 @@ public sealed class CharFunction : IFunctionImplementation
     public string Name => "CHAR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -36,9 +36,9 @@ public sealed class CharFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = (int)args[0].NumericValue;
@@ -46,11 +46,11 @@ public sealed class CharFunction : IFunctionImplementation
         // Valid character codes are 1-255 in Excel
         if (number < 1 || number > 255)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var character = ((char)number).ToString();
 
-        return CellValue.FromString(character);
+        return FormulaResult.FromString(character);
     }
 }

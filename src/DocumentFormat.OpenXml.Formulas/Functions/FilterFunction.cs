@@ -29,19 +29,19 @@ public sealed class FilterFunction : IFunctionImplementation
     public string Name => "FILTER";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Parse if_empty value if provided
-        CellValue ifEmptyValue = CellValue.Error("#CALC!");
+        FormulaResult ifEmptyValue = FormulaResult.Error("#CALC!");
         var hasIfEmpty = false;
 
         // Check if last argument is if_empty
-        if (args.Length >= 3 && args[args.Length - 1].Type != CellValueType.Boolean)
+        if (args.Length >= 3 && args[args.Length - 1].Type != FormulaResultType.Boolean)
         {
             ifEmptyValue = args[args.Length - 1];
             hasIfEmpty = true;
@@ -94,17 +94,17 @@ public sealed class FilterFunction : IFunctionImplementation
 
         if (numCols == 0 || numRows == 0)
         {
-            return CellValue.Error("#REF!");
+            return FormulaResult.Error("#REF!");
         }
 
         // Validate include array matches array row count
         if (includeLength != numRows)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Filter rows based on include criteria
-        var filteredRows = new List<CellValue[]>();
+        var filteredRows = new List<FormulaResult[]>();
 
         for (var row = 0; row < numRows; row++)
         {
@@ -112,18 +112,18 @@ public sealed class FilterFunction : IFunctionImplementation
 
             // Convert include value to boolean
             var shouldInclude = false;
-            if (includeValue.Type == CellValueType.Boolean)
+            if (includeValue.Type == FormulaResultType.Boolean)
             {
                 shouldInclude = includeValue.BoolValue;
             }
-            else if (includeValue.Type == CellValueType.Number)
+            else if (includeValue.Type == FormulaResultType.Number)
             {
                 shouldInclude = includeValue.NumericValue != 0;
             }
 
             if (shouldInclude)
             {
-                var rowValues = new CellValue[numCols];
+                var rowValues = new FormulaResult[numCols];
                 for (var col = 0; col < numCols; col++)
                 {
                     rowValues[col] = args[row * numCols + col];
@@ -140,7 +140,7 @@ public sealed class FilterFunction : IFunctionImplementation
 
         // Flatten filtered rows to array
         var resultLength = filteredRows.Count * numCols;
-        var result = new CellValue[resultLength];
+        var result = new FormulaResult[resultLength];
         for (var i = 0; i < filteredRows.Count; i++)
         {
             for (var col = 0; col < numCols; col++)

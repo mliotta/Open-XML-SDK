@@ -27,18 +27,18 @@ public sealed class ColumnFunction : IFunctionImplementation
     public string Name => "COLUMN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length == 0)
         {
             // No reference provided - return current cell's column
             if (context?.CurrentCellReference == null)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             var column = ParseColumnFromReference(context.CurrentCellReference);
-            return CellValue.FromNumber(column);
+            return FormulaResult.FromNumber(column);
         }
 
         if (args.Length == 1)
@@ -51,24 +51,24 @@ public sealed class ColumnFunction : IFunctionImplementation
                 return reference;
             }
 
-            if (reference.Type == CellValueType.Text)
+            if (reference.Type == FormulaResultType.Text)
             {
                 // Try to parse as cell reference
                 var column = ParseColumnFromReference(reference.StringValue);
                 if (column > 0)
                 {
-                    return CellValue.FromNumber(column);
+                    return FormulaResult.FromNumber(column);
                 }
 
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
 
             // For array references, we would need to return an array of column numbers
             // For now, return error
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
-        return CellValue.Error("#VALUE!");
+        return FormulaResult.Error("#VALUE!");
     }
 
     private static int ParseColumnFromReference(string reference)

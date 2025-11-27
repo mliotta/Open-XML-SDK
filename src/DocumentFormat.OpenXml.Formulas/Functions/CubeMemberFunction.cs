@@ -25,10 +25,10 @@ public sealed class CubeMemberFunction : IFunctionImplementation
     public string Name => "CUBEMEMBER";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // CUBEMEMBER requires an OLAP connection which is not available in this context
         // Return #REF! error as this function cannot be evaluated without OLAP data
-        return CellValue.Error("#REF!");
+        return FormulaResult.Error("#REF!");
     }
 }

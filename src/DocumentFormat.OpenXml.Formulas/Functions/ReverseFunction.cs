@@ -25,11 +25,11 @@ public sealed class ReverseFunction : IFunctionImplementation
     public string Name => "REVERSE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -42,6 +42,6 @@ public sealed class ReverseFunction : IFunctionImplementation
         Array.Reverse(charArray);
         var result = new string(charArray);
 
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 }

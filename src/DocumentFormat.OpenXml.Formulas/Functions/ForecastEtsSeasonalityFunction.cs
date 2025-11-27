@@ -27,11 +27,11 @@ public sealed class ForecastEtsSeasonalityFunction : IFunctionImplementation
     public string Name => "FORECAST.ETS.SEASONALITY";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 4)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -45,7 +45,7 @@ public sealed class ForecastEtsSeasonalityFunction : IFunctionImplementation
 
         // Extract values array
         var values = new List<double>();
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             values.Add(args[0].NumericValue);
         }
@@ -55,12 +55,12 @@ public sealed class ForecastEtsSeasonalityFunction : IFunctionImplementation
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract timeline array
         var timeline = new List<double>();
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             timeline.Add(args[1].NumericValue);
         }
@@ -70,19 +70,19 @@ public sealed class ForecastEtsSeasonalityFunction : IFunctionImplementation
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check arrays have same length
         if (values.Count != timeline.Count)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Need at least 4 data points for seasonality detection
         if (values.Count < 4)
         {
-            return CellValue.FromNumber(1); // No seasonality
+            return FormulaResult.FromNumber(1); // No seasonality
         }
 
         // Optional parameters: data_completion and aggregation
@@ -103,15 +103,15 @@ public sealed class ForecastEtsSeasonalityFunction : IFunctionImplementation
                 seasonalPeriod = 1;
             }
 
-            return CellValue.FromNumber(seasonalPeriod);
+            return FormulaResult.FromNumber(seasonalPeriod);
         }
         catch (ArgumentException)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         catch (Exception)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
     }
 

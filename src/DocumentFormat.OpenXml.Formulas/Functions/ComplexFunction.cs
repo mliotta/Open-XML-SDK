@@ -24,11 +24,11 @@ public sealed class ComplexFunction : IFunctionImplementation
     public string Name => "COMPLEX";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2 || args.Length > 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -41,9 +41,9 @@ public sealed class ComplexFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[0].Type != CellValueType.Number || args[1].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number || args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var suffix = "i";
@@ -57,11 +57,11 @@ public sealed class ComplexFunction : IFunctionImplementation
             suffix = args[2].StringValue?.Trim().ToLowerInvariant();
             if (suffix != "i" && suffix != "j")
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var complex = new ComplexNumber(args[0].NumericValue, args[1].NumericValue);
-        return CellValue.FromString(complex.ToString(suffix));
+        return FormulaResult.FromString(complex.ToString(suffix));
     }
 }

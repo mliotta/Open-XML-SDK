@@ -22,15 +22,15 @@ public class MathFunctionTests
         var func = CountFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromString("text"),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -40,9 +40,9 @@ public class MathFunctionTests
         var func = CountFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
@@ -57,15 +57,15 @@ public class MathFunctionTests
         var func = MaxFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(8),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(8),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -75,13 +75,13 @@ public class MathFunctionTests
         var func = MaxFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromBool(true),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(0.0, result.NumericValue);
     }
 
@@ -91,9 +91,9 @@ public class MathFunctionTests
         var func = MaxFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-5),
-            CellValue.FromNumber(-10),
-            CellValue.FromNumber(-3),
+            FormulaResult.FromNumber(-5),
+            FormulaResult.FromNumber(-10),
+            FormulaResult.FromNumber(-3),
         };
 
         var result = func.Execute(null!, args);
@@ -107,15 +107,15 @@ public class MathFunctionTests
         var func = MinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(8),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(8),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -125,8 +125,8 @@ public class MathFunctionTests
         var func = MinFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromBool(true),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -142,8 +142,8 @@ public class MathFunctionTests
         // 2.5 rounds to 3 (Excel's rounding - rounds half away from zero)
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2.5),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(2.5),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(3.0, result1.NumericValue);
@@ -151,8 +151,8 @@ public class MathFunctionTests
         // 3.5 rounds to 4 (Excel's rounding - rounds half away from zero)
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(3.5),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(3.5),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(4.0, result2.NumericValue);
@@ -160,8 +160,8 @@ public class MathFunctionTests
         // -2.5 rounds to -3 (Excel's rounding - rounds half away from zero)
         var result3 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-2.5),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(-2.5),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(-3.0, result3.NumericValue);
@@ -174,8 +174,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(3.14159),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(3.14159),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.Equal(3.14, result.NumericValue);
@@ -189,7 +189,7 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(2.5),
+            FormulaResult.FromNumber(2.5),
         });
 
         Assert.True(result1.IsError);
@@ -198,8 +198,8 @@ public class MathFunctionTests
         // Non-numeric first argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(0),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result2.IsError);
@@ -213,7 +213,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(5.5),
+            FormulaResult.FromNumber(5.5),
         });
 
         Assert.Equal(5.5, result.NumericValue);
@@ -226,7 +226,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-5.5),
+            FormulaResult.FromNumber(-5.5),
         });
 
         Assert.Equal(5.5, result.NumericValue);
@@ -239,7 +239,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -253,8 +253,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result1.IsError);
@@ -262,7 +262,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -274,9 +274,9 @@ public class MathFunctionTests
         var func = SumFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -290,10 +290,10 @@ public class MathFunctionTests
         var func = SumFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString("text"),
-            CellValue.FromNumber(20),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -307,9 +307,9 @@ public class MathFunctionTests
         var func = AverageFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -323,8 +323,8 @@ public class MathFunctionTests
         var func = AverageFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromBool(true),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -340,7 +340,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(16),
+            FormulaResult.FromNumber(16),
         });
 
         Assert.Equal(4.0, result.NumericValue);
@@ -353,7 +353,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -366,7 +366,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-4),
+            FormulaResult.FromNumber(-4),
         });
 
         Assert.True(result.IsError);
@@ -381,8 +381,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(16),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(16),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.True(result1.IsError);
@@ -391,7 +391,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -405,8 +405,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -420,8 +420,8 @@ public class MathFunctionTests
         // Excel MOD behavior: MOD(-10, 3) = 2
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-10),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(-10),
+            FormulaResult.FromNumber(3),
         });
 
         Assert.Equal(2.0, result.NumericValue);
@@ -434,8 +434,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -450,7 +450,7 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result1.IsError);
@@ -459,8 +459,8 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromNumber(3),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromNumber(3),
         });
 
         Assert.True(result2.IsError);
@@ -474,7 +474,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(8.9),
+            FormulaResult.FromNumber(8.9),
         });
 
         Assert.Equal(8.0, result.NumericValue);
@@ -488,7 +488,7 @@ public class MathFunctionTests
         // INT(-8.9) = -9 (rounds down, not toward zero)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-8.9),
+            FormulaResult.FromNumber(-8.9),
         });
 
         Assert.Equal(-9.0, result.NumericValue);
@@ -501,7 +501,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -515,8 +515,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(8.9),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(8.9),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result1.IsError);
@@ -525,7 +525,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -539,8 +539,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4.3),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(4.3),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.Equal(5.0, result.NumericValue);
@@ -553,8 +553,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(22),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(22),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.Equal(30.0, result.NumericValue);
@@ -568,8 +568,8 @@ public class MathFunctionTests
         // CEILING(-4.3, -1) = -4 (rounds toward zero when both are negative)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-4.3),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-4.3),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.Equal(-4.0, result.NumericValue);
@@ -583,8 +583,8 @@ public class MathFunctionTests
         // Different signs should return #NUM!
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4.3),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(4.3),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.True(result.IsError);
@@ -598,8 +598,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4.3),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(4.3),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -613,7 +613,7 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4.3),
+            FormulaResult.FromNumber(4.3),
         });
 
         Assert.True(result1.IsError);
@@ -627,8 +627,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4.7),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(4.7),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.Equal(4.0, result.NumericValue);
@@ -641,8 +641,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(22),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(22),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.Equal(20.0, result.NumericValue);
@@ -656,8 +656,8 @@ public class MathFunctionTests
         // FLOOR(-4.7, -1) = -5 (rounds away from zero when both are negative)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-4.7),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-4.7),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.Equal(-5.0, result.NumericValue);
@@ -671,8 +671,8 @@ public class MathFunctionTests
         // Different signs should return #NUM!
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4.7),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(4.7),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.True(result.IsError);
@@ -686,8 +686,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4.7),
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(4.7),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -701,7 +701,7 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(4.7),
+            FormulaResult.FromNumber(4.7),
         });
 
         Assert.True(result1.IsError);
@@ -715,7 +715,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(8.9),
+            FormulaResult.FromNumber(8.9),
         });
 
         Assert.Equal(8.0, result.NumericValue);
@@ -728,8 +728,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(8.987654),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(8.987654),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.Equal(8.98, result.NumericValue);
@@ -743,7 +743,7 @@ public class MathFunctionTests
         // TRUNC(-8.9) = -8 (truncates toward zero, not down)
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-8.9),
+            FormulaResult.FromNumber(-8.9),
         });
 
         Assert.Equal(-8.0, result.NumericValue);
@@ -756,8 +756,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1234.567),
-            CellValue.FromNumber(-2),
+            FormulaResult.FromNumber(1234.567),
+            FormulaResult.FromNumber(-2),
         });
 
         Assert.Equal(1200.0, result.NumericValue);
@@ -770,7 +770,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -784,9 +784,9 @@ public class MathFunctionTests
         // Too many arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(8.9),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(8.9),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         });
 
         Assert.True(result1.IsError);
@@ -795,7 +795,7 @@ public class MathFunctionTests
         // Non-numeric first argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -804,8 +804,8 @@ public class MathFunctionTests
         // Non-numeric second argument
         var result3 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(8.9),
-            CellValue.FromString("text"),
+            FormulaResult.FromNumber(8.9),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result3.IsError);
@@ -819,7 +819,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(5.5),
+            FormulaResult.FromNumber(5.5),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -832,7 +832,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-5.5),
+            FormulaResult.FromNumber(-5.5),
         });
 
         Assert.Equal(-1.0, result.NumericValue);
@@ -845,7 +845,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -859,8 +859,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result1.IsError);
@@ -869,7 +869,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -883,7 +883,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.Equal(System.Math.E, result.NumericValue, 10);
@@ -896,7 +896,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(1.0, result.NumericValue);
@@ -909,7 +909,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.Equal(1.0 / System.Math.E, result.NumericValue, 10);
@@ -923,8 +923,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.True(result1.IsError);
@@ -933,7 +933,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -947,7 +947,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.E),
+            FormulaResult.FromNumber(System.Math.E),
         });
 
         Assert.Equal(1.0, result.NumericValue, 10);
@@ -960,7 +960,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -973,7 +973,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.True(result.IsError);
@@ -987,7 +987,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -1002,8 +1002,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.True(result1.IsError);
@@ -1012,7 +1012,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -1026,7 +1026,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(100),
         });
 
         Assert.Equal(2.0, result.NumericValue);
@@ -1039,8 +1039,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(8),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(8),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.Equal(3.0, result.NumericValue);
@@ -1053,8 +1053,8 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1000),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(1000),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.Equal(3.0, result.NumericValue, 10);
@@ -1067,7 +1067,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-10),
+            FormulaResult.FromNumber(-10),
         });
 
         Assert.True(result.IsError);
@@ -1082,8 +1082,8 @@ public class MathFunctionTests
         // Base <= 0
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(-1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(-1),
         });
 
         Assert.True(result1.IsError);
@@ -1092,8 +1092,8 @@ public class MathFunctionTests
         // Base = 1
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result2.IsError);
@@ -1106,7 +1106,7 @@ public class MathFunctionTests
         var func = LogFunction.Instance;
 
         // No arguments
-        var result1 = func.Execute(null!, Array.Empty<CellValue>());
+        var result1 = func.Execute(null!, Array.Empty<FormulaResult>());
 
         Assert.True(result1.IsError);
         Assert.Equal("#VALUE!", result1.ErrorValue);
@@ -1114,7 +1114,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -1128,7 +1128,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1000),
+            FormulaResult.FromNumber(1000),
         });
 
         Assert.Equal(3.0, result.NumericValue);
@@ -1141,7 +1141,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(100),
         });
 
         Assert.Equal(2.0, result.NumericValue);
@@ -1154,7 +1154,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -1167,7 +1167,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(-10),
+            FormulaResult.FromNumber(-10),
         });
 
         Assert.True(result.IsError);
@@ -1181,7 +1181,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.True(result.IsError);
@@ -1196,8 +1196,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(100),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromNumber(10),
         });
 
         Assert.True(result1.IsError);
@@ -1206,7 +1206,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -1218,7 +1218,7 @@ public class MathFunctionTests
     {
         var func = PiFunction.Instance;
 
-        var result = func.Execute(null!, Array.Empty<CellValue>());
+        var result = func.Execute(null!, Array.Empty<FormulaResult>());
 
         Assert.Equal(System.Math.PI, result.NumericValue);
     }
@@ -1231,7 +1231,7 @@ public class MathFunctionTests
         // With arguments
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         });
 
         Assert.True(result.IsError);
@@ -1245,7 +1245,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(180),
+            FormulaResult.FromNumber(180),
         });
 
         Assert.Equal(System.Math.PI, result.NumericValue, 10);
@@ -1258,7 +1258,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(90),
+            FormulaResult.FromNumber(90),
         });
 
         Assert.Equal(System.Math.PI / 2, result.NumericValue, 10);
@@ -1271,7 +1271,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -1285,8 +1285,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(180),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(180),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.True(result1.IsError);
@@ -1295,7 +1295,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -1309,7 +1309,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI),
+            FormulaResult.FromNumber(System.Math.PI),
         });
 
         Assert.Equal(180.0, result.NumericValue, 10);
@@ -1322,7 +1322,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI / 2),
+            FormulaResult.FromNumber(System.Math.PI / 2),
         });
 
         Assert.Equal(90.0, result.NumericValue, 10);
@@ -1335,7 +1335,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue);
@@ -1349,8 +1349,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(System.Math.PI),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.True(result1.IsError);
@@ -1359,7 +1359,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -1373,7 +1373,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI / 2),
+            FormulaResult.FromNumber(System.Math.PI / 2),
         });
 
         Assert.Equal(1.0, result.NumericValue, 10);
@@ -1386,7 +1386,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue, 10);
@@ -1399,7 +1399,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI),
+            FormulaResult.FromNumber(System.Math.PI),
         });
 
         Assert.Equal(0.0, result.NumericValue, 10);
@@ -1413,8 +1413,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(System.Math.PI),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.True(result1.IsError);
@@ -1423,7 +1423,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -1437,7 +1437,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(1.0, result.NumericValue, 10);
@@ -1450,7 +1450,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI),
+            FormulaResult.FromNumber(System.Math.PI),
         });
 
         Assert.Equal(-1.0, result.NumericValue, 10);
@@ -1463,7 +1463,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI / 2),
+            FormulaResult.FromNumber(System.Math.PI / 2),
         });
 
         Assert.Equal(0.0, result.NumericValue, 10);
@@ -1477,8 +1477,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(System.Math.PI),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.True(result1.IsError);
@@ -1487,7 +1487,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);
@@ -1501,7 +1501,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI / 4),
+            FormulaResult.FromNumber(System.Math.PI / 4),
         });
 
         Assert.Equal(1.0, result.NumericValue, 10);
@@ -1514,7 +1514,7 @@ public class MathFunctionTests
 
         var result = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         });
 
         Assert.Equal(0.0, result.NumericValue, 10);
@@ -1528,8 +1528,8 @@ public class MathFunctionTests
         // Wrong number of arguments
         var result1 = func.Execute(null!, new[]
         {
-            CellValue.FromNumber(System.Math.PI),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(System.Math.PI),
+            FormulaResult.FromNumber(2),
         });
 
         Assert.True(result1.IsError);
@@ -1538,7 +1538,7 @@ public class MathFunctionTests
         // Non-numeric argument
         var result2 = func.Execute(null!, new[]
         {
-            CellValue.FromString("text"),
+            FormulaResult.FromString("text"),
         });
 
         Assert.True(result2.IsError);

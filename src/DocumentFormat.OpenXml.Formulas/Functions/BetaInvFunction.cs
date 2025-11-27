@@ -24,11 +24,11 @@ public sealed class BetaInvFunction : IFunctionImplementation
     public string Name => "BETA.INV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 3 || args.Length > 5)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -41,58 +41,58 @@ public sealed class BetaInvFunction : IFunctionImplementation
         }
 
         // Get probability
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double probability = args[0].NumericValue;
 
         if (probability < 0 || probability > 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get alpha
-        if (args[1].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double alpha = args[1].NumericValue;
 
         if (alpha <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get beta
-        if (args[2].Type != CellValueType.Number)
+        if (args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
         double beta = args[2].NumericValue;
 
         if (beta <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Get optional A (lower bound)
         double A = 0.0;
-        if (args.Length > 3 && args[3].Type == CellValueType.Number)
+        if (args.Length > 3 && args[3].Type == FormulaResultType.Number)
         {
             A = args[3].NumericValue;
         }
 
         // Get optional B (upper bound)
         double B = 1.0;
-        if (args.Length > 4 && args[4].Type == CellValueType.Number)
+        if (args.Length > 4 && args[4].Type == FormulaResultType.Number)
         {
             B = args[4].NumericValue;
         }
 
         if (A >= B)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
@@ -103,11 +103,11 @@ public sealed class BetaInvFunction : IFunctionImplementation
             // Transform back to [A, B] range
             double result = A + xTransformed * (B - A);
 
-            return CellValue.FromNumber(result);
+            return FormulaResult.FromNumber(result);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

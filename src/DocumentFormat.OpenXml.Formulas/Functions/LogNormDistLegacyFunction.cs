@@ -25,20 +25,20 @@ public sealed class LogNormDistLegacyFunction : IFunctionImplementation
     public string Name => "LOGNORMDIST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // LOGNORMDIST always uses cumulative=TRUE (the legacy function only returned CDF)
         // Create new args array with cumulative flag added
-        var newArgs = new CellValue[4];
+        var newArgs = new FormulaResult[4];
         newArgs[0] = args[0];
         newArgs[1] = args[1];
         newArgs[2] = args[2];
-        newArgs[3] = CellValue.FromBool(true);
+        newArgs[3] = FormulaResult.FromBool(true);
 
         // Delegate to LOGNORM.DIST
         return LogNormDistFunction.Instance.Execute(context, newArgs);

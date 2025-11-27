@@ -25,7 +25,7 @@ public sealed class VarSFunction : IFunctionImplementation
     public string Name => "VAR.S";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // Delegate to VAR implementation
         return VarFunction.Instance.Execute(context, args);

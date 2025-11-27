@@ -20,16 +20,16 @@ public class NewDistributionFunctionTests
         var func = StDevSFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Sample stdev of 1,2,3,4,5 is sqrt(2.5) ≈ 1.5811388300841898
         Assert.Equal(1.5811388300841898, result.NumericValue, 10);
     }
@@ -41,16 +41,16 @@ public class NewDistributionFunctionTests
         var func = StDevPFunction2.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Population stdev of 1,2,3,4,5 is sqrt(2) ≈ 1.414213562373095
         Assert.Equal(1.414213562373095, result.NumericValue, 10);
     }
@@ -62,16 +62,16 @@ public class NewDistributionFunctionTests
         var func = VarSFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Sample variance of 1,2,3,4,5 is 2.5
         Assert.Equal(2.5, result.NumericValue);
     }
@@ -83,16 +83,16 @@ public class NewDistributionFunctionTests
         var func = VarPFunction2.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(4),
-            CellValue.FromNumber(5),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromNumber(5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Population variance of 1,2,3,4,5 is 2.0
         Assert.Equal(2.0, result.NumericValue);
     }
@@ -104,17 +104,17 @@ public class NewDistributionFunctionTests
         var func = ModeSnglFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -125,16 +125,16 @@ public class NewDistributionFunctionTests
         var func = ModeMultFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // Both 1 and 2 appear twice, should return smallest (1)
         Assert.Equal(1.0, result.NumericValue);
     }
@@ -145,9 +145,9 @@ public class NewDistributionFunctionTests
         var func = ModeMultFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(3),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(3),
         };
 
         var result = func.Execute(null!, args);
@@ -161,7 +161,7 @@ public class NewDistributionFunctionTests
     public void Na_NoArgs_ReturnsNAError()
     {
         var func = NaFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -176,12 +176,12 @@ public class NewDistributionFunctionTests
         var func = AreasFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -189,7 +189,7 @@ public class NewDistributionFunctionTests
     public void Areas_WrongNumberOfArgs_ReturnsError()
     {
         var func = AreasFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -204,15 +204,15 @@ public class NewDistributionFunctionTests
         var func = NormDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // NORM.DIST(0, 0, 1, TRUE) = 0.5
         Assert.Equal(0.5, result.NumericValue, 10);
     }
@@ -223,15 +223,15 @@ public class NewDistributionFunctionTests
         var func = NormDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // NORM.DIST(0, 0, 1, FALSE) = 0.3989422804014327 (1/sqrt(2*pi))
         Assert.Equal(0.3989422804014327, result.NumericValue, 10);
     }
@@ -242,10 +242,10 @@ public class NewDistributionFunctionTests
         var func = NormDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(-1),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
@@ -261,14 +261,14 @@ public class NewDistributionFunctionTests
         var func = NormInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(2),
+            FormulaResult.FromNumber(0.5),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(2),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // NORM.INV(0.5, 10, 2) = 10
         Assert.Equal(10.0, result.NumericValue, 10);
     }
@@ -279,9 +279,9 @@ public class NewDistributionFunctionTests
         var func = NormInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.5),
-            CellValue.FromNumber(0),
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1.5),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -297,13 +297,13 @@ public class NewDistributionFunctionTests
         var func = NormSDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // NORM.S.DIST(0, TRUE) = 0.5
         Assert.Equal(0.5, result.NumericValue, 10);
     }
@@ -314,13 +314,13 @@ public class NewDistributionFunctionTests
         var func = NormSDistFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromBool(false),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromBool(false),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // NORM.S.DIST(0, FALSE) = 0.3989422804014327
         Assert.Equal(0.3989422804014327, result.NumericValue, 10);
     }
@@ -332,12 +332,12 @@ public class NewDistributionFunctionTests
         var func = NormSInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.5),
+            FormulaResult.FromNumber(0.5),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // NORM.S.INV(0.5) = 0
         Assert.Equal(0.0, result.NumericValue, 10);
     }
@@ -348,7 +348,7 @@ public class NewDistributionFunctionTests
         var func = NormSInvFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
+            FormulaResult.FromNumber(0),
         };
 
         var result = func.Execute(null!, args);
@@ -364,14 +364,14 @@ public class NewDistributionFunctionTests
         var func = ConfidenceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(2.5),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(2.5),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // CONFIDENCE(0.05, 2.5, 100) ≈ 0.489939 (1.96 * 2.5 / sqrt(100))
         Assert.InRange(result.NumericValue, 0.48, 0.50);
     }
@@ -382,9 +382,9 @@ public class NewDistributionFunctionTests
         var func = ConfidenceFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1.5),
-            CellValue.FromNumber(2.5),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(1.5),
+            FormulaResult.FromNumber(2.5),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
@@ -400,14 +400,14 @@ public class NewDistributionFunctionTests
         var func = ConfidenceNormFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(2.5),
-            CellValue.FromNumber(100),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(2.5),
+            FormulaResult.FromNumber(100),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // CONFIDENCE.NORM should give same result as CONFIDENCE
         Assert.InRange(result.NumericValue, 0.48, 0.50);
     }
@@ -419,14 +419,14 @@ public class NewDistributionFunctionTests
         var func = ConfidenceTFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(2.5),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(2.5),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // CONFIDENCE.T(0.05, 2.5, 10) should be larger than CONFIDENCE due to t-distribution
         Assert.InRange(result.NumericValue, 1.5, 2.0);
     }
@@ -437,14 +437,14 @@ public class NewDistributionFunctionTests
         var func = ConfidenceTFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0.05),
-            CellValue.FromNumber(2.5),
-            CellValue.FromNumber(1000),
+            FormulaResult.FromNumber(0.05),
+            FormulaResult.FromNumber(2.5),
+            FormulaResult.FromNumber(1000),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         // For large samples, t-distribution approaches normal
         Assert.InRange(result.NumericValue, 0.48, 0.50);
     }

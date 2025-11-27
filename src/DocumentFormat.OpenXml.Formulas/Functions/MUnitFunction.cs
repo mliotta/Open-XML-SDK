@@ -26,11 +26,11 @@ public sealed class MUnitFunction : IFunctionImplementation
     public string Name => "MUNIT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -38,9 +38,9 @@ public sealed class MUnitFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var dimension = args[0].NumericValue;
@@ -48,7 +48,7 @@ public sealed class MUnitFunction : IFunctionImplementation
         // Dimension must be positive
         if (dimension <= 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Truncate to integer
@@ -57,6 +57,6 @@ public sealed class MUnitFunction : IFunctionImplementation
         // Phase 0: return 1 (first element of identity matrix)
         // In a full implementation, this would return an nxn identity matrix
         // where the diagonal is 1 and all other elements are 0
-        return CellValue.FromNumber(1);
+        return FormulaResult.FromNumber(1);
     }
 }

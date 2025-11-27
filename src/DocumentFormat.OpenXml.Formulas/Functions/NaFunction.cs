@@ -24,9 +24,9 @@ public sealed class NaFunction : IFunctionImplementation
     public string Name => "NA";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // NA() takes no arguments and always returns #N/A
-        return CellValue.Error("#N/A");
+        return FormulaResult.Error("#N/A");
     }
 }

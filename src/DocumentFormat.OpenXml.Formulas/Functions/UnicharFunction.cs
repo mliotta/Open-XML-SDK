@@ -24,11 +24,11 @@ public sealed class UnicharFunction : IFunctionImplementation
     public string Name => "UNICHAR";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -36,9 +36,9 @@ public sealed class UnicharFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var number = (int)args[0].NumericValue;
@@ -47,13 +47,13 @@ public sealed class UnicharFunction : IFunctionImplementation
         // Excluding surrogates range 0xD800-0xDFFF
         if (number < 1 || number > 1114111)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for surrogate range
         if (number >= 0xD800 && number <= 0xDFFF)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         string character;
@@ -68,6 +68,6 @@ public sealed class UnicharFunction : IFunctionImplementation
             character = char.ConvertFromUtf32(number);
         }
 
-        return CellValue.FromString(character);
+        return FormulaResult.FromString(character);
     }
 }

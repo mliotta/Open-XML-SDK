@@ -25,7 +25,7 @@ public sealed class ChiInvLegacyFunction : IFunctionImplementation
     public string Name => "CHIINV";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // CHIINV is equivalent to CHISQ.INV.RT
         return ChiSqInvRTFunction.Instance.Execute(context, args);

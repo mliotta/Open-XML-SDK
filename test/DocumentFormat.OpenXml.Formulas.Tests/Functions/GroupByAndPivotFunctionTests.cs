@@ -22,16 +22,16 @@ public class GroupByAndPivotFunctionTests
         // row_fields: ["A", "B"], values: [10, 20], function: 1 (SUM)
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("B"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(1), // SUM
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("B"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(1), // SUM
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -42,16 +42,16 @@ public class GroupByAndPivotFunctionTests
         // row_fields: ["A", "A"], values: [10, 20], function: 2 (AVERAGE)
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("A"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(2), // AVERAGE
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(2), // AVERAGE
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(15.0, result.NumericValue);
     }
 
@@ -62,16 +62,16 @@ public class GroupByAndPivotFunctionTests
         // row_fields: ["A", "A"], values: [10, 20], function: 3 (COUNT)
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("A"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(3), // COUNT
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(3), // COUNT
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(2.0, result.NumericValue);
     }
 
@@ -82,16 +82,16 @@ public class GroupByAndPivotFunctionTests
         // row_fields: ["A", "A"], values: [10, 20], function: 4 (MAX)
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("A"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(4), // MAX
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(4), // MAX
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(20.0, result.NumericValue);
     }
 
@@ -102,16 +102,16 @@ public class GroupByAndPivotFunctionTests
         // row_fields: ["A", "A"], values: [10, 20], function: 5 (MIN)
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("A"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(5), // MIN
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(5), // MIN
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -121,8 +121,8 @@ public class GroupByAndPivotFunctionTests
         var func = GroupByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromNumber(10),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -137,9 +137,9 @@ public class GroupByAndPivotFunctionTests
         var func = GroupByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(99), // Invalid function type
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(99), // Invalid function type
         };
 
         var result = func.Execute(null!, args);
@@ -154,11 +154,11 @@ public class GroupByAndPivotFunctionTests
         var func = GroupByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(1),
+            FormulaResult.FromString("A"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -173,9 +173,9 @@ public class GroupByAndPivotFunctionTests
         var func = GroupByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromNumber(10),
-            CellValue.FromString("invalid"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("invalid"),
         };
 
         var result = func.Execute(null!, args);
@@ -195,15 +195,15 @@ public class GroupByAndPivotFunctionTests
         // row_fields: ["A"], col_fields: ["X"], values: [10], function: 1 (SUM)
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1), // SUM
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1), // SUM
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -214,18 +214,18 @@ public class GroupByAndPivotFunctionTests
         // row_fields: ["A", "A"], col_fields: ["X", "X"], values: [10, 20], function: 2 (AVERAGE)
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("A"),
-            CellValue.FromString("X"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(2), // AVERAGE
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(2), // AVERAGE
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(15.0, result.NumericValue);
     }
 
@@ -235,15 +235,15 @@ public class GroupByAndPivotFunctionTests
         var func = PivotByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(3), // COUNT
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(3), // COUNT
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(1.0, result.NumericValue);
     }
 
@@ -253,18 +253,18 @@ public class GroupByAndPivotFunctionTests
         var func = PivotByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("A"),
-            CellValue.FromString("X"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(4), // MAX
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(4), // MAX
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(30.0, result.NumericValue);
     }
 
@@ -274,18 +274,18 @@ public class GroupByAndPivotFunctionTests
         var func = PivotByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("A"),
-            CellValue.FromString("X"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(30),
-            CellValue.FromNumber(5), // MIN
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(30),
+            FormulaResult.FromNumber(5), // MIN
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -295,9 +295,9 @@ public class GroupByAndPivotFunctionTests
         var func = PivotByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -312,10 +312,10 @@ public class GroupByAndPivotFunctionTests
         var func = PivotByFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("A"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(99), // Invalid function type
+            FormulaResult.FromString("A"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(99), // Invalid function type
         };
 
         var result = func.Execute(null!, args);
@@ -330,10 +330,10 @@ public class GroupByAndPivotFunctionTests
         var func = PivotByFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
-            CellValue.FromString("X"),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(1),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromString("X"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -352,16 +352,16 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
-            CellValue.Empty,
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.Empty,
+            FormulaResult.Empty,
+            FormulaResult.Empty,
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.Empty,
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -371,14 +371,14 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
-            CellValue.Empty,
-            CellValue.Empty,
+            FormulaResult.Empty,
+            FormulaResult.Empty,
+            FormulaResult.Empty,
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Empty, result.Type);
+        Assert.Equal(FormulaResultType.Empty, result.Type);
     }
 
     [Fact]
@@ -387,14 +387,14 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
-            CellValue.FromString("Hello"),
-            CellValue.FromString("World"),
+            FormulaResult.Empty,
+            FormulaResult.FromString("Hello"),
+            FormulaResult.FromString("World"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Hello", result.StringValue);
     }
 
@@ -404,9 +404,9 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
-            CellValue.Empty,
-            CellValue.Empty,
+            FormulaResult.FromNumber(42),
+            FormulaResult.Empty,
+            FormulaResult.Empty,
         };
 
         var result = func.Execute(null!, args);
@@ -420,11 +420,11 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(0), // rows_to_trim
-            CellValue.FromNumber(0), // cols_to_trim
+            FormulaResult.Empty,
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(0), // rows_to_trim
+            FormulaResult.FromNumber(0), // cols_to_trim
         };
 
         var result = func.Execute(null!, args);
@@ -436,7 +436,7 @@ public class GroupByAndPivotFunctionTests
     public void TrimRange_NoArguments_ReturnsError()
     {
         var func = TrimRangeFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -450,9 +450,9 @@ public class GroupByAndPivotFunctionTests
         var func = TrimRangeFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
-            CellValue.Error("#N/A"),
-            CellValue.FromNumber(10),
+            FormulaResult.Empty,
+            FormulaResult.Error("#N/A"),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -471,12 +471,12 @@ public class GroupByAndPivotFunctionTests
         var func = AnchorArrayFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(42),
+            FormulaResult.FromNumber(42),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(42.0, result.NumericValue);
     }
 
@@ -486,12 +486,12 @@ public class GroupByAndPivotFunctionTests
         var func = AnchorArrayFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Test"),
+            FormulaResult.FromString("Test"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Test", result.StringValue);
     }
 
@@ -501,7 +501,7 @@ public class GroupByAndPivotFunctionTests
         var func = AnchorArrayFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
+            FormulaResult.Error("#REF!"),
         };
 
         var result = func.Execute(null!, args);
@@ -514,7 +514,7 @@ public class GroupByAndPivotFunctionTests
     public void AnchorArray_NoArguments_ReturnsError()
     {
         var func = AnchorArrayFunction.Instance;
-        var args = System.Array.Empty<CellValue>();
+        var args = System.Array.Empty<FormulaResult>();
 
         var result = func.Execute(null!, args);
 
@@ -528,12 +528,12 @@ public class GroupByAndPivotFunctionTests
         var func = AnchorArrayFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -543,12 +543,12 @@ public class GroupByAndPivotFunctionTests
         var func = AnchorArrayFunction.Instance;
         var args = new[]
         {
-            CellValue.Empty,
+            FormulaResult.Empty,
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Empty, result.Type);
+        Assert.Equal(FormulaResultType.Empty, result.Type);
     }
 
     #endregion

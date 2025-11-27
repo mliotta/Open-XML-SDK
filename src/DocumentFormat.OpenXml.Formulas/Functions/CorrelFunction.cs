@@ -27,11 +27,11 @@ public sealed class CorrelFunction : IFunctionImplementation
     public string Name => "CORREL";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var array1Values = new List<double>();
@@ -43,7 +43,7 @@ public sealed class CorrelFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             array1Values.Add(args[0].NumericValue);
         }
@@ -54,7 +54,7 @@ public sealed class CorrelFunction : IFunctionImplementation
             return args[1];
         }
 
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             array2Values.Add(args[1].NumericValue);
         }
@@ -62,13 +62,13 @@ public sealed class CorrelFunction : IFunctionImplementation
         // Arrays must have same length
         if (array1Values.Count != array2Values.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Need at least 2 data points
         if (array1Values.Count < 2)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate means
@@ -94,11 +94,11 @@ public sealed class CorrelFunction : IFunctionImplementation
         // Check for division by zero (no variance in one or both arrays)
         if (sumSquares1 == 0.0 || sumSquares2 == 0.0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         var correlation = sumProduct / (System.Math.Sqrt(sumSquares1) * System.Math.Sqrt(sumSquares2));
 
-        return CellValue.FromNumber(correlation);
+        return FormulaResult.FromNumber(correlation);
     }
 }

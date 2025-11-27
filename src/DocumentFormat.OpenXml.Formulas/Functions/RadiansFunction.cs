@@ -25,11 +25,11 @@ public sealed class RadiansFunction : IFunctionImplementation
     public string Name => "RADIANS";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -37,14 +37,14 @@ public sealed class RadiansFunction : IFunctionImplementation
             return args[0];
         }
 
-        if (args[0].Type != CellValueType.Number)
+        if (args[0].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var degrees = args[0].NumericValue;
         var radians = degrees * System.Math.PI / 180.0;
 
-        return CellValue.FromNumber(radians);
+        return FormulaResult.FromNumber(radians);
     }
 }

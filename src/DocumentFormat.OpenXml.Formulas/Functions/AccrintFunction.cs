@@ -25,11 +25,11 @@ public sealed class AccrintFunction : IFunctionImplementation
     public string Name => "ACCRINT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 6 || args.Length > 8)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in required arguments
@@ -40,53 +40,53 @@ public sealed class AccrintFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var basis = 0;
-        if (args.Length >= 7 && args[6].Type != CellValueType.Empty)
+        if (args.Length >= 7 && args[6].Type != FormulaResultType.Empty)
         {
             if (args[6].IsError)
             {
                 return args[6];
             }
 
-            if (args[6].Type == CellValueType.Number)
+            if (args[6].Type == FormulaResultType.Number)
             {
                 basis = (int)args[6].NumericValue;
                 if (!DayCountHelper.IsValidBasis(basis))
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
         var calcMethod = 1;
-        if (args.Length == 8 && args[7].Type != CellValueType.Empty)
+        if (args.Length == 8 && args[7].Type != FormulaResultType.Empty)
         {
             if (args[7].IsError)
             {
                 return args[7];
             }
 
-            if (args[7].Type == CellValueType.Number)
+            if (args[7].Type == FormulaResultType.Number)
             {
                 calcMethod = (int)args[7].NumericValue;
                 if (calcMethod != 0 && calcMethod != 1)
                 {
-                    return CellValue.Error("#NUM!");
+                    return FormulaResult.Error("#NUM!");
                 }
             }
             else
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -102,17 +102,17 @@ public sealed class AccrintFunction : IFunctionImplementation
             // Validate inputs
             if (!DayCountHelper.IsValidFrequency(frequency))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (rate <= 0 || par <= 0)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             if (issue >= settlement || settlement >= firstInterest)
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
             double accruedInterest;
@@ -162,14 +162,14 @@ public sealed class AccrintFunction : IFunctionImplementation
 
             if (double.IsNaN(accruedInterest) || double.IsInfinity(accruedInterest))
             {
-                return CellValue.Error("#NUM!");
+                return FormulaResult.Error("#NUM!");
             }
 
-            return CellValue.FromNumber(accruedInterest);
+            return FormulaResult.FromNumber(accruedInterest);
         }
         catch
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

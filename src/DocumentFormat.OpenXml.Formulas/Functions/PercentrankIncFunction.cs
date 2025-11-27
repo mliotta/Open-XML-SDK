@@ -24,7 +24,7 @@ public sealed class PercentrankIncFunction : IFunctionImplementation
     public string Name => "PERCENTRANK.INC";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         // PERCENTRANK.INC is the same as PERCENTRANK
         return PercentrankFunction.Instance.Execute(context, args);

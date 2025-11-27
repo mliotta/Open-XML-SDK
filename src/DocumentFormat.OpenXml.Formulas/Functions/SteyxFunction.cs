@@ -25,11 +25,11 @@ public sealed class SteyxFunction : IFunctionImplementation
     public string Name => "STEYX";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length < 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // First half are y values, second half are x values
@@ -45,7 +45,7 @@ public sealed class SteyxFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 yValues.Add(args[i].NumericValue);
             }
@@ -59,7 +59,7 @@ public sealed class SteyxFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type == CellValueType.Number)
+            if (args[i].Type == FormulaResultType.Number)
             {
                 xValues.Add(args[i].NumericValue);
             }
@@ -67,13 +67,13 @@ public sealed class SteyxFunction : IFunctionImplementation
 
         if (xValues.Count == 0 || yValues.Count == 0 || xValues.Count != yValues.Count)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         int n = xValues.Count;
         if (n < 3)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         // Calculate means
@@ -98,7 +98,7 @@ public sealed class SteyxFunction : IFunctionImplementation
 
         if (denominator == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
         double slope = numerator / denominator;
@@ -115,6 +115,6 @@ public sealed class SteyxFunction : IFunctionImplementation
 
         double standardError = System.Math.Sqrt(sumSquaredErrors / (n - 2));
 
-        return CellValue.FromNumber(standardError);
+        return FormulaResult.FromNumber(standardError);
     }
 }

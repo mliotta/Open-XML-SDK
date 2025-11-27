@@ -25,14 +25,14 @@ public sealed class AverageFunction : IFunctionImplementation
     public string Name => "AVERAGE";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         var sum = 0.0;
         var count = 0;
 
         foreach (var arg in args)
         {
-            if (arg.Type == CellValueType.Number)
+            if (arg.Type == FormulaResultType.Number)
             {
                 sum += arg.NumericValue;
                 count++;
@@ -45,9 +45,9 @@ public sealed class AverageFunction : IFunctionImplementation
 
         if (count == 0)
         {
-            return CellValue.Error("#DIV/0!");
+            return FormulaResult.Error("#DIV/0!");
         }
 
-        return CellValue.FromNumber(sum / count);
+        return FormulaResult.FromNumber(sum / count);
     }
 }

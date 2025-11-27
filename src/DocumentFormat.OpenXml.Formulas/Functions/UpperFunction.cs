@@ -24,11 +24,11 @@ public sealed class UpperFunction : IFunctionImplementation
     public string Name => "UPPER";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -36,6 +36,6 @@ public sealed class UpperFunction : IFunctionImplementation
             return args[0];
         }
 
-        return CellValue.FromString(args[0].StringValue.ToUpperInvariant());
+        return FormulaResult.FromString(args[0].StringValue.ToUpperInvariant());
     }
 }

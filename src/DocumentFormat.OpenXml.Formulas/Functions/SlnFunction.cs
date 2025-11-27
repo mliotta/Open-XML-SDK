@@ -25,11 +25,11 @@ public sealed class SlnFunction : IFunctionImplementation
     public string Name => "SLN";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -40,9 +40,9 @@ public sealed class SlnFunction : IFunctionImplementation
                 return args[i];
             }
 
-            if (args[i].Type != CellValueType.Number)
+            if (args[i].Type != FormulaResultType.Number)
             {
-                return CellValue.Error("#VALUE!");
+                return FormulaResult.Error("#VALUE!");
             }
         }
 
@@ -53,7 +53,7 @@ public sealed class SlnFunction : IFunctionImplementation
         // Validate life is positive
         if (life <= 0)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         // Calculate straight-line depreciation
@@ -61,9 +61,9 @@ public sealed class SlnFunction : IFunctionImplementation
 
         if (double.IsNaN(depreciation) || double.IsInfinity(depreciation))
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
-        return CellValue.FromNumber(depreciation);
+        return FormulaResult.FromNumber(depreciation);
     }
 }

@@ -24,11 +24,11 @@ public sealed class ChiSqTestFunction : IFunctionImplementation
     public string Name => "CHISQ.TEST";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 2)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Check for errors in arguments
@@ -46,28 +46,28 @@ public sealed class ChiSqTestFunction : IFunctionImplementation
         var expectedValues = new System.Collections.Generic.List<double>();
 
         // Extract actual values
-        if (args[0].Type == CellValueType.Number)
+        if (args[0].Type == FormulaResultType.Number)
         {
             actualValues.Add(args[0].NumericValue);
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Extract expected values
-        if (args[1].Type == CellValueType.Number)
+        if (args[1].Type == FormulaResultType.Number)
         {
             expectedValues.Add(args[1].NumericValue);
         }
         else
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (actualValues.Count != expectedValues.Count || actualValues.Count == 0)
         {
-            return CellValue.Error("#N/A");
+            return FormulaResult.Error("#N/A");
         }
 
         // Calculate chi-squared statistic
@@ -80,7 +80,7 @@ public sealed class ChiSqTestFunction : IFunctionImplementation
 
             if (expected <= 0)
             {
-                return CellValue.Error("#DIV/0!");
+                return FormulaResult.Error("#DIV/0!");
             }
 
             chiSquare += System.Math.Pow(actual - expected, 2) / expected;
@@ -91,18 +91,18 @@ public sealed class ChiSqTestFunction : IFunctionImplementation
 
         if (df < 1)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
 
         try
         {
             // Return the p-value (right-tailed probability)
             double pValue = 1.0 - StatisticalHelper.ChiSquareCDF(chiSquare, df);
-            return CellValue.FromNumber(pValue);
+            return FormulaResult.FromNumber(pValue);
         }
         catch (System.ArgumentException)
         {
-            return CellValue.Error("#NUM!");
+            return FormulaResult.Error("#NUM!");
         }
     }
 }

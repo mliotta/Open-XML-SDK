@@ -25,11 +25,11 @@ public sealed class MidBFunction : IFunctionImplementation
     public string Name => "MIDB";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 3)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -49,9 +49,9 @@ public sealed class MidBFunction : IFunctionImplementation
 
         var text = args[0].StringValue;
 
-        if (args[1].Type != CellValueType.Number || args[2].Type != CellValueType.Number)
+        if (args[1].Type != FormulaResultType.Number || args[2].Type != FormulaResultType.Number)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         var startNum = (int)args[1].NumericValue;
@@ -59,7 +59,7 @@ public sealed class MidBFunction : IFunctionImplementation
 
         if (startNum < 1 || numBytes < 0)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         // Get bytes from text
@@ -70,7 +70,7 @@ public sealed class MidBFunction : IFunctionImplementation
 
         if (startIndex >= bytes.Length || numBytes == 0)
         {
-            return CellValue.FromString(string.Empty);
+            return FormulaResult.FromString(string.Empty);
         }
 
         // Calculate the actual number of bytes to extract
@@ -86,7 +86,7 @@ public sealed class MidBFunction : IFunctionImplementation
         // Clean up incomplete characters at both ends
         result = CleanupIncompleteCharacters(result);
 
-        return CellValue.FromString(result);
+        return FormulaResult.FromString(result);
     }
 
     private static string CleanupIncompleteCharacters(string text)

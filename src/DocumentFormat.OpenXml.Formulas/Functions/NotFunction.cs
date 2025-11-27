@@ -24,11 +24,11 @@ public sealed class NotFunction : IFunctionImplementation
     public string Name => "NOT";
 
     /// <inheritdoc/>
-    public CellValue Execute(CellContext context, CellValue[] args)
+    public FormulaResult Execute(CellContext context, FormulaResult[] args)
     {
         if (args.Length != 1)
         {
-            return CellValue.Error("#VALUE!");
+            return FormulaResult.Error("#VALUE!");
         }
 
         if (args[0].IsError)
@@ -39,13 +39,13 @@ public sealed class NotFunction : IFunctionImplementation
         // Evaluate as boolean
         var isTrue = args[0].Type switch
         {
-            CellValueType.Boolean => args[0].BoolValue,
-            CellValueType.Number => args[0].NumericValue != 0,
-            CellValueType.Text => !string.IsNullOrEmpty(args[0].StringValue),
-            CellValueType.Empty => false,
+            FormulaResultType.Boolean => args[0].BoolValue,
+            FormulaResultType.Number => args[0].NumericValue != 0,
+            FormulaResultType.Text => !string.IsNullOrEmpty(args[0].StringValue),
+            FormulaResultType.Empty => false,
             _ => false,
         };
 
-        return CellValue.FromBool(!isTrue);
+        return FormulaResult.FromBool(!isTrue);
     }
 }

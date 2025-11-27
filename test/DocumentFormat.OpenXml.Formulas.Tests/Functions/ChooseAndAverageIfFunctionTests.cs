@@ -21,15 +21,15 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromString("Red"),
-            CellValue.FromString("Green"),
-            CellValue.FromString("Blue"),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromString("Red"),
+            FormulaResult.FromString("Green"),
+            FormulaResult.FromString("Blue"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Green", result.StringValue);
     }
 
@@ -39,15 +39,15 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
-            CellValue.FromString("Monday"),
-            CellValue.FromString("Tuesday"),
-            CellValue.FromString("Wednesday"),
+            FormulaResult.FromNumber(1),
+            FormulaResult.FromString("Monday"),
+            FormulaResult.FromString("Tuesday"),
+            FormulaResult.FromString("Wednesday"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Monday", result.StringValue);
     }
 
@@ -57,15 +57,15 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromString("Red"),
-            CellValue.FromString("Green"),
-            CellValue.FromString("Blue"),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString("Red"),
+            FormulaResult.FromString("Green"),
+            FormulaResult.FromString("Blue"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Blue", result.StringValue);
     }
 
@@ -75,15 +75,15 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2),
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(2),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(20.0, result.NumericValue);
     }
 
@@ -93,15 +93,15 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromNumber(100),
-            CellValue.FromString("Text"),
-            CellValue.FromBool(true),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromNumber(100),
+            FormulaResult.FromString("Text"),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Boolean, result.Type);
+        Assert.Equal(FormulaResultType.Boolean, result.Type);
         Assert.True(result.BoolValue);
     }
 
@@ -111,10 +111,10 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(0),
-            CellValue.FromString("Red"),
-            CellValue.FromString("Green"),
-            CellValue.FromString("Blue"),
+            FormulaResult.FromNumber(0),
+            FormulaResult.FromString("Red"),
+            FormulaResult.FromString("Green"),
+            FormulaResult.FromString("Blue"),
         };
 
         var result = func.Execute(null!, args);
@@ -129,10 +129,10 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(4),
-            CellValue.FromString("Red"),
-            CellValue.FromString("Green"),
-            CellValue.FromString("Blue"),
+            FormulaResult.FromNumber(4),
+            FormulaResult.FromString("Red"),
+            FormulaResult.FromString("Green"),
+            FormulaResult.FromString("Blue"),
         };
 
         var result = func.Execute(null!, args);
@@ -147,9 +147,9 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(-1),
-            CellValue.FromString("Red"),
-            CellValue.FromString("Green"),
+            FormulaResult.FromNumber(-1),
+            FormulaResult.FromString("Red"),
+            FormulaResult.FromString("Green"),
         };
 
         var result = func.Execute(null!, args);
@@ -164,9 +164,9 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("text"),
-            CellValue.FromString("Red"),
-            CellValue.FromString("Green"),
+            FormulaResult.FromString("text"),
+            FormulaResult.FromString("Red"),
+            FormulaResult.FromString("Green"),
         };
 
         var result = func.Execute(null!, args);
@@ -181,7 +181,7 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(1),
+            FormulaResult.FromNumber(1),
         };
 
         var result = func.Execute(null!, args);
@@ -196,9 +196,9 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#DIV/0!"),
-            CellValue.FromString("Red"),
-            CellValue.FromString("Green"),
+            FormulaResult.Error("#DIV/0!"),
+            FormulaResult.FromString("Red"),
+            FormulaResult.FromString("Green"),
         };
 
         var result = func.Execute(null!, args);
@@ -213,15 +213,15 @@ public class ChooseAndAverageIfFunctionTests
         var func = ChooseFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(2.9),
-            CellValue.FromString("Red"),
-            CellValue.FromString("Green"),
-            CellValue.FromString("Blue"),
+            FormulaResult.FromNumber(2.9),
+            FormulaResult.FromString("Red"),
+            FormulaResult.FromString("Green"),
+            FormulaResult.FromString("Blue"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Text, result.Type);
+        Assert.Equal(FormulaResultType.Text, result.Type);
         Assert.Equal("Green", result.StringValue);
     }
 
@@ -235,13 +235,13 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -251,13 +251,13 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromString("<5"),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString("<5"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(3.0, result.NumericValue);
     }
 
@@ -267,13 +267,13 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString(">=5"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString(">=5"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -283,13 +283,13 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(5),
-            CellValue.FromString("<=5"),
+            FormulaResult.FromNumber(5),
+            FormulaResult.FromString("<=5"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(5.0, result.NumericValue);
     }
 
@@ -299,13 +299,13 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString("=10"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("=10"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -315,13 +315,13 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString("<>5"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString("<>5"),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -331,8 +331,8 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(3),
-            CellValue.FromString(">10"),
+            FormulaResult.FromNumber(3),
+            FormulaResult.FromString(">10"),
         };
 
         var result = func.Execute(null!, args);
@@ -347,8 +347,8 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromString("Apple"),
-            CellValue.FromString("Apple"),
+            FormulaResult.FromString("Apple"),
+            FormulaResult.FromString("Apple"),
         };
 
         var result = func.Execute(null!, args);
@@ -364,13 +364,13 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
 
-        Assert.Equal(CellValueType.Number, result.Type);
+        Assert.Equal(FormulaResultType.Number, result.Type);
         Assert.Equal(10.0, result.NumericValue);
     }
 
@@ -380,8 +380,8 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.Error("#REF!"),
-            CellValue.FromString(">5"),
+            FormulaResult.Error("#REF!"),
+            FormulaResult.FromString(">5"),
         };
 
         var result = func.Execute(null!, args);
@@ -396,8 +396,8 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.Error("#VALUE!"),
+            FormulaResult.FromNumber(10),
+            FormulaResult.Error("#VALUE!"),
         };
 
         var result = func.Execute(null!, args);
@@ -412,7 +412,7 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
+            FormulaResult.FromNumber(10),
         };
 
         var result = func.Execute(null!, args);
@@ -427,10 +427,10 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromNumber(10),
-            CellValue.FromString(">5"),
-            CellValue.FromNumber(20),
-            CellValue.FromNumber(30),
+            FormulaResult.FromNumber(10),
+            FormulaResult.FromString(">5"),
+            FormulaResult.FromNumber(20),
+            FormulaResult.FromNumber(30),
         };
 
         var result = func.Execute(null!, args);
@@ -445,8 +445,8 @@ public class ChooseAndAverageIfFunctionTests
         var func = AverageIfFunction.Instance;
         var args = new[]
         {
-            CellValue.FromBool(true),
-            CellValue.FromBool(true),
+            FormulaResult.FromBool(true),
+            FormulaResult.FromBool(true),
         };
 
         var result = func.Execute(null!, args);
