@@ -9,7 +9,7 @@
 This fork extends the official Open XML SDK with a **high-performance Excel formula evaluator** that enables:
 
 - ✅ **Evaluate Excel formulas** without requiring Excel to be installed
-- ✅ **508 built-in functions** (math, text, logical, lookup, array, web, date/time, statistical, financial, engineering, database, information, cube, regex, forecasting) - **97.3% Excel coverage**
+- ✅ **507 built-in functions** (math, text, logical, lookup, array, web, date/time, statistical, financial, engineering, database, information, cube, regex, forecasting) - **97.1% Excel coverage**
 - ✅ **100% validation accuracy** against Excel's calculations
 - ✅ **Incremental recalculation** - 250-1000x faster than full sheet recalculation
 - ✅ **Formula-to-Lambda compilation** for native performance
@@ -69,13 +69,13 @@ evaluator.RecalculateSheet(worksheet);
 evaluator.RecalculateDependents(worksheet, "A1", "B2");
 ```
 
-## Supported Functions (508 total - 97.3% Excel Coverage)
+## Supported Functions (507 total - 97.1% Excel Coverage)
 
 ### Core Functions
 
 **Math & Trigonometry (89)**: SUM, AVERAGE, COUNT, COUNTA, COUNTBLANK, MIN, MAX, ROUND, ROUNDUP, ROUNDDOWN, ABS, PRODUCT, POWER, MEDIAN, MODE, STDEV, VAR, SQRT, SQRTPI, MOD, INT, CEILING, CEILING.MATH, CEILING.PRECISE, FLOOR, FLOOR.MATH, FLOOR.PRECISE, ISO.CEILING, TRUNC, SIGN, EXP, LN, LOG, LOG10, PI, RADIANS, DEGREES, SIN, COS, TAN, ASIN, ACOS, ATAN, ATAN2, ASINH, ACOSH, ATANH, SINH, COSH, TANH, ACOT, ACOTH, SEC, SECH, CSC, CSCH, COT, COTH, SUMIFS, COUNTIFS, SUMPRODUCT, RAND, RANDBETWEEN, RANDARRAY, FACT, FACTDOUBLE, COMBIN, COMBINA, PERMUT, GCD, LCM, EVEN, ODD, MROUND, QUOTIENT, SUMSQ, SUMX2MY2, SUMX2PY2, SUMXMY2, MULTINOMIAL, SERIESSUM, BASE, DECIMAL, ARABIC, ROMAN, MDETERM, MINVERSE, MMULT, MUNIT, LOOKUP
 
-**Text (56)**: CONCATENATE, CONCAT, TEXTJOIN, LEFT, RIGHT, MID, LEN, TRIM, TRIMALL, UPPER, LOWER, PROPER, FIND, SEARCH, SUBSTITUTE, TEXT, VALUE, REPLACE, REPT, EXACT, CHAR, CODE, CLEAN, T, REVERSE, FIXED, DOLLAR, NUMBERVALUE, UNICHAR, UNICODE, PHONETIC, TEXTBEFORE, TEXTAFTER, TEXTSPLIT, VALUETOTEXT, ARRAYTOTEXT, LENB, LEFTB, RIGHTB, MIDB, FINDB, SEARCHB, REPLACEB, REGEXTEST, REGEXEXTRACT, REGEXREPLACE, ASC, DBCS, BAHTTEXT
+**Text (55)**: CONCATENATE, CONCAT, TEXTJOIN, LEFT, RIGHT, MID, LEN, TRIM, TRIMALL, UPPER, LOWER, PROPER, FIND, SEARCH, SUBSTITUTE, TEXT, VALUE, REPLACE, REPT, EXACT, CHAR, CODE, CLEAN, T, REVERSE, FIXED, DOLLAR, NUMBERVALUE, UNICHAR, UNICODE, PHONETIC, TEXTBEFORE, TEXTAFTER, TEXTSPLIT, VALUETOTEXT, ARRAYTOTEXT, LENB, LEFTB, RIGHTB, MIDB, FINDB, SEARCHB, REPLACEB, REGEXTEST, REGEXEXTRACT, REGEXREPLACE, ASC, DBCS
 
 **Logical (10)**: IF, IFS, AND, OR, NOT, XOR, CHOOSE, SWITCH, IFNA, TRUE, FALSE
 
@@ -140,7 +140,7 @@ Supports all target frameworks of the base Open XML SDK:
 src/DocumentFormat.OpenXml.Formulas/          # Formula evaluation library
 ├── Parsing/                                   # Lexer, parser, AST
 ├── Compilation/                               # Formula compiler
-├── Functions/                                 # 508 function implementations
+├── Functions/                                 # 507 function implementations
 ├── DependencyGraph/                          # Dependency tracking
 └── IFormulaEvaluator.cs                      # Public API
 
