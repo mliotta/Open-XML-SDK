@@ -54,9 +54,10 @@ evaluator.RecalculateDependents(worksheet, "A1");
 **Formula Validation and Testing**
 ```csharp
 // Validate generated formulas produce expected results
-var result = evaluator.TryEvaluate(worksheet, cell);
-Assert.True(result.IsSuccess);
-Assert.Equal(expectedValue, result.Value.NumericValue);
+if (evaluator.TryEvaluate(worksheet, cell, out var result))
+{
+    Assert.Equal(expectedValue, result.NumericValue);
+}
 ```
 
 **Dependency Analysis**
@@ -79,9 +80,10 @@ namespace DocumentFormat.OpenXml.Features.FormulaEvaluation;
 public interface IFormulaEvaluator : IDisposable
 {
     /// <summary>
-    /// Evaluates a single cell formula.
+    /// Attempts to evaluate a single cell formula.
     /// </summary>
-    Result<FormulaResult> TryEvaluate(Worksheet worksheet, Cell cell);
+    /// <returns>true if the formula was evaluated successfully; otherwise, false.</returns>
+    bool TryEvaluate(Worksheet worksheet, Cell cell, out FormulaResult result);
 
     /// <summary>
     /// Recalculates all formulas in the worksheet in dependency order.
@@ -153,22 +155,6 @@ public enum FormulaResultType
     Boolean,
     Error,
     Empty
-}
-
-/// <summary>
-/// Result type for formula evaluation operations.
-/// </summary>
-public readonly struct Result<T>
-{
-    public bool IsSuccess { get; }
-    public T Value { get; }
-    public EvaluationError? Error { get; }
-
-    public static Result<T> Success(T value);
-    public static Result<T> Failure(EvaluationError error);
-    public TResult Match<TResult>(
-        Func<T, TResult> onSuccess,
-        Func<EvaluationError, TResult> onFailure);
 }
 
 /// <summary>
@@ -340,7 +326,6 @@ Supports all current SDK target frameworks:
 1. **API Design**
    - Is the `IFormulaEvaluator` feature interface approach correct for SDK features?
    - Should `FormulaResult` be in the main SDK namespace or formula-specific namespace?
-   - Is the `Result<T>` pattern appropriate, or should we use exceptions for evaluation failures?
 
 2. **Performance**
    - Are the claimed performance characteristics sufficient for typical use cases?

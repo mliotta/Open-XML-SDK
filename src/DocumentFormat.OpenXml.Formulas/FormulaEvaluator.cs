@@ -38,27 +38,25 @@ public class FormulaEvaluator : IFormulaEvaluator
     }
 
     /// <inheritdoc/>
-    public Result<FormulaResult> TryEvaluate(Worksheet worksheet, Cell cell)
+    public bool TryEvaluate(Worksheet worksheet, Cell cell, out FormulaResult result)
     {
         _statistics.TotalEvaluations++;
+        result = FormulaResult.Empty;
 
         try
         {
-            if (worksheet == null)
+            if (worksheet == null || cell == null)
             {
-                throw new ArgumentNullException(nameof(worksheet));
-            }
-
-            if (cell == null)
-            {
-                throw new ArgumentNullException(nameof(cell));
+                _statistics.FailedEvaluations++;
+                return false;
             }
 
             // Get the formula
             var cellFormula = cell.CellFormula?.Text;
             if (string.IsNullOrEmpty(cellFormula))
             {
-                return Result<FormulaResult>.Failure(new ParserException("Cell does not contain a formula"));
+                _statistics.FailedEvaluations++;
+                return false;
             }
 
             // Get or compile the formula
@@ -69,30 +67,15 @@ public class FormulaEvaluator : IFormulaEvaluator
 
             // Execute the formula
             var context = new CellContext(worksheet, sharedStringTablePart);
-            var result = compiledFormula(context);
+            result = compiledFormula(context);
 
             _statistics.SuccessfulEvaluations++;
-            return Result<FormulaResult>.Success(result);
+            return true;
         }
-        catch (ParserException ex)
+        catch
         {
             _statistics.FailedEvaluations++;
-            return Result<FormulaResult>.Failure(ex);
-        }
-        catch (CompilationException ex)
-        {
-            _statistics.FailedEvaluations++;
-            return Result<FormulaResult>.Failure(ex);
-        }
-        catch (UnsupportedFunctionException ex)
-        {
-            _statistics.FailedEvaluations++;
-            return Result<FormulaResult>.Failure(ex);
-        }
-        catch (Exception ex)
-        {
-            _statistics.FailedEvaluations++;
-            return Result<FormulaResult>.Failure(new ParserException($"Evaluation failed: {ex.Message}"));
+            return false;
         }
     }
 
@@ -111,11 +94,10 @@ public class FormulaEvaluator : IFormulaEvaluator
             var cell = FindCellByReference(worksheet, cellRef);
             if (cell?.CellFormula != null)
             {
-                var result = TryEvaluate(worksheet, cell);
-                if (result.IsSuccess)
+                if (TryEvaluate(worksheet, cell, out var result))
                 {
                     // Update cached value
-                    UpdateFormulaResult(cell, result.Value);
+                    UpdateFormulaResult(cell, result);
                 }
             }
         }
@@ -176,11 +158,10 @@ public class FormulaEvaluator : IFormulaEvaluator
             var cell = FindCellByReference(worksheet, cellRef);
             if (cell?.CellFormula != null)
             {
-                var result = TryEvaluate(worksheet, cell);
-                if (result.IsSuccess)
+                if (TryEvaluate(worksheet, cell, out var result))
                 {
                     // Update cached value
-                    UpdateFormulaResult(cell, result.Value);
+                    UpdateFormulaResult(cell, result);
                 }
             }
         }

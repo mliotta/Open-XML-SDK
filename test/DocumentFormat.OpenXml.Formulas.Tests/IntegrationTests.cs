@@ -269,7 +269,7 @@ public class IntegrationTests
             // Evaluate once
             var cell = wsPart.Worksheet.Descendants<Cell>()
                 .First(c => c.CellReference == "A2");
-            evaluator.TryEvaluate(wsPart.Worksheet, cell);
+            evaluator.TryEvaluate(wsPart.Worksheet, cell, out _);
 
             var stats = evaluator.GetStatistics();
 

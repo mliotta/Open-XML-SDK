@@ -15,12 +15,13 @@ namespace DocumentFormat.OpenXml.Features.FormulaEvaluation;
 public interface IFormulaEvaluator : IDisposable
 {
     /// <summary>
-    /// Evaluates a single cell formula.
+    /// Attempts to evaluate a single cell formula.
     /// </summary>
     /// <param name="worksheet">The worksheet containing the cell.</param>
     /// <param name="cell">The cell containing the formula.</param>
-    /// <returns>Result containing the evaluated cell value or an error.</returns>
-    Result<FormulaResult> TryEvaluate(Worksheet worksheet, Cell cell);
+    /// <param name="result">When this method returns true, contains the evaluated result.</param>
+    /// <returns>true if the formula was evaluated successfully; otherwise, false.</returns>
+    bool TryEvaluate(Worksheet worksheet, Cell cell, out FormulaResult result);
 
     /// <summary>
     /// Recalculates all formulas in the worksheet in dependency order.

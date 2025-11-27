@@ -132,9 +132,7 @@ public class OracleValidationTests
                 }
 
                 // Evaluate with our engine
-                var evalResult = evaluator.TryEvaluate(worksheet, cell);
-
-                if (!evalResult.IsSuccess)
+                if (!evaluator.TryEvaluate(worksheet, cell, out var ourValue))
                 {
                     result.Failed++;
                     result.Failures.Add(new OracleFailure
@@ -144,13 +142,12 @@ public class OracleValidationTests
                         Formula = formula,
                         ExpectedValue = excelValue,
                         ActualValue = null,
-                        ErrorMessage = evalResult.Error?.Message ?? "Unknown error",
+                        ErrorMessage = "Evaluation failed",
                     });
                     continue;
                 }
 
                 // Compare values
-                var ourValue = evalResult.Value;
                 var match = CompareValues(ourValue, excelValue, excelDataType);
 
                 if (match)

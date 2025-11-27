@@ -66,11 +66,11 @@ public class EvaluatorTests
         var evaluator = document.GetFormulaEvaluator();
 
         // Act
-        var result = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula);
+        var success = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula, out var result);
 
         // Assert
-        Assert.True(result.IsSuccess);
-        Assert.Equal(30.0, result.Value.NumericValue);
+        Assert.True(success);
+        Assert.Equal(30.0, result.NumericValue);
     }
 
     [Fact]
@@ -123,11 +123,11 @@ public class EvaluatorTests
         var evaluator = document.GetFormulaEvaluator();
 
         // Act
-        var result = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula);
+        var success = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula, out var result);
 
         // Assert
-        Assert.True(result.IsSuccess);
-        Assert.Equal(55.0, result.Value.NumericValue); // 1+2+...+10 = 55
+        Assert.True(success);
+        Assert.Equal(55.0, result.NumericValue); // 1+2+...+10 = 55
     }
 
     [Fact]
@@ -180,11 +180,11 @@ public class EvaluatorTests
         var evaluator = document.GetFormulaEvaluator();
 
         // Act
-        var result = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula);
+        var success = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula, out var result);
 
         // Assert
-        Assert.True(result.IsSuccess);
-        Assert.Equal(30.0, result.Value.NumericValue); // (10+20+30+40+50)/5 = 30
+        Assert.True(success);
+        Assert.Equal(30.0, result.NumericValue); // (10+20+30+40+50)/5 = 30
     }
 
     [Fact]
@@ -244,11 +244,11 @@ public class EvaluatorTests
         var evaluator = document.GetFormulaEvaluator();
 
         // Act
-        var result = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula);
+        var success = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula, out var result);
 
         // Assert
-        Assert.True(result.IsSuccess);
-        Assert.Equal(100.0, result.Value.NumericValue); // A1 (15) > 10, so returns B1 (100)
+        Assert.True(success);
+        Assert.Equal(100.0, result.NumericValue); // A1 (15) > 10, so returns B1 (100)
     }
 
     [Fact]
@@ -301,13 +301,13 @@ public class EvaluatorTests
         var evaluator = document.GetFormulaEvaluator();
 
         // Act - evaluate twice
-        var result1 = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula);
-        var result2 = evaluator.TryEvaluate(worksheetPart.Worksheet, cellWithFormula);
+        var success1 = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula, out var result1);
+        var success2 = evaluator.TryEvaluate(worksheetPart.Worksheet, cellWithFormula, out var result2);
 
         // Assert - both should return the same result
-        Assert.True(result1.IsSuccess);
-        Assert.True(result2.IsSuccess);
-        Assert.Equal(result1.Value.NumericValue, result2.Value.NumericValue);
+        Assert.True(success1);
+        Assert.True(success2);
+        Assert.Equal(result1.NumericValue, result2.NumericValue);
     }
 
     [Fact(Skip = "Phase 0 limitation - cache does not invalidate")]
@@ -357,20 +357,20 @@ public class EvaluatorTests
             var evaluator = doc.Features.GetRequired<IFormulaEvaluator>();
 
             // First evaluation: A2 = A1*2 = 10*2 = 20
-            var result1 = evaluator.TryEvaluate(wsPart.Worksheet, cellA2);
-            Assert.True(result1.IsSuccess);
-            Assert.Equal(20.0, result1.Value.NumericValue);
+            var success1 = evaluator.TryEvaluate(wsPart.Worksheet, cellA2, out var result1);
+            Assert.True(success1);
+            Assert.Equal(20.0, result1.NumericValue);
 
             // Change A1 value
             cellA1.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue("5");
 
             // Second evaluation: SHOULD be A2 = A1*2 = 5*2 = 10
             // But due to caching limitation, will return 20 (stale value)
-            var result2 = evaluator.TryEvaluate(wsPart.Worksheet, cellA2);
-            Assert.True(result2.IsSuccess);
+            var success2 = evaluator.TryEvaluate(wsPart.Worksheet, cellA2, out var result2);
+            Assert.True(success2);
 
             // This assertion will fail in Phase 0 (returns 20), succeed in Phase 1 (returns 10)
-            Assert.Equal(10.0, result2.Value.NumericValue);
+            Assert.Equal(10.0, result2.NumericValue);
         }
     }
 
@@ -424,12 +424,12 @@ public class EvaluatorTests
         var evaluator = document.GetFormulaEvaluator();
 
         // Act
-        var result = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula);
+        var success = evaluator!.TryEvaluate(worksheetPart.Worksheet, cellWithFormula, out var result);
 
         // Assert
-        Assert.True(result.IsSuccess);
+        Assert.True(success);
         // 25 is the 5th largest value in [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
         // In descending order: 50(1), 45(2), 40(3), 35(4), 30(5), 25(6), 20(7), ...
-        Assert.Equal(6.0, result.Value.NumericValue);
+        Assert.Equal(6.0, result.NumericValue);
     }
 }
