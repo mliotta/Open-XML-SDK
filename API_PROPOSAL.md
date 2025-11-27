@@ -288,17 +288,25 @@ Missing functions (14): Mostly obscure legacy functions or complex specialized f
 
 ### Oracle Validation Pattern
 
-We've implemented comprehensive testing using Excel as the oracle:
+"Oracle Validation" means using real Excel as the ground truth and diffing against it:
 
-1. **Generate test file** with 650+ formula test cases covering all function categories
-2. **Open in Excel** and let it calculate all formulas (blessing the results)
-3. **Save blessed file** with Excel's calculated values
-4. **Compare** our evaluator's results against Excel's results
+1. **Generate test workbook** - Create an .xlsx file with 650+ formulas covering all supported function categories, including nested formulas, edge cases, and error conditions
+2. **Let Excel compute everything** - Open the workbook in Excel and let it recalculate all formulas. Excel writes the evaluated results back into the file as cached values (the `v` element alongside the `f` formula element). This "blesses" the workbook.
+3. **Save the blessed file** - The workbook now contains Excel's computed values as the oracle reference
+4. **Compare evaluator vs Excel** - The formula engine loads the same workbook, evaluates each formula, and compares its computed `CellValue` to the value Excel stored. Any mismatch is a failing test.
+
+In short:
+- **Oracle** = Excel's own calculation engine
+- **Validation** = Asserting the evaluator produces identical results to Excel's cached values
+- **Pattern** = The repeatable workflow: generate → bless in Excel → save → compare
+
+This proves the implementation actually behaves like Excel, not just "passes some hand-written unit tests."
 
 Current test results:
 - 650+ test cases across all function categories
 - Validates simple to highly complex nested formulas (5+ nesting levels)
 - Tests edge cases, error conditions, and Excel-specific behaviors
+- Runs across platforms (Windows, Linux, macOS) and frameworks (.NET Framework, .NET Standard, .NET 8) in CI
 
 ### Continuous Integration
 
@@ -352,14 +360,15 @@ Supports all current SDK target frameworks:
 
 ## Related Work
 
-- **ClosedXML**: Has formula evaluation but tightly coupled to their object model
+- **ClosedXML**: Has formula evaluation but limited function coverage - many functions we needed were not implemented
 - **EPPlus**: Commercial formula evaluation but incompatible with Open XML SDK
 - **ExcelFormulaParser**: Parser only, no evaluation engine
 - **Jint/JavaScript engines**: Too heavy, different semantics than Excel
 
 This proposal provides native .NET formula evaluation that:
+- Implements 508 of 522 Excel functions (97.3% coverage) - far more complete than alternatives
 - Integrates seamlessly with Open XML SDK
-- Matches Excel's evaluation semantics precisely
+- Matches Excel's evaluation semantics precisely (validated via oracle testing)
 - Delivers native performance through expression compilation
 - Maintains SDK's philosophy of being lightweight and focused
 
@@ -368,7 +377,6 @@ This proposal provides native .NET formula evaluation that:
 - ✅ Complete implementation available
 - ✅ 650+ oracle-validated tests
 - ✅ Multi-framework compilation tested
-- ✅ Code reviewed for kernel-quality standards
 - ✅ Documentation complete
 
 **Repository**: Available at https://github.com/mliotta/Open-XML-SDK (fork)
