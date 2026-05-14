@@ -1,0 +1,18 @@
+name: Test Quality
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  async-test-shams:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check for async Task test methods with no await
+        run: python3 scripts/check_async_test_shams.py
