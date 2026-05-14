@@ -14,48 +14,66 @@ namespace DocumentFormat.OpenXml.Tests
         [Fact]
         public void CanCreatePresentationFromTemplate()
         {
-            using (var stream = OpenFile(TestFiles.Templates.Presentation, FileAccess.ReadWrite))
-            using (var packageDocument = PresentationDocument.CreateFromTemplate(stream.Path))
+            using var stream = OpenFile(TestFiles.Templates.Presentation, FileAccess.ReadWrite);
+            using var packageDocument = PresentationDocument.CreateFromTemplate(stream.Path);
+
+            Assert.NotNull(packageDocument.PresentationPart);
+            Assert.NotNull(packageDocument.PresentationPart!.Presentation);
+
+            var clonePath = Path.GetTempFileName();
+            try
             {
-                var part = packageDocument.PresentationPart;
-                var root = part.Presentation;
-
-                _ = packageDocument.Clone(Path.GetTempFileName());
-
-                // We are fine if we have not run into an exception.
-                Assert.True(true);
+                using var clone = packageDocument.Clone(clonePath);
+                Assert.NotNull(clone);
+                Assert.True(new FileInfo(clonePath).Length > 0);
+            }
+            finally
+            {
+                File.Delete(clonePath);
             }
         }
 
         [Fact]
         public void CanCreateSpreadsheetFromTemplate()
         {
-            using (var stream = OpenFile(TestFiles.Templates.Spreadsheet, FileAccess.ReadWrite))
-            using (var packageDocument = SpreadsheetDocument.CreateFromTemplate(stream.Path))
+            using var stream = OpenFile(TestFiles.Templates.Spreadsheet, FileAccess.ReadWrite);
+            using var packageDocument = SpreadsheetDocument.CreateFromTemplate(stream.Path);
+
+            Assert.NotNull(packageDocument.WorkbookPart);
+            Assert.NotNull(packageDocument.WorkbookPart!.Workbook);
+
+            var clonePath = Path.GetTempFileName();
+            try
             {
-                var part = packageDocument.WorkbookPart;
-                var root = part.Workbook;
-
-                _ = packageDocument.Clone(Path.GetTempFileName());
-
-                // We are fine if we have not run into an exception.
-                Assert.True(true);
+                using var clone = packageDocument.Clone(clonePath);
+                Assert.NotNull(clone);
+                Assert.True(new FileInfo(clonePath).Length > 0);
+            }
+            finally
+            {
+                File.Delete(clonePath);
             }
         }
 
         [Fact]
         public void CanCreateWordprocessingDocumentFromTemplate()
         {
-            using (var stream = OpenFile(TestFiles.Templates.Document, FileAccess.ReadWrite))
-            using (var packageDocument = WordprocessingDocument.CreateFromTemplate(stream.Path))
+            using var stream = OpenFile(TestFiles.Templates.Document, FileAccess.ReadWrite);
+            using var packageDocument = WordprocessingDocument.CreateFromTemplate(stream.Path);
+
+            Assert.NotNull(packageDocument.MainDocumentPart);
+            Assert.NotNull(packageDocument.MainDocumentPart!.Document);
+
+            var clonePath = Path.GetTempFileName();
+            try
             {
-                var part = packageDocument.MainDocumentPart;
-                var root = part.Document;
-
-                _ = packageDocument.Clone(Path.GetTempFileName());
-
-                // We are fine if we have not run into an exception.
-                Assert.True(true);
+                using var clone = packageDocument.Clone(clonePath);
+                Assert.NotNull(clone);
+                Assert.True(new FileInfo(clonePath).Length > 0);
+            }
+            finally
+            {
+                File.Delete(clonePath);
             }
         }
     }
