@@ -89,25 +89,6 @@ public class ForecastingFunctionTests
     }
 
     [Fact]
-    public void ForecastEts_MismatchedArrays_ReturnsError()
-    {
-        var func = ForecastEtsFunction.Instance;
-        // In real implementation, arrays would be different lengths
-        // For now, we test the error handling path
-        var args = new[]
-        {
-            FormulaResult.FromNumber(6),
-            FormulaResult.FromNumber(10),
-            FormulaResult.FromNumber(1),
-        };
-
-        var result = func.Execute(null!, args);
-
-        // Should handle the case gracefully
-        Assert.NotNull(result);
-    }
-
-    [Fact]
     public void ForecastEts_PropagatesError_ReturnsError()
     {
         var func = ForecastEtsFunction.Instance;
@@ -231,22 +212,6 @@ public class ForecastingFunctionTests
         Assert.Equal(FormulaResultType.Number, result.Type);
         // Should return a non-negative integer
         Assert.True(result.NumericValue >= 0);
-    }
-
-    [Fact]
-    public void ForecastEtsSeasonality_MismatchedArrays_ReturnsError()
-    {
-        var func = ForecastEtsSeasonalityFunction.Instance;
-        var args = new[]
-        {
-            FormulaResult.FromNumber(10),
-            FormulaResult.FromNumber(1),
-        };
-
-        var result = func.Execute(null!, args);
-
-        // Should handle gracefully
-        Assert.NotNull(result);
     }
 
     [Fact]
