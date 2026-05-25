@@ -67137,6 +67137,13 @@
       {
        "MinOccurs": 0,
        "Type": {
+        "Name": "http://schemas.microsoft.com/office/drawing/2014/chartex:offset",
+        "Type": "http://schemas.microsoft.com/office/drawing/2014/chartex:CT_Offset"
+       }
+      },
+      {
+       "MinOccurs": 0,
+       "Type": {
         "Name": "http://schemas.microsoft.com/office/drawing/2014/chartex:extLst",
         "Type": "http://schemas.microsoft.com/office/drawing/2014/chartex:CT_ExtensionList"
        }
@@ -67408,6 +67415,13 @@
        "Type": {
         "Name": "http://schemas.microsoft.com/office/drawing/2014/chartex:txPr",
         "Type": "http://schemas.openxmlformats.org/drawingml/2006/main:CT_TextBody"
+       }
+      },
+      {
+       "MinOccurs": 0,
+       "Type": {
+        "Name": "http://schemas.microsoft.com/office/drawing/2014/chartex:offset",
+        "Type": "http://schemas.microsoft.com/office/drawing/2014/chartex:CT_Offset"
        }
       },
       {
@@ -68306,6 +68320,13 @@
        "Type": {
         "Name": "http://schemas.microsoft.com/office/drawing/2014/chartex:txPr",
         "Type": "http://schemas.openxmlformats.org/drawingml/2006/main:CT_TextBody"
+       }
+      },
+      {
+       "MinOccurs": 0,
+       "Type": {
+        "Name": "http://schemas.microsoft.com/office/drawing/2014/chartex:offset",
+        "Type": "http://schemas.microsoft.com/office/drawing/2014/chartex:CT_Offset"
        }
       },
       {
