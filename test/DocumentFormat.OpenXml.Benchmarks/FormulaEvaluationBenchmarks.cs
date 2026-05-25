@@ -18,6 +18,7 @@ namespace DocumentFormat.OpenXml.Benchmarks;
 public class FormulaEvaluationBenchmarks
 {
     private SpreadsheetDocument? _document;
+    private Worksheet? _worksheet;
     private Cell? _simpleFormulaCell;
     private Cell? _sumFormulaCell;
     private IFormulaEvaluator? _evaluator;
@@ -96,6 +97,8 @@ public class FormulaEvaluationBenchmarks
         };
         sumRow.Append(_sumFormulaCell);
 
+        _worksheet = worksheetPart.Worksheet;
+
         _document.AddFormulaEvaluationFeature();
         _evaluator = _document.GetFormulaEvaluator();
     }
@@ -116,7 +119,7 @@ public class FormulaEvaluationBenchmarks
     [Benchmark]
     public void EvaluateSimpleFormula()
     {
-        _evaluator!.TryEvaluate(_simpleFormulaCell!);
+        _evaluator!.TryEvaluate(_worksheet!, _simpleFormulaCell!, out _);
     }
 
     /// <summary>
@@ -125,6 +128,6 @@ public class FormulaEvaluationBenchmarks
     [Benchmark]
     public void EvaluateSumFormula()
     {
-        _evaluator!.TryEvaluate(_sumFormulaCell!);
+        _evaluator!.TryEvaluate(_worksheet!, _sumFormulaCell!, out _);
     }
 }
