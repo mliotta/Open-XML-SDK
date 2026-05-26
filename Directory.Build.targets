@@ -21,6 +21,15 @@
     <ResGenExecuteAsTool>false</ResGenExecuteAsTool>
   </PropertyGroup>
 
+  <!-- The AOT samples workflow (.github/workflows/aot.yml) sets PublishAot=true as an environment
+       variable, which every project in the publish graph inherits. AOT only applies to the modern
+       .NET app TFMs, so disable it for netstandard / .NET Framework targets; otherwise the core
+       library and source-generator dependencies fail to publish with NETSDK1207. This lives in
+       Directory.Build.targets so $(TargetFramework) is resolved for single-target projects too. -->
+  <PropertyGroup Condition=" '$(PublishAot)' == 'true' and '$(TargetFramework)' != 'net8.0' and '$(TargetFramework)' != 'net10.0' ">
+    <PublishAot>false</PublishAot>
+  </PropertyGroup>
+
   <PropertyGroup>
     <IncludeFrameworkShims Condition=" '$(IncludeFrameworkShims)' == '' ">false</IncludeFrameworkShims>
   </PropertyGroup>
