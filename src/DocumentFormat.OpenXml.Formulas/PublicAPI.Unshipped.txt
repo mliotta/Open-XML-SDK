@@ -72,3 +72,34 @@ static DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaResult.operator 
 static DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaResult.operator ==(DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaResult left, DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaResult right) -> bool
 static DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaEvaluationExtensions.AddFormulaEvaluationFeature(this DocumentFormat.OpenXml.Packaging.SpreadsheetDocument! document) -> void
 static DocumentFormat.OpenXml.Features.FormulaEvaluation.FormulaEvaluationExtensions.GetFormulaEvaluator(this DocumentFormat.OpenXml.Packaging.SpreadsheetDocument! document) -> DocumentFormat.OpenXml.Features.FormulaEvaluation.IFormulaEvaluator?
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.Average = 3 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.Count = 1 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.CountNumbers = 2 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.Max = 4 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.Min = 5 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.Product = 6 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.StdDev = 7 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.StdDevP = 8 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.Sum = 0 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.Var = 9 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.VarP = 10 -> DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate
+DocumentFormat.OpenXml.Features.PivotTables.PivotLayout
+DocumentFormat.OpenXml.Features.PivotTables.PivotLayout.Compact = 0 -> DocumentFormat.OpenXml.Features.PivotTables.PivotLayout
+DocumentFormat.OpenXml.Features.PivotTables.PivotLayout.Outline = 1 -> DocumentFormat.OpenXml.Features.PivotTables.PivotLayout
+DocumentFormat.OpenXml.Features.PivotTables.PivotLayout.Tabular = 2 -> DocumentFormat.OpenXml.Features.PivotTables.PivotLayout
+DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs
+DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs.Normal = 0 -> DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs
+DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs.PercentOfColumn = 2 -> DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs
+DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs.PercentOfRow = 3 -> DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs
+DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs.PercentOfTotal = 1 -> DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.Column(string! fieldName) -> DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder!
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.Filter(string! fieldName, string? selectedValue = null) -> DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder!
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.GrandTotals(bool rows = true, bool columns = true) -> DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder!
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.Layout(DocumentFormat.OpenXml.Features.PivotTables.PivotLayout layout) -> DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder!
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.Named(string! name) -> DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder!
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.PlaceAt(DocumentFormat.OpenXml.Packaging.WorksheetPart! targetWorksheetPart, string! targetCell) -> DocumentFormat.OpenXml.Packaging.PivotTablePart!
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.Row(string! fieldName) -> DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder!
+DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.Value(string! fieldName, DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate aggregate = DocumentFormat.OpenXml.Features.PivotTables.PivotAggregate.Sum, string? displayName = null, DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs showAs = DocumentFormat.OpenXml.Features.PivotTables.PivotShowAs.Normal) -> DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder!
+static DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder.FromRange(DocumentFormat.OpenXml.Packaging.WorksheetPart! sourceWorksheetPart, string! sourceReference) -> DocumentFormat.OpenXml.Features.PivotTables.PivotTableBuilder!
