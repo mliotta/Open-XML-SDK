@@ -5,6 +5,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <NoWarn>$(NoWarn);CA1822</NoWarn>
+    <!-- Non-shipping benchmark project: surface StyleCop/nullable analyzer nits as warnings. -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <IsBenchmarkProject>true</IsBenchmarkProject>
     <!-- These tests don't use the xunit runner, but as an exe -->
     <IsTestProject>false</IsTestProject>

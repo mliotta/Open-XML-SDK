@@ -629,7 +629,7 @@ public class TrigonometricFunctionTests
         });
 
         Assert.Equal(FormulaResultType.Number, result.Type);
-        Assert.Equal(System.Math.Asinh(1), result.NumericValue, 10);
+        Assert.Equal(System.Math.Log(1 + System.Math.Sqrt(2)), result.NumericValue, 10);
     }
 
     [Fact]
@@ -655,7 +655,7 @@ public class TrigonometricFunctionTests
             FormulaResult.FromNumber(-1),
         });
 
-        Assert.Equal(-System.Math.Asinh(1), result.NumericValue, 10);
+        Assert.Equal(-System.Math.Log(1 + System.Math.Sqrt(2)), result.NumericValue, 10);
     }
 
     [Fact]
@@ -695,7 +695,7 @@ public class TrigonometricFunctionTests
         });
 
         Assert.Equal(FormulaResultType.Number, result.Type);
-        Assert.Equal(System.Math.Acosh(2), result.NumericValue, 10);
+        Assert.Equal(System.Math.Log(2 + System.Math.Sqrt(3)), result.NumericValue, 10);
     }
 
     [Fact]
@@ -790,7 +790,7 @@ public class TrigonometricFunctionTests
         });
 
         Assert.Equal(FormulaResultType.Number, result.Type);
-        Assert.Equal(System.Math.Atanh(0.5), result.NumericValue, 10);
+        Assert.Equal((0.5 * System.Math.Log(3)), result.NumericValue, 10);
     }
 
     [Fact]
@@ -816,7 +816,7 @@ public class TrigonometricFunctionTests
             FormulaResult.FromNumber(-0.5),
         });
 
-        Assert.Equal(-System.Math.Atanh(0.5), result.NumericValue, 10);
+        Assert.Equal(-(0.5 * System.Math.Log(3)), result.NumericValue, 10);
     }
 
     [Fact]
