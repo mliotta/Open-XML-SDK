@@ -94,7 +94,9 @@ jobs:
 
   sign:
     name: "Sign Package"
-    if: github.event_name != 'pull_request'
+    # Signing uses Azure Key Vault credentials that only exist in the canonical repository.
+    # Skip on forks (and PRs) where those secrets are unavailable so the workflow does not fail.
+    if: github.event_name != 'pull_request' && github.repository == 'dotnet/Open-XML-SDK'
     needs: [pack]
     runs-on: windows-latest
     steps: 
