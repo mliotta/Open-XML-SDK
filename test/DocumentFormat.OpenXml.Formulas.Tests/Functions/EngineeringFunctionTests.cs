@@ -892,8 +892,13 @@ public class EngineeringFunctionTests
 
         var result = func.Execute(null!, args);
 
+        // ln(i) = (pi/2)i. Compare the imaginary part numerically: .NET Framework formats doubles
+        // with 15 significant digits while .NET (Core) uses the shortest round-trippable form, so an
+        // exact-string assertion is not portable across target frameworks.
         Assert.Equal(FormulaResultType.Text, result.Type);
-        Assert.Contains("1.5707963267948966i", result.StringValue);
+        Assert.EndsWith("i", result.StringValue);
+        var imaginary = double.Parse(result.StringValue.TrimEnd('i'), System.Globalization.CultureInfo.InvariantCulture);
+        Assert.Equal(System.Math.PI / 2, imaginary, 10);
     }
 
     [Fact]
