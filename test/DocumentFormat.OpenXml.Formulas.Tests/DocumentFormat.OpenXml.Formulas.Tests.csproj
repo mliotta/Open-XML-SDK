@@ -7,7 +7,14 @@
     <OutputType>Exe</OutputType>
     <Nullable>enable</Nullable>
     <RootNamespace>DocumentFormat.OpenXml.Features.FormulaEvaluation.Tests</RootNamespace>
+    <!-- This test project carries StyleCop/xUnit/nullable analyzer nits that should surface as
+         warnings, not fail the build. -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\DocumentFormat.OpenXml.Formulas\DocumentFormat.OpenXml.Formulas.csproj" />
